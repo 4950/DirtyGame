@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using ShittyPrototype.src.core;
+using ShittyPrototype.src.graphics;
 
 namespace ShittyPrototype
 {
@@ -23,6 +25,21 @@ namespace ShittyPrototype
         public void Render()
         {
 
+        }
+
+        public void RenderBatch(ICollection<Entity> entities)
+        {
+            _spriteBatch.Begin();
+            foreach (Entity entity in entities)
+            {
+                RenderComponent renderComp = (RenderComponent) entity.GetComponent<RenderComponent>();
+                if (renderComp == null)
+                {
+                    continue;
+                }
+                _spriteBatch.Draw(renderComp.texture, renderComp.rectangle, Color.AntiqueWhite);
+            }
+            _spriteBatch.End();
         }
     }
 }

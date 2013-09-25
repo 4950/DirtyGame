@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
+using ShittyPrototype.src.core;
+using ShittyPrototype.src.graphics;
 #endregion
 
 namespace ShittyPrototype
@@ -17,7 +19,6 @@ namespace ShittyPrototype
     public class ShittyPrototype : Game
     {
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
         InputManager inputManager;
         SceneManager sceneManager;
 
@@ -39,6 +40,17 @@ namespace ShittyPrototype
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            Entity entity = new Entity();
+            RenderComponent renderComp = new RenderComponent();
+
+            renderComp.texture = new Texture2D(graphics.GraphicsDevice, 1, 1);
+            renderComp.texture.SetData(new Color[] { Color.AliceBlue });
+
+            renderComp.rectangle = new Rectangle(0, 0, 50, 50);
+
+            entity.AddComponent(renderComp);
+
+            sceneManager.Add(entity);
 
             base.Initialize();
         }
@@ -49,8 +61,6 @@ namespace ShittyPrototype
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
         }
