@@ -33,11 +33,10 @@ namespace ShittyPrototype
             foreach (Entity entity in entities)
             {
                 RenderComponent renderComp = (RenderComponent) entity.GetComponent<RenderComponent>();
-                if (renderComp == null)
+                if (renderComp != null)
                 {
-                    continue;
+                    _spriteBatch.Draw(renderComp.texture, renderComp.rectangle, Color.AntiqueWhite);
                 }
-                _spriteBatch.Draw(renderComp.texture, renderComp.rectangle, Color.AntiqueWhite);
             }
             _spriteBatch.End();
         }
