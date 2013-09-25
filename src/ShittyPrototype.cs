@@ -14,16 +14,20 @@ namespace ShittyPrototype
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Game1 : Game
+    public class ShittyPrototype : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        InputManager inputManager;
+        SceneManager sceneManager;
 
-        public Game1()
+        public ShittyPrototype()
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            inputManager = InputManager.GetSingleton();
+            sceneManager = new SceneManager(graphics);
         }
 
         /// <summary>
@@ -67,11 +71,7 @@ namespace ShittyPrototype
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-            // TODO: Add your update logic here
-
+            inputManager.Update();
             base.Update(gameTime);
         }
 
@@ -83,7 +83,7 @@ namespace ShittyPrototype
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            sceneManager.Render();
 
             base.Draw(gameTime);
         }
