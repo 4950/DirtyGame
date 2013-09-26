@@ -7,6 +7,5 @@ namespace ShittyPrototype
 {
     interface IInputContext
     {
-        bool dispatch();
     }
 }

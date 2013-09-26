@@ -19,12 +19,6 @@ namespace ShittyPrototype
         {
             _graphics = graphicsManager;
             _spriteBatch = new SpriteBatch(_graphics.GraphicsDevice);
-            
-        }
-
-        public void Render()
-        {
-
         }
 
         public void RenderBatch(ICollection<Entity> entities)

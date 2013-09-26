@@ -10,7 +10,6 @@ namespace ShittyPrototype.src.graphics
 {
     class RenderComponent : IComponent
     {
-        public Vector2 position;
         public Texture2D texture;
         public Rectangle rectangle;
     }

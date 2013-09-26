@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using ShittyPrototype.src.core;
+using ShittyPrototype.src.graphics;
 
 namespace ShittyPrototype
 {

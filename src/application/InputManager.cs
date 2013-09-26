@@ -8,28 +8,27 @@ namespace ShittyPrototype
 {
     class InputManager : Singleton<InputManager>
     {
+        private KeyboardState _currentState;
         private LinkedList<IInputContext> contextStack = new LinkedList<IInputContext>();
 
-        public void PushContext(IInputContext context)
+//         public void PushContext(IInputContext context)
+//         {
+//             contextStack.AddLast(context);
+//         }
+// 
+//         public bool RemoveContext(IInputContext context)
+//         {
+//             return contextStack.Remove(context);  
+//         }
+
+        public bool IsKeyDown(Keys key)
         {
-            contextStack.AddLast(context);
-        }
-        public bool RemoveContext(IInputContext context)
-        {
-            return contextStack.Remove(context);  
+            return _currentState.IsKeyDown(key);
         }
 
         public void Update()
         {
-            KeyboardState state = Keyboard.GetState();
-            Keys[] pressedKeys = state.GetPressedKeys();
-            foreach(IInputContext context in contextStack) {
-                foreach(Keys key in pressedKeys) {
-                    //context.dispatch(key);
-                }
-
-                
-            } 
+            _currentState = Keyboard.GetState();          
         }
     }
 }

@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
 using ShittyPrototype.src.core;
 using ShittyPrototype.src.graphics;
+using ShittyPrototype.src.util;
 #endregion
 
 namespace ShittyPrototype
@@ -21,14 +22,16 @@ namespace ShittyPrototype
         GraphicsDeviceManager graphics;
         InputManager inputManager;
         SceneManager sceneManager;
+        EntityFactory entityFactor;
 
         public ShittyPrototype()
             : base()
         {
-            graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics = new GraphicsDeviceManager(this);
             inputManager = InputManager.GetSingleton();
             sceneManager = new SceneManager(graphics);
+            entityFactor = new EntityFactory(graphics.GraphicsDevice);
         }
 
         /// <summary>
@@ -39,18 +42,9 @@ namespace ShittyPrototype
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            Entity entity = new Entity();
-            RenderComponent renderComp = new RenderComponent();
 
-            renderComp.texture = new Texture2D(graphics.GraphicsDevice, 1, 1);
-            renderComp.texture.SetData(new Color[] { Color.AliceBlue });
-
-            renderComp.rectangle = new Rectangle(0, 0, 50, 50);
-
-            entity.AddComponent(renderComp);
-
-            sceneManager.Add(entity);
+            Entity e = entityFactor.CreateTestEntity();
+            sceneManager.Add(e);
 
             base.Initialize();
         }
@@ -82,6 +76,14 @@ namespace ShittyPrototype
         protected override void Update(GameTime gameTime)
         {
             inputManager.Update();
+
+            if (inputManager.IsKeyDown(Keys.Escape))
+            {
+                Exit();
+            }
+
+
+
             base.Update(gameTime);
         }
 
