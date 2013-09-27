@@ -5,10 +5,10 @@ CSCI 4950, Spring 2013
 
 Our Goal: Build a shitty prototype of a very basic functional game.
 
-Gameplay
---------
+Dead Simple Gameplay
+--------------------
 
- * Player spawns on map
- * Monsters spawn on the map
- * Player kills monsters
- * Player wins when all monsters are dead
+ * 1 monster, 1 player
+ * Player can run around the map
+ * Player runs into monster to kill it
+ * Player wins when the monster dies
