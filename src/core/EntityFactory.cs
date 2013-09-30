@@ -26,7 +26,7 @@ namespace ShittyPrototype.src.core
             renderComp.texture.SetData(new Color[] { Color.AliceBlue });
 
             renderComp.rectangle = new Rectangle(0, 0, 50, 50);
-           // entity.AddComponent(renderComp);
+            entity.AddComponent(renderComp);
 
             return entity;
         }

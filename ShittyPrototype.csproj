@@ -50,18 +50,9 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="src\core\entityframework\Entity.cs" />
+    <Compile Include="src\core\Entity.cs" />
     <Compile Include="src\core\EntityFactory.cs" />
-    <Compile Include="src\core\entityframework\World.cs" />
-    <Compile Include="src\core\entityframework\System.cs" />
-    <Compile Include="src\core\GameStateType.cs" />
-    <Compile Include="src\core\InGameState.cs" />
-    <Compile Include="src\core\GameStateFactory.cs" />
-    <Compile Include="src\core\GameStateManager.cs" />
-    <Compile Include="src\core\entityframework\Component.cs" />
-    <Compile Include="src\core\IGameState.cs" />
-    <Compile Include="src\graphics\IRenderer.cs" />
-    <Compile Include="src\graphics\ISceneManager.cs" />
+    <Compile Include="src\core\IComponent.cs" />
     <Compile Include="src\graphics\RenderComponent.cs" />
     <Compile Include="src\ShittyPrototype.cs" />
     <Compile Include="src\application\IInputContext.cs" />
