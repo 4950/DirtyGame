@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework.GamerServices;
 using ShittyPrototype.src.core;
 using ShittyPrototype.src.graphics;
 using ShittyPrototype.src.util;
+using ShittyPrototype.src.Map;
+
 #endregion
 
 namespace ShittyPrototype
@@ -23,6 +25,7 @@ namespace ShittyPrototype
         InputManager inputManager;
         SceneManager sceneManager;
         EntityFactory entityFactor;
+        Map map;
 
         public ShittyPrototype()
             : base()
@@ -32,6 +35,7 @@ namespace ShittyPrototype
             inputManager = InputManager.GetSingleton();
             sceneManager = new SceneManager(graphics);
             entityFactor = new EntityFactory(graphics.GraphicsDevice);
+            map = new Map(graphics.GraphicsDevice);
         }
 
         /// <summary>
@@ -55,7 +59,7 @@ namespace ShittyPrototype
         /// </summary>
         protected override void LoadContent()
         {
-
+            map.LoadMap("Cave.tmx", graphics.GraphicsDevice, Content);
             // TODO: use this.Content to load your game content here
         }
 
@@ -95,6 +99,7 @@ namespace ShittyPrototype
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            map.draw();
             sceneManager.Render();
 
             base.Draw(gameTime);

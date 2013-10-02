@@ -12,6 +12,7 @@ namespace ShittyPrototype
     /// </summary>
     public static class Program
     {
+        public static String Path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\Content\\";
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
