@@ -87,6 +87,28 @@ namespace ShittyPrototype.src.Map
                 height = int.Parse(layerXML.GetAttribute("height"));
 
                 int tileX = 0, tileY = 0;
+                //Stupid attempt at base64 decode and zlib inflate
+                /*
+                XmlElement tiles = (XmlElement)layerXML.FirstChild;
+                if (tiles.GetAttribute("encoding") == "base64")
+                {
+                    String cleantxt = tiles.InnerText.Replace('\n', ' ').Replace('\r', ' ').Replace(" ", string.Empty);
+                    byte[] data = Convert.FromBase64String(cleantxt);
+                    byte[] newdata = new byte[data.Length - 6];
+                    Buffer.BlockCopy(data, 2, newdata, 0, data.Length - 6);
+                    Stream r = new MemoryStream(newdata);
+                    String decode = Encoding.UTF8.GetString(Convert.FromBase64String(cleantxt));
+                    //decode.
+                    //r.ReadByte();
+                    //r.ReadByte();
+                    
+                    if (tiles.GetAttribute("compression") == "zlib")
+                    {
+                        r = new System.IO.Compression.DeflateStream(r, System.IO.Compression.CompressionMode.Decompress);
+                    }
+                    String tileXML = new StreamReader(r, System.Text.Encoding.UTF8).ReadToEnd();
+
+                }*/
                 foreach (XmlElement tile in ((XmlElement)layerXML.FirstChild).ChildNodes)
                 {
                     int GID = int.Parse(tile.GetAttribute("gid"));
