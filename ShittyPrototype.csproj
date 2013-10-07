@@ -50,18 +50,16 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="src\core\entityframework\Entity.cs" />
-    <Compile Include="src\core\EntityFactory.cs" />
-    <Compile Include="src\core\entityframework\World.cs" />
-    <Compile Include="src\core\entityframework\System.cs" />
-    <Compile Include="src\core\GameStateType.cs" />
-    <Compile Include="src\core\InGameState.cs" />
-    <Compile Include="src\core\GameStateFactory.cs" />
-    <Compile Include="src\core\GameStateManager.cs" />
-    <Compile Include="src\core\entityframework\Component.cs" />
-    <Compile Include="src\core\IGameState.cs" />
-    <Compile Include="src\graphics\IRenderer.cs" />
-    <Compile Include="src\graphics\ISceneManager.cs" />
+    <Compile Include="src\application\MonsterManager.cs" />
+    <Compile Include="src\application\core\Monster.cs" />
+    <Compile Include="src\application\core\MonsterComponent.cs" />
+    <Compile Include="src\application\core\SpawnerComponent.cs" />
+    <Compile Include="src\application\core\PositionComponent.cs" />
+    <Compile Include="src\application\SpawnerManager.cs" />
+    <Compile Include="src\application\core\Spawner.cs" />
+    <Compile Include="src\application\core\Entity.cs" />
+    <Compile Include="src\application\core\EntityFactory.cs" />
+    <Compile Include="src\application\core\IComponent.cs" />
     <Compile Include="src\graphics\RenderComponent.cs" />
     <Compile Include="src\ShittyPrototype.cs" />
     <Compile Include="src\application\IInputContext.cs" />
@@ -94,10 +92,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\WindowsGL\Debug\ShittyPrototype.vshost.exe" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Content\" />
+    <Folder Include="obj\x86\Debug\TempPE\" />
+    <Folder Include="src\application\core\entityframework\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
@@ -120,6 +120,14 @@
       <ProductName>Windows Installer 4.5</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\WindowsGL\Debug\ShittyPrototype.vshost.exe.manifest" />
+    <None Include="Content\monster.xnb" />
+    <None Include="Content\monster2.xnb" />
+    <None Include="Content\monster3.xnb" />
+    <None Include="Content\monster4.xnb" />
+    <None Include="obj\x86\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using ShittyPrototype.src.core;
 using ShittyPrototype.src.graphics;
+using ShittyPrototype.src.application.core;
 
 namespace ShittyPrototype
 {
@@ -24,9 +25,12 @@ namespace ShittyPrototype
         {
             _entities.Add(entity);
         }
+        
         public void Render()
         {
             _renderer.RenderBatch(_entities);
         }
+
+        
     }
 }
