@@ -7,11 +7,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
+using ShittyPrototype.src.application;
 using ShittyPrototype.src.core;
 using ShittyPrototype.src.graphics;
 using ShittyPrototype.src.util;
 using ShittyPrototype.src.Map;
-
 #endregion
 
 namespace ShittyPrototype
@@ -38,6 +38,12 @@ namespace ShittyPrototype
             map = new Map(graphics.GraphicsDevice);
         }
 
+        public static void LuaRegisteredFunc(string msg)
+        {
+            Console.WriteLine(msg);
+            
+        }
+
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -49,6 +55,24 @@ namespace ShittyPrototype
 
             Entity e = entityFactor.CreateTestEntity();
             sceneManager.Add(e);
+
+            GlobalLua.lua.DoFile("scripts\\HelloWorld.lua");
+
+            GlobalLua.lua.DoString("myvar = 25");
+            double myvar = (double)GlobalLua.lua["myvar"];
+            Console.WriteLine(myvar);
+
+            // Possible way of passing parameters. There could be a better way to do it, I just don't know it.
+            double x = 10;
+            GlobalLua.lua["x"] = x;
+            GlobalLua.DoFile("IncrementX");     // using the convenience method rather than directly calling the LuaInterface one
+            x = (double) GlobalLua.lua["x"];
+            Console.WriteLine(x);
+
+            // Example of registering a C# function so that Lua scripts can call it.
+            // Just prints a message.
+            GlobalLua.lua.RegisterFunction("LuaRegisteredFunc", this, this.GetType().GetMethod("LuaRegisteredFunc"));
+            GlobalLua.lua.DoFile("scripts\\UseRegisteredFunc.lua");
 
             base.Initialize();
         }

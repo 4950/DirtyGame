@@ -50,6 +50,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="src\application\GlobalLua.cs" />
     <Compile Include="src\core\Entity.cs" />
     <Compile Include="src\core\EntityFactory.cs" />
     <Compile Include="src\core\IComponent.cs" />
@@ -66,6 +67,9 @@
     <Compile Include="src\util\Singleton.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="LuaInterface">
+      <HintPath>lib\LuaInterface.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK">
       <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\OpenTK.dll</HintPath>
     </Reference>
@@ -111,7 +115,17 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="Content\Cave.tmx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="scripts\HelloWorld.lua">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="scripts\IncrementX.lua">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="scripts\UseRegisteredFunc.lua">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

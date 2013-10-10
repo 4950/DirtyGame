@@ -1,0 +1,1 @@
+LuaRegisteredFunc("\nPrinting from Lua via registered function!!! Wow!\n")
