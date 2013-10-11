@@ -98,6 +98,7 @@ namespace ShittyPrototype
 
         public void CenterOnPlayer()
         {
+            /*
             foreach (Entity e in _entities)
             {
                 if (e.HasComponent<InputComponent>())
@@ -109,7 +110,7 @@ namespace ShittyPrototype
                     }
                 }
 
-            }
+            }*/
         }
 
         
