@@ -40,6 +40,7 @@ namespace ShittyPrototype
         {
             Content.RootDirectory = "Content";
             graphics = new GraphicsDeviceManager(this);
+           
             inputManager = InputManager.GetSingleton();
             sceneManager = new SceneManager(graphics);
             entityFactor = new EntityFactory(graphics.GraphicsDevice);
@@ -175,7 +176,7 @@ namespace ShittyPrototype
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             
-            map.draw();
+            map.draw(sceneManager.camera);
             sceneManager.Render();
             //SpriteBatch spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
             //Debug.WriteLine("Draw");

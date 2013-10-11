@@ -16,13 +16,15 @@ namespace ShittyPrototype
     {
         private Renderer _renderer;
         private List<Entity> _entities;
-        private Camera _camera;
+        public Camera camera;
 
         public SceneManager(GraphicsDeviceManager graphicsDevice)
         {
             _renderer = new Renderer(graphicsDevice);
             _entities = new List<Entity>();
-            _camera = new Camera(100, 100);
+            camera = new Camera();
+            camera.Position = new Vector2(0, 0);
+            
         }
 
         public void Add(Entity entity)
@@ -32,7 +34,7 @@ namespace ShittyPrototype
         
         public void Render()
         {
-            _renderer.RenderBatch(_entities);
+            _renderer.RenderBatch(_entities, camera);
         }
 
 
@@ -67,9 +69,11 @@ namespace ShittyPrototype
                 if (e.HasComponent<InputComponent>())
                {
                    Move(e, x, y);
-                   _camera.x += x;
-                   _camera.y += y;
-                   UpdateRenderComps();
+                   Vector2 n = camera.Position;
+                   n.X += x;
+                   n.Y += y;
+                   camera.Position = n;
+                   //UpdateRenderComps();
                }
                
             }
@@ -77,7 +81,7 @@ namespace ShittyPrototype
         }
 
         //Changes the location of the render componenet rectangles based on where the camera is currently at.
-        public void UpdateRenderComps()
+        /*public void UpdateRenderComps()
         {
             foreach (Entity e in _entities)
             {
@@ -90,7 +94,7 @@ namespace ShittyPrototype
                     renderComp.rectangle.Y = posComp.y - _camera.y;
                 }
             }
-        }
+        }*/
 
         public void CenterOnPlayer()
         {
@@ -101,8 +105,7 @@ namespace ShittyPrototype
                     PositionComponent posComp = (PositionComponent)e.GetComponent<PositionComponent>();
                     if (posComp != null)
                     {
-                        _camera.x = posComp.x;
-                        _camera.y = posComp.y;
+                        camera.Position = new Vector2(posComp.x, posComp.y);
                     }
                 }
 

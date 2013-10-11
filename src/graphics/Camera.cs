@@ -12,13 +12,24 @@ namespace ShittyPrototype.src.graphics
     //I haven't figured out why the white one jumpes away at the start (it's above and to the left of the screen)
     class Camera
     {
-        public int x;
-        public int y;
-
-        public Camera(int a, int b)
+        public Camera()
         {
-            x = a;
-            y = b;
+            Position = Vector2.Zero;
+            Zoom = 1f;
+            Rotation = 0f;
+        }
+
+        public Vector2 Position { get; set; }
+        public float Rotation { get; set; }
+        public float Zoom { get; set; }
+
+        public Matrix TransformMatrix
+        {
+            get
+            {
+                return Matrix.CreateRotationZ(Rotation) * Matrix.CreateScale(Zoom) *
+                       Matrix.CreateTranslation(Position.X, Position.Y, 0);
+            }
         }
     }
 }
