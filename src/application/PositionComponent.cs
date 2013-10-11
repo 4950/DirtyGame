@@ -11,6 +11,11 @@ namespace ShittyPrototype.src.application
         public int x;
         public int y;
 
+        public PositionComponent()
+        {
+            x = 0;
+            y = 0;
+        }
         public PositionComponent(int a, int b)
         {
             x = a;

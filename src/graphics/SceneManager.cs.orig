@@ -6,9 +6,12 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using ShittyPrototype.src.core;
 using ShittyPrototype.src.graphics;
+<<<<<<< HEAD
 using ShittyPrototype.src.application;
 using Microsoft.Xna.Framework.Input;
+=======
 using ShittyPrototype.src.application.core;
+>>>>>>> origin/conrad
 
 namespace ShittyPrototype
 {
@@ -35,7 +38,7 @@ namespace ShittyPrototype
             _renderer.RenderBatch(_entities);
         }
 
-
+<<<<<<< HEAD
         public void updateRenderComp(Entity entity, PositionComponent pos)
         {
             IComponent comp = entity.GetComponent<RenderComponent>();
@@ -109,6 +112,8 @@ namespace ShittyPrototype
             }
         }
 
+=======
         
+>>>>>>> origin/conrad
     }
 }

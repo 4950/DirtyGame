@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ShittyPrototype.src.graphics;
-using ShittyPrototype.src.application;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using ShittyPrototype.src.application;
 
 namespace ShittyPrototype.src.core
 {
@@ -17,9 +17,8 @@ namespace ShittyPrototype.src.core
         {
             _graphicsDevice = graphicsDevice;
         }
-
         public Entity CreateTestEntity()
-        {            
+        {
             Entity entity = new Entity();
             RenderComponent renderComp = new RenderComponent();
 
@@ -29,7 +28,7 @@ namespace ShittyPrototype.src.core
             renderComp.rectangle = new Rectangle(0, 0, 50, 50);
             entity.AddComponent(renderComp);
 
-            PositionComponent posComp = new PositionComponent(0,0);
+            PositionComponent posComp = new PositionComponent(0, 0);
             entity.AddComponent(posComp);
 
             return entity;

@@ -7,7 +7,7 @@ namespace ShittyPrototype.src.core
 {
     class Entity
     {
-        protected Dictionary<Type, IComponent> components;
+        private Dictionary<Type, IComponent> components;
 
         public Entity()
         {
