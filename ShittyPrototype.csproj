@@ -51,9 +51,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="src\application\GlobalLua.cs" />
-    <Compile Include="src\core\Entity.cs" />
-    <Compile Include="src\core\EntityFactory.cs" />
-    <Compile Include="src\core\IComponent.cs" />
+    <Compile Include="src\application\InputComponent.cs" />
+    <Compile Include="src\application\PositionComponent.cs" />
+    <Compile Include="src\graphics\Camera.cs" />
+    <Compile Include="src\application\MonsterManager.cs" />
+    <Compile Include="src\application\core\Monster.cs" />
+    <Compile Include="src\application\core\MonsterComponent.cs" />
+    <Compile Include="src\application\core\SpawnerComponent.cs" />
+    <Compile Include="src\application\SpawnerManager.cs" />
+    <Compile Include="src\application\core\Spawner.cs" />
+    <Compile Include="src\application\core\Entity.cs" />
+    <Compile Include="src\application\core\EntityFactory.cs" />
+    <Compile Include="src\application\core\IComponent.cs" />
     <Compile Include="src\graphics\RenderComponent.cs" />
     <Compile Include="src\Map\Map.cs" />
     <Compile Include="src\ShittyPrototype.cs" />
@@ -96,6 +105,7 @@
     <Content Include="Content\Caves.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="bin\WindowsGL\Debug\ShittyPrototype.vshost.exe" />
     <Content Include="Icon.ico" />
     <Content Include="lib\lua51.dll" />
     <Content Include="lib\LuaInterface.dll" />
@@ -131,6 +141,19 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="bin\WindowsGL\Debug\ShittyPrototype.vshost.exe.manifest" />
+    <None Include="Content\monster.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\monster2.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\monster3.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\monster4.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="App.config" />
     <None Include="bin\WindowsGL\Debug\Content\monster.xnb" />
     <None Include="bin\WindowsGL\Debug\Content\monster2.xnb" />
@@ -154,6 +177,7 @@
     <None Include="scripts\UseRegisteredFunc.lua">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="obj\x86\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
