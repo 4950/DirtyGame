@@ -13,7 +13,7 @@ namespace ShittyPrototype
     {
         private GraphicsDeviceManager _graphics;
         private GraphicsDevice _graphicsDevice;
-        private SpriteBatch _spriteBatch;            
+        private SpriteBatch _spriteBatch; 
 
         public Renderer(GraphicsDeviceManager graphicsManager) 
         {
@@ -34,5 +34,7 @@ namespace ShittyPrototype
             }
             _spriteBatch.End();
         }
+
+
     }
 }

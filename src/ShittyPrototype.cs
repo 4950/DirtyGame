@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
 using ShittyPrototype.src.core;
 using ShittyPrototype.src.graphics;
+using ShittyPrototype.src.application;
 using ShittyPrototype.src.util;
 using ShittyPrototype.src.Map;
 
@@ -50,6 +51,11 @@ namespace ShittyPrototype
             Entity e = entityFactor.CreateTestEntity();
             sceneManager.Add(e);
 
+            Entity player = entityFactor.createPlayerEntity();
+            sceneManager.Add(player);
+            sceneManager.CenterOnPlayer();
+
+
             base.Initialize();
         }
 
@@ -84,6 +90,23 @@ namespace ShittyPrototype
             if (inputManager.IsKeyDown(Keys.Escape))
             {
                 Exit();
+            }
+
+            if (inputManager.IsKeyDown(Keys.Left))
+            {
+                sceneManager.MovePlayer(-5,0);
+            }
+            if (inputManager.IsKeyDown(Keys.Right))
+            {
+                sceneManager.MovePlayer(5,0);
+            }
+            if (inputManager.IsKeyDown(Keys.Up))
+            {
+                sceneManager.MovePlayer(0,-5); //(0,0) is TOP left
+            }
+            if (inputManager.IsKeyDown(Keys.Down))
+            {
+                sceneManager.MovePlayer(0,5);
             }
 
 
