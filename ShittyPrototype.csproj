@@ -51,9 +51,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="src\application\GlobalLua.cs" />
+    <Compile Include="src\application\InputComponent.cs" />
+    <Compile Include="src\application\PositionComponent.cs" />
     <Compile Include="src\core\Entity.cs" />
     <Compile Include="src\core\EntityFactory.cs" />
     <Compile Include="src\core\IComponent.cs" />
+    <Compile Include="src\graphics\Camera.cs" />
     <Compile Include="src\graphics\RenderComponent.cs" />
     <Compile Include="src\Map\Map.cs" />
     <Compile Include="src\ShittyPrototype.cs" />
