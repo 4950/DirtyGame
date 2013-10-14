@@ -69,10 +69,10 @@ namespace ShittyPrototype
 
             Entity e = entityFactor.CreateTestEntity();
             sceneManager.Add(e);
-            Spawner s = new Spawner(1000, 100, 100, 30, Content.Load<Texture2D>("Player"));
-            Spawner s2 = new Spawner(2000, 400, 100, 30, Content.Load<Texture2D>("monster2"));
-            Spawner s3 = new Spawner(3000, 100, 300, 30, Content.Load<Texture2D>("monster3"));
-            Spawner s4 = new Spawner(500, 400, 300, 30, Content.Load<Texture2D>("Player"));
+            Spawner s = new Spawner(1000, 100, 100, 30, Content.Load<Texture2D>("Monster.png"));
+            Spawner s2 = new Spawner(2000, 400, 100, 30, Content.Load<Texture2D>("Monster.png"));
+            Spawner s3 = new Spawner(3000, 100, 300, 30, Content.Load<Texture2D>("Monster.png"));
+            Spawner s4 = new Spawner(500, 400, 300, 30, Content.Load<Texture2D>("Monster.png"));
             spawnerList[0] = s;
             spawnerList[1] = s2;
             spawnerList[2] = s3;
