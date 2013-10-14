@@ -32,9 +32,9 @@ namespace ShittyPrototype
             _entities.Add(entity);
         }
         
-        public void Render()
+        public void Render(GameTime gameTime)
         {
-            _renderer.RenderBatch(_entities, camera);
+            _renderer.RenderBatch(_entities, camera, gameTime);
         }
 
 

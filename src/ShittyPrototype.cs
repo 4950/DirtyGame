@@ -46,6 +46,7 @@ namespace ShittyPrototype
             entityFactor = new EntityFactory(graphics.GraphicsDevice);
             spawnerManager = new SpawnerManager();
             spawnerList = new Spawner[4];
+//            spawnerList = new Spawner[1];
             monstersToSpawn = new List<Monster>();
             monsterManager = new MonsterManager();
             map = new Map(graphics.GraphicsDevice);
@@ -68,15 +69,15 @@ namespace ShittyPrototype
 
             Entity e = entityFactor.CreateTestEntity();
             sceneManager.Add(e);
-            Spawner s = new Spawner(1000, 100, 100, 30, Content.Load<Texture2D>("monster"));
+            Spawner s = new Spawner(1000, 100, 100, 30, Content.Load<Texture2D>("Player"));
             Spawner s2 = new Spawner(2000, 400, 100, 30, Content.Load<Texture2D>("monster2"));
             Spawner s3 = new Spawner(3000, 100, 300, 30, Content.Load<Texture2D>("monster3"));
-            Spawner s4 = new Spawner(500, 400, 300, 30, Content.Load<Texture2D>("monster4"));
+            Spawner s4 = new Spawner(500, 400, 300, 30, Content.Load<Texture2D>("Player"));
             spawnerList[0] = s;
             spawnerList[1] = s2;
             spawnerList[2] = s3;
             spawnerList[3] = s4;
-
+            
             //sceneManager.Add(spawnerList[0]);
             GlobalLua.lua.DoFile("scripts\\HelloWorld.lua");
 
@@ -95,7 +96,7 @@ namespace ShittyPrototype
             // Just prints a message.
             GlobalLua.lua.RegisterFunction("LuaRegisteredFunc", this, this.GetType().GetMethod("LuaRegisteredFunc"));
             GlobalLua.lua.DoFile("scripts\\UseRegisteredFunc.lua");
-            Entity player = entityFactor.createPlayerEntity();
+            Entity player = entityFactor.createPlayerEntity("Player", 50, 50, 12, Content);
             sceneManager.Add(player);
             sceneManager.CenterOnPlayer();
             base.Initialize();
@@ -177,7 +178,7 @@ namespace ShittyPrototype
             GraphicsDevice.Clear(Color.CornflowerBlue);
             
             map.draw(sceneManager.camera);
-            sceneManager.Render();
+            sceneManager.Render(gameTime);
             //SpriteBatch spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
             //Debug.WriteLine("Draw");
             //spawnerManager.Draw(spriteBatch, monster);

@@ -6,6 +6,7 @@ using ShittyPrototype.src.graphics;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using ShittyPrototype.src.application;
+using Microsoft.Xna.Framework.Content;
 
 namespace ShittyPrototype.src.core
 {
@@ -34,14 +35,22 @@ namespace ShittyPrototype.src.core
             return entity;
         }
 
-        public Entity createPlayerEntity()
+        public Entity createPlayerEntity(String spriteTexture, int spriteWidth, int spriteHeight, int numFrames, ContentManager Content)
         {
             PositionComponent posComp = new PositionComponent(400, 200);
 
             RenderComponent renderComp = new RenderComponent();
-            renderComp.texture = new Texture2D(_graphicsDevice, 1, 1);
-            renderComp.texture.SetData(new Color[] { Color.Fuchsia });
-            renderComp.rectangle = new Rectangle(posComp.x, posComp.y, 50, 50);
+            //renderComp.texture = new Texture2D(_graphicsDevice, 1, 1);
+            //renderComp.texture.SetData(new Color[] { Color.Fuchsia });
+            //renderComp.rectangle = new Rectangle(posComp.x, posComp.y, 50, 50);
+
+            //Adding player sprite
+            renderComp.texture = Content.Load<Texture2D>(spriteTexture);
+            //Setting the bounds of the sprite texture
+            renderComp.rectangle = new Rectangle(posComp.x, posComp.y, spriteWidth, spriteWidth);
+            //Setting the number of frames
+            renderComp.numberOfFrames = numFrames;
+
 
             InputComponent inputComponent = new InputComponent();
 
