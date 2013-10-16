@@ -6,9 +6,12 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using ShittyPrototype.src.core;
 using ShittyPrototype.src.graphics;
+<<<<<<< HEAD
 using ShittyPrototype.src.application;
 using Microsoft.Xna.Framework.Input;
+=======
 using ShittyPrototype.src.application.core;
+>>>>>>> origin/conrad
 
 namespace ShittyPrototype
 {
@@ -16,15 +19,13 @@ namespace ShittyPrototype
     {
         private Renderer _renderer;
         private List<Entity> _entities;
-        public Camera camera;
+        private Camera _camera;
 
         public SceneManager(GraphicsDeviceManager graphicsDevice)
         {
             _renderer = new Renderer(graphicsDevice);
             _entities = new List<Entity>();
-            camera = new Camera();
-            camera.Position = new Vector2(0, 0);
-            
+            _camera = new Camera(100, 100);
         }
 
         public void Add(Entity entity)
@@ -34,10 +35,10 @@ namespace ShittyPrototype
         
         public void Render()
         {
-            _renderer.RenderBatch(_entities, camera);
+            _renderer.RenderBatch(_entities);
         }
 
-
+<<<<<<< HEAD
         public void updateRenderComp(Entity entity, PositionComponent pos)
         {
             IComponent comp = entity.GetComponent<RenderComponent>();
@@ -69,11 +70,9 @@ namespace ShittyPrototype
                 if (e.HasComponent<InputComponent>())
                {
                    Move(e, x, y);
-                   Vector2 n = camera.Position;
-                   n.X += x;
-                   n.Y += y;
-                   camera.Position = n;
-                   //UpdateRenderComps();
+                   _camera.x += x;
+                   _camera.y += y;
+                   UpdateRenderComps();
                }
                
             }
@@ -81,7 +80,7 @@ namespace ShittyPrototype
         }
 
         //Changes the location of the render componenet rectangles based on where the camera is currently at.
-        /*public void UpdateRenderComps()
+        public void UpdateRenderComps()
         {
             foreach (Entity e in _entities)
             {
@@ -94,11 +93,10 @@ namespace ShittyPrototype
                     renderComp.rectangle.Y = posComp.y - _camera.y;
                 }
             }
-        }*/
+        }
 
         public void CenterOnPlayer()
         {
-            /*
             foreach (Entity e in _entities)
             {
                 if (e.HasComponent<InputComponent>())
@@ -106,13 +104,16 @@ namespace ShittyPrototype
                     PositionComponent posComp = (PositionComponent)e.GetComponent<PositionComponent>();
                     if (posComp != null)
                     {
-                        camera.Position = new Vector2(posComp.x, posComp.y);
+                        _camera.x = posComp.x;
+                        _camera.y = posComp.y;
                     }
                 }
 
-            }*/
+            }
         }
 
+=======
         
+>>>>>>> origin/conrad
     }
 }

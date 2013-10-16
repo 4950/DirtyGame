@@ -7,13 +7,18 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
+using ShittyPrototype.src.application;
 using ShittyPrototype.src.core;
 using ShittyPrototype.src.graphics;
+using ShittyPrototype.src.application;
 using ShittyPrototype.src.util;
+<<<<<<< HEAD
 using ShittyPrototype.src.Map;
+=======
 using ShittyPrototype.src.application;
 using System.Diagnostics;
 using ShittyPrototype.src.application.core;
+>>>>>>> origin/conrad
 #endregion
 
 namespace ShittyPrototype
@@ -28,26 +33,25 @@ namespace ShittyPrototype
         InputManager inputManager;
         SceneManager sceneManager;
         EntityFactory entityFactor;
+<<<<<<< HEAD
         Map map;
+=======
         SpawnerManager spawnerManager;
         public Texture2D monsterTexture;
         Spawner[] spawnerList;
         List<Monster> monstersToSpawn;
         MonsterManager monsterManager;
+>>>>>>> origin/conrad
 
         public ShittyPrototype()
             : base()
         {
             Content.RootDirectory = "Content";
             graphics = new GraphicsDeviceManager(this);
-           
             inputManager = InputManager.GetSingleton();
             sceneManager = new SceneManager(graphics);
             entityFactor = new EntityFactory(graphics.GraphicsDevice);
-            spawnerManager = new SpawnerManager();
-            spawnerList = new Spawner[4];
-            monstersToSpawn = new List<Monster>();
-            monsterManager = new MonsterManager();
+<<<<<<< HEAD
             map = new Map(graphics.GraphicsDevice);
         }
 
@@ -55,6 +59,12 @@ namespace ShittyPrototype
         {
             Console.WriteLine(msg);
             
+=======
+            spawnerManager = new SpawnerManager();
+            spawnerList = new Spawner[4];
+            monstersToSpawn = new List<Monster>();
+            monsterManager = new MonsterManager();
+>>>>>>> origin/conrad
         }
 
         /// <summary>
@@ -68,16 +78,8 @@ namespace ShittyPrototype
 
             Entity e = entityFactor.CreateTestEntity();
             sceneManager.Add(e);
-            Spawner s = new Spawner(1000, 100, 100, 30, Content.Load<Texture2D>("monster"));
-            Spawner s2 = new Spawner(2000, 400, 100, 30, Content.Load<Texture2D>("monster2"));
-            Spawner s3 = new Spawner(3000, 100, 300, 30, Content.Load<Texture2D>("monster3"));
-            Spawner s4 = new Spawner(500, 400, 300, 30, Content.Load<Texture2D>("monster4"));
-            spawnerList[0] = s;
-            spawnerList[1] = s2;
-            spawnerList[2] = s3;
-            spawnerList[3] = s4;
+<<<<<<< HEAD
 
-            //sceneManager.Add(spawnerList[0]);
             GlobalLua.lua.DoFile("scripts\\HelloWorld.lua");
 
             GlobalLua.lua.DoString("myvar = 25");
@@ -98,6 +100,21 @@ namespace ShittyPrototype
             Entity player = entityFactor.createPlayerEntity();
             sceneManager.Add(player);
             sceneManager.CenterOnPlayer();
+
+
+
+=======
+            Spawner s = new Spawner(1000, 100, 100, 30, Content.Load<Texture2D>("monster"));
+            Spawner s2 = new Spawner(2000, 400, 100, 30, Content.Load<Texture2D>("monster2"));
+            Spawner s3 = new Spawner(3000, 100, 300, 30, Content.Load<Texture2D>("monster3"));
+            Spawner s4 = new Spawner(500, 400, 300, 30, Content.Load<Texture2D>("monster4"));
+            spawnerList[0] = s;
+            spawnerList[1] = s2;
+            spawnerList[2] = s3;
+            spawnerList[3] = s4;
+
+            //sceneManager.Add(spawnerList[0]);
+>>>>>>> origin/conrad
             base.Initialize();
         }
 
@@ -107,8 +124,11 @@ namespace ShittyPrototype
         /// </summary>
         protected override void LoadContent()
         {
+<<<<<<< HEAD
             map.LoadMap("Cave.tmx", graphics.GraphicsDevice, Content);
+=======
             monsterTexture = Content.Load<Texture2D>("monster");
+>>>>>>> origin/conrad
             // TODO: use this.Content to load your game content here
         }
 
@@ -145,8 +165,7 @@ namespace ShittyPrototype
             
             monstersToSpawn.Clear();
 
-            monsterManager.UpdateEntities(gameTime);
-
+<<<<<<< HEAD
             if (inputManager.IsKeyDown(Keys.Left))
             {
                 sceneManager.MovePlayer(-5,0);
@@ -165,6 +184,10 @@ namespace ShittyPrototype
             }
 
 
+=======
+            monsterManager.UpdateEntities(gameTime);
+>>>>>>> origin/conrad
+
             base.Update(gameTime);
         }
 
@@ -175,8 +198,12 @@ namespace ShittyPrototype
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+<<<<<<< HEAD
+
+            map.draw();
+=======
             
-            map.draw(sceneManager.camera);
+>>>>>>> origin/conrad
             sceneManager.Render();
             //SpriteBatch spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
             //Debug.WriteLine("Draw");

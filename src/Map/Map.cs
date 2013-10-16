@@ -7,6 +7,7 @@ using System.Xml;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using ShittyPrototype.src.graphics;
 
 namespace ShittyPrototype.src.Map
 {
@@ -197,9 +198,9 @@ namespace ShittyPrototype.src.Map
 
             return true;
         }
-        public void draw()
+        public void draw(Camera cam)
         {
-            batch.Begin();
+            batch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, cam.TransformMatrix);
             foreach (MapLayer l in layers)
             {
                 l.draw(batch);

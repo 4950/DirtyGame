@@ -12,5 +12,9 @@ namespace ShittyPrototype.src.graphics
     {
         public Texture2D texture;
         public Rectangle rectangle;
+
+
+        public TimeSpan timeOfLastDraw;
+        public TimeSpan timeBetweenDraw;
     }
 }
