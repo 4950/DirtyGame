@@ -27,6 +27,11 @@ namespace ShittyPrototype
             
         }
 
+        public List<Entity> getEntities()
+        {
+            return _entities;
+        }
+
         public void Add(Entity entity)
         {
             _entities.Add(entity);
