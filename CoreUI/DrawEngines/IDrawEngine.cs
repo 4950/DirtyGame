@@ -41,5 +41,6 @@ namespace CoreUI
         void Draw_Line(int left, int top, int right, int bottom, IUIColor color1, IUIColor color2);
         void Draw_Default_Text(String text, int left, int top, IUIColor color);
         void Draw_Default_Text(String text, int left, int top, IUIColor color, IUIFont font);
+        System.Drawing.PointF getTextSize(String text, IUIFont font);
     }
 }

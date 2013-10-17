@@ -97,9 +97,9 @@ namespace CoreUI.Visuals
         {
             base.Render();
             CoreUIEngine.mDrawEngine.Draw_FilledBox(Bounds.Left - 8, Bounds.Top - 27, Bounds.Right + 8, Bounds.Top - 1, ChromeColor);//Top
-            CoreUIEngine.mDrawEngine.Draw_FilledBox(Bounds.Left - 8, Bounds.Bottom + 1, Bounds.Right + 8, Bounds.Bottom + 8, ChromeColor);//Bottom
-            CoreUIEngine.mDrawEngine.Draw_FilledBox(Bounds.Left - 8, Bounds.Top, Bounds.Left - 1, Bounds.Bottom, ChromeColor);//Left
-            CoreUIEngine.mDrawEngine.Draw_FilledBox(Bounds.Right + 1, Bounds.Top, Bounds.Right + 8, Bounds.Bottom, ChromeColor);//Right
+            CoreUIEngine.mDrawEngine.Draw_FilledBox(Bounds.Left - 8, Bounds.Bottom, Bounds.Right + 8, Bounds.Bottom + 8, ChromeColor);//Bottom
+            CoreUIEngine.mDrawEngine.Draw_FilledBox(Bounds.Left - 8, Bounds.Top-1, Bounds.Left , Bounds.Bottom, ChromeColor);//Left
+            CoreUIEngine.mDrawEngine.Draw_FilledBox(Bounds.Right, Bounds.Top-1, Bounds.Right + 8, Bounds.Bottom, ChromeColor);//Right
             CoreUIEngine.mDrawEngine.Draw_Box(Bounds.Left - 1, Bounds.Top - 1, Bounds.Right + 1, Bounds.Bottom + 1, GrayColor);
 
             //CoreUIEngine.mDrawEngine.Action_End2D();

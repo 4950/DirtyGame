@@ -37,13 +37,15 @@ namespace ShittyPrototype
         MonsterManager monsterManager;
         CoreUIEngine uiEngine;
         CoreUI.DrawEngines.MonoGameDrawEngine uiDraw;
+        SpriteFont defaultFont;
 
         public ShittyPrototype()
             : base()
         {
             Content.RootDirectory = "Content";
             graphics = new GraphicsDeviceManager(this);
-           
+            graphics.PreferredBackBufferFormat = SurfaceFormat.Color;
+            graphics.CreateDevice();
             inputManager = InputManager.GetSingleton();
             sceneManager = new SceneManager(graphics);
             entityFactor = new EntityFactory(graphics.GraphicsDevice);
@@ -54,7 +56,7 @@ namespace ShittyPrototype
             map = new Map(graphics.GraphicsDevice);
 
             uiDraw = new CoreUI.DrawEngines.MonoGameDrawEngine(graphics.GraphicsDevice, Content);
-            uiEngine = new CoreUIEngine(uiDraw, 600, 600);
+            uiEngine = new CoreUIEngine(uiDraw, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
         }
 
         public static void LuaRegisteredFunc(string msg)
@@ -71,8 +73,13 @@ namespace ShittyPrototype
         /// </summary>
         protected override void Initialize()
         {
+
+            defaultFont = Content.Load<SpriteFont>("NI7SEG");
+
 #region Test UI
-            
+
+            uiDraw.setDefaultFont(defaultFont);
+
             Window w = new Window();
             w.Position = new System.Drawing.Point(200, 200);
             w.Size = new System.Drawing.Point(200, 200);
@@ -182,10 +189,10 @@ namespace ShittyPrototype
 
             Entity e = entityFactor.CreateTestEntity();
             sceneManager.Add(e);
-            Spawner s = new Spawner(1000, 100, 100, 30, Content.Load<Texture2D>("monster"));
-            Spawner s2 = new Spawner(2000, 400, 100, 30, Content.Load<Texture2D>("monster2"));
-            Spawner s3 = new Spawner(3000, 100, 300, 30, Content.Load<Texture2D>("monster3"));
-            Spawner s4 = new Spawner(500, 400, 300, 30, Content.Load<Texture2D>("monster4"));
+            Spawner s = new Spawner(1000, 100, 100, 10, Content.Load<Texture2D>("monster"));
+            Spawner s2 = new Spawner(2000, 400, 100, 10, Content.Load<Texture2D>("monster2"));
+            Spawner s3 = new Spawner(3000, 100, 300, 10, Content.Load<Texture2D>("monster3"));
+            Spawner s4 = new Spawner(500, 400, 300, 10, Content.Load<Texture2D>("monster4"));
             spawnerList[0] = s;
             spawnerList[1] = s2;
             spawnerList[2] = s3;
@@ -277,7 +284,9 @@ namespace ShittyPrototype
             {
                 sceneManager.MovePlayer(0,5);
             }
-
+            
+            //ui input
+            uiEngine.GetInput(inputManager.mouseState.X, inputManager.mouseState.Y, inputManager.mouseState.LeftButton == ButtonState.Pressed, inputManager.mouseState.RightButton == ButtonState.Pressed, inputManager.mouseState.MiddleButton == ButtonState.Pressed);
 
             base.Update(gameTime);
         }
@@ -288,7 +297,7 @@ namespace ShittyPrototype
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            uiEngine.Update();
+            uiEngine.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
 
             GraphicsDevice.Clear(Color.CornflowerBlue);
             

@@ -50,22 +50,21 @@ namespace CoreUI.Elements
         }
         private void CalculateText()
         {
-            /*
+            
             DispText = mText;
-            float w = 0, h = 0;
-            CoreUIEngine.mText.NormalFont_GetTextSize(DispText, mFontInt, ref w, ref h);
-            if (w > Bounds.Width)
+            PointF size = CoreUIEngine.mDrawEngine.getTextSize(DispText, mFontInt);
+            if (size.X > Bounds.Width)
             {
                 StringBuilder sb = new StringBuilder(DispText);
-                while (w > Bounds.Width)
+                while (size.X > Bounds.Width)
                 {
                     sb.Remove(0, 1);
                     sb.Remove(sb.Length - 1, 1);
-                    CoreUIEngine.mText.NormalFont_GetTextSize(sb.ToString(), mFontInt, ref w, ref h);
+                    size = CoreUIEngine.mDrawEngine.getTextSize(sb.ToString(), mFontInt);
                 }
                 DispText = sb.ToString();
             }
-            TextPos = new Point((int)(Bounds.Left + (Bounds.Width / 2) - (w / 2)), (int)(Bounds.Top + (Bounds.Height / 2) - (h / 2)));*/
+            TextPos = new Point((int)(Bounds.Left + (Bounds.Width / 2) - (size.X / 2)), (int)(Bounds.Top + (Bounds.Height / 2) - (size.Y / 2)));
         }
         protected internal override void OnMouseDown(object sender, MouseEventArgs e)
         {

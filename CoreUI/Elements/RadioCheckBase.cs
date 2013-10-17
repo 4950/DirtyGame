@@ -64,26 +64,23 @@ namespace CoreUI.Elements
         }
         private void CalculateText()
         {
-            //Text needs overhaul
-            /*
             DispText = mText;
-            float w = 0, h = 0;
-            CoreUIEngine.mText.NormalFont_GetTextSize(DispText, mFontInt, ref w, ref h);
+            PointF size = CoreUIEngine.mDrawEngine.getTextSize(DispText, mFontInt);
             if (Bounds.Width < 15)
                 DispText = "";
-            else if (w > Bounds.Width - 15)
+            else if (size.X > Bounds.Width - 15)
             {
                 StringBuilder sb = new StringBuilder(DispText);
-                while (w > Bounds.Width)
+                while (size.X > Bounds.Width)
                 {
                     sb.Remove(0, 1);
                     sb.Remove(sb.Length - 1, 1);
-                    CoreUIEngine.mText.NormalFont_GetTextSize(sb.ToString(), mFontInt, ref w, ref h);
+                    size = CoreUIEngine.mDrawEngine.getTextSize(sb.ToString(), mFontInt);
                 }
                 DispText = sb.ToString();
             }
-            TextPos = new Point(Bounds.Left + 15, (int)(Bounds.Top + (Bounds.Height / 2) - (h / 2)));
-             */
+            TextPos = new Point(Bounds.Left + 15, (int)(Bounds.Top + (Bounds.Height / 2) - (size.Y / 2)));
+             
         }
     }
 }

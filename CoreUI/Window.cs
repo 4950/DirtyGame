@@ -246,7 +246,7 @@ namespace CoreUI
                 }
                 if (Style == WindowStyle.Normal)
                     mWindowChrome.Render();
-                CoreUIEngine.mDrawEngine.Draw_RS(rs, Bounds.Left, Bounds.Top, Bounds.Right - 1, Bounds.Bottom - 1);
+                CoreUIEngine.mDrawEngine.Draw_RS(rs, Bounds.Left, Bounds.Top, Bounds.Right, Bounds.Bottom);
                 //CoreUIEngine.mDrawEngine.Draw_Texture(rs.GetTexture(), Bounds.Left, Bounds.Top, Bounds.Right - 1, Bounds.Bottom - 1);
             }
         }

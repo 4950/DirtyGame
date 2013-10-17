@@ -37,7 +37,7 @@ namespace CoreUI.DrawEngines
         }
         public void resize(int width, int height)
         {
-            RenderTarget2D n = new RenderTarget2D(target.GraphicsDevice, width, height);
+            RenderTarget2D n = new RenderTarget2D(target.GraphicsDevice, width, height, false, SurfaceFormat.Color, DepthFormat.None);
             target.Dispose();
             target = n;
         }
@@ -50,13 +50,20 @@ namespace CoreUI.DrawEngines
         Matrix? transform = null;
         ContentManager content;
         IUIRenderSurface cur;
+        BasicEffect eff;
+        SpriteFont defaultFont;
 
         public MonoGameDrawEngine(GraphicsDevice dev, ContentManager cont)
         {
             content = cont;
             device = dev;
+
             batch = new SpriteBatch(device);
-            
+
+        }
+        public void setDefaultFont(SpriteFont font)
+        {
+            defaultFont = font;
         }
         public IUIRenderSurface CreateRenderSurface(int width, int height)
         {
@@ -72,6 +79,12 @@ namespace CoreUI.DrawEngines
         }
         public void setSize(int width, int height)
         {
+            eff = new BasicEffect(device);
+            eff.VertexColorEnabled = true;
+            eff.Projection = Matrix.CreateOrthographicOffCenter
+            (0, (float)device.Viewport.Width,     // left, right
+            (float)device.Viewport.Width, 0,    // bottom, top
+            1, 1000);
         }
         public IUIColor CreateColor(float r, float g, float b, float a)
         {
@@ -89,7 +102,7 @@ namespace CoreUI.DrawEngines
         }
         public IUIColor CreateColor(System.Drawing.Color color)
         {
-            Color c = new Color(color.R, color.G, color.B, color.A);
+            Color c = new Color(color.R / 255f, color.G / 255f, color.B / 255f, color.A / 255f);
             return new MonoGameColor(c);
         }
         public void Draw_RS(IUIRenderSurface tex, int left, int top, int right, int bottom)
@@ -99,8 +112,10 @@ namespace CoreUI.DrawEngines
         }
         public IUITexture CreateTexture(byte[] data)
         {
-            Texture2D tex = new Texture2D(device, 0, 0);
-            tex.SetData(data);
+            Texture2D tex = //new Texture2D(device, 0, 0);
+            Texture2D.FromStream(device, new System.IO.MemoryStream(data));
+            
+            //tex.SetData(data);
             return new MonoGameTexture(tex);
         }
         public IUITexture CreateTexture(String filename)
@@ -116,11 +131,11 @@ namespace CoreUI.DrawEngines
         {
             if (transform != null)
             {
-                batch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, (Matrix)transform);
+                batch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, (Matrix)transform);
             }
             else
             {
-                batch.Begin();
+                batch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null);
             }
         }
         public void EndDraw()
@@ -179,6 +194,7 @@ namespace CoreUI.DrawEngines
 
         public void Draw_Line(int left, int top, int right, int bottom, IUIColor color1, IUIColor color2)
         {
+
             Texture2D line = new Texture2D(device, 2, 1, false, SurfaceFormat.Color);
             Color[] lineData = new Color[2];
             lineData[0] = (color1 as MonoGameColor).color;
@@ -188,6 +204,16 @@ namespace CoreUI.DrawEngines
             int width = 1;
             Vector2 begin = new Vector2(left, top);
             Vector2 end = new Vector2(right, bottom);
+
+            //test
+            /*eff.CurrentTechnique.Passes[0].Apply();
+            VertexPositionColor[] va = new VertexPositionColor[2];
+            va[0].Position = new Vector3(left, top, 0);
+            va[0].Color = (color1 as MonoGameColor).color;
+            va[1].Position = new Vector3(right, bottom, 0);
+            va[1].Color = (color2 as MonoGameColor).color;
+            device.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, va, 0, 2);*/
+
             Rectangle r = new Rectangle((int)begin.X, (int)begin.Y, (int)(end - begin).Length() + width, width);
             Vector2 v = Vector2.Normalize(begin - end);
             float angle = (float)Math.Acos(Vector2.Dot(v, -Vector2.UnitX));
@@ -197,11 +223,19 @@ namespace CoreUI.DrawEngines
 
         public void Draw_Default_Text(string text, int left, int top, IUIColor color)
         {
+            if (defaultFont != null && text != "")
+                batch.DrawString(defaultFont, text, new Vector2(left, top), (color as MonoGameColor).color);
             //throw new NotImplementedException();
         }
-
+        public System.Drawing.PointF getTextSize(String text, IUIFont font)
+        {
+            Vector2 s = defaultFont.MeasureString(text);
+            return new System.Drawing.PointF(s.X, s.Y);
+        }
         public void Draw_Default_Text(string text, int left, int top, IUIColor color, IUIFont font)
         {
+            if (defaultFont != null && text != "")
+                batch.DrawString(defaultFont, text, new Vector2(left, top), (color as MonoGameColor).color);
             //throw new NotImplementedException();
         }
     }

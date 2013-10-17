@@ -10,6 +10,7 @@ namespace ShittyPrototype
     {
         private KeyboardState _currentState;
         private LinkedList<IInputContext> contextStack = new LinkedList<IInputContext>();
+        public MouseState mouseState;
 
 //         public void PushContext(IInputContext context)
 //         {
@@ -28,7 +29,8 @@ namespace ShittyPrototype
 
         public void Update()
         {
-            _currentState = Keyboard.GetState();          
+            _currentState = Keyboard.GetState();
+            mouseState = Mouse.GetState();
         }
     }
 }

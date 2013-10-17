@@ -347,8 +347,9 @@ namespace CoreUI
                 MouseMove();
             }
         }
-        public void Update()
+        public void Update(float timeElapsed)
         {
+            CoreUIEngine.TimeElapsed = timeElapsed;
             bool Redraw = false;
             for (int i = 0; i < Windows.Count; i++)
             {
