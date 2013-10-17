@@ -164,29 +164,7 @@ namespace ShittyPrototype
                 sceneManager.MovePlayer(0,5);
             }
 
-            Entity p = new Entity();
-            foreach (Entity entity in sceneManager.getEntities())
-            {
-                if (entity.HasComponent<InputComponent>()) 
-                {
-                    p = entity;
-                }
-            }
-
-            PositionComponent playerPosition = (PositionComponent)p.GetComponent<PositionComponent>();
-            int playerX = playerPosition.x;
-            int playerY = playerPosition.y;
-
-            foreach (Monster m in monstersToSpawn)
-            {
-                if ((playerX == m.pos.x) && (playerY == m.pos.y))
-                {
-                    sceneManager.Remove(m);
-                }
-            }
-
-
-
+            sceneManager.DetectCollision(monstersToSpawn);
 
             base.Update(gameTime);
         }

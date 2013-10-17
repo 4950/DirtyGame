@@ -47,6 +47,29 @@ namespace ShittyPrototype
             _renderer.RenderBatch(_entities, camera);
         }
 
+        public void DetectCollision(List<Monster> monsters)
+        {
+            Entity p = new Entity();
+            foreach (Entity entity in this.getEntities())
+            {
+                if (entity.HasComponent<InputComponent>())
+                {
+                    p = entity;
+                }
+            }
+
+            PositionComponent playerPosition = (PositionComponent)p.GetComponent<PositionComponent>();
+            int playerX = playerPosition.x;
+            int playerY = playerPosition.y;
+
+            foreach (Monster m in monsters)
+            {
+                if ((playerX == m.pos.x) && (playerY == m.pos.y))
+                {
+                    this.Remove(m);
+                }
+            }
+        }
 
         public void updateRenderComp(Entity entity, PositionComponent pos)
         {
