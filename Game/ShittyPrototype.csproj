@@ -107,6 +107,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="bin\WindowsGL\Debug\ShittyPrototype.vshost.exe" />
+    <Content Include="Content\font1.png" />
     <Content Include="Icon.ico" />
     <Content Include="lib\lua51.dll" />
     <Content Include="lib\LuaInterface.dll" />
@@ -149,6 +150,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\WindowsGL\Debug\ShittyPrototype.vshost.exe.manifest" />
+    <None Include="Content\font1.spritefont" />
+    <None Include="Content\GoombaSMB.xnb" />
+    <None Include="Content\Mario.xnb" />
     <None Include="Content\monster.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -172,6 +176,11 @@
     <None Include="Content\Cave.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Content\NI7seg.TTF" />
+    <None Include="Content\Player.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Sonic Sprite Sheet.xnb" />
     <None Include="obj\x86\Debug\build.force" />
     <None Include="obj\x86\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
     <None Include="obj\x86\Debug\ShittyPrototype.csprojResolveAssemblyReference.cache" />
