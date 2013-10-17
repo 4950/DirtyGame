@@ -88,6 +88,7 @@
     <Reference Include="Lidgren.Network">
       <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\Lidgren.Network.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="Tao.Sdl">
       <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\Tao.Sdl.dll</HintPath>
     </Reference>
@@ -117,6 +118,12 @@
     <Folder Include="bin\WindowsGL\Release\" />
     <Folder Include="obj\x86\Debug\TempPE\" />
     <Folder Include="src\application\core\entityframework\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CoreUI\CoreUI.csproj">
+      <Project>{961da26c-70f5-4ad5-a829-498c148430b4}</Project>
+      <Name>CoreUI</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
