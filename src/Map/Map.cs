@@ -151,6 +151,16 @@ namespace ShittyPrototype.src.Map
         List<MapLayer> layers;
         SpriteBatch batch;
 
+        public int getPixelHeight()
+        {
+            return height * tileHeight;
+        }
+
+        public int getPixelWidth()
+        {
+            return width * tileWidth;
+        }
+
         public Map(GraphicsDevice dev)
         {
             tileSets = new Dictionary<string, TileSet>();

@@ -41,6 +41,15 @@ namespace ShittyPrototype
             _spriteBatch.End();
         }
 
+        public int GetViewportWidth()
+        {
+            return _graphics.GraphicsDevice.Viewport.Width;
+        }
+        public int GetViewportHeight()
+        {
+            return _graphics.GraphicsDevice.Viewport.Height;
+        }
+
 
     }
 }

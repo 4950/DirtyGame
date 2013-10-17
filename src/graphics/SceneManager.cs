@@ -9,6 +9,7 @@ using ShittyPrototype.src.graphics;
 using ShittyPrototype.src.application;
 using Microsoft.Xna.Framework.Input;
 using ShittyPrototype.src.application.core;
+using ShittyPrototype.src.Map;
 
 namespace ShittyPrototype
 {
@@ -25,6 +26,14 @@ namespace ShittyPrototype
             camera = new Camera();
             camera.Position = new Vector2(0, 0);
             
+        }
+
+        public void setCameraBounds(Map map)
+        {
+            Vector2 n;
+            n.X = map.getPixelWidth() - _renderer.GetViewportWidth();
+            n.Y = map.getPixelHeight() - _renderer.GetViewportHeight();
+            camera.MaximumPosition = n;
         }
 
         public void Add(Entity entity)
@@ -52,12 +61,19 @@ namespace ShittyPrototype
         //Generic move for all entities with a position.  Could part of position component...
         public void Move(Entity entity, int xDist, int yDist)
         {
-            IComponent comp = entity.GetComponent<PositionComponent>();
-            if (comp != null) 
+            IComponent posComp = entity.GetComponent<PositionComponent>();
+            IComponent renComp = entity.GetComponent<RenderComponent>();
+            if (posComp != null) 
             {
-                PositionComponent pos = (PositionComponent)comp;
-                pos.incrementX(xDist);
-                pos.incrementY(yDist);
+                PositionComponent pos = (PositionComponent)posComp;
+                pos.x += xDist;
+                pos.y += yDist;
+            }
+            if (renComp != null)
+            {
+                RenderComponent ren = (RenderComponent)renComp;
+                ren.rectangle.X += xDist;
+                ren.rectangle.Y += yDist;
             }
         }
 
@@ -69,36 +85,16 @@ namespace ShittyPrototype
                 if (e.HasComponent<InputComponent>())
                {
                    Move(e, x, y);
-                   Vector2 n = camera.Position;
-                   n.X += x;
-                   n.Y += y;
-                   camera.Position = n;
-                   //UpdateRenderComps();
+                   CenterOnPlayer();
                }
                
             }
                
         }
 
-        //Changes the location of the render componenet rectangles based on where the camera is currently at.
-        /*public void UpdateRenderComps()
-        {
-            foreach (Entity e in _entities)
-            {
-                RenderComponent renderComp = (RenderComponent)e.GetComponent<RenderComponent>();
-                PositionComponent posComp = (PositionComponent)e.GetComponent<PositionComponent>();
-                InputComponent inputComp = (InputComponent)e.GetComponent<InputComponent>();
-                if (renderComp != null && posComp != null && inputComp == null) //okay this may need work
-                {
-                    renderComp.rectangle.X = posComp.x - _camera.x;
-                    renderComp.rectangle.Y = posComp.y - _camera.y;
-                }
-            }
-        }*/
-
         public void CenterOnPlayer()
         {
-            /*
+            
             foreach (Entity e in _entities)
             {
                 if (e.HasComponent<InputComponent>())
@@ -106,11 +102,37 @@ namespace ShittyPrototype
                     PositionComponent posComp = (PositionComponent)e.GetComponent<PositionComponent>();
                     if (posComp != null)
                     {
-                        camera.Position = new Vector2(posComp.x, posComp.y);
+                        camera.Position = new Vector2(posComp.x-(_renderer.GetViewportWidth()/2), posComp.y-(_renderer.GetViewportHeight()/2));
                     }
                 }
 
-            }*/
+            }
+            if (camera.Position.X < camera.MinimumPosition.X)
+            {
+                Vector2 n = camera.Position;
+                n.X = camera.MinimumPosition.X;
+                camera.Position = n;
+            }
+            if (camera.Position.Y < camera.MinimumPosition.Y)
+            {
+                Vector2 n = camera.Position;
+                n.Y = camera.MinimumPosition.Y;
+                camera.Position = n;
+            }
+            if (camera.Position.X > camera.MaximumPosition.X)
+            {
+                Vector2 n = camera.Position;
+                n.X = camera.MaximumPosition.X;
+                camera.Position = n;
+            }
+            if (camera.Position.Y > camera.MaximumPosition.Y)
+            {
+                Vector2 n = camera.Position;
+                n.Y = camera.MaximumPosition.Y;
+                camera.Position = n;
+            }
+             
+
         }
 
         

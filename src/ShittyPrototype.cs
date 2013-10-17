@@ -49,6 +49,7 @@ namespace ShittyPrototype
             monstersToSpawn = new List<Monster>();
             monsterManager = new MonsterManager();
             map = new Map(graphics.GraphicsDevice);
+
         }
 
         public static void LuaRegisteredFunc(string msg)
@@ -108,6 +109,9 @@ namespace ShittyPrototype
         protected override void LoadContent()
         {
             map.LoadMap("Cave.tmx", graphics.GraphicsDevice, Content);
+
+            sceneManager.setCameraBounds(map);
+
             monsterTexture = Content.Load<Texture2D>("monster");
             // TODO: use this.Content to load your game content here
         }
