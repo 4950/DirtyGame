@@ -36,6 +36,11 @@ namespace ShittyPrototype
         {
             _entities.Add(entity);
         }
+
+        public void Remove(Entity entity)
+        {
+            _entities.Remove(entity);
+        }
         
         public void Render()
         {
