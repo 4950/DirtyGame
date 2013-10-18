@@ -303,6 +303,7 @@ namespace ShittyPrototype
                 monsterManager.Add(m);
             }
             
+            sceneManager.DetectCollision(monsterManager);
             monstersToSpawn.Clear();
 
             monsterManager.UpdateEntities(gameTime);
@@ -336,14 +337,14 @@ namespace ShittyPrototype
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            uiEngine.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
+//            uiEngine.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
 
             GraphicsDevice.Clear(Color.CornflowerBlue);
             
             map.draw(sceneManager.camera);
             sceneManager.Render(gameTime);
             
-            uiEngine.Render();
+   //         uiEngine.Render();
             //SpriteBatch spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
             //Debug.WriteLine("Draw");
             //spawnerManager.Draw(spriteBatch, monster);

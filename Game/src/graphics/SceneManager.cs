@@ -17,9 +17,12 @@ namespace ShittyPrototype
         private Renderer _renderer;
         private List<Entity> _entities;
         public Camera camera;
+        GraphicsDeviceManager gD;
+                 
 
         public SceneManager(GraphicsDeviceManager graphicsDevice)
         {
+            gD = graphicsDevice;
             _renderer = new Renderer(graphicsDevice);
             _entities = new List<Entity>();
             camera = new Camera();
@@ -27,9 +30,19 @@ namespace ShittyPrototype
             
         }
 
+        public List<Entity> getEntities()
+        {
+            return _entities;
+        }
+
         public void Add(Entity entity)
         {
             _entities.Add(entity);
+        }
+
+        public void Remove(Entity entity)
+        {
+            _entities.Remove(entity);
         }
         
         public void Render(GameTime gameTime)
@@ -37,6 +50,47 @@ namespace ShittyPrototype
             _renderer.RenderBatch(_entities, camera, gameTime);
         }
 
+        public void DetectCollision(MonsterManager monsterManager)
+        {
+
+            ICollection<Monster> monsters = monsterManager.Monsters;
+            Entity p = new Entity();
+            foreach (Entity entity in this.getEntities())
+            {
+                if (entity.HasComponent<InputComponent>())
+                {
+                    p = entity;
+                }
+            }
+
+            PositionComponent playerPosition = (PositionComponent)p.GetComponent<PositionComponent>();
+            int playerX = playerPosition.x;
+            int playerY = playerPosition.y;
+
+           // Console.WriteLine("player:  " + playerX.ToString() + "  " + playerY.ToString());
+
+            List<Monster> monstersToRemove = new List<Monster>();
+            foreach (Monster m in monsters)
+            {
+                //Console.WriteLine("player:  " + playerX.ToString() + "  " + playerY.ToString() + "  monster:  " + m.pos.x.ToString() + "  " + m.pos.y.ToString());
+                if ((Math.Abs(playerX - m.pos.x) < 20) && ((Math.Abs(playerY - m.pos.y) < 20)))
+                {
+                    //Console.WriteLine("Collision Detected.  Monster location: " + m.pos.x.ToString() + "," + m.pos.y.ToString());
+                    //RenderComponent rc = (RenderComponent)m.GetComponent<RenderComponent>();
+                    //rc.texture = new Texture2D(gD.GraphicsDevice, 1, 1);
+                    //rc.texture.SetData(new Color[] { Color.AliceBlue }); 
+                    
+                    monstersToRemove.Add(m);
+                }
+            }
+
+            foreach (Monster m in monstersToRemove)
+            {
+                monsterManager.Remove(m);
+                _entities.Remove(m);
+            }
+
+        }
 
         public void updateRenderComp(Entity entity, PositionComponent pos)
         {
