@@ -113,7 +113,7 @@ namespace ShittyPrototype
         protected override void Initialize()
         {
 
-            defaultFont = Content.Load<SpriteFont>("NI7SEG");
+            defaultFont = Content.Load<SpriteFont>("default");
 
 #region Test UI
 
