@@ -50,26 +50,19 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <Compile Include="src\application\GlobalLua.cs" />
     <Compile Include="src\application\InputComponent.cs" />
     <Compile Include="src\application\PositionComponent.cs" />
-    <Compile Include="src\core\Entity.cs" />
-    <Compile Include="src\core\EntityFactory.cs" />
-    <Compile Include="src\core\IComponent.cs" />
     <Compile Include="src\graphics\Camera.cs" />
-=======
     <Compile Include="src\application\MonsterManager.cs" />
     <Compile Include="src\application\core\Monster.cs" />
     <Compile Include="src\application\core\MonsterComponent.cs" />
     <Compile Include="src\application\core\SpawnerComponent.cs" />
-    <Compile Include="src\application\core\PositionComponent.cs" />
     <Compile Include="src\application\SpawnerManager.cs" />
     <Compile Include="src\application\core\Spawner.cs" />
     <Compile Include="src\application\core\Entity.cs" />
     <Compile Include="src\application\core\EntityFactory.cs" />
     <Compile Include="src\application\core\IComponent.cs" />
->>>>>>> origin/conrad
     <Compile Include="src\graphics\RenderComponent.cs" />
     <Compile Include="src\Map\Map.cs" />
     <Compile Include="src\ShittyPrototype.cs" />
@@ -95,6 +88,7 @@
     <Reference Include="Lidgren.Network">
       <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\Lidgren.Network.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="Tao.Sdl">
       <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\Tao.Sdl.dll</HintPath>
     </Reference>
@@ -102,22 +96,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
+    <Content Include="bin\WindowsGL\Debug\Lidgren.Network.dll" />
+    <Content Include="bin\WindowsGL\Debug\MonoGame.Framework.dll" />
+    <Content Include="bin\WindowsGL\Debug\OpenTK.dll" />
+    <Content Include="bin\WindowsGL\Debug\ShittyPrototype.exe" />
+    <Content Include="bin\WindowsGL\Debug\ShittyPrototype.pdb" />
+    <Content Include="bin\WindowsGL\Debug\ShittyPrototype.vshost.exe" />
+    <Content Include="bin\WindowsGL\Debug\Tao.Sdl.dll" />
     <Content Include="Content\Caves.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Icon.ico" />
-  </ItemGroup>
-  <ItemGroup />
-=======
     <Content Include="bin\WindowsGL\Debug\ShittyPrototype.vshost.exe" />
+    <Content Include="Content\font1.png" />
     <Content Include="Icon.ico" />
+    <Content Include="lib\lua51.dll" />
+    <Content Include="lib\LuaInterface.dll" />
+    <Content Include="obj\x86\Debug\ShittyPrototype.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\x86\Debug\ShittyPrototype.exe" />
+    <Content Include="obj\x86\Debug\ShittyPrototype.pdb" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="bin\WindowsGL\Release\" />
     <Folder Include="obj\x86\Debug\TempPE\" />
     <Folder Include="src\application\core\entityframework\" />
   </ItemGroup>
->>>>>>> origin/conrad
+  <ItemGroup>
+    <ProjectReference Include="..\CoreUI\CoreUI.csproj">
+      <Project>{961da26c-70f5-4ad5-a829-498c148430b4}</Project>
+      <Name>CoreUI</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
@@ -141,11 +149,47 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
+    <None Include="bin\WindowsGL\Debug\ShittyPrototype.vshost.exe.manifest" />
+    <None Include="Content\font1.spritefont" />
+    <None Include="Content\GoombaSMB.xnb" />
+    <None Include="Content\Mario.xnb" />
+    <None Include="Content\monster.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\monster2.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\monster3.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\monster4.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="App.config" />
+    <None Include="bin\WindowsGL\Debug\Content\monster.xnb" />
+    <None Include="bin\WindowsGL\Debug\Content\monster2.xnb" />
+    <None Include="bin\WindowsGL\Debug\Content\monster3.xnb" />
+    <None Include="bin\WindowsGL\Debug\Content\monster4.xnb" />
+    <None Include="bin\WindowsGL\Debug\ShittyPrototype.exe.config" />
+    <None Include="bin\WindowsGL\Debug\ShittyPrototype.vshost.exe.config" />
+    <None Include="bin\WindowsGL\Debug\ShittyPrototype.vshost.exe.manifest" />
     <None Include="Content\Cave.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+<<<<<<< HEAD
+    <Content Include="Content\NI7SEG.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+=======
+    <None Include="Content\NI7seg.TTF" />
+    <None Include="Content\Player.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Sonic Sprite Sheet.xnb" />
+    <None Include="obj\x86\Debug\build.force" />
+    <None Include="obj\x86\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\x86\Debug\ShittyPrototype.csprojResolveAssemblyReference.cache" />
+>>>>>>> 5e53ac859b275007f0c21103f2cc15a5dc175c22
     <None Include="scripts\HelloWorld.lua">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -155,14 +199,10 @@
     <None Include="scripts\UseRegisteredFunc.lua">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-=======
-    <None Include="bin\WindowsGL\Debug\ShittyPrototype.vshost.exe.manifest" />
-    <None Include="Content\monster.xnb" />
-    <None Include="Content\monster2.xnb" />
-    <None Include="Content\monster3.xnb" />
-    <None Include="Content\monster4.xnb" />
     <None Include="obj\x86\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
->>>>>>> origin/conrad
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

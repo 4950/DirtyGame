@@ -96,13 +96,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\WindowsGL\Debug\Lidgren.Network.dll" />
+    <Content Include="bin\WindowsGL\Debug\MonoGame.Framework.dll" />
+    <Content Include="bin\WindowsGL\Debug\OpenTK.dll" />
+    <Content Include="bin\WindowsGL\Debug\ShittyPrototype.exe" />
+    <Content Include="bin\WindowsGL\Debug\ShittyPrototype.pdb" />
+    <Content Include="bin\WindowsGL\Debug\ShittyPrototype.vshost.exe" />
+    <Content Include="bin\WindowsGL\Debug\Tao.Sdl.dll" />
     <Content Include="Content\Caves.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="bin\WindowsGL\Debug\ShittyPrototype.vshost.exe" />
+    <Content Include="Content\font1.png" />
     <Content Include="Icon.ico" />
+    <Content Include="lib\lua51.dll" />
+    <Content Include="lib\LuaInterface.dll" />
+    <Content Include="obj\x86\Debug\ShittyPrototype.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\x86\Debug\ShittyPrototype.exe" />
+    <Content Include="obj\x86\Debug\ShittyPrototype.pdb" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="bin\WindowsGL\Release\" />
     <Folder Include="obj\x86\Debug\TempPE\" />
     <Folder Include="src\application\core\entityframework\" />
   </ItemGroup>
@@ -136,6 +150,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="bin\WindowsGL\Debug\ShittyPrototype.vshost.exe.manifest" />
+    <None Include="Content\font1.spritefont" />
+    <None Include="Content\GoombaSMB.xnb" />
+    <None Include="Content\Mario.xnb" />
     <None Include="Content\monster.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -149,12 +166,26 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="App.config" />
+    <None Include="bin\WindowsGL\Debug\Content\monster.xnb" />
+    <None Include="bin\WindowsGL\Debug\Content\monster2.xnb" />
+    <None Include="bin\WindowsGL\Debug\Content\monster3.xnb" />
+    <None Include="bin\WindowsGL\Debug\Content\monster4.xnb" />
+    <None Include="bin\WindowsGL\Debug\ShittyPrototype.exe.config" />
+    <None Include="bin\WindowsGL\Debug\ShittyPrototype.vshost.exe.config" />
+    <None Include="bin\WindowsGL\Debug\ShittyPrototype.vshost.exe.manifest" />
     <None Include="Content\Cave.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="Content\NI7SEG.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Content\Player.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Sonic Sprite Sheet.xnb" />
+    <None Include="obj\x86\Debug\build.force" />
+    <None Include="obj\x86\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="obj\x86\Debug\ShittyPrototype.csprojResolveAssemblyReference.cache" />
     <None Include="scripts\HelloWorld.lua">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

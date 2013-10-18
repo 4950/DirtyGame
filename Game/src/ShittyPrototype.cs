@@ -51,6 +51,7 @@ namespace ShittyPrototype
             entityFactor = new EntityFactory(graphics.GraphicsDevice);
             spawnerManager = new SpawnerManager();
             spawnerList = new Spawner[4];
+//            spawnerList = new Spawner[1];
             monstersToSpawn = new List<Monster>();
             monsterManager = new MonsterManager();
             map = new Map(graphics.GraphicsDevice);
@@ -197,7 +198,7 @@ namespace ShittyPrototype
             spawnerList[1] = s2;
             spawnerList[2] = s3;
             spawnerList[3] = s4;
-
+            
             //sceneManager.Add(spawnerList[0]);
             GlobalLua.lua.DoFile("scripts\\HelloWorld.lua");
 
@@ -216,7 +217,7 @@ namespace ShittyPrototype
             // Just prints a message.
             GlobalLua.lua.RegisterFunction("LuaRegisteredFunc", this, this.GetType().GetMethod("LuaRegisteredFunc"));
             GlobalLua.lua.DoFile("scripts\\UseRegisteredFunc.lua");
-            Entity player = entityFactor.createPlayerEntity();
+            Entity player = entityFactor.createPlayerEntity("Player", 50, 50, 12, Content);
             sceneManager.Add(player);
             sceneManager.CenterOnPlayer();
             base.Initialize();
@@ -302,7 +303,7 @@ namespace ShittyPrototype
             GraphicsDevice.Clear(Color.CornflowerBlue);
             
             map.draw(sceneManager.camera);
-            sceneManager.Render();
+            sceneManager.Render(gameTime);
             
             uiEngine.Render();
             //SpriteBatch spriteBatch = new SpriteBatch(graphics.GraphicsDevice);

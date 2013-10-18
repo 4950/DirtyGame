@@ -23,7 +23,7 @@ namespace ShittyPrototype
             _spriteBatch = new SpriteBatch(_graphics.GraphicsDevice);
         }
 
-        public void RenderBatch(ICollection<Entity> entities, Camera cam)
+        public void RenderBatch(ICollection<Entity> entities, Camera cam, GameTime gameTime)
         {
             _spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, cam.TransformMatrix);
             foreach (Entity entity in entities)
@@ -34,8 +34,21 @@ namespace ShittyPrototype
                     //Rectangle r = renderComp.rectangle;
                     //r.X += entity.GetHashCode() % 10;
                     //Debug.WriteLine(entity.GetHashCode() + " " + renderComp.rectangle.ToString());
-                   
-                    _spriteBatch.Draw(renderComp.texture, renderComp.rectangle, Color.AntiqueWhite);
+
+                    if (renderComp.spriteRectangles != null)
+                    {
+                        _spriteBatch.Draw(renderComp.texture,
+                                      new Vector2(renderComp.rectangle.X, renderComp.rectangle.Y),
+                                      renderComp.spriteRectangles[renderComp.currentFrame],
+                                      Color.White);
+
+                        //Incrementing the frameIndex on the renderComp to switch to the next frame
+                        renderComp.nextFrame(gameTime);
+                    }
+                    else
+                    {
+                        _spriteBatch.Draw(renderComp.texture, renderComp.rectangle, Color.AntiqueWhite);
+                    }
                 }
             }
             _spriteBatch.End();
