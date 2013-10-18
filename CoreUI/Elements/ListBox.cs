@@ -133,13 +133,12 @@ namespace CoreUI.Elements
         }
         private void CalculateText()
         {
-            /*
-            float w = 0, h = 0;
-            CoreUIEngine.mText.NormalFont_GetTextSize("AL/|^$", mFontInt, ref w, ref h);
-            DisplayHeight = (int)(h + 1);
+
+            PointF size = CoreUIEngine.mDrawEngine.getTextSize("AL/|^$", mFontInt);
+            DisplayHeight = (int)(size.Y + 1);
             DisplayNum = (int)Math.Floor((Bounds.Height / (double)DisplayHeight) + 1);
 
-            CalculatePosition();*/
+            CalculatePosition();
         }
         private int CalcMaxHeight()
         {

@@ -77,20 +77,19 @@ namespace CoreUI.Elements
         }
         private void CalculateText()
         {
-            /*
+            
             DispText = mText;
-            float w = 0, h = 0;
-            CoreUIEngine.mText.NormalFont_GetTextSize(DispText, mFontInt, ref w, ref h);
+            PointF size = CoreUIEngine.mDrawEngine.getTextSize(DispText, mFontInt);
 
             if (mTextMode == LabelTextMode.Truncate)
             {
-                if (w > Bounds.Width)
+                if (size.X > Bounds.Width)
                 {
                     StringBuilder sb = new StringBuilder(DispText);
-                    while (w > Bounds.Width)
+                    while (size.X > Bounds.Width)
                     {
                         sb.Remove(sb.Length - 1, 1);
-                        CoreUIEngine.mText.NormalFont_GetTextSize(sb.ToString(), mFontInt, ref w, ref h);
+                        size = CoreUIEngine.mDrawEngine.getTextSize(sb.ToString(), mFontInt);
                     }
                     DispText = sb.ToString();
                     TextPos.X = Bounds.Left;
@@ -100,25 +99,25 @@ namespace CoreUI.Elements
                     switch (mTextPosition)
                     {
                         case TextPosition.Center:
-                            TextPos.X = (int)(Bounds.Left + (Bounds.Width / 2) - (w / 2));
+                            TextPos.X = (int)(Bounds.Left + (Bounds.Width / 2) - (size.X / 2));
                             break;
                         case TextPosition.Left:
                             TextPos.X = Bounds.Left;
                             break;
                         case TextPosition.Right:
-                            TextPos.X = (int)(Bounds.Left + (Bounds.Width - w));
+                            TextPos.X = (int)(Bounds.Left + (Bounds.Width - size.X));
                             break;
                     }
                 }
             }
             else if (mTextMode == LabelTextMode.SizeToContent)
             {
-                mBounds.Width = (int)w;
-                mBounds.Height = (int)h;
+                mBounds.Width = (int)size.X;
+                mBounds.Height = (int)size.Y;
                 TextPos.X = Bounds.Left;
             }
-            TextPos.Y = (int)(Bounds.Top + (Bounds.Height / 2) - (h / 2));
-             * */
+            TextPos.Y = (int)(Bounds.Top + (Bounds.Height / 2) - (size.Y / 2));
+             
         }
     }
 }

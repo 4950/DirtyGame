@@ -65,6 +65,44 @@ namespace ShittyPrototype
             Console.WriteLine(msg);
             
         }
+        #region UI Event Code
+        void l_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            ((CoreUI.Elements.Label)sender).TextMode = CoreUI.Elements.LabelTextMode.SizeToContent;
+            ((CoreUI.Elements.Label)sender).Text = "but can expand to fill content!\nEven if its multiple lines with different sizes";
+        }
+
+        void b4_Click(object sender)
+        {
+            CoreUI.MessageBox.Show("Is this a messagebox?", "Question!", CoreUI.MessageBox.MessageBoxButttons.YesNo);
+        }
+
+        void b_Click(object sender)
+        {
+            ((CoreUI.Elements.Button)sender).Text = "!&$@$%!(%$&@%$%&!*%$&@*$%*&!%&$@";
+            ((Window)((CoreUI.Elements.Button)sender).Tag).Show();
+        }
+
+        void b3_Click(object sender)
+        {
+            Window w = new Window();
+            w.Position = new System.Drawing.Point(50, 50);
+            w.Size = new System.Drawing.Point(200, 100);
+            w.Title = "OMG, Modality!";
+            w.ShowDialog();
+
+            CoreUI.Elements.Button b = new CoreUI.Elements.Button();
+            b.Position = new System.Drawing.Point(10, 10);
+            b.Size = new System.Drawing.Point(100, 23);
+            b.Text = "Close";
+            b.Click += new CoreUI.Elements.Button.ClickEventHandler(Modalb_click);
+            w.Content = b;
+        }
+        void Modalb_click(object sender)
+        {
+            ((Window)((CoreUI.Elements.Button)sender).Parent).Close();
+        }
+        #endregion
 
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -102,14 +140,14 @@ namespace ShittyPrototype
             b3.Position = new System.Drawing.Point(10, 70);
             b3.Size = new System.Drawing.Point(175, 23);
             b3.Text = "Show Modal Dialog";
-            //b3.Click += new CoreUI.Elements.Button.ClickEventHandler(b3_Click);
+            b3.Click += new CoreUI.Elements.Button.ClickEventHandler(b3_Click);
             p.AddElement(b3);
 
             CoreUI.Elements.Button b4 = new CoreUI.Elements.Button();
             b4.Position = new System.Drawing.Point(10, 140);
             b4.Size = new System.Drawing.Point(175, 23);
             b4.Text = "Show MessageBox";
-            //b4.Click += new CoreUI.Elements.Button.ClickEventHandler(b4_Click);
+            b4.Click += new CoreUI.Elements.Button.ClickEventHandler(b4_Click);
             p.AddElement(b4);
             
             Window ww = new Window();
@@ -127,10 +165,10 @@ namespace ShittyPrototype
             l.Size = new System.Drawing.Point(175, 23);
             l.Text = "(Click me)This label truncates";
             l.TextMode = CoreUI.Elements.LabelTextMode.Truncate;
-            //l.MouseUp += new MouseEventHandler(l_MouseUp);
+            l.MouseUp += new System.Windows.Forms.MouseEventHandler(l_MouseUp);
             p2.AddElement(l);
 
-            /*CoreUI.Elements.Listbox lb = new CoreUI.Elements.Listbox();
+            CoreUI.Elements.Listbox lb = new CoreUI.Elements.Listbox();
             lb.Position = new System.Drawing.Point(5, 50);
             lb.Size = new System.Drawing.Point(100, 100);
             lb.AddItem("This is");
@@ -141,14 +179,14 @@ namespace ShittyPrototype
             lb.AddItem("See?");
             lb.AddItem("!!!!!!!!!!");
             lb.AddItem("Scrolling!");
-            p2.AddElement(lb);*/
+            p2.AddElement(lb);
 
-            /*CoreUI.Elements.ComboBox cb = new CoreUI.Elements.ComboBox();
+            CoreUI.Elements.ComboBox cb = new CoreUI.Elements.ComboBox();
             cb.Position = new System.Drawing.Point(110, 50);
             cb.Size = new System.Drawing.Point(100, 10);
             cb.AddItem("ComboBox!");
             cb.AddItem("~Select Me~");
-            p2.AddElement(cb);*/
+            p2.AddElement(cb);
 
             CoreUI.Elements.CheckBox chb = new CoreUI.Elements.CheckBox();
             chb.Position = new System.Drawing.Point(110, 70);
@@ -164,13 +202,13 @@ namespace ShittyPrototype
             rdb.IsThreeState = true;
             p2.AddElement(rdb);
 
-            /*CoreUI.Elements.Button b = new CoreUI.Elements.Button();
+            CoreUI.Elements.Button b = new CoreUI.Elements.Button();
             b.Position = new System.Drawing.Point(100, 100);
             b.Size = new System.Drawing.Point(130, 23);
             b.Text = "Relaunch Window";
             b.Tag = w;
-            //b.Click += new CoreUI.Elements.Button.ClickEventHandler(b_Click);
-            uiEngine.Children.AddElement(b);*/
+            b.Click += new CoreUI.Elements.Button.ClickEventHandler(b_Click);
+            uiEngine.Children.AddElement(b);
 
             CoreUI.MessageBox.Show("Warning, Virus Detected!\nEat it?", "Warning", CoreUI.MessageBox.MessageBoxButttons.OkCancel);
 

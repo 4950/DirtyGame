@@ -154,14 +154,13 @@ namespace CoreUI.Elements
         }
         private void CalculateSize()
         {
-            /*
-            float w = 0, h = 0;
-            CoreUIEngine.mText.NormalFont_GetTextSize("AL/|^$", mFontInt, ref w, ref h);
-            mBounds.Height = (int)(h + 2);
+
+            PointF size = CoreUIEngine.mDrawEngine.getTextSize("AL/|^$", mFontInt);
+            mBounds.Height = (int)(size.Y + 2);
             mLabel.Position = new Point(Bounds.Left + 2, Bounds.Top + 1);
-            mLabel.Size = new Point((int)(Bounds.Width - h - 1), (int)h);
-            mButton.Position = new Point(Bounds.Right - (int)h - 1, Bounds.Top + 1);
-            mButton.Size = new Point((int)h, (int)h);*/
+            mLabel.Size = new Point((int)(Bounds.Width - size.Y - 1), (int)size.Y);
+            mButton.Position = new Point(Bounds.Right - (int)size.Y - 1, Bounds.Top + 1);
+            mButton.Size = new Point((int)size.Y, (int)size.Y);
         }
     }
 }
