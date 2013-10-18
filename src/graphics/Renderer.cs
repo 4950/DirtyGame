@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using ShittyPrototype.src.core;
 using ShittyPrototype.src.graphics;
 using ShittyPrototype.src.application.core;
+using ShittyPrototype.src.application;
 using System.Diagnostics;
 
 namespace ShittyPrototype
@@ -29,13 +30,15 @@ namespace ShittyPrototype
             foreach (Entity entity in entities)
             {
                 RenderComponent renderComp = (RenderComponent)entity.GetComponent<RenderComponent>();
-                if (renderComp != null)
+                PositionComponent positionComp = (PositionComponent)entity.GetComponent<PositionComponent>();
+                if (renderComp != null && positionComp != null)
                 {
                     //Rectangle r = renderComp.rectangle;
                     //r.X += entity.GetHashCode() % 10;
                     //Debug.WriteLine(entity.GetHashCode() + " " + renderComp.rectangle.ToString());
-                   
-                    _spriteBatch.Draw(renderComp.texture, renderComp.rectangle, Color.AntiqueWhite);
+                   Rectangle rect = renderComp.rectangle;
+                   rect.Offset(positionComp.x, positionComp.y);
+                    _spriteBatch.Draw(renderComp.texture, rect, Color.AntiqueWhite);
                 }
             }
             _spriteBatch.End();

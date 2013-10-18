@@ -17,9 +17,11 @@ namespace ShittyPrototype
         private Renderer _renderer;
         private List<Entity> _entities;
         public Camera camera;
+        GraphicsDeviceManager gD;
 
         public SceneManager(GraphicsDeviceManager graphicsDevice)
         {
+            gD = graphicsDevice;
             _renderer = new Renderer(graphicsDevice);
             _entities = new List<Entity>();
             camera = new Camera();
@@ -47,7 +49,7 @@ namespace ShittyPrototype
             _renderer.RenderBatch(_entities, camera);
         }
 
-        public void DetectCollision(List<Monster> monsters)
+        public void DetectCollision(List<Monster> monsters, MonsterManager monsterManager)
         {
             Entity p = new Entity();
             foreach (Entity entity in this.getEntities())
@@ -62,13 +64,21 @@ namespace ShittyPrototype
             int playerX = playerPosition.x;
             int playerY = playerPosition.y;
 
+            //Console.WriteLine("player:  " + playerX.ToString() + "  " + playerY.ToString());
+
             foreach (Monster m in monsters)
             {
-                if ((playerX == m.pos.x) && (playerY == m.pos.y))
+                Console.WriteLine("player:  " + playerX.ToString() + "  " + playerY.ToString() + "  monster:  " + m.pos.x.ToString() + "  " + m.pos.y.ToString());
+                if ((Math.Abs(playerX - m.pos.x) < 80) && ((Math.Abs(playerY - m.pos.y) < 80)))
                 {
-                    this.Remove(m);
+                    Console.WriteLine("Collision Detected.  Monster location: " + m.pos.x.ToString() + "," + m.pos.y.ToString());
+                    RenderComponent rc = (RenderComponent)m.GetComponent<RenderComponent>();
+                    rc.texture = new Texture2D(gD.GraphicsDevice, 1, 1);
+                    rc.texture.SetData(new Color[] { Color.AliceBlue }); this.Remove(m);
+                    monsterManager.Remove(m);
                 }
             }
+
         }
 
         public void updateRenderComp(Entity entity, PositionComponent pos)

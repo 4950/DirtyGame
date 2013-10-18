@@ -36,7 +36,7 @@ namespace ShittyPrototype.src.core
 
         public Entity createPlayerEntity()
         {
-            PositionComponent posComp = new PositionComponent(400, 200);
+            PositionComponent posComp = new PositionComponent(200, 100);
 
             RenderComponent renderComp = new RenderComponent();
             renderComp.texture = new Texture2D(_graphicsDevice, 1, 1);

@@ -21,6 +21,11 @@ namespace ShittyPrototype.src.application
             monsters.Add(m);
         }
 
+        public void Remove(Monster m)
+        {
+            monsters.Remove(m);
+        }
+
         public void UpdateEntities(GameTime gameTime)
         {
             Random r = new Random();

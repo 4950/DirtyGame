@@ -142,7 +142,9 @@ namespace ShittyPrototype
                 sceneManager.Add(m);
                 monsterManager.Add(m);
             }
-            
+
+            sceneManager.DetectCollision(monstersToSpawn, monsterManager);
+
             monstersToSpawn.Clear();
 
             monsterManager.UpdateEntities(gameTime);
@@ -163,8 +165,6 @@ namespace ShittyPrototype
             {
                 sceneManager.MovePlayer(0,5);
             }
-
-            sceneManager.DetectCollision(monstersToSpawn);
 
             base.Update(gameTime);
         }
