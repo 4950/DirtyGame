@@ -11,6 +11,14 @@ namespace ShittyPrototype.src.application
     {
         List<Monster> monsters = new List<Monster>();
 
+        public ICollection<Monster> Monsters
+        {
+            get
+            {
+                return monsters;
+            }            
+        } 
+
         public MonsterManager()
         {
 
@@ -19,6 +27,11 @@ namespace ShittyPrototype.src.application
         public void Add(Monster m)
         {
             monsters.Add(m);
+        }
+
+        public void Remove(Monster m)
+        {
+            monsters.Remove(m);
         }
 
         public void UpdateEntities(GameTime gameTime)
@@ -35,18 +48,22 @@ namespace ShittyPrototype.src.application
                     if (i < 26)
                     {
                         m.render.rectangle.X += 10;
+                        m.pos.x = m.render.rectangle.X;
                     }
                     else if (i < 51)
                     {
                         m.render.rectangle.X -= 10;
+                        m.pos.x = m.render.rectangle.X;
                     }
                     else if (i < 76)
                     {
                         m.render.rectangle.Y += 10;
+                        m.pos.y = m.render.rectangle.Y;
                     }
                     else
                     {
                         m.render.rectangle.Y -= 10;
+                        m.pos.y = m.render.rectangle.Y;
                     }
                 }
             }

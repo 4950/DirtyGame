@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using ShittyPrototype.src.application;
 using ShittyPrototype.src.core;
 using ShittyPrototype.src.graphics;
 using ShittyPrototype.src.application.core;
@@ -29,6 +30,7 @@ namespace ShittyPrototype
             foreach (Entity entity in entities)
             {
                 RenderComponent renderComp = (RenderComponent)entity.GetComponent<RenderComponent>();
+                PositionComponent posComp = (PositionComponent) entity.GetComponent<PositionComponent>();
                 if (renderComp != null)
                 {
                     //Rectangle r = renderComp.rectangle;
@@ -38,7 +40,7 @@ namespace ShittyPrototype
                     if (renderComp.spriteRectangles != null)
                     {
                         _spriteBatch.Draw(renderComp.texture,
-                                      new Vector2(renderComp.rectangle.X, renderComp.rectangle.Y),
+                                      new Vector2(posComp.x , posComp.y),
                                       renderComp.spriteRectangles[renderComp.currentFrame],
                                       Color.White);
 
