@@ -212,17 +212,7 @@ namespace ShittyPrototype
 
             CoreUI.MessageBox.Show("Warning, Virus Detected!\nEat it?", "Warning", CoreUI.MessageBox.MessageBoxButttons.OkCancel);
 
-            Window www = new Window();
-            www.Position = new System.Drawing.Point(400, 50);
-            www.Size = new System.Drawing.Point(175, 50);
-            www.Style = CoreUI.Window.WindowStyle.None;
-            www.Show();
 
-            CoreUI.Elements.Label l2 = new CoreUI.Elements.Label();
-            l2.Position = new System.Drawing.Point(0, 0);
-            l2.Text = "Window without chrome!\n(This is a label)";
-            l2.TextMode = CoreUI.Elements.LabelTextMode.SizeToContent;
-            www.Content = l2;
 
 #endregion
 
@@ -337,14 +327,14 @@ namespace ShittyPrototype
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-//            uiEngine.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
+            uiEngine.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
 
             GraphicsDevice.Clear(Color.CornflowerBlue);
             
             map.draw(sceneManager.camera);
             sceneManager.Render(gameTime);
             
-   //         uiEngine.Render();
+            uiEngine.Render();
             //SpriteBatch spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
             //Debug.WriteLine("Draw");
             //spawnerManager.Draw(spriteBatch, monster);
