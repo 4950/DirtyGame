@@ -19,13 +19,18 @@ using ShittyPrototype.src;
 
 namespace ShittyPrototype.src.graphics
 {
-    class Gamestate
+    public class Gamestate
     {
 
-        public bool Over = false;
+        private bool Over = false;
 
         public Gamestate()
         {
+        }
+
+        public void GameIsOver()
+        {
+            Over = true;
         }
 
         public bool Gameover()

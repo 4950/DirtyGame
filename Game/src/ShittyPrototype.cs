@@ -38,7 +38,7 @@ namespace ShittyPrototype
         CoreUIEngine uiEngine;
         CoreUI.DrawEngines.MonoGameDrawEngine uiDraw;
         SpriteFont defaultFont;
-        Gamestate gamestate;
+        Singleton<Gamestate> gamestate;
 
 
         public ShittyPrototype()
@@ -57,7 +57,6 @@ namespace ShittyPrototype
             monstersToSpawn = new List<Monster>();
             monsterManager = new MonsterManager();
             map = new Map(graphics.GraphicsDevice);
-            gamestate = new Gamestate();
 
             uiDraw = new CoreUI.DrawEngines.MonoGameDrawEngine(graphics.GraphicsDevice, Content);
             uiEngine = new CoreUIEngine(uiDraw, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
@@ -293,7 +292,7 @@ namespace ShittyPrototype
         {
             inputManager.Update();
             //Debug.WriteLine(gameTime.TotalGameTime + " , " + gameTime.ElapsedGameTime);
-            if (inputManager.IsKeyDown(Keys.Escape) || gamestate.Gameover())
+            if (inputManager.IsKeyDown(Keys.Escape) || Singleton<Gamestate>.GetSingleton().Gameover())
             {
                 Exit();
             }

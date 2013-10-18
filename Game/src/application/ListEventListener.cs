@@ -6,6 +6,7 @@ using System.Collections;
 using ShittyPrototype.src.application.core;
 using ShittyPrototype.src;
 using ShittyPrototype.src.graphics;
+using ShittyPrototype.src.util;
 
 namespace ShittyPrototype.src.application
 {
@@ -13,7 +14,6 @@ namespace ShittyPrototype.src.application
     {
         private ListEvent<Monster> List;
         private bool gamestarted = false;
-        Gamestate gamestate;
         int numOfMonsters = 0;
 
 
@@ -38,8 +38,8 @@ namespace ShittyPrototype.src.application
             }
             if (numOfMonsters == 0 && gamestarted)
             {
-                
-                gamestate.Over = true;
+
+                Singleton<Gamestate>.GetSingleton().GameIsOver();
             }
         }
 
