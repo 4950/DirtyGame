@@ -377,7 +377,7 @@ namespace CoreUI
         public void Render()
         {
             mDrawEngine.BeginDraw();
-            mDrawEngine.Draw_RS(rs,  0, 0, mWidth - 1, mHeight - 1);
+            mDrawEngine.Draw_RS(rs,  0, 0, mWidth, mHeight);
             //mDrawEngine.Draw_FilledBox(0, 0, 100, 100, mDrawEngine.CreateColor(1, 0, 0), mDrawEngine.CreateColor(1, 0, 0), mDrawEngine.CreateColor(1, 1, 0), mDrawEngine.CreateColor(1, 1, 0));
             //mDrawEngine.Draw_FilledBox(0, 0, 100, 100, Color.Red.ToArgb(), Color.Green.ToArgb(), Color.Yellow.ToArgb(), Color.White.ToArgb());
             mDrawEngine.EndDraw();

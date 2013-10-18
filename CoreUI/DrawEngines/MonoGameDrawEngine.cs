@@ -67,7 +67,7 @@ namespace CoreUI.DrawEngines
         }
         public IUIRenderSurface CreateRenderSurface(int width, int height)
         {
-            RenderTarget2D tar = new RenderTarget2D(device, width, height);
+            RenderTarget2D tar = new RenderTarget2D(device, width, height, false, SurfaceFormat.Color, DepthFormat.None);
             return new MonoGameRenderSurface(tar);
         }
         public void BeginDraw(IUIRenderSurface ren)
@@ -131,12 +131,15 @@ namespace CoreUI.DrawEngines
         {
             if (transform != null)
             {
-                batch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, (Matrix)transform);
+                
+                batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, (Matrix)transform);
             }
             else
             {
-                batch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null);
+                batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null);
             }
+            device.SamplerStates[0].MaxAnisotropy = 16;
+
         }
         public void EndDraw()
         {
@@ -175,8 +178,11 @@ namespace CoreUI.DrawEngines
             rectData[2] = (color3 as MonoGameColor).color;
             rectData[3] = (color4 as MonoGameColor).color;
             rect.SetData(rectData);
+
+            device.SamplerStates[0].Filter = TextureFilter.Anisotropic;
             batch.Draw(rect, toRect(left, top, right, bottom), Color.White);
-            //throw new NotImplementedException();
+            device.SamplerStates[0].Filter = TextureFilter.Point;
+
         }
 
         public void Draw_Box(int left, int top, int right, int bottom, IUIColor color)
@@ -218,7 +224,10 @@ namespace CoreUI.DrawEngines
             Vector2 v = Vector2.Normalize(begin - end);
             float angle = (float)Math.Acos(Vector2.Dot(v, -Vector2.UnitX));
             if (begin.Y > end.Y) angle = MathHelper.TwoPi - angle;
+
+            device.SamplerStates[0].Filter = TextureFilter.Anisotropic;
             batch.Draw(line, r, null, Color.White, angle, Vector2.Zero, SpriteEffects.None, 0);
+            device.SamplerStates[0].Filter = TextureFilter.Point;
         }
 
         public void Draw_Default_Text(string text, int left, int top, IUIColor color)

@@ -93,7 +93,7 @@ namespace CoreUI.Elements
                     mSelectedIndex = -1;
                 foreach (Label l in DisplayLabels)
                     l.Background = CoreUIEngine.mDrawEngine.CreateColor(0, 0, 0, 0);
-                if (mSelectedIndex != -1)
+                if (mSelectedIndex != -1 && mSelectedIndex >= DisplayPosition && mSelectedIndex <= DisplayPosition + DisplayNum)
                     DisplayLabels[mSelectedIndex].Background = Middleground;
                 InvalidateVisual();
                 if (SelectedIndexChanged != null)
@@ -135,8 +135,8 @@ namespace CoreUI.Elements
         {
 
             PointF size = CoreUIEngine.mDrawEngine.getTextSize("AL/|^$", mFontInt);
-            DisplayHeight = (int)(size.Y + 1);
-            DisplayNum = (int)Math.Floor((Bounds.Height / (double)DisplayHeight) + 1);
+            DisplayHeight = (int)Math.Ceiling(size.Y);
+            DisplayNum = (int)Math.Floor((Bounds.Height / (double)DisplayHeight));
 
             CalculatePosition();
         }
