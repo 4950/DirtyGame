@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{25C9A633-16AB-4739-ABF0-1004330847B1}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DirtyGame</RootNamespace>
+    <AssemblyName>DirtyGame</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\WindowsGL\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\WindowsGL\Release\</OutputPath>
+    <DefineConstants>TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="game\Core\Components\Renderable.cs" />
+    <Compile Include="game\Core\Components\Render\Sprite.cs" />
+    <Compile Include="game\Core\Components\Spatial.cs" />
+    <Compile Include="game\Core\EntityFactory.cs" />
+    <Compile Include="game\Core\ResourceManager.cs" />
+    <Compile Include="game\Core\Systems\Util\SystemDescriptions.cs" />
+    <Compile Include="game\Core\Systems\Util\SystemParams.cs" />
+    <Compile Include="game\Dirty.cs" />
+    <Compile Include="game\App.cs" />
+    <Compile Include="game\Map\Map.cs" />
+    <Compile Include="game\SGraphics\Camera.cs" />
+    <Compile Include="game\SGraphics\Commands\BeginBatchDraw.cs" />
+    <Compile Include="game\SGraphics\Commands\DrawCall.cs" />
+    <Compile Include="game\SGraphics\Commands\DrawCalls\BatchDrawSprite.cs" />
+    <Compile Include="game\SGraphics\Commands\DrawCalls\BatchDrawText.cs" />
+    <Compile Include="game\SGraphics\RenderCommand.cs" />
+    <Compile Include="game\SGraphics\Renderer.cs" />
+    <Compile Include="game\SGraphics\RenderGroup.cs" />
+    <Compile Include="game\SGraphics\RenderInstance.cs" />
+    <Compile Include="game\SGraphics\RenderLayer.cs" />
+    <Compile Include="game\SGraphics\SortKey.cs" />
+    <Compile Include="game\Core\Systems\Render\SpriteRenderSystem.cs" />
+    <Compile Include="game\Util\Logger.cs" />
+    <Compile Include="game\Util\Singleton.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="OpenTK">
+      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Lidgren.Network">
+      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\Lidgren.Network.dll</HintPath>
+    </Reference>
+    <Reference Include="Tao.Sdl">
+      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\Tao.Sdl.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\Player.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CoreUI\CoreUI.csproj">
+      <Project>{961da26c-70f5-4ad5-a829-498c148430b4}</Project>
+      <Name>CoreUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EntityFramework\EntityFramework.csproj">
+      <Project>{43edc16e-8b0e-4f58-ad04-a71a1c492161}</Project>
+      <Name>EntityFramework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
