@@ -55,6 +55,8 @@
   <ItemGroup>
     <Compile Include="src\application\GlobalLua.cs" />
     <Compile Include="src\application\InputComponent.cs" />
+    <Compile Include="src\application\ListEvent.cs" />
+    <Compile Include="src\application\ListEventListener.cs" />
     <Compile Include="src\application\PositionComponent.cs" />
     <Compile Include="src\graphics\Camera.cs" />
     <Compile Include="src\application\MonsterManager.cs" />
@@ -66,6 +68,7 @@
     <Compile Include="src\application\core\Entity.cs" />
     <Compile Include="src\application\core\EntityFactory.cs" />
     <Compile Include="src\application\core\IComponent.cs" />
+    <Compile Include="src\graphics\Gamestate.cs" />
     <Compile Include="src\graphics\RenderComponent.cs" />
     <Compile Include="src\Map\Map.cs" />
     <Compile Include="src\ShittyPrototype.cs" />

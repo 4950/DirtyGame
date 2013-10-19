@@ -9,7 +9,7 @@ namespace ShittyPrototype.src.application
 {
     class MonsterManager
     {
-        List<Monster> monsters = new List<Monster>();
+        ListEvent<Monster> monsters = new ListEvent<Monster>();
 
         public ICollection<Monster> Monsters
         {
@@ -21,7 +21,7 @@ namespace ShittyPrototype.src.application
 
         public MonsterManager()
         {
-
+            ListEventListener addMListener = new ListEventListener(monsters);
         }
 
         public void Add(Monster m)

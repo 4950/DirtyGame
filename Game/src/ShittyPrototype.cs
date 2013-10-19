@@ -38,6 +38,8 @@ namespace ShittyPrototype
         CoreUIEngine uiEngine;
         CoreUI.DrawEngines.MonoGameDrawEngine uiDraw;
         SpriteFont defaultFont;
+        Singleton<Gamestate> gamestate;
+
 
         public ShittyPrototype()
             : base()
@@ -280,7 +282,7 @@ namespace ShittyPrototype
         {
             inputManager.Update();
             //Debug.WriteLine(gameTime.TotalGameTime + " , " + gameTime.ElapsedGameTime);
-            if (inputManager.IsKeyDown(Keys.Escape))
+            if (inputManager.IsKeyDown(Keys.Escape) || Singleton<Gamestate>.GetSingleton().Gameover())
             {
                 Exit();
             }
