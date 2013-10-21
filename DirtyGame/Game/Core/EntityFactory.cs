@@ -31,8 +31,25 @@ namespace DirtyGame.game.Core
 
             Sprite sprite = new Sprite();
             sprite.RenderLayer = RenderLayer.BACKGROUND;
-            sprite.Texture = resourceMgr.GetResource<Texture2D>("Player");
-            sprite.SrcRect = new Rectangle(0, 0, 100, 100);
+            sprite.Texture = resourceMgr.GetResource<Texture2D>("playerSheet");
+            sprite.SrcRect = new Rectangle(0, 0, 50, 50);
+            
+            //Adding all the animations to the player sprite
+            sprite.AddAnimation(12, 0, 0, "Down", 50, 50, new Vector2(0, 0));
+            sprite.AddAnimation(1, 0, 0, "IdleDown", 50, 50, new Vector2(0, 0));
+            sprite.AddAnimation(12, 50, 0, "Up", 50, 50, new Vector2(0, 0));
+            sprite.AddAnimation(1, 50, 0, "IdleUp", 50, 50, new Vector2(0, 0));
+            sprite.AddAnimation(8, 100, 0, "Left", 50, 50, new Vector2(0, 0));
+            sprite.AddAnimation(1, 100, 0, "IdleLeft", 50, 50, new Vector2(0, 0));
+            sprite.AddAnimation(8, 100, 8, "Right", 50, 50, new Vector2(0, 0));
+            sprite.AddAnimation(1, 100, 8, "IdleRight", 50, 50, new Vector2(0, 0));
+            sprite.AddAnimation(9, 150, 0, "AttackDown", 70, 80, new Vector2(0, 0));
+            sprite.AddAnimation(9, 230, 0, "AttackUp", 70, 80, new Vector2(-13, -27));
+            sprite.AddAnimation(9, 310, 0, "AttackLeft", 70, 70, new Vector2(-30, -5));
+            sprite.AddAnimation(9, 380, 0, "AttackRight", 70, 70, new Vector2(+15, -5));
+
+            //Setting current animation
+            sprite.CurrentAnimation = "AttackRight";
 
             e.AddComponent(spatial);
             e.AddComponent(sprite);
