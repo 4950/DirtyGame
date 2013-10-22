@@ -39,6 +39,9 @@ namespace DirtyGame
             entityFactory = new EntityFactory(world.EntityMgr, resourceManager);
             world.AddSystem(new SpriteRenderSystem(renderer));
 
+            AnimationSystem animationSys = new AnimationSystem();
+            world.AddSystem(animationSys);
+
             Entity e = entityFactory.CreateTestEntity();
             e.Refresh();
             e = entityFactory.CreateTestEntity();

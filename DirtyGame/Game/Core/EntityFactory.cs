@@ -31,10 +31,15 @@ namespace DirtyGame.game.Core
 
             Sprite sprite = new Sprite();
             sprite.RenderLayer = RenderLayer.BACKGROUND;
-            sprite.Texture = resourceMgr.GetResource<Texture2D>("playerSheet");
-            sprite.SrcRect = new Rectangle(0, 0, 50, 50);
-            
-            //Adding all the animations to the player sprite
+      //      sprite.Texture = resourceMgr.GetResource<Texture2D>("playerSheet");
+      //      sprite.SrcRect = new Rectangle(0, 0, 50, 50);
+            sprite.Sprite_Sheet = new SpriteSheet(resourceMgr.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
+            sprite.Sprite_Sheet.CurrentAnimation = "AttackDown";
+
+            Animation animation = new Animation();
+         //   animation.CurrentAnimation = "AttackDown";
+
+  /*          //Adding all the animations to the player sprite
             sprite.AddAnimation(12, 0, 0, "Down", 50, 50, new Vector2(0, 0));
             sprite.AddAnimation(1, 0, 0, "IdleDown", 50, 50, new Vector2(0, 0));
             sprite.AddAnimation(12, 50, 0, "Up", 50, 50, new Vector2(0, 0));
@@ -50,9 +55,11 @@ namespace DirtyGame.game.Core
 
             //Setting current animation
             sprite.CurrentAnimation = "AttackRight";
+   */
 
             e.AddComponent(spatial);
             e.AddComponent(sprite);
+            e.AddComponent(animation);
             return e;
         }
     }
