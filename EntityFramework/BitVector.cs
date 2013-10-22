@@ -66,9 +66,14 @@ namespace EntityFramework
             return Contains(v.Bits);
         }
 
+        /// <summary>
+        /// Determine if the provided bits are all present in this bitvect. This uses a "material nonimplication" s(A&~B)
+        /// </summary>
+        /// <param name="bitsToCompare"></param>
+        /// <returns>Returns true if all the bits in the param are present but false if any bits are not present</returns>
         public bool Contains(long bitsToCompare)
         {
-            return (bits ^ bitsToCompare) == 0;
+            return (bits & ~bitsToCompare) == 0;
         }
 
         #endregion
