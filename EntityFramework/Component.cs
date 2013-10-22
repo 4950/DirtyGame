@@ -6,11 +6,16 @@ using System.Text;
 
 namespace EntityFramework
 {
+    /// <summary>
+    /// Purely data objects 
+    /// </summary>
     public abstract class Component
     {
         // Future
         //public abstract void Deserialize(BinaryReader reader);
         //public abstract void Serialize(BinaryWriter writer);
+
+
         public uint Id
         {
             get

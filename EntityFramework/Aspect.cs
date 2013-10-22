@@ -5,6 +5,9 @@ using System.Text;
 
 namespace EntityFramework
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Aspect
     {
         #region Variables
@@ -12,7 +15,7 @@ namespace EntityFramework
         #endregion
 
         #region Constructors
-        public Aspect()
+        internal Aspect()
         {
             bitVector = new BitVector();
         }
