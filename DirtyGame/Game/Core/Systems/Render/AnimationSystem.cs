@@ -35,12 +35,17 @@ namespace DirtyGame.game.Systems
 
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
         {
+    //        System.Diagnostics.Debug.WriteLine("AnimationSystem");
             foreach (Entity e in entities)
             {
+    //            System.Diagnostics.Debug.WriteLine("AnimationSystem ---- Animating Entity");
+
                 Animation animation = e.GetComponent<Animation>();
                 Sprite sprite = e.GetComponent<Sprite>();
 
                 sprite.Sprite_Sheet.NextFrame(dt);
+                //sprite.SrcRect = sprite.Sprite_Sheet.Animation[animation.CurrentAnimation][sprite.Sprite_Sheet.CurrentFrame];  IDEAL CODE
+                sprite.SrcRect = sprite.Sprite_Sheet.Animation[sprite.Sprite_Sheet.CurrentAnimation][sprite.Sprite_Sheet.CurrentFrame];
             }
     //        RenderGroup renderGroup = new RenderGroup();
     //        renderGroup.AddCommand(new BeginBatchDraw(renderer.ActiveCamera.Transform));

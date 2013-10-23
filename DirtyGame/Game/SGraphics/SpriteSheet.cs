@@ -12,7 +12,7 @@ namespace DirtyGame.game.SGraphics
     {
         #region Variables
         //The sprite sheet of the sprite
-        private Texture2D spriteSheet;
+        private Texture2D spriteSheetTexture;
         //The location of the xml file that contains the animation information
         private string xmlFileLocation;
         //Stores the different animations of the sprite with a string tag
@@ -72,24 +72,27 @@ namespace DirtyGame.game.SGraphics
         {
             get
             {
-                return 1f / sAnimations[currentAnimation].Length;
+                //return 1f / 12.0;
+                return 1f / sAnimations[currentAnimation].Length;   //   NEED TO CHANGE IN THE FUTURE
             }
         }
 
-        public Texture2D Sprite_Sheet
+        public Texture2D Sprite_Sheet_Texture
         {
             get
             {
-                return spriteSheet;
+                return spriteSheetTexture;
             }
         }
         #endregion
 
         #region Constructors
-        public SpriteSheet(Texture2D spriteSheetTexture, string xmlFile)
+        public SpriteSheet(Texture2D texture, string xmlFile)
         {
             //Saving pointer to the sprite sheet texture
-            spriteSheet = spriteSheetTexture;
+            spriteSheetTexture = texture;
+            //Saving the XML file location if needed later
+            xmlFileLocation = xmlFile;
 
             //Load in the XML file of animations
             XmlReaderSettings xmlSettings = new XmlReaderSettings();

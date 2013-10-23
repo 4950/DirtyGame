@@ -42,9 +42,9 @@ namespace DirtyGame
             AnimationSystem animationSys = new AnimationSystem();
             world.AddSystem(animationSys);
 
-            Entity e = entityFactory.CreateTestEntity();
+            Entity e = entityFactory.CreateTestEntity(new Vector2(0.0f, 0.0f), "Down");
             e.Refresh();
-            e = entityFactory.CreateTestEntity();
+            e = entityFactory.CreateTestEntity(new Vector2(75.0f, 0.0f), "Left");
             e.Refresh();           
         }
 

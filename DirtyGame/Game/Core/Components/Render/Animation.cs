@@ -12,7 +12,7 @@ namespace DirtyGame.game.Core.Components.Render
     {
         #region Variables
         //Current animation of the sprite
-   //     private string currentAnimation;
+    //    private string currentAnimation;       TODO need to put the current animation in here in the future release
 
 /*        private Rectangle srcRect; 
         //Stores the sprite sheet of the sprite
