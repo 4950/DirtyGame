@@ -68,7 +68,7 @@ namespace EntityFramework
 
         public bool Contains(long bitsToCompare)
         {
-            //return (bits ^ bitsToCompare) == 0;
+            //return (bits ^ bitsToCompare) == 0; DELETE
             return (bits & ~bitsToCompare) == 0;
         }
 

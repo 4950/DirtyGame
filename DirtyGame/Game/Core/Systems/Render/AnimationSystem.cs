@@ -41,7 +41,9 @@ namespace DirtyGame.game.Systems
                 Animation animation = e.GetComponent<Animation>();
                 Sprite sprite = e.GetComponent<Sprite>();
 
+                //Setting the next frame
                 sprite.Sprite_Sheet.NextFrame(animation.CurrentAnimation, dt);
+                //Setting the rectangle of the sprite sheet to draw
                 sprite.SrcRect = sprite.Sprite_Sheet.Animation[animation.CurrentAnimation][sprite.Sprite_Sheet.CurrentFrame];
             }
         }
