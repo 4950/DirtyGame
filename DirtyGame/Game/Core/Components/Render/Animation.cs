@@ -12,7 +12,7 @@ namespace DirtyGame.game.Core.Components.Render
     {
         #region Variables
         //Current animation of the sprite
-    //    private string currentAnimation;       TODO need to put the current animation in here in the future release
+        private string currentAnimation;    //   TODO need to put the current animation in here in the future release
 
 /*        private Rectangle srcRect; 
         //Stores the sprite sheet of the sprite
@@ -43,17 +43,17 @@ namespace DirtyGame.game.Core.Components.Render
         #endregion
 
         #region Properties
-        //public string CurrentAnimation
-        //{
-        //    get
-        //    {
-        //        return currentAnimation;
-        //    }
-        //    set
-        //    {
-        //        currentAnimation = value;
-        //    }
-        //}
+        public string CurrentAnimation
+        {
+            get
+            {
+                return currentAnimation;
+            }
+            set
+            {
+                currentAnimation = value;
+            }
+        }
         #endregion
 
         #region Helper Methods

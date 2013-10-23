@@ -37,31 +37,17 @@ namespace DirtyGame.game.Systems
 
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
         {
-       //     System.Diagnostics.Debug.WriteLine("SpriteRenderSystem");
-
             RenderGroup renderGroup = new RenderGroup();
             renderGroup.AddCommand(new BeginBatchDraw(renderer.ActiveCamera.Transform));
             foreach (Entity e in entities)
             {
-         //       System.Diagnostics.Debug.WriteLine("SpriteRenderSystem ---- Rendering Entity");
-
+                //Getting the components for this entity
                 Spatial spatial = e.GetComponent<Spatial>();
                 Sprite sprite = e.GetComponent<Sprite>();
-                
-                //DELETE
-               // Animation animation = e.GetComponent<Animation>();
-                //DELETE
 
                 // create RenderInstance
                 RenderInstance instance = new RenderInstance();
-              //  instance.DrawCall = new BatchDrawSprite(sprite.Texture, spatial.Position, sprite.SrcRect, Color.White);
                 instance.DrawCall = new BatchDrawSprite(sprite.Sprite_Sheet.Sprite_Sheet_Texture, spatial.Position, sprite.SrcRect, Color.White);
-   //             instance.DrawCall = new BatchDrawSprite(sprite.Sprite_Sheet.Sprite_Sheet, 
-   //                                                     spatial.Position, 
-   //                                                     //Maybe put the currentAnimation string in SpriteSheet class
-   //                                                     sprite.Sprite_Sheet.Animation[sprite.Sprite_Sheet.CurrentAnimation][sprite.Sprite_Sheet.CurrentFrame],
-   //                                                     Color.White);
-          //      sprite.NextFrame(dt);
                 instance.SortKey.SetRenderLayer(sprite.RenderLayer);
 
                 renderGroup.AddInstance(instance);

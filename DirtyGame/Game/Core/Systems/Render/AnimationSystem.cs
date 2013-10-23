@@ -35,39 +35,15 @@ namespace DirtyGame.game.Systems
 
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
         {
-    //        System.Diagnostics.Debug.WriteLine("AnimationSystem");
             foreach (Entity e in entities)
             {
-    //            System.Diagnostics.Debug.WriteLine("AnimationSystem ---- Animating Entity");
-
+                //Getting components for this entity
                 Animation animation = e.GetComponent<Animation>();
                 Sprite sprite = e.GetComponent<Sprite>();
 
-                sprite.Sprite_Sheet.NextFrame(dt);
-                //sprite.SrcRect = sprite.Sprite_Sheet.Animation[animation.CurrentAnimation][sprite.Sprite_Sheet.CurrentFrame];  IDEAL CODE
-                sprite.SrcRect = sprite.Sprite_Sheet.Animation[sprite.Sprite_Sheet.CurrentAnimation][sprite.Sprite_Sheet.CurrentFrame];
+                sprite.Sprite_Sheet.NextFrame(animation.CurrentAnimation, dt);
+                sprite.SrcRect = sprite.Sprite_Sheet.Animation[animation.CurrentAnimation][sprite.Sprite_Sheet.CurrentFrame];
             }
-    //        RenderGroup renderGroup = new RenderGroup();
-    //        renderGroup.AddCommand(new BeginBatchDraw(renderer.ActiveCamera.Transform));
-    //        foreach (Entity e in entities)
-    //        {
-    //            Spatial spatial = e.GetComponent<Spatial>();
-    //            Sprite sprite = e.GetComponent<Sprite>();
-                
-    //            // create RenderInstance
-    //            RenderInstance instance = new RenderInstance();
-    //            instance.DrawCall = new BatchDrawSprite(sprite.Texture, spatial.Position, sprite.SrcRect, Color.White);
-    ////            instance.DrawCall = new BatchDrawSprite(sprite.Texture, 
-    ////                                                    spatial.Position, 
-    ////                                                    sprite.Animation[sprite.CurrentAnimation][sprite.CurrentFrame],
-    ////                                                    Color.White);
-    ////            sprite.NextFrame(dt);
-    //            instance.SortKey.SetRenderLayer(sprite.RenderLayer);
-
-    //            renderGroup.AddInstance(instance);
-    //        }
-
-    //        renderer.Submit(renderGroup);
         }
     }
 }

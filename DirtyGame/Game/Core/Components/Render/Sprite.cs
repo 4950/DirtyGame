@@ -12,9 +12,9 @@ namespace DirtyGame.game.Core.Components.Render
     {
         #region Variables
         private Rectangle srcRect;
-        
-        //Stores the sprite sheet of the sprite
-  //      private Texture2D texture;
+
+//JARED //Stores the sprite sheet of the sprite
+//JARED private Texture2D texture;
         
         //Stores the sprite's sprite sheet and animations
         private SpriteSheet spriteSheet;
@@ -29,17 +29,17 @@ namespace DirtyGame.game.Core.Components.Render
         #endregion
 
         #region Properties
- //       public Texture2D Texture
- //       {
- //           get
- //           {
- //               return texture;
- //           }
- //           set
- //           {
- //               texture = value;
- //           }
- //       }    
+//JARED public Texture2D Texture
+//JARED {
+//JARED     get
+//JARED     {
+//JARED         return texture;
+//JARED     }
+//JARED     set
+//JARED     {
+//JARED         texture = value;
+//JARED     }
+//JARED }    
 
         public Rectangle SrcRect
         {
