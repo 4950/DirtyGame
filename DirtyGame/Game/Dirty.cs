@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
+using EntityFramework.Systems;
 
 #endregion
 
@@ -38,11 +39,14 @@ namespace DirtyGame
             world = new World();
             entityFactory = new EntityFactory(world.EntityMgr, resourceManager);
             world.AddSystem(new SpriteRenderSystem(renderer));
+            world.AddSystem(new SpawnerSystem(entityFactory));
 
             Entity e = entityFactory.CreateTestEntity();
             e.Refresh();
             e = entityFactory.CreateTestEntity();
-            e.Refresh();           
+            e.Refresh();
+            e = entityFactory.CreateSpawner(100, 100, resourceManager.GetResource<Texture2D>("Player"), new Rectangle(0, 0, 100, 100), 30, new TimeSpan(0, 0, 0, 0, 1000));
+            e.Refresh();
         }
 
         protected override void LoadContent()
@@ -59,7 +63,7 @@ namespace DirtyGame
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
+            
             world.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
             base.Update(gameTime);
         }
