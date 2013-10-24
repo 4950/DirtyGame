@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DirtyGame.game.SGraphics;
+using EntityFramework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace DirtyGame.game.Core.Components.Render
+namespace DirtyGame.game.Core.Components
 {
-    class Animation : Renderable
+    class Animation : Component
     {
         #region Variables
         //Current animation of the sprite

@@ -37,7 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="game\Core\Components\Renderable.cs" />
-    <Compile Include="game\Core\Components\Render\Animation.cs" />
+    <Compile Include="game\Core\Components\Animation.cs" />
     <Compile Include="game\Core\Components\Render\Sprite.cs" />
     <Compile Include="game\Core\Components\Spatial.cs" />
     <Compile Include="game\Core\EntityFactory.cs" />
