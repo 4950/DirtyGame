@@ -41,12 +41,13 @@ namespace DirtyGame.game.Systems
             renderGroup.AddCommand(new BeginBatchDraw(renderer.ActiveCamera.Transform));
             foreach (Entity e in entities)
             {
+                //Getting the components for this entity
                 Spatial spatial = e.GetComponent<Spatial>();
                 Sprite sprite = e.GetComponent<Sprite>();
-                
+
                 // create RenderInstance
                 RenderInstance instance = new RenderInstance();
-                instance.DrawCall = new BatchDrawSprite(sprite.Texture, spatial.Position, sprite.SrcRect, Color.White);
+                instance.DrawCall = new BatchDrawSprite(sprite.SpriteSheet.SpriteSheetTexture, spatial.Position, sprite.SrcRect, Color.White);
                 instance.SortKey.SetRenderLayer(sprite.RenderLayer);
 
                 renderGroup.AddInstance(instance);

@@ -37,10 +37,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="game\Core\Components\Renderable.cs" />
+    <Compile Include="game\Core\Components\Animation.cs" />
     <Compile Include="game\Core\Components\Render\Sprite.cs" />
     <Compile Include="game\Core\Components\Spatial.cs" />
     <Compile Include="game\Core\EntityFactory.cs" />
     <Compile Include="game\Core\ResourceManager.cs" />
+    <Compile Include="game\Core\Systems\Render\AnimationSystem.cs" />
     <Compile Include="game\Core\Systems\Util\SystemDescriptions.cs" />
     <Compile Include="game\Core\Systems\Util\SystemParams.cs" />
     <Compile Include="game\Dirty.cs" />
@@ -58,6 +60,7 @@
     <Compile Include="game\SGraphics\RenderLayer.cs" />
     <Compile Include="game\SGraphics\SortKey.cs" />
     <Compile Include="game\Core\Systems\Render\SpriteRenderSystem.cs" />
+    <Compile Include="game\SGraphics\SpriteSheet.cs" />
     <Compile Include="game\Util\Logger.cs" />
     <Compile Include="game\Util\Singleton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -92,6 +95,14 @@
       <Project>{43edc16e-8b0e-4f58-ad04-a71a1c492161}</Project>
       <Name>EntityFramework</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\playerSheet.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\PlayerAnimation.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
