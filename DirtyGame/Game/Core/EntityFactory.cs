@@ -39,7 +39,7 @@ namespace DirtyGame.game.Core
             sprite.RenderLayer = RenderLayer.BACKGROUND;
       //      sprite.Texture = resourceMgr.GetResource<Texture2D>("playerSheet");
       //      sprite.SrcRect = new Rectangle(0, 0, 50, 50);
-            sprite.Sprite_Sheet = new SpriteSheet(resourceMgr.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
+            sprite.SpriteSheet = new SpriteSheet(resourceMgr.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
 //JARED     sprite.Sprite_Sheet.CurrentAnimation = animationName;
 
             //Creating an Animation component

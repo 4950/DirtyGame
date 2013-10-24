@@ -53,7 +53,7 @@ namespace DirtyGame.game.Core.Components.Render
             }
         }
 
-        public SpriteSheet Sprite_Sheet
+        public SpriteSheet SpriteSheet
         {
             get
             {

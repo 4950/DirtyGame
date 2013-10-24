@@ -77,7 +77,7 @@ namespace DirtyGame.game.SGraphics
 //JARED     }
 //JARED }
 
-        public Texture2D Sprite_Sheet_Texture
+        public Texture2D SpriteSheetTexture
         {
             get
             {
