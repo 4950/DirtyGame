@@ -34,11 +34,11 @@ namespace DirtyGame
         {
             graphics = new GraphicsDeviceManager(this);
             resourceManager = new ResourceManager(Content);                       
-            renderer = new Renderer(graphics, new Camera());
+            Camera cam = new Camera();
+            renderer = new Renderer(graphics, cam);
             world = new World();
             entityFactory = new EntityFactory(world.EntityMgr, resourceManager);
             world.AddSystem(new SpriteRenderSystem(renderer));
-
             AnimationSystem animationSys = new AnimationSystem();
             world.AddSystem(animationSys);
 
@@ -66,7 +66,8 @@ namespace DirtyGame
             e = entityFactory.CreateTestEntity(new Vector2(200.0f, 50.0f), "AttackLeft");
             e.Refresh();
             e = entityFactory.CreateTestEntity(new Vector2(300.0f, 50.0f), "AttackRight");
-            e.Refresh();
+
+          
         }
 
         protected override void LoadContent()
