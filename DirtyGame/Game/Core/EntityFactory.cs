@@ -54,10 +54,15 @@ namespace DirtyGame.game.Core
             //Create the Sprite for the new entity
             Sprite monsterSprite = sprite;
 
+            //Create the TimeComponent for the new entity
+            TimeComponent timeComponent = new TimeComponent();
+            timeComponent.timeOfLastDraw = new TimeSpan(0,0,0,0,0);
+
             //Add the new components to the entity
             monster.AddComponent(m);
             monster.AddComponent(spatial);
             monster.AddComponent(sprite);
+            monster.AddComponent(timeComponent);
 
             return monster;
         }
@@ -80,11 +85,11 @@ namespace DirtyGame.game.Core
             spawnerCmp.numMobs = numMobs;
             spawnerCmp.timeOfLastSpawn = new TimeSpan(0, 0, 0, 0, 0);
             spawnerCmp.timePerSpawn = timePerSpawn;
+            spawnerCmp.sprite = sprite;
 
 
             //Add the new components to the entity
             spawner.AddComponent(spatial);
-            spawner.AddComponent(sprite);
             spawner.AddComponent(spawnerCmp);
             return spawner;
         }

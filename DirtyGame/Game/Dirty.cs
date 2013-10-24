@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
 using EntityFramework.Systems;
+using DirtyGame.game.Core.Systems.Monster;
 
 #endregion
 
@@ -30,6 +31,7 @@ namespace DirtyGame
         private Renderer renderer;
         private EntityFactory entityFactory;
         private ResourceManager resourceManager;
+        private AISystem aiSystem;
 
         public Dirty()
         {
@@ -38,14 +40,22 @@ namespace DirtyGame
             renderer = new Renderer(graphics, new Camera());
             world = new World();
             entityFactory = new EntityFactory(world.EntityMgr, resourceManager);
+            aiSystem = new AISystem();
             world.AddSystem(new SpriteRenderSystem(renderer));
             world.AddSystem(new SpawnerSystem(entityFactory));
+            world.AddSystem(new MonsterSystem(aiSystem));
 
             Entity e = entityFactory.CreateTestEntity();
             e.Refresh();
             e = entityFactory.CreateTestEntity();
             e.Refresh();
-            e = entityFactory.CreateSpawner(100, 100, resourceManager.GetResource<Texture2D>("Player"), new Rectangle(0, 0, 100, 100), 30, new TimeSpan(0, 0, 0, 0, 1000));
+            e = entityFactory.CreateSpawner(100, 100, resourceManager.GetResource<Texture2D>("monster2"), new Rectangle(0, 0, 46, 46), 30, new TimeSpan(0, 0, 0, 0, 1000));
+            e.Refresh();
+            e = entityFactory.CreateSpawner(300, 100, resourceManager.GetResource<Texture2D>("monster"), new Rectangle(0, 0, 46, 46), 30, new TimeSpan(0, 0, 0, 0, 2000));
+            e.Refresh();
+            e = entityFactory.CreateSpawner(100, 300, resourceManager.GetResource<Texture2D>("monster3"), new Rectangle(0, 0, 46, 46), 30, new TimeSpan(0, 0, 0, 0, 3000));
+            e.Refresh();
+            e = entityFactory.CreateSpawner(300, 300, resourceManager.GetResource<Texture2D>("monster4"), new Rectangle(0, 0, 46, 46), 30, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
         }
 

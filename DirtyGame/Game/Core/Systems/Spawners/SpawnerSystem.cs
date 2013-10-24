@@ -26,15 +26,17 @@ namespace EntityFramework.Systems
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
         {
             Random r  = new Random();
+
+            //Keep track of total gameTime
+            int elapsed = (int)Math.Floor(dt * 1000);
+            totalTime = totalTime + new TimeSpan(0, 0, 0, 0, elapsed);
             foreach (Entity e in entities)
             {
                 if (e.HasComponent<SpawnerComponent>())
                 {
                     SpawnerComponent spawner = e.GetComponent<SpawnerComponent>();
 
-                    //Keep track of total gameTime
-                    int elapsed = (int) Math.Floor(dt * 1000);
-                    totalTime = totalTime + new TimeSpan(0, 0, 0, 0, elapsed);
+                    
 
                     Console.Write(dt);
                     Console.WriteLine(totalTime);
@@ -47,11 +49,13 @@ namespace EntityFramework.Systems
                         TimeSpan t = totalTime;
                         spawner.timeOfLastSpawn = t;
 
+                        spawner.numMobs--;
+
                         //Create new entity
-                        Entity monster = entityFactory.CreateMonster(   "test", 
+                        Entity monster = entityFactory.CreateMonster(   e.GetComponent<SpawnerComponent>().sprite.Texture.Name, 
                                                                         (int) e.GetComponent<Spatial>().Position.X + r.Next(-75, 76), 
                                                                         (int) e.GetComponent<Spatial>().Position.Y + r.Next(-75, 76), 
-                                                                        e.GetComponent<Sprite>());
+                                                                        e.GetComponent<SpawnerComponent>().sprite);
                         monster.Refresh();
                     }
                 }

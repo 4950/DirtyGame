@@ -1,4 +1,5 @@
-﻿using EntityFramework;
+﻿using DirtyGame.game.Core.Components.Render;
+using EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace DirtyGame.game.Core.Components
         public TimeSpan timePerSpawn;
         public int numMobs;
         public TimeSpan timeOfLastSpawn;
+        public Sprite sprite;
     }
 }
