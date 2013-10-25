@@ -65,7 +65,6 @@ namespace DirtyGame
 
 
             gameStateManager.CurrentState.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
-            //world.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
             base.Update(gameTime);
         }
 
