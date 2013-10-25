@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DirtyGame.game.SGraphics
 {
-    class SortKey : IComparable<SortKey>
+    public class SortKey : IComparable<SortKey>
     {
         private const int LAYER_OFFSET = 56;
         private const ulong LAYER_MASK = 0xFF00000000000000;

@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DirtyGame.game.Core
 {
-    class EntityFactory
+    public class EntityFactory
     {
         private EntityManager entityMgr;
         private ResourceManager resourceMgr;

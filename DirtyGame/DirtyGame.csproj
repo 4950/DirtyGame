@@ -40,7 +40,12 @@
     <Compile Include="game\Core\Components\Render\Sprite.cs" />
     <Compile Include="game\Core\Components\Spatial.cs" />
     <Compile Include="game\Core\EntityFactory.cs" />
+    <Compile Include="game\Core\GameManager.cs" />
+    <Compile Include="game\Core\GameStates\GamePlay.cs" />
+    <Compile Include="game\Core\GameStates\GameStateManager.cs" />
+    <Compile Include="game\Core\GameStates\IGameState.cs" />
     <Compile Include="game\Core\ResourceManager.cs" />
+    <Compile Include="game\Core\GameStates\SplashScreenState.cs" />
     <Compile Include="game\Core\Systems\Util\SystemDescriptions.cs" />
     <Compile Include="game\Core\Systems\Util\SystemParams.cs" />
     <Compile Include="game\Dirty.cs" />
@@ -93,6 +98,7 @@
       <Name>EntityFramework</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

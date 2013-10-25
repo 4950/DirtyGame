@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace DirtyGame.game.Core
 {
-    class ResourceManager
+    public class ResourceManager
     {
         private ContentManager content;
         private Dictionary<Type, Dictionary<string, object>> resources; 

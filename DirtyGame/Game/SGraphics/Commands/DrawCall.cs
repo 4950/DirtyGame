@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DirtyGame.game.SGraphics.Commands
 {
-    abstract class DrawCall : RenderCommand
+    public abstract class DrawCall : RenderCommand
     {
         public DrawCall(CommandType type) : base(type)
         {

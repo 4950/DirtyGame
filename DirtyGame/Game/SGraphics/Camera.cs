@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace DirtyGame.game.SGraphics
 {
-    class Camera
+    public class Camera
     {    
         //private Matrix projection;
         //private Matrix view;

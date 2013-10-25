@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
+using DirtyGame.game.Core.GameStates;
 
 #endregion
 
@@ -24,11 +25,12 @@ namespace DirtyGame
     public class Dirty : Game
     {
 
-        private World world;
-        private GraphicsDeviceManager graphics;
-        private Renderer renderer;
-        private EntityFactory entityFactory;
-        private ResourceManager resourceManager;
+        public World world;
+        public GraphicsDeviceManager graphics;
+        public Renderer renderer;
+        public EntityFactory entityFactory;
+        public ResourceManager resourceManager;
+        public GameStateManager gameStateManager;
 
         public Dirty()
         {
@@ -36,6 +38,7 @@ namespace DirtyGame
             resourceManager = new ResourceManager(Content);                       
             renderer = new Renderer(graphics, new Camera());
             world = new World();
+            gameStateManager = new GameStateManager(this);
             entityFactory = new EntityFactory(world.EntityMgr, resourceManager);
             world.AddSystem(new SpriteRenderSystem(renderer));
 
@@ -60,7 +63,9 @@ namespace DirtyGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            world.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+
+            gameStateManager.CurrentState.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+            //world.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
             base.Update(gameTime);
         }
 
@@ -70,7 +75,7 @@ namespace DirtyGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            
             renderer.Render();
             base.Draw(gameTime);
         }

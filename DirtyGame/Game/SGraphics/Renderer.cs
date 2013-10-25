@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DirtyGame.game.SGraphics
 {
-    class Renderer
+    public class Renderer
     {
         private GraphicsDeviceManager graphics;
         private GraphicsDevice device;
@@ -58,6 +58,7 @@ namespace DirtyGame.game.SGraphics
 
         public void Render()
         {
+            device.Clear(Color.CornflowerBlue);
             // sort everything by sortkey
             renderInstances.Sort();
 

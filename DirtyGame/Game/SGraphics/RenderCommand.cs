@@ -9,7 +9,7 @@ using OpenTK.Graphics;
 namespace DirtyGame.game.SGraphics
 {
 
-    abstract class RenderCommand    
+    public abstract class RenderCommand    
     {
         public enum CommandType
         {         
