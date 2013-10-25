@@ -17,18 +17,8 @@ namespace DirtyGame.game.SGraphics
         private string xmlFileLocation;
         //Stores the different animations of the sprite with a string tag
         private Dictionary<string, Rectangle[]> sAnimations = new Dictionary<string, Rectangle[]>();
-//JARED //Stores the number of frames in a given animation
-//JARED private Dictionary<string, int> sFrames = new Dictionary<string, int>();
         //Stores the sprite offsets for each of the animations
         private Dictionary<string, Vector2> sOffsets = new Dictionary<string, Vector2>();
-//JARED //Current animation of the sprite
-//JARED private string currentAnimation;
-        //Current frame of the animation
-        private int currentFrame;
-        //Time between each frame of the sprite
-        //private double timeBetweenFrames;
-        //Time elapsed since last draw
-        private double timeElapsed;
         #endregion
 
         #region Properties
@@ -43,39 +33,6 @@ namespace DirtyGame.game.SGraphics
                 sAnimations = value;
             }
         }
-
-//JARED public string CurrentAnimation
-//JARED {
-//JARED     get
-//JARED     {
-//JARED         return currentAnimation;
-//JARED     }
-//JARED     set
-//JARED     {
-//JARED         currentAnimation = value;
-//JARED     }
-//JARED }
-
-        public int CurrentFrame
-        {
-            get
-            {
-                return currentFrame;
-            }
-            set
-            {
-                currentFrame = value;
-            }
-        }
-
-//JARED public double TimeBetweenFrames
-//JARED {
-//JARED     get
-//JARED     {
-//JARED         //return 1f / 12.0;
-//JARED         return 1f / sAnimations[currentAnimation].Length;   //   NEED TO CHANGE IN THE FUTURE
-//JARED     }
-//JARED }
 
         public Texture2D SpriteSheetTexture
         {
@@ -149,38 +106,6 @@ namespace DirtyGame.game.SGraphics
             sAnimations.Add(animationName, tempRectangles);
             //Saving the animation's offset to the offset Dictionary
             sOffsets.Add(animationName, frameOffset);
-//JARED     //Saving the animation's number of frames
-//JARED     sFrames.Add(animationName, numFrames);
-        }
-
-        //Move the sprite to the next frame
-        public void NextFrame(string animationName, float deltaTime)//GameTime gameTime
-        {
-            //Adding to the time since last draw
-            timeElapsed += deltaTime;
-            //Saving the time between frames
-            double time_between_frames = TimeBetweenFrames(animationName);
-
-            if (timeElapsed > time_between_frames)
-            {
-                timeElapsed -= time_between_frames;
-                //Checking to make sure we are not going over the number of frames
-                if (currentFrame < (sAnimations[animationName].Length - 1))
-                {
-                    currentFrame++;
-                }
-                //Starting back at frame 0
-                else
-                {
-                    currentFrame = 0;
-                }
-            }
-        }
-
-        //Gives the time between frames for a given animation
-        public double TimeBetweenFrames(string animationName)
-        {
-            return 1.0f / sAnimations[animationName].Length;
         }
         #endregion
     }

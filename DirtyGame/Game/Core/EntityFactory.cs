@@ -25,22 +25,18 @@ namespace DirtyGame.game.Core
 
         public Entity CreateTestEntity()
         {
-            return CreateTestEntity(new Vector2(0.0f, 0.0f), "Down");
+            return CreateTestEntity(new SpriteSheet(resourceMgr.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml"), new Vector2(0.0f, 0.0f), "Down");
         }
 
-        public Entity CreateTestEntity(Vector2 entityPosition, string animationName)
+        public Entity CreateTestEntity(SpriteSheet spriteSheet, Vector2 entityPosition, string animationName)
         {
             Entity e = entityMgr.CreateEntity();
             Spatial spatial = new Spatial();
-            //spatial.MoveTo(0, 0);
             spatial.MoveTo(entityPosition);
 
             Sprite sprite = new Sprite();
             sprite.RenderLayer = RenderLayer.BACKGROUND;
-      //      sprite.Texture = resourceMgr.GetResource<Texture2D>("playerSheet");
-      //      sprite.SrcRect = new Rectangle(0, 0, 50, 50);
-            sprite.SpriteSheet = new SpriteSheet(resourceMgr.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
-//JARED     sprite.Sprite_Sheet.CurrentAnimation = animationName;
+            sprite.SpriteSheet = spriteSheet;
 
             //Creating an Animation component
             Animation animation = new Animation();
