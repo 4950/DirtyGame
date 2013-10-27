@@ -16,14 +16,12 @@ namespace DirtyGame.game.Core.Systems
         private KeyboardState KeyboardState;
 
         public PlayerControlSystem()
-            : base(SystemDescriptions.SpriteRenderSystem.Aspect, SystemDescriptions.SpriteRenderSystem.Priority)
+            : base(SystemDescriptions.PlayerControlSystem.Aspect, SystemDescriptions.PlayerControlSystem.Priority)
         {
         }
 
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
         {
-
-
             foreach (Entity e in entities)
             {
                 if (!e.HasComponent<Player>()) continue;

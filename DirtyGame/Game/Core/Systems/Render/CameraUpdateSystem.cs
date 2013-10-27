@@ -57,10 +57,7 @@ namespace DirtyGame.game.Core.Systems.Render
                 */
 
                 newPos = CheckMapBounds(newPos);
-
-                Camera newCam = new Camera();
-                newCam.MoveTo(newPos);
-                renderer.ActiveCamera = newCam;
+                renderer.ActiveCamera.MoveTo(newPos);
             }
         }
 
