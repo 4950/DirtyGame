@@ -3,8 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using DirtyGame.game.Core;
+using DirtyGame.game.Core.Systems;
+using DirtyGame.game.Core.Systems.Render;
 using DirtyGame.game.SGraphics;
 using DirtyGame.game.Systems;
+using DirtyGame.game.Map;
 using EntityFramework;
 using EntityFramework.Managers;
 using Microsoft.Xna.Framework;
@@ -30,6 +33,8 @@ namespace DirtyGame
         private EntityFactory entityFactory;
         private ResourceManager resourceManager;
 
+        private Map map;
+
         public Dirty()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -38,16 +43,19 @@ namespace DirtyGame
             world = new World();
             entityFactory = new EntityFactory(world.EntityMgr, resourceManager);
             world.AddSystem(new SpriteRenderSystem(renderer));
-
-            Entity e = entityFactory.CreateTestEntity();
+            world.AddSystem(new PlayerControlSystem());
+            world.AddSystem(new CameraUpdateSystem(renderer));
+            world.AddSystem(new MapBoundarySystem(renderer));
+            map = new Map(graphics.GraphicsDevice);
+            
+            Entity e = entityFactory.CreatePlayerEntity();
             e.Refresh();
-            e = entityFactory.CreateTestEntity();
-            e.Refresh();           
         }
 
         protected override void LoadContent()
         {
-        
+            map.LoadMap("Cave.tmx", graphics.GraphicsDevice, Content);
+            renderer.ActiveMap = map;
         }
 
         protected override void UnloadContent()

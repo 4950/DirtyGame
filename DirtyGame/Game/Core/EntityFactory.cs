@@ -38,5 +38,23 @@ namespace DirtyGame.game.Core
             e.AddComponent(sprite);
             return e;
         }
+
+        public Entity CreatePlayerEntity()
+        {
+            Entity e = entityMgr.CreateEntity();
+            Spatial spatial = new Spatial();
+            spatial.MoveTo(0, 0);
+
+            Sprite sprite = new Sprite();
+            sprite.RenderLayer = RenderLayer.BACKGROUND;
+            sprite.Texture = resourceMgr.GetResource<Texture2D>("Player");
+            sprite.SrcRect = new Rectangle(0, 0, 100, 100);
+   
+            e.AddComponent(spatial);
+            e.AddComponent(sprite);
+            Player controllable = new Player();
+            e.AddComponent(controllable);
+            return e;
+        }
     }
 }
