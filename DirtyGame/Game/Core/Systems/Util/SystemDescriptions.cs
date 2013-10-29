@@ -5,6 +5,7 @@ using System.Text;
 using DirtyGame.game.Core.Components;
 using DirtyGame.game.Core.Components.Render;
 using EntityFramework;
+using DirtyGame.game.Core.Components.Movement;
 
 namespace DirtyGame.game.Core.Systems.Util
 {
@@ -19,7 +20,7 @@ namespace DirtyGame.game.Core.Systems.Util
         public static SystemParams MonsterSystem =
             new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MonsterComponent), typeof(TimeComponent), typeof(Spatial), typeof(Sprite) }), 1);
 
-        //public static SystemParams AISystem=
-        //    new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(AIComponent) }), 1);
+        public static SystemParams MovementSystem =
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MovementComponent), typeof(TimeComponent), typeof(Spatial), typeof(Sprite) }), 1);
     }
 }

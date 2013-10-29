@@ -9,6 +9,7 @@ using EntityFramework;
 using EntityFramework.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using DirtyGame.game.Core.Components.Movement;
 
 namespace DirtyGame.game.Core
 {
@@ -58,11 +59,15 @@ namespace DirtyGame.game.Core
             TimeComponent timeComponent = new TimeComponent();
             timeComponent.timeOfLastDraw = new TimeSpan(0,0,0,0,0);
 
+            //Create AIMovementComponent for the new entity
+            AIMovementComponent movementComponent = new AIMovementComponent();
+
             //Add the new components to the entity
             monster.AddComponent(m);
             monster.AddComponent(spatial);
             monster.AddComponent(sprite);
             monster.AddComponent(timeComponent);
+            monster.AddComponent(movementComponent);
 
             return monster;
         }

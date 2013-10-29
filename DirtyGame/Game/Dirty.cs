@@ -43,13 +43,13 @@ namespace DirtyGame
             aiSystem = new AISystem();
             world.AddSystem(new SpriteRenderSystem(renderer));
             world.AddSystem(new SpawnerSystem(entityFactory));
-            world.AddSystem(new MonsterSystem(aiSystem));
+            world.AddSystem(new MovementSystem(aiSystem));
 
-            Entity e = entityFactory.CreateTestEntity();
-            e.Refresh();
-            e = entityFactory.CreateTestEntity();
-            e.Refresh();
-            e = entityFactory.CreateSpawner(100, 100, resourceManager.GetResource<Texture2D>("monster2"), new Rectangle(0, 0, 46, 46), 30, new TimeSpan(0, 0, 0, 0, 1000));
+            //Entity e = entityFactory.CreateTestEntity();
+            //e.Refresh();
+            //e = entityFactory.CreateTestEntity();
+            //e.Refresh();
+            Entity e = entityFactory.CreateSpawner(100, 100, resourceManager.GetResource<Texture2D>("monster2"), new Rectangle(0, 0, 46, 46), 30, new TimeSpan(0, 0, 0, 0, 1000));
             e.Refresh();
             e = entityFactory.CreateSpawner(300, 100, resourceManager.GetResource<Texture2D>("monster"), new Rectangle(0, 0, 46, 46), 30, new TimeSpan(0, 0, 0, 0, 2000));
             e.Refresh();

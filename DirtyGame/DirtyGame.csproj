@@ -37,6 +37,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="game\Core\Components\AIComponent.cs" />
+    <Compile Include="game\Core\Components\Movement\AIMovementComponent.cs" />
+    <Compile Include="game\Core\Components\Movement\MovementComponent.cs" />
     <Compile Include="game\Core\Components\SpawnerCompnent.cs" />
     <Compile Include="game\Core\Components\MonsterComponent.cs" />
     <Compile Include="game\Core\Components\Renderable.cs" />
@@ -47,6 +49,7 @@
     <Compile Include="game\Core\ResourceManager.cs" />
     <Compile Include="game\Core\Systems\Monster\AISystem.cs" />
     <Compile Include="game\Core\Systems\Monster\MonsterSystem.cs" />
+    <Compile Include="game\Core\Systems\Movement\MovementSystem.cs" />
     <Compile Include="game\Core\Systems\Spawners\SpawnerSystem.cs" />
     <Compile Include="game\Core\Systems\Util\SystemDescriptions.cs" />
     <Compile Include="game\Core\Systems\Util\SystemParams.cs" />
