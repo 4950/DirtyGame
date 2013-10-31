@@ -36,6 +36,7 @@
     </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="game\Core\Components\Player.cs" />
     <Compile Include="game\Core\Components\Renderable.cs" />
     <Compile Include="game\Core\Components\Animation.cs" />
     <Compile Include="game\Core\Components\Render\Sprite.cs" />
@@ -44,7 +45,10 @@
     <Compile Include="game\Core\Events\Event.cs" />
     <Compile Include="game\Core\EventManager.cs" />
     <Compile Include="game\Core\ResourceManager.cs" />
+    <Compile Include="game\Core\Systems\MapBoundarySystem.cs" />
+    <Compile Include="game\Core\Systems\PlayerControlSystem.cs" />
     <Compile Include="game\Core\Systems\Render\AnimationSystem.cs" />
+    <Compile Include="game\Core\Systems\Render\CameraUpdateSystem.cs" />
     <Compile Include="game\Core\Systems\Util\SystemDescriptions.cs" />
     <Compile Include="game\Core\Systems\Util\SystemParams.cs" />
     <Compile Include="game\Dirty.cs" />
@@ -84,6 +88,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Content\Cave.tmx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Content\Player.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -99,6 +106,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Caves.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\playerSheet.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

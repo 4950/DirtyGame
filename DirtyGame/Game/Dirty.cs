@@ -3,8 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using DirtyGame.game.Core;
+using DirtyGame.game.Core.Systems;
+using DirtyGame.game.Core.Systems.Render;
 using DirtyGame.game.SGraphics;
 using DirtyGame.game.Systems;
+using DirtyGame.game.Map;
 using EntityFramework;
 using EntityFramework.Managers;
 using Microsoft.Xna.Framework;
@@ -30,49 +33,29 @@ namespace DirtyGame
         private EntityFactory entityFactory;
         private ResourceManager resourceManager;
 
+        private Map map;
+
         public Dirty()
         {
             graphics = new GraphicsDeviceManager(this);
             resourceManager = new ResourceManager(Content);                       
-            Camera cam = new Camera();
-            renderer = new Renderer(graphics, cam);
+            renderer = new Renderer(graphics, new Camera());
             world = new World();
             entityFactory = new EntityFactory(world.EntityMgr, resourceManager);
             world.AddSystem(new SpriteRenderSystem(renderer));
-            AnimationSystem animationSys = new AnimationSystem();
-            world.AddSystem(animationSys);
-
-            //Testing purposes can be changed
-            Entity e = entityFactory.CreateTestEntity(new Vector2(0.0f, 0.0f), "Up");
+            world.AddSystem(new PlayerControlSystem());
+            world.AddSystem(new CameraUpdateSystem(renderer));
+            world.AddSystem(new MapBoundarySystem(renderer));
+            map = new Map(graphics.GraphicsDevice);
+            
+            Entity e = entityFactory.CreatePlayerEntity();
             e.Refresh();
-            e = entityFactory.CreateTestEntity(new Vector2(50.0f, 0.0f), "Down");
-            e.Refresh();
-            e = entityFactory.CreateTestEntity(new Vector2(100.0f, 0.0f), "Left");
-            e.Refresh();
-            e = entityFactory.CreateTestEntity(new Vector2(150.0f, 0.0f), "Right");
-            e.Refresh();
-            e = entityFactory.CreateTestEntity(new Vector2(200.0f, 0.0f), "IdleUp");
-            e.Refresh();
-            e = entityFactory.CreateTestEntity(new Vector2(250.0f, 0.0f), "IdleDown");
-            e.Refresh();
-            e = entityFactory.CreateTestEntity(new Vector2(300.0f, 0.0f), "IdleLeft");
-            e.Refresh();
-            e = entityFactory.CreateTestEntity(new Vector2(350.0f, 0.0f), "IdleRight");
-            e.Refresh();
-            e = entityFactory.CreateTestEntity(new Vector2(0.0f, 50.0f), "AttackUp");
-            e.Refresh();
-            e = entityFactory.CreateTestEntity(new Vector2(100.0f, 50.0f), "AttackDown");
-            e.Refresh();
-            e = entityFactory.CreateTestEntity(new Vector2(200.0f, 50.0f), "AttackLeft");
-            e.Refresh();
-            e = entityFactory.CreateTestEntity(new Vector2(300.0f, 50.0f), "AttackRight");
-
-          
         }
 
         protected override void LoadContent()
         {
-        
+            map.LoadMap("Cave.tmx", graphics.GraphicsDevice, Content);
+            renderer.ActiveMap = map;
         }
 
         protected override void UnloadContent()

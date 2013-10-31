@@ -5,6 +5,7 @@ using System.Text;
 using DirtyGame.game.SGraphics.Commands;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using DirtyGame.game.Map;
 
 namespace DirtyGame.game.SGraphics
 {
@@ -15,6 +16,21 @@ namespace DirtyGame.game.SGraphics
         private SpriteBatch spriteBatch;
         private List<RenderInstance> renderInstances;
         private Camera camera;
+
+        //I don't know why I have to do this...
+        private Map.Map map;
+
+        public Map.Map ActiveMap
+        {
+            get
+            {
+                return map;
+            }
+            set
+            {
+                map = value;
+            }
+        }
 
         public Camera ActiveCamera
         {
@@ -58,6 +74,8 @@ namespace DirtyGame.game.SGraphics
 
         public void Render()
         {
+            map.draw(camera);
+
             // sort everything by sortkey
             renderInstances.Sort();
 
@@ -108,6 +126,16 @@ namespace DirtyGame.game.SGraphics
             }
 
             renderInstances.Clear();
+        }
+
+        public int GetViewportWidth()
+        {
+            return graphics.GraphicsDevice.Viewport.Width;
+        }
+
+        public int GetViewportHeight()
+        {
+            return graphics.GraphicsDevice.Viewport.Height;
         }
     }
 }

@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 
-namespace ShittyPrototype.src.Map
+namespace DirtyGame.game.Map
 {
     class Map
     {
@@ -151,6 +151,16 @@ namespace ShittyPrototype.src.Map
         Dictionary<int, TileSet> tileSetsByTileGID;
         List<MapLayer> layers;
         SpriteBatch batch;
+
+        public int getPixelHeight()
+        {
+            return height * tileHeight;
+        }
+
+        public int getPixelWidth()
+        {
+            return width * tileWidth;
+        }
 
         public Map(GraphicsDevice dev)
         {

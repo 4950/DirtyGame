@@ -52,5 +52,23 @@ namespace DirtyGame.game.Core
             e.AddComponent(animation);
             return e;
         }
+
+        public Entity CreatePlayerEntity()
+        {
+            Entity e = entityMgr.CreateEntity();
+            Spatial spatial = new Spatial();
+            spatial.MoveTo(0, 0);
+
+            Sprite sprite = new Sprite();
+            sprite.RenderLayer = RenderLayer.BACKGROUND;
+            sprite.SpriteSheet = new SpriteSheet(resourceMgr.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
+            sprite.SrcRect = new Rectangle(0, 0, 100, 100);
+   
+            e.AddComponent(spatial);
+            e.AddComponent(sprite);
+            Player controllable = new Player();
+            e.AddComponent(controllable);
+            return e;
+        }
     }
 }
