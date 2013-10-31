@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using DirtyGame.game.Core.Components;
 using DirtyGame.game.Core.Components.Render;
 using DirtyGame.game.Core.Systems.Util;
