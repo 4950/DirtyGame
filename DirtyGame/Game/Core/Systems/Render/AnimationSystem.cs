@@ -10,6 +10,7 @@ using DirtyGame.game.SGraphics.Commands;
 using DirtyGame.game.SGraphics.Commands.DrawCalls;
 using EntityFramework;
 using EntityFramework.Systems;
+using EntityFramework.Managers;
 using Microsoft.Xna.Framework;
 
 
@@ -20,12 +21,21 @@ namespace DirtyGame.game.Systems
         public AnimationSystem()
             : base(SystemDescriptions.AnimationSystem.Aspect, SystemDescriptions.AnimationSystem.Priority)
         {
-
+            // Register the EventCallback function with the EventManager
+            EventManager.Instance.AddListener("EntityAdded", EventCallback);
         }
 
         public override void OnEntityAdded(Entity e)
         {           
-            
+            Event evt = new Event();
+            evt.name = "EntityAdded";
+            EventManager.Instance.TriggerEvent(evt);
+            // I don't know how to use the logging system yet, sry
+            Console.WriteLine("------- EVENT FIRED -------");
+        }
+        public void EventCallback(Event e)
+        {
+            Console.WriteLine("------- I HEARD THAT -------");
         }
 
         public override void OnEntityRemoved(Entity e)
