@@ -44,9 +44,7 @@
     <Compile Include="BitVector.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="Entity.cs" />
-    <Compile Include="Event.cs" />
     <Compile Include="Managers\EntityManager.cs" />
-    <Compile Include="Managers\EventManager.cs" />
     <Compile Include="Systems\EntitySystem.cs" />
     <Compile Include="Managers\GroupManager.cs" />
     <Compile Include="Mappers.cs" />

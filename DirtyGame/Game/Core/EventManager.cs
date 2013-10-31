@@ -1,9 +1,10 @@
-﻿using System;
+﻿using DirtyGame.game.Core.Events;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EntityFramework.Managers
+namespace DirtyGame.game.Core
 {
     public class EventManager
     {

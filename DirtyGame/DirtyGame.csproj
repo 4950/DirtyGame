@@ -41,6 +41,8 @@
     <Compile Include="game\Core\Components\Render\Sprite.cs" />
     <Compile Include="game\Core\Components\Spatial.cs" />
     <Compile Include="game\Core\EntityFactory.cs" />
+    <Compile Include="game\Core\Events\Event.cs" />
+    <Compile Include="game\Core\EventManager.cs" />
     <Compile Include="game\Core\ResourceManager.cs" />
     <Compile Include="game\Core\Systems\Render\AnimationSystem.cs" />
     <Compile Include="game\Core\Systems\Util\SystemDescriptions.cs" />
@@ -103,6 +105,9 @@
     <Content Include="Content\PlayerAnimation.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
