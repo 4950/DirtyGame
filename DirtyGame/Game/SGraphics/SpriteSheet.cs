@@ -93,6 +93,7 @@ namespace DirtyGame.game.SGraphics
             spriteSheetTexture = texture;
             //Saving the XML file location if needed later
             xmlFileLocation = xmlFile;
+            if (xmlFile == "") return;
 
             //Load in the XML file of animations
             XmlReaderSettings xmlSettings = new XmlReaderSettings();

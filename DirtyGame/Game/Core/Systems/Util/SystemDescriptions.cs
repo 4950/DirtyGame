@@ -5,6 +5,7 @@ using System.Text;
 using DirtyGame.game.Core.Components;
 using DirtyGame.game.Core.Components.Render;
 using EntityFramework;
+using DirtyGame.game.Core.Components.Movement;
 
 namespace DirtyGame.game.Core.Systems.Util
 {
@@ -24,5 +25,14 @@ namespace DirtyGame.game.Core.Systems.Util
 
         public static SystemParams MapBoundrySystem =
             new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(Spatial), typeof(Player), typeof(Sprite) }), 1);
+
+        public static SystemParams SpawnerSystem =
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof (Spatial), typeof(SpawnerComponent) }), 1);
+
+        public static SystemParams MonsterSystem =
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MonsterComponent), typeof(TimeComponent), typeof(Spatial), typeof(Sprite) }), 1);
+
+        public static SystemParams MovementSystem =
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MovementComponent), typeof(TimeComponent), typeof(Spatial), typeof(Sprite) }), 1);
     }
 }

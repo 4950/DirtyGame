@@ -16,6 +16,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
+using EntityFramework.Systems;
+using DirtyGame.game.Core.Systems.Monster;
 
 #endregion
 
@@ -32,6 +34,7 @@ namespace DirtyGame
         private Renderer renderer;
         private EntityFactory entityFactory;
         private ResourceManager resourceManager;
+        private AISystem aiSystem;
 
         private Map map;
 
@@ -42,13 +45,25 @@ namespace DirtyGame
             renderer = new Renderer(graphics, new Camera());
             world = new World();
             entityFactory = new EntityFactory(world.EntityMgr, resourceManager);
+            aiSystem = new AISystem();
             world.AddSystem(new SpriteRenderSystem(renderer));
             world.AddSystem(new PlayerControlSystem());
             world.AddSystem(new CameraUpdateSystem(renderer));
             world.AddSystem(new MapBoundarySystem(renderer));
+            world.AddSystem(new SpawnerSystem(entityFactory));
+            world.AddSystem(new MovementSystem(aiSystem));
             map = new Map(graphics.GraphicsDevice);
             
             Entity e = entityFactory.CreatePlayerEntity();
+            e.Refresh();
+      
+            e = entityFactory.CreateSpawner(100, 100, new SpriteSheet(resourceManager.GetResource<Texture2D>("monster2"), ""), new Rectangle(0, 0, 46, 46), 5, new TimeSpan(0, 0, 0, 0, 1000));
+            e.Refresh();
+            e = entityFactory.CreateSpawner(300, 100, new SpriteSheet(resourceManager.GetResource<Texture2D>("monster"), ""), new Rectangle(0, 0, 46, 46), 5, new TimeSpan(0, 0, 0, 0, 2000));
+            e.Refresh();
+            e = entityFactory.CreateSpawner(100, 300, new SpriteSheet(resourceManager.GetResource<Texture2D>("monster3"), ""), new Rectangle(0, 0, 46, 46), 5, new TimeSpan(0, 0, 0, 0, 3000));
+            e.Refresh();
+            e = entityFactory.CreateSpawner(300, 300, new SpriteSheet(resourceManager.GetResource<Texture2D>("monster4"), ""), new Rectangle(0, 0, 46, 46), 5, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
         }
 
@@ -67,7 +82,7 @@ namespace DirtyGame
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
+            
             world.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
             base.Update(gameTime);
         }

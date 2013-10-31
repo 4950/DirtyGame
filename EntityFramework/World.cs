@@ -60,8 +60,8 @@ namespace EntityFramework
         public void Update(float dt)
         {
             foreach (EntitySystem system in systemMgr.Systems)
-            {
-                system.Update(dt);
+            {           
+                system.Update(dt);                                    
             }
         }
 
