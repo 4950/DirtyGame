@@ -8,7 +8,7 @@ using EntityFramework;
 
 namespace DirtyGame.game.Core.Components
 {
-    abstract class Renderable : Component
+    public abstract class Renderable : Component
     {
         protected Renderable()
         {

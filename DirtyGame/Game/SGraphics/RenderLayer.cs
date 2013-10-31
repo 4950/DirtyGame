@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DirtyGame.game.SGraphics
 {
-    enum RenderLayer
+    public enum RenderLayer
     {
         INVALIDE = 0,
         BACKGROUND = 1,

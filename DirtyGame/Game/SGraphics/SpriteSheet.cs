@@ -8,7 +8,7 @@ using System.Xml;
 
 namespace DirtyGame.game.SGraphics
 {
-    class SpriteSheet
+    public class SpriteSheet
     {
         #region Variables
         //The sprite sheet of the sprite

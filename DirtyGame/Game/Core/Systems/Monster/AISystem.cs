@@ -9,7 +9,7 @@ using System.Text;
 
 namespace DirtyGame.game.Core.Systems.Monster
 {
-    class AISystem
+    public class AISystem
     {
         //Current goal: Make monsters of different types rush towards each other.
         // If no monster of another type is nearby... wander.

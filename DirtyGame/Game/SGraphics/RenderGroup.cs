@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DirtyGame.game.SGraphics
 {
-    class RenderGroup
+    public class RenderGroup
     {
         private List<RenderInstance> instances;
         private List<RenderCommand> commands;

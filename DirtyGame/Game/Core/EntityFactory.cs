@@ -13,7 +13,7 @@ using DirtyGame.game.Core.Components.Movement;
 
 namespace DirtyGame.game.Core
 {
-    class EntityFactory
+    public class EntityFactory
     {
         private EntityManager entityMgr;
         private ResourceManager resourceMgr;

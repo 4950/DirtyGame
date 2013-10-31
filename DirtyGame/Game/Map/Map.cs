@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace DirtyGame.game.Map
 {
-    class Map
+    public class Map
     {
         public class TileData
         {

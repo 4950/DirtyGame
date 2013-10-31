@@ -6,7 +6,7 @@ using DirtyGame.game.SGraphics.Commands;
 
 namespace DirtyGame.game.SGraphics
 {
-    class RenderInstance : IComparable<RenderInstance>
+    public class RenderInstance : IComparable<RenderInstance>
     {        
         private List<RenderCommand> commands;
 
