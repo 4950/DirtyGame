@@ -36,6 +36,7 @@ namespace DirtyGame.game.Core.Components
             }
             set
             {
+                currentFrame = 0;
                 currentAnimation = value;
             }
         }

@@ -69,6 +69,11 @@ namespace DirtyGame
             e.Refresh();
             e = entityFactory.CreateTestEntity(playerSpriteSheet, new Vector2(300.0f, 50.0f), "AttackRight");
             e.Refresh();
+
+            SpriteSheet pokemonNPCSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("Pokemon NPC Sprite Sheet"), "Content\\PokemonNPCAnimation.xml");
+
+            e = entityFactory.CreateTestEntity(pokemonNPCSpriteSheet, new Vector2(0.0f, 200.0f), "WalkLeft");
+            e.Refresh();
         }
 
         protected override void LoadContent()
