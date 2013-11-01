@@ -24,7 +24,7 @@ namespace DirtyGame.game.Core.Systems
         {
             foreach (Entity e in entities)
             {
-                if (!e.HasComponent<Player>()) continue;
+    //            if (!e.HasComponent<Player>()) continue;
 
                 Spatial spatial = e.GetComponent<Spatial>();
                 DirectionComponent direction = e.GetComponent<DirectionComponent>();

@@ -44,13 +44,14 @@ namespace DirtyGame.game.SGraphics
         #endregion
 
         #region Constructors
+        //Need an animation XML file
         public SpriteSheet(Texture2D texture, string xmlFile)
         {
             //Saving pointer to the sprite sheet texture
             spriteSheetTexture = texture;
             //Saving the XML file location if needed later
             xmlFileLocation = xmlFile;
-            if (xmlFile == "") return;
+    //        if (xmlFile == "") return; //Always have a xml file
 
             //Load in the XML file of animations
             XmlReaderSettings xmlSettings = new XmlReaderSettings();

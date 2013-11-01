@@ -52,10 +52,11 @@ namespace EntityFramework.Systems
                         spawner.numMobs--;
 
                         //Create new entity
-                        Entity monster = entityFactory.CreateMonster(   e.GetComponent<SpawnerComponent>().sprite.SpriteSheet.SpriteSheetTexture.Name, 
-                                                                        (int) e.GetComponent<Spatial>().Position.X + r.Next(-75, 76), 
-                                                                        (int) e.GetComponent<Spatial>().Position.Y + r.Next(-75, 76), 
-                                                                        e.GetComponent<SpawnerComponent>().sprite);
+                        Entity monster = entityFactory.CreateMonster(e.GetComponent<SpawnerComponent>().sprite.SpriteSheet.SpriteSheetTexture.Name,
+                                                                        (int)e.GetComponent<Spatial>().Position.X + r.Next(-75, 76),
+                                                                        (int)e.GetComponent<Spatial>().Position.Y + r.Next(-75, 76),
+                                                                        e.GetComponent<SpawnerComponent>().sprite.SpriteSheet);
+
                         monster.Refresh();
                     }
                 }

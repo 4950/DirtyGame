@@ -36,7 +36,7 @@ namespace DirtyGame.game.Core.Systems.Util
             new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MonsterComponent) }), 1);
 
         public static SystemParams MonsterSystem =
-            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MonsterComponent), typeof(TimeComponent), typeof(Spatial), typeof(Sprite) }), 1);
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MonsterComponent), typeof(TimeComponent), typeof(Spatial), typeof(Sprite), typeof(DirectionComponent) }), 1);
 
         public static SystemParams MovementSystem =
             new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MovementComponent), typeof(TimeComponent), typeof(Spatial), typeof(Sprite) }), 1);
