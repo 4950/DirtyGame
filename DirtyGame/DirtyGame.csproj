@@ -40,6 +40,7 @@
     <Compile Include="game\Core\Components\Collision\Collidable.cs" />
     <Compile Include="game\Core\Components\Collision\CollidableMonster.cs" />
     <Compile Include="game\Core\Components\Collision\CollidablePlayer.cs" />
+    <Compile Include="game\Core\Components\DirectionComponent.cs" />
     <Compile Include="game\Core\Components\MonsterComponent.cs" />
     <Compile Include="game\Core\Components\Movement\AIMovementComponent.cs" />
     <Compile Include="game\Core\Components\Movement\MovementComponent.cs" />
