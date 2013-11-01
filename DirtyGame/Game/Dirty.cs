@@ -42,7 +42,7 @@ namespace DirtyGame
         public ResourceManager resourceManager;
         public GameStateManager gameStateManager;
         public AISystem aiSystem;
-
+        public EventManager eventManager;
 
         public Dirty()
         {
@@ -50,6 +50,7 @@ namespace DirtyGame
             resourceManager = new ResourceManager(Content);                       
             renderer = new Renderer(graphics, new Camera());
             world = new World();
+            eventManager = EventManager.Instance;
             gameStateManager = new GameStateManager(this);
             entityFactory = new EntityFactory(world.EntityMgr, resourceManager);
             aiSystem = new AISystem();
@@ -59,6 +60,7 @@ namespace DirtyGame
             world.AddSystem(new MapBoundarySystem(renderer));
             world.AddSystem(new SpawnerSystem(entityFactory));
             world.AddSystem(new MonsterSystem(aiSystem));
+            world.AddSystem(new GameLogicSystem());
             map = new Map(graphics.GraphicsDevice);
             
             Entity e = entityFactory.CreatePlayerEntity();

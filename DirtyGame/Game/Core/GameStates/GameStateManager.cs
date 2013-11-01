@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DirtyGame.game.Core.Events;
+
 
 namespace DirtyGame.game.Core.GameStates
 {
     public class GameStateManager
     {
+
+     
         private IGameState currentState;
         private Dirty game;
 
@@ -18,18 +22,20 @@ namespace DirtyGame.game.Core.GameStates
         private States nextState;
         enum States { Splash, Pause, Game, Exit };
 
+        public void GameStateEventCallback(Event e)
+        {
+            nextState = States.Exit;
+            SwitchState();
+        }
+
         public GameStateManager(Dirty game)
         {
             currentState = new GamePlay();
             this.game = game;
             nextState = States.Game;
             SwitchState();
+            EventManager.Instance.AddListener("GameState", GameStateEventCallback);
         }
-
-        public void GameStateEvent()
-        {
-        }
-
         
         private void SwitchState()
         {
@@ -56,6 +62,7 @@ namespace DirtyGame.game.Core.GameStates
 
                 case States.Exit:
                    {
+                       currentState = new ExitState();
                        break;
                    }
 
