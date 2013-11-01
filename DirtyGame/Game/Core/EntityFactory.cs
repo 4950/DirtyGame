@@ -59,7 +59,7 @@ namespace DirtyGame.game.Core
             Sprite sprite = new Sprite();
             sprite.RenderLayer = RenderLayer.BACKGROUND;
             sprite.SpriteSheet = new SpriteSheet(resourceMgr.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
-            sprite.SrcRect = new Rectangle(0, 0, 100, 100);
+            sprite.SrcRect = new Rectangle(0, 0, 50, 50);
    
             e.AddComponent(spatial);
             e.AddComponent(sprite);
