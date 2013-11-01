@@ -61,6 +61,7 @@ namespace DirtyGame
             world.AddSystem(new MonsterSystem(aiSystem));
             world.AddSystem(new GameLogicSystem());
             world.AddSystem(new CollisionSystem());  
+            world.AddSystem(new AnimationSystem());
             map = new Map(graphics.GraphicsDevice);
             
             Entity e = entityFactory.CreatePlayerEntity();

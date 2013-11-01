@@ -17,18 +17,8 @@ namespace DirtyGame.game.SGraphics
         private string xmlFileLocation;
         //Stores the different animations of the sprite with a string tag
         private Dictionary<string, Rectangle[]> sAnimations = new Dictionary<string, Rectangle[]>();
-//JARED //Stores the number of frames in a given animation
-//JARED private Dictionary<string, int> sFrames = new Dictionary<string, int>();
         //Stores the sprite offsets for each of the animations
         private Dictionary<string, Vector2> sOffsets = new Dictionary<string, Vector2>();
-//JARED //Current animation of the sprite
-//JARED private string currentAnimation;
-        //Current frame of the animation
-        private int currentFrame;
-        //Time between each frame of the sprite
-        //private double timeBetweenFrames;
-        //Time elapsed since last draw
-        private double timeElapsed;
         #endregion
 
         #region Properties
@@ -43,39 +33,6 @@ namespace DirtyGame.game.SGraphics
                 sAnimations = value;
             }
         }
-
-//JARED public string CurrentAnimation
-//JARED {
-//JARED     get
-//JARED     {
-//JARED         return currentAnimation;
-//JARED     }
-//JARED     set
-//JARED     {
-//JARED         currentAnimation = value;
-//JARED     }
-//JARED }
-
-        public int CurrentFrame
-        {
-            get
-            {
-                return currentFrame;
-            }
-            set
-            {
-                currentFrame = value;
-            }
-        }
-
-//JARED public double TimeBetweenFrames
-//JARED {
-//JARED     get
-//JARED     {
-//JARED         //return 1f / 12.0;
-//JARED         return 1f / sAnimations[currentAnimation].Length;   //   NEED TO CHANGE IN THE FUTURE
-//JARED     }
-//JARED }
 
         public Texture2D SpriteSheetTexture
         {
@@ -101,43 +58,102 @@ namespace DirtyGame.game.SGraphics
             xmlSettings.IgnoreComments = true;
             XmlReader animationReader = XmlReader.Create(xmlFile, xmlSettings);
 
-            //Parse the XML for animations
-            while (animationReader.ReadToFollowing("animation"))
-            {
-                //animationName
-                animationReader.MoveToNextAttribute();
-                string animationName = animationReader.Value;
-                //yPosition
-                animationReader.MoveToNextAttribute();
-                int yPosition = Convert.ToInt32(animationReader.Value);
-                //xStartFrame
-                animationReader.MoveToNextAttribute();
-                int xStartFrame = Convert.ToInt32(animationReader.Value);
-                //xOffset
-                animationReader.MoveToNextAttribute();
-                int xOffset = Convert.ToInt32(animationReader.Value);
-                //yOffset
-                animationReader.MoveToNextAttribute();
-                int yOffset = Convert.ToInt32(animationReader.Value);
-                //numberOfFrames
-                animationReader.MoveToNextAttribute();
-                int numberOfFrames = Convert.ToInt32(animationReader.Value);
-                //width
-                animationReader.MoveToNextAttribute();
-                int width = Convert.ToInt32(animationReader.Value);
-                //height
-                animationReader.MoveToNextAttribute();
-                int height = Convert.ToInt32(animationReader.Value);
+            //Reads to the start of the XML file
+            animationReader.ReadToFollowing("root");
 
-                //Adding in the animation to the dictionaries
-                AddAnimation(numberOfFrames, yPosition, xStartFrame, animationName, width, height, new Vector2(xOffset, yOffset));
+            //Parse the XML for animations
+            while (animationReader.Read())
+            {
+                //Temporary Variables
+                string animationName;
+                int xPosition;
+                int yPosition;
+                int xStartFrame;
+                int xOffset;
+                int yOffset;
+                int numberOfFrames;
+                int width;
+                int height;
+                int frameCount = 0;
+
+                //Switching between the type of animation XML definitions
+                switch (animationReader.Name)
+                {
+                    case "animationDefault":
+                        //animationName
+                        animationName = animationReader.GetAttribute("name");
+                        //yPosition
+                        yPosition = Convert.ToInt32(animationReader.GetAttribute("yPosition"));
+                        //xStartFrame
+                        xStartFrame = Convert.ToInt32(animationReader.GetAttribute("xStartFrame"));
+                        //xOffset
+                        xOffset = Convert.ToInt32(animationReader.GetAttribute("xOffset"));
+                        //yOffset
+                        yOffset = Convert.ToInt32(animationReader.GetAttribute("yOffset"));
+                        //numberOfFrames
+                        numberOfFrames = Convert.ToInt32(animationReader.GetAttribute("numberOfFrames"));
+                        //width
+                        width = Convert.ToInt32(animationReader.GetAttribute("width"));
+                        //height
+                        height = Convert.ToInt32(animationReader.GetAttribute("height"));
+
+                        //Adding the animation to the dictionaries
+                        AddAnimationDefault(numberOfFrames, yPosition, xStartFrame, animationName, width, height, new Vector2(xOffset, yOffset));
+
+                        break;
+
+                    case "animationByFrame":
+                        //animationName
+                        animationName = animationReader.GetAttribute("name");
+                        //xOffset
+                        xOffset = Convert.ToInt32(animationReader.GetAttribute("xOffset"));
+                        //yOffset
+                        yOffset = Convert.ToInt32(animationReader.GetAttribute("yOffset"));
+                        //numberOfFrames
+                        numberOfFrames = Convert.ToInt32(animationReader.GetAttribute("numberOfFrames"));
+
+                        //Temporary Rectangle array
+                        Rectangle[] tempRectangles = new Rectangle[numberOfFrames];
+
+                        //Looping through each frame
+                        while (animationReader.ReadToFollowing("frame"))
+                        {
+                            //xPosition
+                            xPosition = Convert.ToInt32(animationReader.GetAttribute("xPosition"));
+                            //yPosition
+                            yPosition = Convert.ToInt32(animationReader.GetAttribute("yPosition"));
+                            //width
+                            width = Convert.ToInt32(animationReader.GetAttribute("width"));
+                            //height
+                            height = Convert.ToInt32(animationReader.GetAttribute("height"));
+
+                            //Adding the animation to the dictionaries
+                            tempRectangles[frameCount] = new Rectangle(xPosition, yPosition, width, height);
+                            
+                            //Incrementing the frame count
+                            frameCount++;
+                        }
+
+                        //Reseting the frame count
+                        frameCount = 0;
+
+                        //Saving the animation to the animation Dictionary
+                        sAnimations.Add(animationName, tempRectangles);
+                        //Saving the animation's offset to the offset Dictionary
+                        sOffsets.Add(animationName, new Vector2(xOffset, yOffset));
+
+                        break;
+                }
+
+                //Need to read again to get back up the XML tree
+                animationReader.Read();
             }
         }
         #endregion
 
         #region Methods
-        //Adding a specified animation to the sprite component
-        public void AddAnimation(int numFrames, int yPosition, int xStartFrame, string animationName, int frameWidth, int frameHeight, Vector2 frameOffset)
+        //Adding a specified animation to the sprite component, default
+        private void AddAnimationDefault(int numFrames, int yPosition, int xStartFrame, string animationName, int frameWidth, int frameHeight, Vector2 frameOffset)
         {
             //Stores the rectangles for the individual frames of an animation
             Rectangle[] tempRectangles = new Rectangle[numFrames];
@@ -150,39 +166,8 @@ namespace DirtyGame.game.SGraphics
             sAnimations.Add(animationName, tempRectangles);
             //Saving the animation's offset to the offset Dictionary
             sOffsets.Add(animationName, frameOffset);
-//JARED     //Saving the animation's number of frames
-//JARED     sFrames.Add(animationName, numFrames);
         }
 
-        //Move the sprite to the next frame
-        public void NextFrame(string animationName, float deltaTime)//GameTime gameTime
-        {
-            //Adding to the time since last draw
-            timeElapsed += deltaTime;
-            //Saving the time between frames
-            double time_between_frames = TimeBetweenFrames(animationName);
-
-            if (timeElapsed > time_between_frames)
-            {
-                timeElapsed -= time_between_frames;
-                //Checking to make sure we are not going over the number of frames
-                if (currentFrame < (sAnimations[animationName].Length - 1))
-                {
-                    currentFrame++;
-                }
-                //Starting back at frame 0
-                else
-                {
-                    currentFrame = 0;
-                }
-            }
-        }
-
-        //Gives the time between frames for a given animation
-        public double TimeBetweenFrames(string animationName)
-        {
-            return 1.0f / sAnimations[animationName].Length;
-        }
         #endregion
     }
 }

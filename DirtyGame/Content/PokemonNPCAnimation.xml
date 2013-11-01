@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root id="NPC">
+  <animationDefault name="Down"
+             yPosition="0"
+             xStartFrame="0"
+             xOffset="0"
+             yOffset="0"
+             numberOfFrames="3"
+             width="16"
+             height="22">
+  </animationDefault>
+
+  <animationByFrame name="WalkLeft"
+             xOffset="0"
+             yOffset="0"
+             numberOfFrames="3">
+    <frame xPosition="0"
+           yPosition="30"
+           width="20"
+           height="30">
+    </frame>
+    <frame xPosition="0"
+           yPosition="60"
+           width="200"
+           height="300">
+    </frame>
+    <frame xPosition="0"
+           yPosition="90"
+           width="20"
+           height="30">
+    </frame>
+  </animationByFrame>
+</root>
