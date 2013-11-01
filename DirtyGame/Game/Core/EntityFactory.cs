@@ -67,6 +67,7 @@ namespace DirtyGame.game.Core
    
             e.AddComponent(spatial);
             e.AddComponent(sprite);
+            e.AddComponent(new Collidable());
             Player controllable = new Player();
             e.AddComponent(controllable);
             return e;
@@ -100,6 +101,8 @@ namespace DirtyGame.game.Core
             monster.AddComponent(sprite);
             monster.AddComponent(timeComponent);
             monster.AddComponent(movementComponent);
+            monster.AddComponent(new Collidable());
+
 
             return monster;
         }

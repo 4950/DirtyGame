@@ -71,7 +71,7 @@ namespace EntityFramework.Managers
             groupManager.RemoveFromAllGroups(id);
             tagManager.RemoveTag(id);
             componentBitVectors.Remove(id);
-            systemBitVectors.Remove(id);
+            systemBitVectors.Remove(id);            
         }
 
         public Entity GetEntity(uint id)

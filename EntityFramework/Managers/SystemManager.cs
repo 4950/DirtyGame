@@ -35,6 +35,7 @@ namespace EntityFramework.Managers
             }
             systems.Add(system.Id, system);
             system.EntityMgr = world.EntityMgr;
+            system.World = world;
             system.Initialize();
             Sort();
 
@@ -50,10 +51,11 @@ namespace EntityFramework.Managers
 
         public IEnumerable<EntitySystem> GetSystems(BitVector bitVector)
         {
+            //TODO: doesnt work right now
             List<EntitySystem> selectedSystems = new List<EntitySystem>();               
             foreach (EntitySystem system in systems.Values)
             {
-                if (bitVector.Contains(system.Bit))
+                if (bitVector.Contains(system.Aspect.BitVector))
                 {
                     selectedSystems.Add(system);
                 }

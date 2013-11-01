@@ -14,6 +14,14 @@ namespace EntityFramework
         private BitVector bitVector;
         #endregion
 
+        public BitVector BitVector
+        {
+            get
+            {
+                return bitVector;
+            }
+        }
+
         #region Constructors
         internal Aspect()
         {

@@ -48,7 +48,11 @@ namespace EntityFramework
         public void RemoveEntity(Entity e)
         {
             // remove entity from systems  
-            CheckSystems(e, systemMgr.GetSystems(e.SystemBits));
+
+            // THIS DOESNT WORK RIGHT NOW, JUST CHECK ALL SYSTEMS
+            //CheckSystems(e, systemMgr.GetSystems(e.SystemBits));
+            CheckSystems(e, systemMgr.Systems);
+
             entityMgr.RemoveEntity(e.Id);
         }
 
