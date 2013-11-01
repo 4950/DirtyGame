@@ -13,7 +13,7 @@ namespace DirtyGame.game.Core.Components
     {
         #region Variables
         //Current animation of the sprite
-        private string currentAnimation;
+        private string currentAnimation = "";
         //Time elapsed since last draw
         private double timeElapsed;
         //Current frame of the animation
@@ -36,7 +36,10 @@ namespace DirtyGame.game.Core.Components
             }
             set
             {
-                currentFrame = 0;
+                if (!currentAnimation.Equals(value))
+                {
+                    currentFrame = 0;
+                }
                 currentAnimation = value;
             }
         }

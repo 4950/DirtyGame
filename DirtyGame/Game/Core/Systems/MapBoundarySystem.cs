@@ -32,10 +32,10 @@ namespace DirtyGame.game.Core.Systems
                 if (pos.X < 0) pos.X = 0;
                 if (pos.Y < 0) pos.Y = 0;
                 //Player width is a bit off and the player can't go all the way to the end of the map
-                if (pos.X > renderer.ActiveMap.getPixelWidth() - e.GetComponent<Sprite>().SpriteSheet.SpriteSheetTexture.Width)
-                    pos.X = renderer.ActiveMap.getPixelWidth() - e.GetComponent<Sprite>().SpriteSheet.SpriteSheetTexture.Width;
-                if (pos.Y > renderer.ActiveMap.getPixelHeight() - e.GetComponent<Sprite>().SpriteSheet.SpriteSheetTexture.Height)
-                    pos.Y = renderer.ActiveMap.getPixelHeight() - e.GetComponent<Sprite>().SpriteSheet.SpriteSheetTexture.Height;
+                if (pos.X > renderer.ActiveMap.getPixelWidth() - e.GetComponent<Sprite>().SrcRect.Width)
+                    pos.X = renderer.ActiveMap.getPixelWidth() - e.GetComponent<Sprite>().SrcRect.Width;
+                if (pos.Y > renderer.ActiveMap.getPixelHeight() - e.GetComponent<Sprite>().SrcRect.Height)
+                    pos.Y = renderer.ActiveMap.getPixelHeight() - e.GetComponent<Sprite>().SrcRect.Height;
                 e.GetComponent<Spatial>().Position = pos;
             }
         }
