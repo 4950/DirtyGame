@@ -21,6 +21,20 @@ namespace EntityFramework.Systems
             set;
         }
 
+        public World World
+        {
+            get;
+            set;
+        }
+
+        public Aspect Aspect
+        {
+            get
+            {
+                return aspect;
+            }
+        }
+
         public long Bit
         {
             get
@@ -57,7 +71,7 @@ namespace EntityFramework.Systems
                     // remove
                     entities.Remove(e);
                     e.SystemBits.RemoveBit(Bit);
-                    OnEntityAdded(e);
+                    OnEntityRemoved(e);
                 }
             }
             else
