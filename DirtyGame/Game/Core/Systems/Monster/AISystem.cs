@@ -55,6 +55,7 @@ namespace DirtyGame.game.Core.Systems.Monster
                         if (getDistance(m.GetComponent<Spatial>().Position.X, m.GetComponent<Spatial>().Position.Y, otherX, otherY) < 400)
                         {
                             double[] chaseVector = getChaseVector(m.GetComponent<Spatial>().Position.X, m.GetComponent<Spatial>().Position.Y, otherX, otherY);
+
                             return chaseVector;
                         }
                     }

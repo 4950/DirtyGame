@@ -63,17 +63,20 @@ namespace DirtyGame
             world.AddSystem(new CollisionSystem());
             world.AddSystem(new AnimationSystem());
             map = new Map(graphics.GraphicsDevice);
+
+            SpriteSheet playerSpriteSheet =  new SpriteSheet(resourceManager.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
+            SpriteSheet monsterSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("monsterSheet_JUNK"), "Content\\MonsterAnimation.xml");
             
-            Entity e = entityFactory.CreatePlayerEntity();
+            Entity e = entityFactory.CreatePlayerEntity(playerSpriteSheet);
             e.Refresh();
-      
-            e = entityFactory.CreateSpawner(100, 100, new SpriteSheet(resourceManager.GetResource<Texture2D>("monster2"), ""), new Rectangle(0, 0, 46, 46), MAX_MONSTERS / 4, new TimeSpan(0, 0, 0, 0, 1000));
+
+            e = entityFactory.CreateSpawner(100, 100, playerSpriteSheet, new Rectangle(0, 0, 46, 46), MAX_MONSTERS / 4, new TimeSpan(0, 0, 0, 0, 1000));
             e.Refresh();
-            e = entityFactory.CreateSpawner(300, 100, new SpriteSheet(resourceManager.GetResource<Texture2D>("monster"), ""), new Rectangle(0, 0, 46, 46), MAX_MONSTERS / 4, new TimeSpan(0, 0, 0, 0, 2000));
+            e = entityFactory.CreateSpawner(300, 100, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), MAX_MONSTERS / 4, new TimeSpan(0, 0, 0, 0, 2000));
             e.Refresh();
-            e = entityFactory.CreateSpawner(100, 300, new SpriteSheet(resourceManager.GetResource<Texture2D>("monster3"), ""), new Rectangle(0, 0, 46, 46), MAX_MONSTERS / 4, new TimeSpan(0, 0, 0, 0, 3000));
+            e = entityFactory.CreateSpawner(100, 300, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), MAX_MONSTERS / 4, new TimeSpan(0, 0, 0, 0, 3000));
             e.Refresh();
-            e = entityFactory.CreateSpawner(300, 300, new SpriteSheet(resourceManager.GetResource<Texture2D>("monster4"), ""), new Rectangle(0, 0, 46, 46), MAX_MONSTERS / 4, new TimeSpan(0, 0, 0, 0, 500));
+            e = entityFactory.CreateSpawner(300, 300, playerSpriteSheet, new Rectangle(0, 0, 46, 46), MAX_MONSTERS / 4, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
         }
 
