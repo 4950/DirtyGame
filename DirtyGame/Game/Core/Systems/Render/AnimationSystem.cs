@@ -40,6 +40,9 @@ namespace DirtyGame.game.Systems
                 //Getting components for this entity
                 Animation animation = e.GetComponent<Animation>();
                 Sprite sprite = e.GetComponent<Sprite>();
+                DirectionComponent direction = e.GetComponent<DirectionComponent>();
+
+                animation.CurrentAnimation = direction.Heading;
 
                 //Setting the next frame
                 sprite.SpriteSheet.NextFrame(animation.CurrentAnimation, dt);
