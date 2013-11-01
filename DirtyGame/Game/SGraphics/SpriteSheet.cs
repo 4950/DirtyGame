@@ -57,11 +57,8 @@ namespace DirtyGame.game.SGraphics
             xmlSettings.IgnoreComments = true;
             XmlReader animationReader = XmlReader.Create(xmlFile, xmlSettings);
 
-            //Finished reading the file
-          //  bool finished = false;
-
+            //Reads to the start of the XML file
             animationReader.ReadToFollowing("root");
-           // animationReader.ReadToFollowing("animationDefault") || animati
 
             //Parse the XML for animations
             while (animationReader.Read())
@@ -147,7 +144,8 @@ namespace DirtyGame.game.SGraphics
                         break;
                 }
 
-                animationReader.Read(); //Why do I need two XMLReader.Read() methods? If not there it will have null values for all the attributes.
+                //Need to read again to get back up the XML tree
+                animationReader.Read();
             }
         }
         #endregion

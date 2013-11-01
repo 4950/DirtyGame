@@ -41,39 +41,6 @@ namespace DirtyGame
             world.AddSystem(new SpriteRenderSystem(renderer));
             AnimationSystem animationSys = new AnimationSystem();
             world.AddSystem(animationSys);
-
-            //Testing purposes can be changed
-            SpriteSheet playerSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
-
-            Entity e = entityFactory.CreateTestEntity(playerSpriteSheet, new Vector2(0.0f, 0.0f), "Up");
-            e.Refresh();
-            e = entityFactory.CreateTestEntity(playerSpriteSheet, new Vector2(50.0f, 0.0f), "Down");
-            e.Refresh();
-            e = entityFactory.CreateTestEntity(playerSpriteSheet, new Vector2(100.0f, 0.0f), "Left");
-            e.Refresh();
-            e = entityFactory.CreateTestEntity(playerSpriteSheet, new Vector2(150.0f, 0.0f), "Right");
-            e.Refresh();
-            e = entityFactory.CreateTestEntity(playerSpriteSheet, new Vector2(200.0f, 0.0f), "IdleUp");
-            e.Refresh();
-            e = entityFactory.CreateTestEntity(playerSpriteSheet, new Vector2(250.0f, 0.0f), "IdleDown");
-            e.Refresh();
-            e = entityFactory.CreateTestEntity(playerSpriteSheet, new Vector2(300.0f, 0.0f), "IdleLeft");
-            e.Refresh();
-            e = entityFactory.CreateTestEntity(playerSpriteSheet, new Vector2(350.0f, 0.0f), "IdleRight");
-            e.Refresh();
-            e = entityFactory.CreateTestEntity(playerSpriteSheet, new Vector2(0.0f, 50.0f), "AttackUp");
-            e.Refresh();
-            e = entityFactory.CreateTestEntity(playerSpriteSheet, new Vector2(100.0f, 50.0f), "AttackDown");
-            e.Refresh();
-            e = entityFactory.CreateTestEntity(playerSpriteSheet, new Vector2(200.0f, 50.0f), "AttackLeft");
-            e.Refresh();
-            e = entityFactory.CreateTestEntity(playerSpriteSheet, new Vector2(300.0f, 50.0f), "AttackRight");
-            e.Refresh();
-
-            SpriteSheet pokemonNPCSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("Pokemon NPC Sprite Sheet"), "Content\\PokemonNPCAnimation.xml");
-
-            e = entityFactory.CreateTestEntity(pokemonNPCSpriteSheet, new Vector2(0.0f, 200.0f), "WalkLeft");
-            e.Refresh();
         }
 
         protected override void LoadContent()
