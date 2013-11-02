@@ -58,6 +58,17 @@ namespace DirtyGame.game.Core.Systems
                     direction.Heading = "Down";
                 }
 
+                if (KeyboardState.IsKeyUp(Keys.Left) && 
+                    KeyboardState.IsKeyUp(Keys.Right) && 
+                    KeyboardState.IsKeyUp(Keys.Up) && 
+                    KeyboardState.IsKeyUp(Keys.Down))
+                {
+                    if (!direction.Heading.Contains("Idle"))
+                    {
+                        direction.Heading = "Idle" + direction.Heading;
+                    }
+                }
+
                 spatial.Translate(translateVector);
 
             }
