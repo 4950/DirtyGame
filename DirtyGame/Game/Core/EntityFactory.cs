@@ -59,22 +59,18 @@ namespace DirtyGame.game.Core
             Sprite sprite = new Sprite();
             sprite.RenderLayer = RenderLayer.BACKGROUND;
 
-                        
+            //Direction Component
+            DirectionComponent direction = new DirectionComponent();
+            direction.Heading = "Down";      
    
 
             sprite.SpriteSheet = spriteSheet;// new SpriteSheet(resourceMgr.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
            // sprite.SrcRect = new Rectangle(0, 0, 100, 100);
 
-            //sprite.SpriteSheet = new SpriteSheet(resourceMgr.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
             //Creating an Animation component
             Animation animation = new Animation();
             //Changing the animation with the string property
-        //  animation.CurrentAnimation = "Down";
-
-            //Direction Component
-            DirectionComponent direction = new DirectionComponent();
-            direction.Heading = "Down";
-
+            animation.CurrentAnimation = "Idle" + direction.Heading;
 
             e.AddComponent(spatial);
             e.AddComponent(sprite);
@@ -114,6 +110,10 @@ namespace DirtyGame.game.Core
             DirectionComponent direction = new DirectionComponent();
             direction.Heading = "Down";
 
+            //Animation
+            Animation animation = new Animation();
+            animation.CurrentAnimation = "Idle" + direction.Heading;
+
             //Add the new components to the entity
             monster.AddComponent(m);
             monster.AddComponent(spatial);
@@ -122,7 +122,7 @@ namespace DirtyGame.game.Core
             monster.AddComponent(movementComponent);
             monster.AddComponent(new Collidable());
             monster.AddComponent(direction);
-            monster.AddComponent(new Animation());
+            monster.AddComponent(animation);
 
             return monster;
         }

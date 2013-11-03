@@ -18,9 +18,16 @@ namespace DirtyGame.game.Systems
 {
     class AnimationSystem : EntitySystem
     {
+        #region Variables
+        private bool startedFiniteAnimation;
+        private bool finishedFiniteAnimation;
+        #endregion
+
         public AnimationSystem()
             : base(SystemDescriptions.AnimationSystem.Aspect, SystemDescriptions.AnimationSystem.Priority)
         {
+            startedFiniteAnimation = false;
+            finishedFiniteAnimation = true;
         }
 
         public override void OnEntityAdded(Entity e)
@@ -42,7 +49,7 @@ namespace DirtyGame.game.Systems
                 Sprite sprite = e.GetComponent<Sprite>();
                 DirectionComponent direction = e.GetComponent<DirectionComponent>();
 
-                animation.CurrentAnimation = direction.Heading;
+         //       animation.CurrentAnimation = direction.Heading;  //do not understand why this is here
 
                 //Move the sprite to the next frame
                 //Adding to the time since last draw
@@ -54,20 +61,61 @@ namespace DirtyGame.game.Systems
                 {
                     //Subtracting the time to get ready for the next frame
                     animation.TimeElapsed -= timeBetweenFrames;
-                    //Checking to make sure we are not going over the number of frames
-                    if (animation.CurrentFrame < (sprite.SpriteSheet.Animation[animation.CurrentAnimation].Length - 1))
+
+                    if (sprite.SpriteSheet.Finite[animation.CurrentAnimation] || startedFiniteAnimation)
                     {
-                        animation.CurrentFrame++;
+                        if (!startedFiniteAnimation && finishedFiniteAnimation)
+                        {
+                            startedFiniteAnimation = true;
+                            finishedFiniteAnimation = false;
+
+                            //Checking to make sure we are not going over the number of frames
+                            if (animation.CurrentFrame < (sprite.SpriteSheet.Animation[animation.CurrentAnimation].Length - 1))
+                            {
+                                animation.CurrentFrame++;
+                            }
+                        }
+                        else if (startedFiniteAnimation && !finishedFiniteAnimation)
+                        {
+                            if (animation.CurrentFrame < (sprite.SpriteSheet.Animation[animation.CurrentAnimation].Length - 1))
+                            {
+                                animation.CurrentFrame++;
+                            }
+                            else
+                            {
+                                finishedFiniteAnimation = true;
+                                startedFiniteAnimation = false;
+                                //animation.CurrentAnimation = animation.CurrentAnimation.Remove(0, 6); //this needs to change the currentAnimation to just the direction
+                                //animation.CurrentAnimation = "Down";
+                            }
+                        }
                     }
-                    //Starting back at frame 0
                     else
                     {
-                        animation.CurrentFrame = 0;
+                        //Checking to make sure we are not going over the number of frames
+                        if (animation.CurrentFrame < (sprite.SpriteSheet.Animation[animation.CurrentAnimation].Length - 1))
+                        {
+                            animation.CurrentFrame++;
+                        }
+                        //Starting back at frame 0
+                        else
+                        {
+                            animation.CurrentFrame = 0;
+                        }
                     }
                 }
 
                 //Setting the rectangle of the sprite sheet to draw
                 sprite.SrcRect = sprite.SpriteSheet.Animation[animation.CurrentAnimation][animation.CurrentFrame];
+
+                //Modifying the Spatial component to have the correct boundary box and offset
+                if (e.HasComponent<Spatial>())
+                {
+                    Spatial spatial = e.GetComponent<Spatial>();
+                    spatial.BoundaryBox = new Vector2(sprite.SpriteSheet.Animation[animation.CurrentAnimation][animation.CurrentFrame].Width,
+                                                      sprite.SpriteSheet.Animation[animation.CurrentAnimation][animation.CurrentFrame].Height);
+                    spatial.Offset = sprite.SpriteSheet.Offset[animation.CurrentAnimation];
+                }
             }
         }
     }

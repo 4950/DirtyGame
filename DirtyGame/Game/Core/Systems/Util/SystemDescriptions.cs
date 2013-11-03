@@ -15,7 +15,7 @@ namespace DirtyGame.game.Core.Systems.Util
             new SystemParams(Aspect.CreateAspectFor(new List<Type> {typeof (Sprite), typeof (Spatial)}), 1000);
 
         public static SystemParams AnimationSystem =
-            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(Sprite), typeof(Animation), typeof(DirectionComponent) }), 1);
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(Sprite), typeof(Animation), typeof(DirectionComponent) }), 100);
 
         public static SystemParams CollisionSystem =
           new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(Collidable), typeof(Spatial) }), 1);

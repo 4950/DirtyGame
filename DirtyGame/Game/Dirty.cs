@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework.Input;
 using EntityFramework.Systems;
 using DirtyGame.game.Core.Systems.Monster;
 using DirtyGame.game.Core.GameStates;
+using DirtyGame.game.Core.Components;
 
 
 #endregion
@@ -55,7 +56,7 @@ namespace DirtyGame
             world = new World();
             entityFactory = new EntityFactory(world.EntityMgr, resourceManager);                        
             world.AddSystem(new SpriteRenderSystem(renderer));
-            world.AddSystem(new PlayerControlSystem());
+            world.AddSystem(new PlayerControlSystem(baseContext));
             world.AddSystem(new CameraUpdateSystem(renderer));
             world.AddSystem(new MapBoundarySystem(renderer));
             world.AddSystem(new SpawnerSystem(entityFactory));
@@ -68,10 +69,14 @@ namespace DirtyGame
             SpriteSheet playerSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
             SpriteSheet monsterSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("monsterSheet_JUNK"), "Content\\MonsterAnimation.xml");
 
-            Entity e = entityFactory.CreatePlayerEntity(playerSpriteSheet);
-            e.Refresh();
+            Entity playerEntity = entityFactory.CreatePlayerEntity(playerSpriteSheet);
+            playerEntity.Refresh();
+         //   DirectionComponent playerDirection = playerEntity.GetComponent<DirectionComponent>()
 
-            e = entityFactory.CreateSpawner(100, 100, playerSpriteSheet, new Rectangle(0, 0, 46, 46), MAX_MONSTERS / 4, new TimeSpan(0, 0, 0, 0, 1000));
+       //     InputContext playerUpInput = new InputContext();
+       //     playerUpInput.RegisterHandler(Keys.Up, playerEntity.GetComponent<DirectionComponent>().playerDirectionUp, null);
+
+            Entity e = entityFactory.CreateSpawner(100, 100, playerSpriteSheet, new Rectangle(0, 0, 46, 46), MAX_MONSTERS / 4, new TimeSpan(0, 0, 0, 0, 1000));
             e.Refresh();
             e = entityFactory.CreateSpawner(300, 100, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), MAX_MONSTERS / 4, new TimeSpan(0, 0, 0, 0, 2000));
             e.Refresh();

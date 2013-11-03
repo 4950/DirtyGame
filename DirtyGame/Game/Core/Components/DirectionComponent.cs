@@ -26,5 +26,9 @@ namespace DirtyGame.game.Core.Components
             }
         }
         #endregion
+
+        #region Methods
+        
+        #endregion
     }
 }

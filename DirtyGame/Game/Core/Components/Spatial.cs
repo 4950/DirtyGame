@@ -9,6 +9,11 @@ namespace DirtyGame.game.Core.Components
 {
     class Spatial : Component
     {
+        #region Variables
+        private Vector2 boundaryBox;
+        private Vector2 offset;
+        #endregion
+
         #region Constructors
         public Spatial()
         {
@@ -18,6 +23,16 @@ namespace DirtyGame.game.Core.Components
 
         #region Properties
         public Vector2 Position
+        {
+            get;
+            set;
+        }
+        public Vector2 BoundaryBox
+        {
+            get;
+            set;
+        }
+        public Vector2 Offset
         {
             get;
             set;

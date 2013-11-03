@@ -35,7 +35,20 @@ namespace DirtyGame.game.SGraphics
                 sAnimations = value;
             }
         }
-
+        public Dictionary<string, Vector2> Offset
+        {
+            get
+            {
+                return sOffsets;
+            }
+        }
+        public Dictionary<string, bool> Finite
+        {
+            get
+            {
+                return sFinite;
+            }
+        }
         public Texture2D SpriteSheetTexture
         {
             get

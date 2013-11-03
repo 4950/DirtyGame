@@ -55,11 +55,19 @@ namespace EntityFramework.Systems
                             if (moveVector[0] > 0)
                             {
                                 direction.Heading = "Right";
+                                if (e.HasComponent<Animation>())
+                                {
+                                    e.GetComponent<Animation>().CurrentAnimation = "Walk" + direction.Heading;
+                                }
                             }
 
                             if (moveVector[0] < 0)
                             {
                                 direction.Heading = "Left";
+                                if (e.HasComponent<Animation>())
+                                {
+                                    e.GetComponent<Animation>().CurrentAnimation = "Walk" + direction.Heading;
+                                }
                             }
                         }
                         else
@@ -67,11 +75,19 @@ namespace EntityFramework.Systems
                             if (moveVector[1] > 0)
                             {
                                 direction.Heading = "Down";
+                                if (e.HasComponent<Animation>())
+                                {
+                                    e.GetComponent<Animation>().CurrentAnimation = "Walk" + direction.Heading;
+                                }
                             }
 
                             if (moveVector[1] < 0)
                             {
                                 direction.Heading = "Up";
+                                if (e.HasComponent<Animation>())
+                                {
+                                    e.GetComponent<Animation>().CurrentAnimation = "Walk" + direction.Heading;
+                                }
                             }
                         }
                     }
