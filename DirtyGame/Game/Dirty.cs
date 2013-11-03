@@ -64,9 +64,9 @@ namespace DirtyGame
             world.AddSystem(new AnimationSystem());
             map = new Map(graphics.GraphicsDevice);
 
-            SpriteSheet playerSpriteSheet =  new SpriteSheet(resourceManager.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
+            SpriteSheet playerSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
             SpriteSheet monsterSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("monsterSheet_JUNK"), "Content\\MonsterAnimation.xml");
-            
+
             Entity e = entityFactory.CreatePlayerEntity(playerSpriteSheet);
             e.Refresh();
 
