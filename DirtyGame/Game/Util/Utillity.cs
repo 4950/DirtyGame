@@ -9,9 +9,9 @@ namespace DirtyGame.game.Util
     public static class Utillity
     {
         public static Point GetRandomPointInside(Rectangle rect)
-        {
-            Random random = RandomNumberGenerator.Rand;
-            return new Point(random.Next(rect.Width - rect.X) + rect.X, random.Next(rect.Height - rect.Y) + rect.Y);
+        {            
+            return new Point(Rand.RandInt(rect.X, rect.X + rect.Width),
+                Rand.RandInt(rect.Y, rect.Y + rect.Height));            
         }
     }
 }

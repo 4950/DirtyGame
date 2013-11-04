@@ -5,7 +5,7 @@ using System.Text;
 using DirtyGame.game.Core;
 using DirtyGame.game.Core.Systems;
 using DirtyGame.game.Core.Systems.Render;
-using DirtyGame.game.Map.Generators.BSP_Generator;
+using DirtyGame.game.Map.Generators.BSP;
 using DirtyGame.game.SGraphics;
 using DirtyGame.game.Systems;
 using DirtyGame.game.Map;
@@ -21,7 +21,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using EntityFramework.Systems;
 using DirtyGame.game.Core.Systems.Monster;
 using DirtyGame.game.Core.GameStates;
-
+using OpenTK.Graphics.ES11;
 
 #endregion
 
@@ -35,8 +35,8 @@ namespace DirtyGame
 
         
 
-        private Map map;
-        private Map2 map2;
+        private Map map;        
+        private Map3 map3;
         public World world;
         public GraphicsDeviceManager graphics;
         public Renderer renderer;
@@ -73,35 +73,36 @@ namespace DirtyGame
             Entity e = entityFactory.CreatePlayerEntity(playerSpriteSheet);
             e.Refresh();
 
-            e = entityFactory.CreateSpawner(100, 100, playerSpriteSheet, new Rectangle(0, 0, 46, 46), MAX_MONSTERS / 4, new TimeSpan(0, 0, 0, 0, 1000));
-            e.Refresh();
+           // e = entityFactory.CreateSpawner(100, 100, playerSpriteSheet, new Rectangle(0, 0, 46, 46), MAX_MONSTERS / 4, new TimeSpan(0, 0, 0, 0, 1000));
+          //  e.Refresh();
             e = entityFactory.CreateSpawner(300, 100, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), MAX_MONSTERS / 4, new TimeSpan(0, 0, 0, 0, 2000));
             e.Refresh();
             e = entityFactory.CreateSpawner(100, 300, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), MAX_MONSTERS / 4, new TimeSpan(0, 0, 0, 0, 3000));
             e.Refresh();
-            e = entityFactory.CreateSpawner(300, 300, playerSpriteSheet, new Rectangle(0, 0, 46, 46), MAX_MONSTERS / 4, new TimeSpan(0, 0, 0, 0, 500));
-            e.Refresh();
+         //  e = entityFactory.CreateSpawner(300, 300, playerSpriteSheet, new Rectangle(0, 0, 46, 46), MAX_MONSTERS / 4, new TimeSpan(0, 0, 0, 0, 500));
+         //   e.Refresh();
 
             Texture2D texture = new Texture2D(graphics.GraphicsDevice, 1000, 1, false, SurfaceFormat.Color);
             Color[] colors = new Color[1000];
-            Random random = RandomNumberGenerator.Rand;
+            Random random = Rand.Random;
             for (int i = 0; i < 1000; ++i)
             {
                 colors[i] = new Color(random.Next(256), random.Next(256), random.Next(256));
               
             }
             colors[0] = Color.White;
+            colors[1] = Color.Gray;
             int a = 2;
             texture.SetData<Color>(colors);
-            Tileset tileset = new Tileset(texture, 2, 2);
-            BSPMapGenerator mapGenerator = new BSPMapGenerator(tileset, 100, 160, 75, 25);
-            map2 = mapGenerator.GenerateMap(0, 0);
+            Tileset tileset = new Tileset(texture, 25, 25);
+            BSPMapGenerator mapGenerator = new BSPMapGenerator(tileset, 100, 160, 75, 30);            
+            map3 = mapGenerator.GenerateMap3(new Point(0, 0));
         }
 
         protected override void LoadContent()
         {
             map.LoadMap("Cave.tmx", graphics.GraphicsDevice, Content);
-            renderer.ActiveMap = map;
+            renderer.ActiveMap = map3;
         }
 
         protected override void UnloadContent()
@@ -124,10 +125,8 @@ namespace DirtyGame
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
-        {
-            graphics.GraphicsDevice.Clear(Color.Black);            
-            map2.Draw(batch);
-            //renderer.Render();
+        {                                 
+            renderer.Render();
             base.Draw(gameTime);
         }
     }

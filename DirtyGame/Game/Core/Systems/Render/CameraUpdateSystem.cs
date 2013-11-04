@@ -33,10 +33,10 @@ namespace DirtyGame.game.Core.Systems.Render
             Vector2 newPos = pos;
             if (pos.X < 0) newPos.X = 0;
             if (pos.Y < 0) newPos.Y = 0;
-            if (pos.X > renderer.ActiveMap.getPixelWidth() - renderer.GetViewportWidth())
-                newPos.X = renderer.ActiveMap.getPixelWidth() - renderer.GetViewportWidth();
-            if (pos.Y > renderer.ActiveMap.getPixelHeight() - renderer.GetViewportHeight())
-                newPos.Y = renderer.ActiveMap.getPixelHeight() - renderer.GetViewportHeight();
+            if (pos.X > renderer.ActiveMap.GetPixelWidth() - renderer.GetViewportWidth())
+                newPos.X = renderer.ActiveMap.GetPixelWidth() - renderer.GetViewportWidth();
+            if (pos.Y > renderer.ActiveMap.GetPixelHeight() - renderer.GetViewportHeight())
+                newPos.Y = renderer.ActiveMap.GetPixelHeight() - renderer.GetViewportHeight();
             return newPos;
         }
 

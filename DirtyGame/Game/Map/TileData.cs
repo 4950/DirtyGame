@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace DirtyGame.game.Map
 {
-    class TileData
+    public class TileData
     {
         public Rectangle DstRect
         {
@@ -24,6 +24,20 @@ namespace DirtyGame.game.Map
         {
             get;
             set;
+        }
+
+        public bool Visible
+        {
+            get;
+            set;
+        }
+
+        public TileData(Rectangle dstRect, Rectangle srcRect)
+        {
+            Visible = true;
+            Passable = false;
+            DstRect = dstRect;
+            SrcRect = srcRect;
         }
     }
 }

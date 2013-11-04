@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DirtyGame.game.Map
 {
-    class Tileset
+    public class Tileset
     {
         public int TileWidth
         {

@@ -18,9 +18,9 @@ namespace DirtyGame.game.SGraphics
         private Camera camera;
 
         //I don't know why I have to do this...
-        private Map.Map map;
+        private TileMap map;
 
-        public Map.Map ActiveMap
+        public TileMap ActiveMap
         {
             get
             {
@@ -74,8 +74,24 @@ namespace DirtyGame.game.SGraphics
 
         public void Render()
         {
-            device.Clear(Color.CornflowerBlue);
-            map.draw(camera);
+            device.Clear(Color.Black);            
+
+            spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, ActiveCamera.Transform);
+            foreach (TileData tile in map.Tiles)
+            {
+                Rectangle srcRect;
+                if (tile.Passable)
+                {
+                    srcRect = new Rectangle(0, 0, 0, 0);
+                }
+                else
+                {
+                    srcRect = tile.SrcRect;
+                    continue;
+                }
+                spriteBatch.Draw(map.Tileset.Texture, tile.DstRect, srcRect, Color.White);
+            }
+            spriteBatch.End();
 
 
            
