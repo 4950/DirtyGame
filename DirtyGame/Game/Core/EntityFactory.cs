@@ -86,13 +86,29 @@ namespace DirtyGame.game.Core
             return e;
         }
 
+        public Entity CreateChaseEntity(int xPos, int yPos, SpriteSheet spriteSheet, Entity target)
+        {
+            Entity monster = CreateMonster("a", xPos, yPos, spriteSheet);
+            monster.AddComponent(new SeekMover());
+            monster.GetComponent<SeekMover>().Target = target;
+            return monster;
+        }
+
+        public Entity CreateFleeEntity(int xPos, int yPos, SpriteSheet spriteSheet, Entity target)
+        {
+            Entity monster = CreateMonster("a", xPos, yPos, spriteSheet);
+            monster.AddComponent(new FleeMover());
+            monster.GetComponent<FleeMover>().FleeTarget = target;
+            return monster;
+        }
+
         public Entity CreateMonster(string type, int xPos, int yPos, SpriteSheet spriteSheet) //Sprite sprite)
         {
             Entity monster = entityMgr.CreateEntity();
 
             //Create the MonsterComponent for the new entity
-            MonsterComponent m = new MonsterComponent();
-            m.monsterType = type;
+           // MonsterComponent m = new MonsterComponent();
+           // m.monsterType = type;
 
             //Create the Spatial for the new entity
             Spatial spatial = new Spatial();
@@ -115,7 +131,7 @@ namespace DirtyGame.game.Core
             direction.Heading = "Down";
 
             //Add the new components to the entity
-            monster.AddComponent(m);
+            //monster.AddComponent(m);            
             monster.AddComponent(spatial);
             monster.AddComponent(monsterSprite);
             monster.AddComponent(timeComponent);

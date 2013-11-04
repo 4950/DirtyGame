@@ -14,6 +14,12 @@ namespace DirtyGame.game.Core.Systems.Util
         public static SystemParams SpriteRenderSystem =
             new SystemParams(Aspect.CreateAspectFor(new List<Type> {typeof (Sprite), typeof (Spatial)}), 1000);
 
+        public static SystemParams SeekMovementSystem =
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(SeekMover), typeof(Spatial) }), 1000);
+
+        public static SystemParams FleeMovementSystem =
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(FleeMover), typeof(Spatial) }), 1000);
+
         public static SystemParams AnimationSystem =
             new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(Sprite), typeof(Animation), typeof(DirectionComponent) }), 1);
 
