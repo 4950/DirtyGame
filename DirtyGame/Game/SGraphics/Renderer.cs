@@ -53,7 +53,7 @@ namespace DirtyGame.game.SGraphics
             spriteBatch = new SpriteBatch(device);
             this.camera = camera; 
             cam2 = new Camera();
-            cam2.Zoom(0.175f);
+            cam2.Zoom(0.05f);
             renderTarget = new RenderTarget2D(
                 device,
                 device.PresentationParameters.BackBufferWidth,

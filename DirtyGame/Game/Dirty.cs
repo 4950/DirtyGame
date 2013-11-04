@@ -94,8 +94,8 @@ namespace DirtyGame
             colors[1] = Color.Gray;
             int a = 2;
             texture.SetData<Color>(colors);
-            Tileset tileset = new Tileset(texture, 25, 25);
-            BSPMapGenerator mapGenerator = new BSPMapGenerator(tileset, 100, 160, 75, 30);            
+            Tileset tileset = new Tileset(texture, 50, 50);
+            BSPMapGenerator mapGenerator = new BSPMapGenerator(tileset, 100, 160, 50, 15);            
             map3 = mapGenerator.GenerateMap3(new Point(0, 0));
         }
 

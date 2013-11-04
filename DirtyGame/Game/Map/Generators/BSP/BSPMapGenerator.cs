@@ -110,26 +110,70 @@ namespace DirtyGame.game.Map.Generators.BSP
             RowCol loc = new RowCol(start);
             
             List<RowCol> hall = new List<RowCol>();
+            int hallWidthOrigin = Rand.RandInt(2, 4);
             while (!(loc.Row == end.Row && loc.Col == end.Col))
             {
-                if (loc.Row < end.Row)
+                //int hallWidth = Rand.RandInt(hallWidthOrigin - 1, hallWidthOrigin + 2);
+                int hallWidth = hallWidthOrigin;
+                if (loc.Row < end.Row && Rand.PercentChanceSuccess(25))
                 {
                     loc.Row++;                    
+                    hall.Add(loc);
+                    for (int i = -hallWidth/2; i < hallWidth/2; ++i)
+                    {
+                        RowCol rc = new RowCol(loc.Row, loc.Col + i);
+                        if (node.Data.WithinBounds(rc))
+                        {
+                            hall.Add(rc);
+                        } 
+                    }
                 }
-                else if (loc.Row > end.Row)
+                else if (loc.Row > end.Row && Rand.PercentChanceSuccess(25))
                 {
                     loc.Row--;
+                    hall.Add(loc);
+                    for (int i = -hallWidth / 2; i < hallWidth / 2; ++i)
+                    {
+                        RowCol rc = new RowCol(loc.Row, loc.Col + i);
+                        if (node.Data.WithinBounds(rc))
+                        {
+                            hall.Add(rc);
+                        }
+                    }
                 }
-                else if (loc.Col < end.Col)
+                else if (loc.Col < end.Col && Rand.PercentChanceSuccess(25))
                 {
                     loc.Col++;
+                    hall.Add(loc);
+                    for (int i = -hallWidth / 2; i < hallWidth / 2; ++i)
+                    {
+                        RowCol rc = new RowCol(loc.Row + i, loc.Col);
+                        if (node.Data.WithinBounds(rc))
+                        {
+                            hall.Add(rc);
+                        }
+                    }
                 }
-                else if (loc.Col > end.Col)
+                else if (loc.Col > end.Col && Rand.PercentChanceSuccess(25))
                 {
                     loc.Col--;
+                    hall.Add(loc);
+                    for (int i = -hallWidth / 2; i < hallWidth / 2; ++i)
+                    {
+                        RowCol rc = new RowCol(loc.Row + i, loc.Col);
+                        if (node.Data.WithinBounds(rc))
+                        {
+                            hall.Add(rc);
+                        }
+                    }
                 }
 
-                node.Data.GetTile(loc).Passable = true;                                
+                foreach (RowCol rc in hall)
+                {
+                    node.Data.GetTile(rc).Passable = true;                                    
+                }
+                hall.Clear();
+                
             }
         }
 
