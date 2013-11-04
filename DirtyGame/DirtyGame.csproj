@@ -82,6 +82,7 @@
     <Compile Include="game\Map\Map.cs" />
     <Compile Include="game\Map\Map2.cs" />
     <Compile Include="game\Map\TileData.cs" />
+    <Compile Include="game\Map\TileMap.cs" />
     <Compile Include="game\Map\Tileset.cs" />
     <Compile Include="game\SGraphics\Camera.cs" />
     <Compile Include="game\SGraphics\Commands\BeginBatchDraw.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="game\Util\Logger.cs" />
     <Compile Include="game\Util\RandomNumberGenerator.cs" />
     <Compile Include="game\Util\Singleton.cs" />
+    <Compile Include="game\Util\Utillity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
