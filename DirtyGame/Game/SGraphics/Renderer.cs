@@ -16,6 +16,7 @@ namespace DirtyGame.game.SGraphics
         private SpriteBatch spriteBatch;
         private List<RenderInstance> renderInstances;
         private Camera camera;
+        private Camera cam2;
 
         //I don't know why I have to do this...
         private TileMap map;
@@ -50,7 +51,16 @@ namespace DirtyGame.game.SGraphics
             device = graphics.GraphicsDevice;
             renderInstances = new List<RenderInstance>();
             spriteBatch = new SpriteBatch(device);
-            this.camera = camera;
+            this.camera = camera; 
+            cam2 = new Camera();
+            cam2.Zoom(0.175f);
+            renderTarget = new RenderTarget2D(
+                device,
+                device.PresentationParameters.BackBufferWidth,
+                device.PresentationParameters.BackBufferHeight,
+                false,
+                device.PresentationParameters.BackBufferFormat,
+                DepthFormat.None);            
         }
 
         public void Submit(RenderInstance renderInstance)
@@ -72,9 +82,41 @@ namespace DirtyGame.game.SGraphics
             }
         }
 
+        RenderTarget2D renderTarget;
+
         public void Render()
         {
-            device.Clear(Color.Black);            
+            
+            device.Clear(Color.Black);                        
+            device.SetRenderTarget(renderTarget);
+            device.Clear(Color.Black);
+
+          
+            spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, cam2.Transform);
+            foreach (TileData tile in map.Tiles)
+            {
+                Rectangle srcRect;
+                Rectangle dst = tile.DstRect;
+                dst.Width = 1;
+                dst.Height = 1;
+
+                if (tile.Passable)
+                {
+                    srcRect = new Rectangle(0, 0, 0, 0);
+                }
+                else
+                {
+                    srcRect = tile.SrcRect;
+                    continue;
+                }
+                spriteBatch.Draw(map.Tileset.Texture, tile.DstRect, srcRect, Color.White);
+            }
+            spriteBatch.End();
+
+
+            device.SetRenderTarget(null);
+            
+
 
             spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, ActiveCamera.Transform);
             foreach (TileData tile in map.Tiles)
@@ -92,6 +134,8 @@ namespace DirtyGame.game.SGraphics
                 spriteBatch.Draw(map.Tileset.Texture, tile.DstRect, srcRect, Color.White);
             }
             spriteBatch.End();
+
+
 
 
            
@@ -144,6 +188,16 @@ namespace DirtyGame.game.SGraphics
             {
                 spriteBatch.End();
             }
+
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend,
+               SamplerState.LinearClamp, DepthStencilState.Default,
+               RasterizerState.CullNone);
+
+            spriteBatch.Draw(renderTarget, new Rectangle(0, 325, 200, 150), Color.White);
+
+            spriteBatch.End();
+
+
 
             renderInstances.Clear();
         }
