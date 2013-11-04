@@ -47,7 +47,10 @@ namespace DirtyGame.game.Systems
 
                 // create RenderInstance
                 RenderInstance instance = new RenderInstance();
-                instance.DrawCall = new BatchDrawSprite(sprite.SpriteSheet.SpriteSheetTexture, spatial.Position, sprite.SrcRect, Color.White);
+                instance.DrawCall = new BatchDrawSprite(sprite.SpriteSheet.SpriteSheetTexture, 
+                                                        new Vector2(spatial.Position.X + spatial.Offset.X, 
+                                                                    spatial.Position.Y + spatial.Offset.Y),
+                                                        sprite.SrcRect, Color.White);
                 instance.SortKey.SetRenderLayer(sprite.RenderLayer);
 
                 renderGroup.AddInstance(instance);

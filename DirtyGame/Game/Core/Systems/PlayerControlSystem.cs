@@ -15,7 +15,7 @@ namespace DirtyGame.game.Core.Systems
     class PlayerControlSystem : EntitySystem
     {
         private KeyboardState KeyboardState;
-        private bool movingUp, movingDown, movingLeft, movingRight, attack;
+        private bool movingUp, movingDown, movingLeft, movingRight, attacking;
 
         public PlayerControlSystem(InputContext context)
             : base(SystemDescriptions.PlayerControlSystem.Aspect, SystemDescriptions.PlayerControlSystem.Priority)
@@ -38,53 +38,58 @@ namespace DirtyGame.game.Core.Systems
 
                 Vector2 translateVector = new Vector2(0,0);
 
-                if (attack)
+                if (!attacking)
                 {
-                    
-                }
-
-                if (movingUp)//W
-                {
-                    translateVector.Y -= 3;
-                    direction.Heading = "Up";
-                    if (e.HasComponent<Animation>() && !movingDown && !movingLeft && !movingRight)
+                    if (movingUp)//W
                     {
-                        e.GetComponent<Animation>().CurrentAnimation = "Walk" + direction.Heading;
+                        translateVector.Y -= 3;
+                        direction.Heading = "Up";
+                        if (e.HasComponent<Animation>() && !movingDown && !movingLeft && !movingRight)
+                        {
+                            e.GetComponent<Animation>().CurrentAnimation = "Walk" + direction.Heading;
+                        }
+                    }
+                    if (movingLeft)//A
+                    {
+                        translateVector.X -= 3;
+                        direction.Heading = "Left";
+                        if (e.HasComponent<Animation>() && !movingDown && !movingRight && !movingUp)
+                        {
+                            e.GetComponent<Animation>().CurrentAnimation = "Walk" + direction.Heading;
+                        }
+                    }
+                    if (movingDown)//S
+                    {
+                        translateVector.Y += 3;
+                        direction.Heading = "Down";
+                        if (e.HasComponent<Animation>() && !movingLeft && !movingRight && !movingUp)
+                        {
+                            e.GetComponent<Animation>().CurrentAnimation = "Walk" + direction.Heading;
+                        }
+                    }
+                    if (movingRight)//D
+                    {
+                        translateVector.X += 3;
+                        direction.Heading = "Right";
+                        if (e.HasComponent<Animation>() && !movingDown && !movingLeft && !movingUp)
+                        {
+                            e.GetComponent<Animation>().CurrentAnimation = "Walk" + direction.Heading;
+                        }
+                    }
+                    if (!movingLeft && !movingRight && !movingUp && !movingDown)
+                    {
+                        if (e.HasComponent<Animation>())
+                        {
+                            e.GetComponent<Animation>().CurrentAnimation = "Idle" + direction.Heading;
+                        }
                     }
                 }
-                if (movingLeft)//A
-                {
-                    translateVector.X -= 3;
-                    direction.Heading = "Left";
-                    if (e.HasComponent<Animation>() && !movingDown && !movingRight && ! movingUp)
-                    {
-                        e.GetComponent<Animation>().CurrentAnimation = "Walk" + direction.Heading;
-                    }
-                }
-                if (movingDown)//S
-                {
-                    translateVector.Y += 3;
-                    direction.Heading = "Down";
-                    if (e.HasComponent<Animation>() && !movingLeft && !movingRight && !movingUp)
-                    {
-                        e.GetComponent<Animation>().CurrentAnimation = "Walk" + direction.Heading;
-                    }
-                }
-                if (movingRight)//D
-                {
-                    translateVector.X += 3;
-                    direction.Heading = "Right";
-                    if (e.HasComponent<Animation>() && !movingDown && !movingLeft && !movingUp)
-                    {
-                        e.GetComponent<Animation>().CurrentAnimation = "Walk" + direction.Heading;
-                    }
-                }
-                if (!movingLeft && !movingRight && !movingUp && !movingDown)
+                if (attacking)
                 {
                     if (e.HasComponent<Animation>())
                     {
-                        e.GetComponent<Animation>().CurrentAnimation = "Idle" + direction.Heading;
-                    }  
+                        e.GetComponent<Animation>().CurrentAnimation = "Attack" + direction.Heading;
+                    }
                 }
 
                 /*
@@ -172,7 +177,7 @@ namespace DirtyGame.game.Core.Systems
         }
         private void Attack()
         {
-            attack = !attack;
+            attacking = !attacking;
         }
     }
 }
