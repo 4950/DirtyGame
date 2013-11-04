@@ -75,7 +75,14 @@
     <Compile Include="game\Core\Systems\Util\SystemParams.cs" />
     <Compile Include="game\Dirty.cs" />
     <Compile Include="game\App.cs" />
+    <Compile Include="game\Map\Generators\BSP Generator\BSPMapGenerator.cs" />
+    <Compile Include="game\Map\Generators\BSP Generator\Room.cs" />
+    <Compile Include="game\Map\Generators\BSP Generator\Space.cs" />
+    <Compile Include="game\Map\Generators\IMapGenerator.cs" />
     <Compile Include="game\Map\Map.cs" />
+    <Compile Include="game\Map\Map2.cs" />
+    <Compile Include="game\Map\TileData.cs" />
+    <Compile Include="game\Map\Tileset.cs" />
     <Compile Include="game\SGraphics\Camera.cs" />
     <Compile Include="game\SGraphics\Commands\BeginBatchDraw.cs" />
     <Compile Include="game\SGraphics\Commands\DrawCall.cs" />
@@ -90,6 +97,7 @@
     <Compile Include="game\Core\Systems\Render\SpriteRenderSystem.cs" />
     <Compile Include="game\SGraphics\SpriteSheet.cs" />
     <Compile Include="game\Util\Logger.cs" />
+    <Compile Include="game\Util\RandomNumberGenerator.cs" />
     <Compile Include="game\Util\Singleton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
