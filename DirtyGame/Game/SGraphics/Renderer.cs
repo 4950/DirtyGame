@@ -121,7 +121,7 @@ namespace DirtyGame.game.SGraphics
             spriteBatch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, ActiveCamera.Transform);
             foreach (TileData tile in map.Tiles)
             {
-                Rectangle srcRect;
+                /*Rectangle srcRect;
                 if (tile.Passable)
                 {
                     srcRect = new Rectangle(0, 0, 0, 0);
@@ -130,8 +130,8 @@ namespace DirtyGame.game.SGraphics
                 {
                     srcRect = tile.SrcRect;
                     continue;
-                }
-                spriteBatch.Draw(map.Tileset.Texture, tile.DstRect, srcRect, Color.White);
+                }*/
+                spriteBatch.Draw(map.Tileset.Texture, tile.DstRect, tile.SrcRect, Color.White);
             }
             spriteBatch.End();
 

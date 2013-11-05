@@ -86,7 +86,7 @@
     <Compile Include="game\Map\Generators\BSP\BSPNode.cs" />
     <Compile Include="game\Map\Generators\IMapGenerator.cs" />
     <Compile Include="game\Map\Map.cs" />
-    <Compile Include="game\Map\Map3.cs" />
+    <Compile Include="game\Map\GridMap.cs" />
     <Compile Include="game\Map\SubMap.cs" />
     <Compile Include="game\Map\TileData.cs" />
     <Compile Include="game\Map\TileMap.cs" />
@@ -105,6 +105,8 @@
     <Compile Include="game\Core\Systems\Render\SpriteRenderSystem.cs" />
     <Compile Include="game\SGraphics\SpriteSheet.cs" />
     <Compile Include="game\Util\Logger.cs" />
+    <Compile Include="game\Util\MinHeap.cs" />
+    <Compile Include="game\Util\PriorityQueue.cs" />
     <Compile Include="game\Util\Rand.cs" />
     <Compile Include="game\Util\RowCol.cs" />
     <Compile Include="game\Util\Singleton.cs" />

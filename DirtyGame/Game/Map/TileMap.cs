@@ -16,6 +16,9 @@ namespace DirtyGame.game.Map
 
         public abstract TileData GetTile(RowCol rc);
         public abstract TileData GetTile(Point p);
+        public abstract TileData GetTile(uint id);   
+        public abstract IEnumerable<TileData> GetNeighbors(RowCol rc);
+        public abstract IEnumerable<TileData> GetNeighbors(TileData tile); 
         public abstract SubMap GetSubMap(Rectangle bounds);
         public abstract IEnumerable<TileData> GetTiles(Rectangle bounds);
 
@@ -139,6 +142,16 @@ namespace DirtyGame.game.Map
                 throw new Exception();
             }
             return new Point(rc.Col * (TileHeight), rc.Row * (TileWidth));
+        }
+
+        public int GetDistance(RowCol rc1, RowCol rc2)
+        {
+           return Math.Abs(rc1.Row - rc2.Row) + Math.Abs(rc1.Col - rc2.Col);
+        }
+
+        public int GetDistance(TileData tile1, TileData tile2)
+        {
+            return Math.Abs(tile1.Row - tile2.Row) + Math.Abs(tile1.Col - tile2.Col);
         }
     }
 }

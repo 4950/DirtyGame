@@ -35,9 +35,9 @@ namespace DirtyGame.game.Map.Generators.BSP
             
         }
 
-        public Map3 GenerateMap3(Point p)
+        public GridMap GenerateMap3(Point p)
         {
-            Map3 map = new Map3(tileset, rows, columns, p);
+            GridMap map = new GridMap(tileset, rows, columns, p);
             BSPNode<TileMap> root = new BSPNode<TileMap>(map);
             Queue<BSPNode<TileMap>> queue = new Queue<BSPNode<TileMap>>();            
             queue.Enqueue(root);
@@ -110,7 +110,7 @@ namespace DirtyGame.game.Map.Generators.BSP
             RowCol loc = new RowCol(start);
             
             List<RowCol> hall = new List<RowCol>();
-            int hallWidthOrigin = Rand.RandInt(2, 4);
+            int hallWidthOrigin = Rand.RandInt(4, 5);
             while (!(loc.Row == end.Row && loc.Col == end.Col))
             {
                 //int hallWidth = Rand.RandInt(hallWidthOrigin - 1, hallWidthOrigin + 2);
@@ -170,7 +170,8 @@ namespace DirtyGame.game.Map.Generators.BSP
 
                 foreach (RowCol rc in hall)
                 {
-                    node.Data.GetTile(rc).Passable = true;                                    
+                    node.Data.GetTile(rc).Passable = true;
+                    node.Data.GetTile(rc).SrcRect = new Rectangle(0, 0, 0, 0);
                 }
                 hall.Clear();
                 
@@ -196,6 +197,7 @@ namespace DirtyGame.game.Map.Generators.BSP
             foreach (TileData tile in map.GetTiles(dstRect))
             {
                 tile.Passable = true;
+                tile.SrcRect = new Rectangle(0, 0, 0, 0);
             }
         }
 

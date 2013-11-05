@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input.Touch;
 
 namespace DirtyGame.game.Map
 {
-    public class Map3 : TileMap
+    public class GridMap : TileMap
     {
         public override IEnumerable<TileData> Tiles
         {
@@ -20,12 +20,14 @@ namespace DirtyGame.game.Map
         } 
 
         private List<List<TileData>> tiles;
+        private Dictionary<uint, TileData> tileDictionary; 
         private Tileset tileset;
 
-        public Map3(Tileset tileset, int rows, int cols, Point position)
+        public GridMap(Tileset tileset, int rows, int cols, Point position)
             : base(rows, cols, tileset, position)
         {
             tiles = new List<List<TileData>>();
+            tileDictionary = new Dictionary<uint, TileData>();
             Rectangle srcRect = new Rectangle(0, 0, TileWidth, TileHeight);
             for (int i = 0; i < rows; ++i)
             {
@@ -33,8 +35,10 @@ namespace DirtyGame.game.Map
                 for (int j = 0; j < cols; ++j)
                 {
                     Point p = GetPoint(new RowCol(i, j));
-                    Rectangle dstRect = new Rectangle(p.X, p.Y, TileWidth, TileHeight);                    
-                    tiles[i].Add(new TileData(dstRect, srcRect));
+                    Rectangle dstRect = new Rectangle(p.X, p.Y, TileWidth, TileHeight);
+                    TileData tile = new TileData(dstRect, srcRect, i, j);
+                    tiles[i].Add(tile);
+                    tileDictionary.Add(tile.Id, tile);
                 }
             }
         }
@@ -80,6 +84,42 @@ namespace DirtyGame.game.Map
 
             return targetTiles;
         }
-    
+
+
+        public override IEnumerable<TileData> GetNeighbors(RowCol rc)
+        {
+            List<TileData> neighbors = new List<TileData>();
+            
+            TileData tile = GetTile(new RowCol(rc.Row, rc.Col - 1));
+            if(tile != null) neighbors.Add(tile);
+            
+            tile = GetTile(new RowCol(rc.Row, rc.Col + 1));
+            if (tile != null) neighbors.Add(tile);
+            
+            tile = GetTile(new RowCol(rc.Row - 1, rc.Col));
+            if (tile != null) neighbors.Add(tile);
+            
+            tile = GetTile(new RowCol(rc.Row + 1, rc.Col));
+            if (tile != null) neighbors.Add(tile);
+            
+            return neighbors;
+        }
+
+        public override TileData GetTile(uint id)
+        {
+            if (tileDictionary.ContainsKey(id))
+            {
+                return tileDictionary[id];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public override IEnumerable<TileData> GetNeighbors(TileData tile)
+        {
+            return GetNeighbors(new RowCol(tile.Row, tile.Col));
+        }
     }
 }

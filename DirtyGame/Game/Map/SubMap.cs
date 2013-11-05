@@ -9,14 +9,14 @@ namespace DirtyGame.game.Map
 {
     public class SubMap : TileMap
     {
-        public Map3 ParentMap
+        public GridMap ParentMap
         {
             get;
             private set;
         }
 
         public static int count = 2;
-        public SubMap(Map3 parentMap, int rows, int cols, int rowOffset, int colOffset, Point position)
+        public SubMap(GridMap parentMap, int rows, int cols, int rowOffset, int colOffset, Point position)
             : base(rows, cols, rowOffset, colOffset, parentMap.Tileset, position)
         {            
             ParentMap = parentMap;
@@ -81,6 +81,36 @@ namespace DirtyGame.game.Map
             {
                 return null;
             }
+        }
+
+        public override IEnumerable<TileData> GetNeighbors(RowCol rc)
+        {
+            if (WithinBounds(rc))
+            {
+                return ParentMap.GetNeighbors(rc);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public override TileData GetTile(uint id)
+        {
+            TileData tile = ParentMap.GetTile(id);
+            if (WithinBounds(new RowCol(tile.Row, tile.Col)))
+            {
+                return tile;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public override IEnumerable<TileData> GetNeighbors(TileData tile)
+        {
+            return GetNeighbors(new RowCol(tile.Row, tile.Col));
         }
     }
 }

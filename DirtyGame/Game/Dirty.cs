@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using DirtyGame.game.Core;
+using DirtyGame.game.Core.Components;
 using DirtyGame.game.Core.Components.Movement;
 using DirtyGame.game.Core.Systems;
 using DirtyGame.game.Core.Systems.Movement;
@@ -38,7 +39,7 @@ namespace DirtyGame
         
 
         private Map map;        
-        private Map3 map3;
+        private GridMap _gridMap;
         public World world;
         public GraphicsDeviceManager graphics;
         public Renderer renderer;
@@ -100,13 +101,26 @@ namespace DirtyGame
             texture.SetData<Color>(colors);
             Tileset tileset = new Tileset(texture, 25, 25);
             BSPMapGenerator mapGenerator = new BSPMapGenerator(tileset, 100, 160, 50, 15);            
-            map3 = mapGenerator.GenerateMap3(new Point(0, 0));
+            _gridMap = mapGenerator.GenerateMap3(new Point(0, 0));
+            PathFinder p = new PathFinder();
+            TileData tile1 = _gridMap.GetTile(Utillity.GetRandomPointInside(_gridMap.Bounds));
+            while (tile1.Passable != true)
+            {
+                tile1 = _gridMap.GetTile(Utillity.GetRandomPointInside(_gridMap.Bounds));
+            }
+            TileData tile2 = _gridMap.GetTile(Utillity.GetRandomPointInside(_gridMap.Bounds));
+            while (tile2.Passable != true)
+            {
+                tile2 = _gridMap.GetTile(Utillity.GetRandomPointInside(_gridMap.Bounds));
+            }
+            player.GetComponent<Spatial>().MoveTo(new Vector2(tile1.DstRect.Center.X, tile1.DstRect.Center.Y));
+            p.GetPath2(_gridMap, tile1.DstRect.Center, tile2.DstRect.Center);
         }
 
         protected override void LoadContent()
         {
             map.LoadMap("Cave.tmx", graphics.GraphicsDevice, Content);
-            renderer.ActiveMap = map3;
+            renderer.ActiveMap = _gridMap;
         }
 
         protected override void UnloadContent()
