@@ -88,7 +88,7 @@
              numberOfFrames="9"
              width="70"
              height="80"
-             finite="false">
+             finite="true">
   </animationDefault>
   <animationDefault name="AttackUp"
              yPosition="230"
@@ -98,7 +98,7 @@
              numberOfFrames="9"
              width="70"
              height="80"
-             finite="false">
+             finite="true">
   </animationDefault>
   <animationDefault name="AttackLeft"
              yPosition="310"
@@ -108,7 +108,7 @@
              numberOfFrames="9"
              width="70"
              height="70"
-             finite="false">
+             finite="true">
   </animationDefault>
   <animationDefault name="AttackRight"
              yPosition="380"
@@ -118,6 +118,6 @@
              numberOfFrames="9"
              width="70"
              height="70"
-             finite="false">
+             finite="true">
   </animationDefault>
 </root>

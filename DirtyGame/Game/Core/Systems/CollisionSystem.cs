@@ -43,7 +43,7 @@ namespace DirtyGame.game.Core.Systems
                 Rectangle bbox = new Rectangle((int)playerSpatial.Position.X + (int)playerSpatial.Offset.X, 
                                                (int)playerSpatial.Position.Y + (int)playerSpatial.Offset.Y,
                                                (int)playerSpatial.BoundaryBox.X, 
-                                               (int) playerSpatial.BoundaryBox.Y);    //Needs work
+                                               (int)playerSpatial.BoundaryBox.Y);    //Needs work
 
                 foreach (Entity e in entities)
                 {

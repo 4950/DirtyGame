@@ -38,7 +38,12 @@ namespace DirtyGame.game.Core.Systems
 
                 Vector2 translateVector = new Vector2(0,0);
 
-                if (!attacking)
+           //     if (!e.HasComponent<Animation>())
+           //     {
+                Animation animation = e.GetComponent<Animation>(); //Eugene is going to kill me for putting this in here - JP
+           //     }
+
+                if (!attacking && !animation.StartedFiniteAnimation && animation.FinishedFiniteAnimation)
                 {
                     if (movingUp)//W
                     {
@@ -83,14 +88,23 @@ namespace DirtyGame.game.Core.Systems
                             e.GetComponent<Animation>().CurrentAnimation = "Idle" + direction.Heading;
                         }
                     }
+
+                    spatial.Translate(translateVector);
                 }
                 if (attacking)
                 {
-                    if (e.HasComponent<Animation>())
+                    if (e.HasComponent<Animation>() && !e.GetComponent<Animation>().CurrentAnimation.Contains("Attack"))
                     {
                         e.GetComponent<Animation>().CurrentAnimation = "Attack" + direction.Heading;
                     }
                 }
+      //          else if (!attacking)
+      //          {
+      //              if (e.HasComponent<Animation>() && !e.GetComponent<Animation>().CurrentAnimation.Contains("Attack"))
+      //              {
+      //                  e.GetComponent<Animation>().CurrentAnimation = "Attack" + direction.Heading;
+      //              }
+      //          }
 
                 /*
                 KeyboardState = Keyboard.GetState();
@@ -141,7 +155,7 @@ namespace DirtyGame.game.Core.Systems
                 }
         */
 
-                spatial.Translate(translateVector);
+             /////   spatial.Translate(translateVector);
 
             }
         }

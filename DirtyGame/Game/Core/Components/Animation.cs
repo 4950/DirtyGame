@@ -18,6 +18,8 @@ namespace DirtyGame.game.Core.Components
         private double timeElapsed;
         //Current frame of the animation
         private int currentFrame;
+        private bool startedFiniteAnimation = false;
+        private bool finishedFiniteAnimation = true;
         #endregion
 
         #region Constructors
@@ -63,6 +65,28 @@ namespace DirtyGame.game.Core.Components
             set
             {
                 currentFrame = value;
+            }
+        }
+        public bool StartedFiniteAnimation
+        {
+            get
+            {
+                return startedFiniteAnimation;
+            }
+            set
+            {
+                startedFiniteAnimation = value;
+            }
+        }
+        public bool FinishedFiniteAnimation
+        {
+            get
+            {
+                return finishedFiniteAnimation;
+            }
+            set
+            {
+                finishedFiniteAnimation = value;
             }
         }
         #endregion

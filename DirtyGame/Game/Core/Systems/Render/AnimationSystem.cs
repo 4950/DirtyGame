@@ -19,15 +19,15 @@ namespace DirtyGame.game.Systems
     class AnimationSystem : EntitySystem
     {
         #region Variables
-        private bool startedFiniteAnimation;
-        private bool finishedFiniteAnimation;
+        //private bool startedFiniteAnimation;
+        //private bool finishedFiniteAnimation;
         #endregion
 
         public AnimationSystem()
             : base(SystemDescriptions.AnimationSystem.Aspect, SystemDescriptions.AnimationSystem.Priority)
         {
-            startedFiniteAnimation = false;
-            finishedFiniteAnimation = true;
+          //  startedFiniteAnimation = false;
+          //  finishedFiniteAnimation = true;
         }
 
         public override void OnEntityAdded(Entity e)
@@ -62,12 +62,12 @@ namespace DirtyGame.game.Systems
                     //Subtracting the time to get ready for the next frame
                     animation.TimeElapsed -= timeBetweenFrames;
 
-                    if (sprite.SpriteSheet.Finite[animation.CurrentAnimation] || startedFiniteAnimation)
+                    if (sprite.SpriteSheet.Finite[animation.CurrentAnimation] || animation.StartedFiniteAnimation)
                     {
-                        if (!startedFiniteAnimation && finishedFiniteAnimation)
+                        if (!animation.StartedFiniteAnimation && animation.FinishedFiniteAnimation)
                         {
-                            startedFiniteAnimation = true;
-                            finishedFiniteAnimation = false;
+                            animation.StartedFiniteAnimation = true;
+                            animation.FinishedFiniteAnimation = false;
 
                             //Checking to make sure we are not going over the number of frames
                             if (animation.CurrentFrame < (sprite.SpriteSheet.Animation[animation.CurrentAnimation].Length - 1))
@@ -75,7 +75,7 @@ namespace DirtyGame.game.Systems
                                 animation.CurrentFrame++;
                             }
                         }
-                        else if (startedFiniteAnimation && !finishedFiniteAnimation)
+                        else if (animation.StartedFiniteAnimation && !animation.FinishedFiniteAnimation)
                         {
                             if (animation.CurrentFrame < (sprite.SpriteSheet.Animation[animation.CurrentAnimation].Length - 1))
                             {
@@ -83,10 +83,11 @@ namespace DirtyGame.game.Systems
                             }
                             else
                             {
-                                finishedFiniteAnimation = true;
-                                startedFiniteAnimation = false;
+                                animation.StartedFiniteAnimation = false;
+                                animation.FinishedFiniteAnimation = true;
                                 //animation.CurrentAnimation = animation.CurrentAnimation.Remove(0, 6); //this needs to change the currentAnimation to just the direction
                                 //animation.CurrentAnimation = "Down";
+                                animation.CurrentAnimation = "Idle" + direction.Heading;
                             }
                         }
                     }
