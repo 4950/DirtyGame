@@ -10,7 +10,7 @@ namespace DirtyGame.game.Core.Components
     {
         #region
         //Sprite direction
-        private string heading;
+        private string heading = "Down";
         #endregion
 
         #region Properties
