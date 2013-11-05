@@ -51,6 +51,14 @@ namespace DirtyGame.game.Map
             private set;
         }
 
+        public RowCol RowCol
+        {
+            get
+            {
+                return new RowCol(Row, Col);
+            }
+        }
+
         public TileData(Rectangle dstRect, Rectangle srcRect, int row, int col)
         {
             Id = (uint)Guid.NewGuid().GetHashCode();

@@ -65,6 +65,7 @@
     <Compile Include="game\Core\GameStates\SplashScreenState.cs" />
     <Compile Include="game\Core\Path.cs" />
     <Compile Include="game\Core\PathFinder.cs" />
+    <Compile Include="game\Core\PathGenerator.cs" />
     <Compile Include="game\Core\ResourceManager.cs" />
     <Compile Include="game\Core\Systems\CollisionSystem.cs" />
     <Compile Include="game\Core\Systems\GameLogicSystem.cs" />

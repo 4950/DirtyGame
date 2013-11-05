@@ -8,7 +8,16 @@ namespace DirtyGame.game.Core
 {
     class Path
     {
-        private List<Point> path;
+        public List<Point> Points
+        {
+            get;
+            private set;
+        }
+
+        public Path()
+        {
+            Points = new List<Point>();
+        }
 
     }
 }

@@ -147,11 +147,6 @@ namespace DirtyGame.game.Map
         public int GetDistance(RowCol rc1, RowCol rc2)
         {
            return Math.Abs(rc1.Row - rc2.Row) + Math.Abs(rc1.Col - rc2.Col);
-        }
-
-        public int GetDistance(TileData tile1, TileData tile2)
-        {
-            return Math.Abs(tile1.Row - tile2.Row) + Math.Abs(tile1.Col - tile2.Col);
-        }
+        }       
     }
 }

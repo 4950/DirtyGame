@@ -115,7 +115,7 @@ namespace DirtyGame.game.Core
                     {
                         SearchNode next = openAccessor[tile.Id];
                         //check if cost is better
-                        SearchNode newNode = new SearchNode(map.GetDistance(tile, dest), tile, node);
+                        SearchNode newNode = new SearchNode(Utillity.GetManhattanDistance(tile.RowCol, dest.RowCol), tile, node);
                         if (newNode.F < next.F)
                         {
                             next.Parent = node;
@@ -126,7 +126,7 @@ namespace DirtyGame.game.Core
                     }
                     else
                     {
-                        SearchNode next = new SearchNode(map.GetDistance(tile, dest), tile, node);
+                        SearchNode next = new SearchNode(Utillity.GetManhattanDistance(tile.RowCol, dest.RowCol), tile, node);
                         openAccessor.Add(next.Id, next);
                         open.Insert(next);
                     }
@@ -135,20 +135,21 @@ namespace DirtyGame.game.Core
 
             if (winner == null)
             {
-                return null;
+                return new Path();
             }
             else
             {
                 node = winner;
+                List<TileData> tiles = new List<TileData>();
                 while (node != null)
-                {
-                    Console.WriteLine(node.Tile.Row + " " + node.Tile.Col);
+                {                    
                     node.Tile.SrcRect = new Rectangle(60, 0, 0, 0);
+                    tiles.Add(node.Tile);
                     node = node.Parent;
                     
-                }
-
-                return null;
+                }      
+                Path path = new PathGenerator().GeneratePathFromTiles(tiles);
+                return path;
             }
             
             
