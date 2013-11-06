@@ -19,6 +19,8 @@ using Microsoft.Xna.Framework.GamerServices;
 using EntityFramework.Systems;
 using DirtyGame.game.Core.Systems.Monster;
 using DirtyGame.game.Core.GameStates;
+using CoreUI;
+using CoreUI.DrawEngines;
 
 
 #endregion
@@ -43,11 +45,20 @@ namespace DirtyGame
         public GameStateManager gameStateManager;
         public AISystem aiSystem;
         private readonly int MAX_MONSTERS = 20;
+        public CoreUIEngine UIEngine;
+        public MonoGameDrawEngine UIDraw;
 
         public Dirty()
         {
+
             graphics = new GraphicsDeviceManager(this);
-            resourceManager = new ResourceManager(Content);                       
+            resourceManager = new ResourceManager(Content);
+            //init UI
+            UIDraw = new MonoGameDrawEngine(graphics.GraphicsDevice, Content);
+            UIEngine = new CoreUIEngine(UIDraw, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
+            SpriteFont defaultFont = Content.Load<SpriteFont>("default");
+            UIDraw.setDefaultFont(defaultFont);
+         
             renderer = new Renderer(graphics, new Camera());
             world = new World();
             gameStateManager = new GameStateManager(this);
@@ -63,6 +74,8 @@ namespace DirtyGame
             world.AddSystem(new CollisionSystem());
             world.AddSystem(new AnimationSystem());
             map = new Map(graphics.GraphicsDevice);
+
+            
 
             SpriteSheet playerSpriteSheet =  new SpriteSheet(resourceManager.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
             SpriteSheet monsterSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("monsterSheet_JUNK"), "Content\\MonsterAnimation.xml");
@@ -84,6 +97,7 @@ namespace DirtyGame
         {
             map.LoadMap("Cave.tmx", graphics.GraphicsDevice, Content);
             renderer.ActiveMap = map;
+            
         }
 
         protected override void UnloadContent()
@@ -98,6 +112,9 @@ namespace DirtyGame
 
 
             gameStateManager.CurrentState.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+            MouseState ms = Mouse.GetState();
+            UIEngine.GetInput(ms.X, ms.Y, ms.LeftButton == ButtonState.Pressed, ms.RightButton == ButtonState.Pressed, ms.MiddleButton == ButtonState.Pressed);
+            UIEngine.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
             base.Update(gameTime);
         }
 
@@ -109,6 +126,7 @@ namespace DirtyGame
         {
             
             renderer.Render();
+            UIEngine.Render();
             base.Draw(gameTime);
         }
     }

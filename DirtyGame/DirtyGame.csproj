@@ -11,7 +11,7 @@
     <RootNamespace>DirtyGame</RootNamespace>
     <AssemblyName>DirtyGame</AssemblyName>
     <FileAlignment>512</FileAlignment>
-	<XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
+    <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <XnaPlatform>Windows Phone</XnaPlatform>
     <XnaProfile>Reach</XnaProfile>
   </PropertyGroup>
@@ -60,6 +60,7 @@
     <Compile Include="game\Core\GameManager.cs" />
     <Compile Include="game\Core\GameStates\ExitState.cs" />
     <Compile Include="game\Core\GameStates\GamePlay.cs" />
+    <Compile Include="game\Core\GameStates\GameStateGameOver.cs" />
     <Compile Include="game\Core\GameStates\GameStateManager.cs" />
     <Compile Include="game\Core\GameStates\IGameState.cs" />
     <Compile Include="game\Core\GameStates\MainMenuState.cs" />

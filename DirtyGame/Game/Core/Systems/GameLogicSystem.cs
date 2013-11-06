@@ -28,7 +28,7 @@ namespace DirtyGame.game.Core.Systems
             if (--monstersdefeated == 0)
             {
                 Event gamestate = new Event();
-                gamestate.name = "GameState";
+                gamestate.name = "GameStateGameOver";
                 EventManager.Instance.TriggerEvent(gamestate);
             }
         }
