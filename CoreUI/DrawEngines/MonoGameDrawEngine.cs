@@ -52,11 +52,9 @@ namespace CoreUI.DrawEngines
         IUIRenderSurface cur;
         BasicEffect eff;
         SpriteFont defaultFont;
-        List<Texture2D> rects;
-        List<Texture2D> lines;
         Texture2D pixel;
-        int lineIndex;
-        int rectIndex;
+        Texture2D gradQuad;
+        Texture2D gradPixel;
 
         public MonoGameDrawEngine(GraphicsDevice dev, ContentManager cont)
         {
@@ -64,12 +62,25 @@ namespace CoreUI.DrawEngines
             device = dev;
 
             batch = new SpriteBatch(device);
-            rects = new List<Texture2D>();
-            lines = new List<Texture2D>();
+
             pixel = new Texture2D(device, 1, 1, false, SurfaceFormat.Color);
             Color[] rectData = new Color[1];
             rectData[0] = Color.White;
             pixel.SetData(rectData);
+
+            gradPixel = new Texture2D(device, 2, 1, false, SurfaceFormat.Color);
+            rectData = new Color[2];
+            rectData[0] = Color.Transparent;
+            rectData[1] = Color.White;
+            gradPixel.SetData(rectData);
+
+            gradQuad = new Texture2D(device, 2, 2, false, SurfaceFormat.Color);
+            rectData = new Color[4];
+            rectData[0] = Color.Transparent;
+            rectData[1] = Color.White;
+            rectData[2] = Color.Transparent;
+            rectData[3] = Color.Transparent;
+            gradQuad.SetData(rectData);
         }
         public void setDefaultFont(SpriteFont font)
         {
@@ -159,38 +170,6 @@ namespace CoreUI.DrawEngines
                 device.SetRenderTarget(null);
                 cur = null;
             }
-            rectIndex = 0;
-            lineIndex = 0;
-        }
-        private Texture2D getRect()
-        {
-            Texture2D tex;
-            if (rectIndex < rects.Count)
-            {
-                tex = rects[rectIndex];
-            }
-            else
-            {
-                tex = new Texture2D(device, 2, 2, false, SurfaceFormat.Color);
-                rects.Add(tex);
-            }
-            rectIndex++;
-            return tex;
-        }
-        private Texture2D getLine()
-        {
-            Texture2D tex;
-            if (lineIndex < lines.Count)
-            {
-                tex = lines[lineIndex];
-            }
-            else
-            {
-                tex = new Texture2D(device, 2, 1, false, SurfaceFormat.Color);
-                lines.Add(tex);
-            }
-            lineIndex++;
-            return tex;
         }
         private Rectangle toRect(int left, int top, int right, int bottom)
         {
@@ -208,16 +187,21 @@ namespace CoreUI.DrawEngines
 
         public void Draw_FilledBox(int left, int top, int right, int bottom, IUIColor color1, IUIColor color2, IUIColor color3, IUIColor color4)
         {
-            Texture2D rect = getRect();//new Texture2D(device, 2, 2, false, SurfaceFormat.Color);
+            /*Texture2D rect = getRect();//new Texture2D(device, 2, 2, false, SurfaceFormat.Color);
             Color[] rectData = new Color[4];
             rectData[0] = (color1 as MonoGameColor).color;
             rectData[1] = (color2 as MonoGameColor).color;
             rectData[2] = (color3 as MonoGameColor).color;
             rectData[3] = (color4 as MonoGameColor).color;
-            rect.SetData(rectData);
+            rect.SetData(rectData);*/
 
             device.SamplerStates[0].Filter = TextureFilter.Anisotropic;
-            batch.Draw(rect, toRect(left, top, right, bottom), Color.White);
+            //batch.Draw(rect, toRect(left, top, right, bottom), Color.White);
+            batch.Draw(pixel, toRect(left, top, right, bottom), (color1 as MonoGameColor).color);
+            batch.Draw(gradQuad, toRect(left, top, right, bottom), (color2 as MonoGameColor).color);
+            batch.Draw(gradQuad, toRect(left, top, right, bottom), null, (color3 as MonoGameColor).color, 0, Vector2.Zero, SpriteEffects.FlipVertically, 0);
+            batch.Draw(gradQuad, toRect(left, top, right, bottom), null, (color4 as MonoGameColor).color, 0, Vector2.Zero, SpriteEffects.FlipVertically | SpriteEffects.FlipHorizontally, 0);
+            //batch.Draw(gradPixel, toRect(left, bottom, right, top), (color3 as MonoGameColor).color);
             device.SamplerStates[0].Filter = TextureFilter.Point;
 
         }
@@ -249,11 +233,11 @@ namespace CoreUI.DrawEngines
         public void Draw_Line(int left, int top, int right, int bottom, IUIColor color1, IUIColor color2)
         {
 
-            Texture2D line = getLine();//new Texture2D(device, 2, 1, false, SurfaceFormat.Color);
+            /*Texture2D line = getLine();//new Texture2D(device, 2, 1, false, SurfaceFormat.Color);
             Color[] lineData = new Color[2];
             lineData[0] = (color1 as MonoGameColor).color;
             lineData[1] = (color2 as MonoGameColor).color;
-            line.SetData(lineData);
+            line.SetData(lineData);*/
 
             int width = 1;
             Vector2 begin = new Vector2(left, top);
@@ -274,7 +258,9 @@ namespace CoreUI.DrawEngines
             if (begin.Y > end.Y) angle = MathHelper.TwoPi - angle;
 
             device.SamplerStates[0].Filter = TextureFilter.Anisotropic;
-            batch.Draw(line, r, null, Color.White, angle, Vector2.Zero, SpriteEffects.None, 0);
+            batch.Draw(pixel, r, null, (color1 as MonoGameColor).color, angle, Vector2.Zero, SpriteEffects.None, 0);
+            batch.Draw(gradPixel, r, null, (color2 as MonoGameColor).color, angle, Vector2.Zero, SpriteEffects.None, 0);
+            //batch.Draw(line, r, null, Color.White, angle, Vector2.Zero, SpriteEffects.None, 0);
             device.SamplerStates[0].Filter = TextureFilter.Point;
         }
 

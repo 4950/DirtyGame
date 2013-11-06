@@ -43,6 +43,7 @@ namespace DirtyGame.game.Core.GameStates
                 b3.Position = new System.Drawing.Point(10, 70);
                 b3.Size = new System.Drawing.Point(280, 50);
                 b3.Text = "Options";
+                b3.Click += options;
                 p.AddElement(b3);
 
                 CoreUI.Elements.Button b4 = new CoreUI.Elements.Button();
@@ -53,9 +54,12 @@ namespace DirtyGame.game.Core.GameStates
                 p.AddElement(b4);
             }
 
-            menu.ShowDialog();
+            menu.Show();
         }
-
+        void options(object sender)
+        {
+            MessageBox.Show("lol no options", "Options");
+        }
         void startGame(object sender)
         {
             Events.Event startGame = new Events.Event();
