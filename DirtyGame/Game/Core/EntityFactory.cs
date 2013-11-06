@@ -75,6 +75,8 @@ namespace DirtyGame.game.Core
             DirectionComponent direction = new DirectionComponent();
             direction.Heading = "Down";
 
+            //Movement Component
+            MovementComponent movement = new MovementComponent();
 
             e.AddComponent(spatial);
             e.AddComponent(sprite);
@@ -83,6 +85,7 @@ namespace DirtyGame.game.Core
             e.AddComponent(controllable);
             e.AddComponent(animation);
             e.AddComponent(direction);
+            e.AddComponent(movement);
             return e;
         }
 

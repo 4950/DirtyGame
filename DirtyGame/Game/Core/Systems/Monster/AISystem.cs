@@ -46,10 +46,10 @@ namespace DirtyGame.game.Core.Systems.Monster
 
             foreach (Entity e in entities)
             {
-                if (e.HasComponent<MonsterComponent>())
+                if (e.HasComponent<Player>())
                 {
-                    if (!m.GetComponent<MonsterComponent>().monsterType.Equals(e.GetComponent<MonsterComponent>().monsterType))
-                    {
+                    //if (!m.GetComponent<MonsterComponent>().monsterType.Equals(e.GetComponent<MonsterComponent>().monsterType))
+                    //{
                         int otherX = (int)e.GetComponent<Spatial>().Position.X;
                         int otherY = (int)e.GetComponent<Spatial>().Position.Y;
                         if (getDistance(m.GetComponent<Spatial>().Position.X, m.GetComponent<Spatial>().Position.Y, otherX, otherY) < 400)
@@ -58,7 +58,7 @@ namespace DirtyGame.game.Core.Systems.Monster
 
                             return chaseVector;
                         }
-                    }
+                    //}
                 }
             }
 
