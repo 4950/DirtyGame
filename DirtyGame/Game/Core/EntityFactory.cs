@@ -108,7 +108,7 @@ namespace DirtyGame.game.Core
             timeComponent.timeOfLastDraw = new TimeSpan(0,0,0,0,0);
 
             //Create AIMovementComponent for the new entity
-            AIMovementComponent movementComponent = new AIMovementComponent();
+            MovementComponent movementComponent = new MovementComponent();
 
             //Direction Component
             DirectionComponent direction = new DirectionComponent();

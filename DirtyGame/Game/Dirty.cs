@@ -58,7 +58,7 @@ namespace DirtyGame
             world.AddSystem(new CameraUpdateSystem(renderer));
             world.AddSystem(new MapBoundarySystem(renderer));
             world.AddSystem(new SpawnerSystem(entityFactory));
-            world.AddSystem(new MonsterSystem(aiSystem));
+            world.AddSystem(new MovementSystem(aiSystem));
             world.AddSystem(new GameLogicSystem());
             world.AddSystem(new CollisionSystem());
             world.AddSystem(new AnimationSystem());

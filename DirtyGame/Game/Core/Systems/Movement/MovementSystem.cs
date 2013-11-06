@@ -37,9 +37,9 @@ namespace EntityFramework.Systems
             foreach (Entity e in entities)
             {
                 //Check for entities with an AI movement component
-                if (e.HasComponent<AIMovementComponent>())
+                if (e.HasComponent<MonsterComponent>())
                 {
-                    Console.WriteLine("found one");
+                    //Console.WriteLine("found one");
                     if (e.GetComponent<TimeComponent>().timeOfLastDraw + t <= totalTime)
                     {
                         e.GetComponent<TimeComponent>().timeOfLastDraw = totalTime;
