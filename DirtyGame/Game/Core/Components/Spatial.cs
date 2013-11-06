@@ -22,6 +22,11 @@ namespace DirtyGame.game.Core.Components
             get;
             set;
         }
+        public bool isMoving
+        {
+            get;
+            set;
+        }
         #endregion
 
         #region Functions
