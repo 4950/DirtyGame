@@ -46,6 +46,7 @@ namespace DirtyGame
         public AISystem aiSystem;
         private readonly int MAX_MONSTERS = 20;
         public CoreUIEngine UIEngine;
+        public GameLogicSystem gLogicSystem;
         public MonoGameDrawEngine UIDraw;
 
         public Dirty()
@@ -70,7 +71,8 @@ namespace DirtyGame
             world.AddSystem(new MapBoundarySystem(renderer));
             world.AddSystem(new SpawnerSystem(entityFactory));
             world.AddSystem(new MonsterSystem(aiSystem));
-            world.AddSystem(new GameLogicSystem());
+            gLogicSystem = new GameLogicSystem();
+            world.AddSystem(gLogicSystem);
             world.AddSystem(new CollisionSystem());
             world.AddSystem(new AnimationSystem());
             map = new Map(graphics.GraphicsDevice);
