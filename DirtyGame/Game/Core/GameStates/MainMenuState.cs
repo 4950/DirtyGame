@@ -49,6 +49,7 @@ namespace DirtyGame.game.Core.GameStates
                 b4.Position = new System.Drawing.Point(10, 190);
                 b4.Size = new System.Drawing.Point(280, 50);
                 b4.Text = "Exit";
+                b4.Click += endGame;
                 p.AddElement(b4);
             }
 
@@ -60,6 +61,12 @@ namespace DirtyGame.game.Core.GameStates
             Events.Event startGame = new Events.Event();
             startGame.name = "GameStateGame";
             EventManager.Instance.TriggerEvent(startGame);
+        }
+        void endGame(object sender)
+        {
+            Events.Event endGame = new Events.Event();
+            endGame.name = "GameState";
+            EventManager.Instance.TriggerEvent(endGame);
         }
 
         public void OnExit()

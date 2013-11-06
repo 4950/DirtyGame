@@ -60,7 +60,7 @@ namespace DirtyGame
             SpriteFont defaultFont = Content.Load<SpriteFont>("default");
             UIDraw.setDefaultFont(defaultFont);
          
-            renderer = new Renderer(graphics, new Camera());
+            renderer = new Renderer(graphics, new Camera(new Vector2(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height)));
             world = new World();
             gameStateManager = new GameStateManager(this);
             entityFactory = new EntityFactory(world.EntityMgr, resourceManager);
@@ -70,6 +70,7 @@ namespace DirtyGame
             world.AddSystem(new CameraUpdateSystem(renderer));
             world.AddSystem(new MapBoundarySystem(renderer));
             world.AddSystem(new SpawnerSystem(entityFactory));
+            world.AddSystem(new HUDSystem(renderer, UIEngine));
             world.AddSystem(new MonsterSystem(aiSystem));
             gLogicSystem = new GameLogicSystem();
             world.AddSystem(gLogicSystem);
@@ -116,7 +117,7 @@ namespace DirtyGame
             gameStateManager.CurrentState.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
             MouseState ms = Mouse.GetState();
             UIEngine.GetInput(ms.X, ms.Y, ms.LeftButton == ButtonState.Pressed, ms.RightButton == ButtonState.Pressed, ms.MiddleButton == ButtonState.Pressed);
-            UIEngine.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
+            
             base.Update(gameTime);
         }
 
@@ -126,7 +127,7 @@ namespace DirtyGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            
+            UIEngine.Update((float)gameTime.ElapsedGameTime.TotalMilliseconds);
             renderer.Render();
             UIEngine.Render();
             base.Draw(gameTime);
