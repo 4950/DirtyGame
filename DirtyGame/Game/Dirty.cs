@@ -21,6 +21,7 @@ using DirtyGame.game.Core.Systems.Monster;
 using DirtyGame.game.Core.GameStates;
 using CoreUI;
 using CoreUI.DrawEngines;
+using DirtyGame.game.Input;
 
 
 #endregion
@@ -48,9 +49,16 @@ namespace DirtyGame
         public CoreUIEngine UIEngine;
         public GameLogicSystem gLogicSystem;
         public MonoGameDrawEngine UIDraw;
+        public InputManager inputManager;
+        public InputContext baseContext;
 
         public Dirty()
         {
+
+            inputManager = InputManager.Instance;
+            baseContext = new InputContext();
+            inputManager.AddInputContext(baseContext);
+            baseContext.RegisterHandler(Keys.Escape, Exit, null);
 
             graphics = new GraphicsDeviceManager(this);
             resourceManager = new ResourceManager(Content);
@@ -110,8 +118,7 @@ namespace DirtyGame
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            inputManager.DispatchInput();
 
 
             gameStateManager.CurrentState.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
