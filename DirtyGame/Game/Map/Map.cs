@@ -71,18 +71,129 @@ namespace DirtyGame.game.Map
             public TileData tile; //source tile
             public Rectangle dest; //Destination rect
         }
+        class MapLayerSet//class for one tileset of one layer
+        {
+            TileSet set;
+            MapLayer layer;
+            BasicEffect quadEffect;
+            VertexBuffer verts;
+            IndexBuffer inds;
+
+            public MapLayerSet(TileSet set, MapLayer layer, GraphicsDevice dev)
+            {
+                this.set = set;
+                this.layer = layer;
+
+                Matrix View = Matrix.CreateLookAt(new Vector3(20, 1, 0), new Vector3(20, -1, 0), Vector3.Forward);
+                Matrix Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 4.0f / 3.0f, 1, 500);
+
+                quadEffect = new BasicEffect(dev);
+                quadEffect.LightingEnabled = false;
+                quadEffect.World = Matrix.Identity;
+                quadEffect.View = View;
+                quadEffect.Projection = Projection;
+                quadEffect.TextureEnabled = true;
+                quadEffect.Texture = set.tex;
+
+                List<LayerTile> tiles = layer.tileRectsBySet[set];
+                int len = tiles.Count;
+
+                verts = new VertexBuffer(dev, VertexPositionTexture.VertexDeclaration, 4*len, BufferUsage.WriteOnly);
+                inds = new IndexBuffer(dev, typeof(int), 6*len, BufferUsage.WriteOnly);
+                VertexPositionTexture[] v = new VertexPositionTexture[4 * len];
+                int[] ins = new int[6*len];
+
+                int i;
+                for (i = 0; i < len; i++)
+                {
+                    ins[i * 6] = i * 4 + 0;
+                    ins[i * 6 + 1] = i * 4 + 1;
+                    ins[i * 6 + 2] = i * 4 + 2;
+                    ins[i * 6 + 3] = i * 4 + 2;
+                    ins[i * 6 + 4] = i * 4 + 1;
+                    ins[i * 6 + 5] = i * 4 + 3;
+                }
+
+                Vector2 texSize = new Vector2(set.tex.Width, set.tex.Height);
+
+                i = 0;
+                foreach (LayerTile tile in tiles)
+                {
+                    Vector2[] texCoords = getTexCoords(tile.tile.coords, texSize);
+                    Vector3[] quadCoords = getQuad(new Vector3(tile.dest.X-32, -500, tile.dest.Y-32), Vector3.Up, Vector3.Forward, tile.dest.Width, tile.dest.Height);
+                    for (int j = 0; j < 4; j++)
+                    {
+                        //v[i * 4 + j].Normal = Vector3.Backward;
+                        v[i * 4 + j].Position = quadCoords[j];
+                        v[i * 4 + j].TextureCoordinate = texCoords[j];
+                    }
+                    i++;
+                    if (i == len)
+                        break;
+                }
+
+                verts.SetData<VertexPositionTexture>(v);
+                inds.SetData<int>(ins);
+            }
+            public void render(GraphicsDevice dev, Matrix view)
+            {
+                Matrix v = Matrix.CreateLookAt(new Vector3(20, 1, 0), new Vector3(20, -1, 0), Vector3.Forward);
+                v.Translation = view.Translation;
+                quadEffect.View = v;
+                foreach (EffectPass pass in quadEffect.CurrentTechnique.Passes)
+                {
+                    pass.Apply();
+                    dev.Indices = inds;
+                    dev.SetVertexBuffer(verts);
+                    dev.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, verts.VertexCount, 0, inds.IndexCount / 3);//inds.IndexCount / 3);
+                    //dev.DrawUserIndexedPrimitives<VertexPositionNormalTexture>(PrimitiveType.TriangleList, verts, 0, 4, inds, 0, 2);
+                }
+            }
+            private Vector3[] getQuad(Vector3 origin, Vector3 normal, Vector3 up, float width, float height)
+            {
+                Vector3[] v = new Vector3[4];
+                Vector3 Left = Vector3.Cross(normal, up);
+                Vector3 uppercenter = (up * height / 2) + origin;
+                Vector3 UpperLeft = uppercenter + (Left * width / 2);
+                Vector3 UpperRight = uppercenter - (Left * width / 2);
+                Vector3 LowerLeft = UpperLeft - (up * height);
+                Vector3 LowerRight = UpperRight - (up * height);
+
+                v[0] = LowerLeft;
+                v[1] = UpperLeft;
+                v[2] = LowerRight;
+                v[3] = UpperRight;
+
+                return v;
+            }
+            private Vector2[] getTexCoords(Rectangle coords, Vector2 size)
+            {
+                float left = coords.Left / size.X;
+                float top = coords.Top / size.Y;
+                float bottom = coords.Bottom / size.Y;
+                float right = coords.Right / size.X;
+                Vector2[] v = new Vector2[4];
+                v[0] = new Vector2(left, top);
+                v[1] = new Vector2(right, top);
+                v[2] = new Vector2(left, bottom);
+                v[3] = new Vector2(right, bottom);
+                return v;
+            }
+        }
         class MapLayer
         {
             //int zIndex; //zindex of this layer
             String name; //name of layer
             int width, height; //width and height of layer in tiles
-            Dictionary<TileSet, List<LayerTile>> tileRectsBySet;
+            public Dictionary<TileSet, List<LayerTile>> tileRectsBySet;
+            List<MapLayerSet> mapLayerSets;
 
             public MapLayer()
             {
                 tileRectsBySet = new Dictionary<TileSet, List<LayerTile>>();
+                mapLayerSets = new List<MapLayerSet>();
             }
-            public void LoadLayer(XmlElement layerXML, Map map)
+            public void LoadLayer(XmlElement layerXML, Map map, GraphicsDevice dev)
             {
                 name = layerXML.GetAttribute("name");
                 width = int.Parse(layerXML.GetAttribute("width"));
@@ -132,15 +243,26 @@ namespace DirtyGame.game.Map
                     if (tileY == height)
                         break;
                 }
+                foreach (TileSet t in tileRectsBySet.Keys)
+                {
+                    mapLayerSets.Add(new MapLayerSet(t, this, dev));
+                }
             }
-            public void draw(SpriteBatch batch)
+            public void draw(SpriteBatch batch, Matrix view)
             {
+                /*int i = 0;
                 foreach (var entry in tileRectsBySet)
                 {
                     foreach (LayerTile t in entry.Value)
                     {
+                        i++;
                         batch.Draw(entry.Key.tex, t.dest, t.tile.coords, Color.White);
                     }
+                }
+                i = 0;*/
+                foreach (MapLayerSet l in mapLayerSets)
+                {
+                    l.render(batch.GraphicsDevice, view);
                 }
             }
         }
@@ -197,7 +319,7 @@ namespace DirtyGame.game.Map
                 foreach (XmlElement layerXML in layersXML)
                 {
                     MapLayer l = new MapLayer();
-                    l.LoadLayer(layerXML, this);
+                    l.LoadLayer(layerXML, this, dev);
                     layers.Add(l);
                 }
 
@@ -214,7 +336,7 @@ namespace DirtyGame.game.Map
             batch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, cam.Transform);
             foreach (MapLayer l in layers)
             {
-                l.draw(batch);
+                l.draw(batch, cam.Transform);
             }
             batch.End();
         }
