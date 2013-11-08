@@ -59,6 +59,7 @@ namespace DirtyGame.game.Core.Systems
                 }
 
                 spatial.Translate(translateVector);
+                spatial.isMoving = (translateVector.Length() != 0);
 
             }
         }

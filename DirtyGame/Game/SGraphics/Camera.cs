@@ -9,6 +9,7 @@ namespace DirtyGame.game.SGraphics
     public class Camera
     {    
         private Vector2 position;
+        
 
         public Matrix Transform
         {
@@ -17,10 +18,12 @@ namespace DirtyGame.game.SGraphics
                 return Matrix.CreateTranslation(-position.X, -position.Y, 0);
             }
         }
+        public Vector2 size { get; set; }
                                     
-        public Camera()
+        public Camera(Vector2 size)
         {
             position = new Vector2(0, 0);
+            this.size = size;
         }
 
         public void MoveTo(Vector2 pos)

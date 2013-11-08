@@ -40,5 +40,8 @@ namespace DirtyGame.game.Core.Systems.Util
 
         public static SystemParams MovementSystem =
             new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MovementComponent), typeof(TimeComponent), typeof(Spatial), typeof(Sprite) }), 1);
+
+        public static SystemParams HUDSystem =
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MovementComponent), typeof(TimeComponent), typeof(Spatial), typeof(Sprite) }), 1);
     }
 }

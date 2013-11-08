@@ -11,6 +11,9 @@
     <RootNamespace>DirtyGame</RootNamespace>
     <AssemblyName>DirtyGame</AssemblyName>
     <FileAlignment>512</FileAlignment>
+    <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
+    <XnaPlatform>Windows Phone</XnaPlatform>
+    <XnaProfile>Reach</XnaProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -57,12 +60,15 @@
     <Compile Include="game\Core\GameManager.cs" />
     <Compile Include="game\Core\GameStates\ExitState.cs" />
     <Compile Include="game\Core\GameStates\GamePlay.cs" />
+    <Compile Include="game\Core\GameStates\GameStateGameOver.cs" />
     <Compile Include="game\Core\GameStates\GameStateManager.cs" />
     <Compile Include="game\Core\GameStates\IGameState.cs" />
+    <Compile Include="game\Core\GameStates\MainMenuState.cs" />
     <Compile Include="game\Core\GameStates\SplashScreenState.cs" />
     <Compile Include="game\Core\ResourceManager.cs" />
     <Compile Include="game\Core\Systems\CollisionSystem.cs" />
     <Compile Include="game\Core\Systems\GameLogicSystem.cs" />
+    <Compile Include="game\Core\Systems\HUDSystem.cs" />
     <Compile Include="game\Core\Systems\MapBoundarySystem.cs" />
     <Compile Include="game\Core\Systems\Monster\AISystem.cs" />
     <Compile Include="game\Core\Systems\Monster\MonsterSystem.cs" />
@@ -103,6 +109,7 @@
     <Reference Include="Lidgren.Network">
       <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\Lidgren.Network.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="Tao.Sdl">
       <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\Tao.Sdl.dll</HintPath>
     </Reference>
@@ -181,7 +188,15 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GameContent\GameContent.contentproj">
+      <Name>Content</Name>
+      <XnaReferenceType>Content</XnaReferenceType>
+      <Project>{DE6937C4-6E2F-4C83-A39B-F5E2305610C9}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\v4.0\Microsoft.Xna.GameStudio.Content.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

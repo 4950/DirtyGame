@@ -13,22 +13,24 @@ using EntityFramework;
 
 namespace DirtyGame.game.Core.Systems
 {
-    class GameLogicSystem : EntitySystem
+    public class GameLogicSystem : EntitySystem
     {
 
-        private int monstersdefeated;
+        public int monstersdefeated;
+        public int monstersalive;
 
         public override void OnEntityAdded(Entity e)
         {
-            monstersdefeated++;
+            monstersalive++;
         }
 
         public override void OnEntityRemoved(Entity e)
         {
-            if (--monstersdefeated == 0)
+            monstersdefeated++;
+            if (--monstersalive == 0)
             {
                 Event gamestate = new Event();
-                gamestate.name = "GameState";
+                gamestate.name = "GameStateGameOver";
                 EventManager.Instance.TriggerEvent(gamestate);
             }
         }
@@ -43,8 +45,7 @@ namespace DirtyGame.game.Core.Systems
             monstersdefeated = 0;
         }
 
-        public GameLogicSystem()
-            : base(SystemDescriptions.GameLogicSystem.Aspect, SystemDescriptions.GameLogicSystem.Priority)
+        public GameLogicSystem() : base(SystemDescriptions.GameLogicSystem.Aspect, SystemDescriptions.GameLogicSystem.Priority)
         {
            
         }

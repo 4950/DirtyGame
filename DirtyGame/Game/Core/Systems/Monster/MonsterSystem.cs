@@ -42,6 +42,7 @@ namespace EntityFramework.Systems
             {
                 if (e.HasComponent<MonsterComponent>())
                 {
+                    e.GetComponent<Spatial>().isMoving = true;
                     if (e.GetComponent<TimeComponent>().timeOfLastDraw + t <= total_Time)
                     {
                         e.GetComponent<TimeComponent>().timeOfLastDraw = total_Time;
