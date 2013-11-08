@@ -47,6 +47,13 @@ namespace DirtyGame.game.Core.Systems
                 {
                     if (movingUp)//W
                     {
+                        ////
+                        // Entity will add the animation component when the button is pressed
+                        // 
+                        // Entity will remove the animation component when the button is released
+                        //
+                        //
+                        ////
                         translateVector.Y -= 3;
                         direction.Heading = "Up";
                         if (e.HasComponent<Animation>() && !movingDown && !movingLeft && !movingRight)
