@@ -67,7 +67,7 @@ namespace DirtyGame.game.Core.Systems
            //     }
 
 
-                if (!attackingStart)// && !animation.StartedFiniteAnimation && animation.FinishedFiniteAnimation)
+                if (!attackingPressing)   //!attackingStart)
                 {
                     if (movingUpPressing)
                     {
@@ -217,23 +217,30 @@ namespace DirtyGame.game.Core.Systems
                     }
                     spatial.Translate(translateVector);
                 }
-                if (attackingStart)
+                else if (attackingPressing)
                 {
-                    //Creating an Animation component
                     AnimationComponent animation = new AnimationComponent();
-                    //Changing the animation with the string property
                     animation.CurrentAnimation = "Attack" + direction.Heading;
+                    e.AddComponent(animation);
+                    e.Refresh();
+                }
+                //if (attackingStart)
+                //{
+                //    //Creating an Animation component
+                //    AnimationComponent animation = new AnimationComponent();
+                //    //Changing the animation with the string property
+                //    animation.CurrentAnimation = "Attack" + direction.Heading;
 
 
-                    //if (e.HasComponent<AnimationComponent>() && !e.GetComponent<AnimationComponent>().CurrentAnimation.Contains("Attack"))
-                    //{
-                    //    e.GetComponent<AnimationComponent>().CurrentAnimation = "Attack" + direction.Heading;
-                    //}
-                }
-                if (attackingFinish)
-                {
-                  //  entitiesToRemoveAnimationComponent.Add(e);
-                }
+                //    //if (e.HasComponent<AnimationComponent>() && !e.GetComponent<AnimationComponent>().CurrentAnimation.Contains("Attack"))
+                //    //{
+                //    //    e.GetComponent<AnimationComponent>().CurrentAnimation = "Attack" + direction.Heading;
+                //    //}
+                //}
+                //if (attackingFinish)
+                //{
+                //  //  entitiesToRemoveAnimationComponent.Add(e);
+                //}
       //          else if (!attacking)
       //          {
       //              if (e.HasComponent<Animation>() && !e.GetComponent<Animation>().CurrentAnimation.Contains("Attack"))

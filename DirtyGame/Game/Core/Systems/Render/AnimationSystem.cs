@@ -42,6 +42,8 @@ namespace DirtyGame.game.Systems
 
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
         {
+            List<Entity> entitiesToRemoveAnimationComponent = new List<Entity>();
+
             foreach (Entity e in entities)
             {
                 //Getting components for this entity
@@ -49,7 +51,7 @@ namespace DirtyGame.game.Systems
                 Sprite sprite = e.GetComponent<Sprite>();
                 DirectionComponent direction = e.GetComponent<DirectionComponent>();
 
-                if (animation == null)
+                if (animation == null) //This is a weird bug when adding and removing the animation component. It might have to do with priorities of the systems
                 {
                     continue;
                 }
@@ -93,6 +95,8 @@ namespace DirtyGame.game.Systems
                                 //animation.CurrentAnimation = animation.CurrentAnimation.Remove(0, 6); //this needs to change the currentAnimation to just the direction
                                 //animation.CurrentAnimation = "Down";
                                 animation.CurrentAnimation = "Idle" + direction.Heading;
+
+                                entitiesToRemoveAnimationComponent.Add(e);
                             }
                         }
                     }
@@ -122,6 +126,11 @@ namespace DirtyGame.game.Systems
                                                       sprite.SpriteSheet.Animation[animation.CurrentAnimation][animation.CurrentFrame].Height);
                     spatial.Offset = sprite.SpriteSheet.Offset[animation.CurrentAnimation];
                 }
+            }
+            foreach (Entity e in entitiesToRemoveAnimationComponent)
+            {
+                //World.RemoveEntity(e);
+                e.RemoveComponent<AnimationComponent>();
             }
         }
     }

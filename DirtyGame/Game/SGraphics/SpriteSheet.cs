@@ -17,6 +17,9 @@ namespace DirtyGame.game.SGraphics
         private string xmlFileLocation;
         //Stores the different animations of the sprite with a string tag
         private Dictionary<string, Rectangle[]> sAnimations = new Dictionary<string, Rectangle[]>();
+
+    //    private Dictionary<string, 
+
         //Stores the sprite offsets for each of the animations
         private Dictionary<string, Vector2> sOffsets = new Dictionary<string, Vector2>();
         //Stores the information if the animation is finite
