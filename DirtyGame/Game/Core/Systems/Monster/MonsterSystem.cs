@@ -55,19 +55,19 @@ namespace EntityFramework.Systems
                             if (moveVector[0] > 0)
                             {
                                 direction.Heading = "Right";
-                                //if (e.HasComponent<Animation>())
-                                //{
-                                //    e.GetComponent<Animation>().CurrentAnimation = "Walk" + direction.Heading;
-                                //}
+                                AnimationComponent animation = new AnimationComponent();
+                                animation.CurrentAnimation = "Walk" + direction.Heading;
+                                e.AddComponent(animation);
+                                e.Refresh();
                             }
 
                             if (moveVector[0] < 0)
                             {
                                 direction.Heading = "Left";
-                                //if (e.HasComponent<Animation>())
-                                //{
-                                //    e.GetComponent<Animation>().CurrentAnimation = "Walk" + direction.Heading;
-                                //}
+                                AnimationComponent animation = new AnimationComponent();
+                                animation.CurrentAnimation = "Walk" + direction.Heading;
+                                e.AddComponent(animation);
+                                e.Refresh();
                             }
                         }
                         else
@@ -75,19 +75,19 @@ namespace EntityFramework.Systems
                             if (moveVector[1] > 0)
                             {
                                 direction.Heading = "Down";
-                                //if (e.HasComponent<Animation>())
-                                //{
-                                //    e.GetComponent<Animation>().CurrentAnimation = "Walk" + direction.Heading;
-                                //}
+                                AnimationComponent animation = new AnimationComponent();
+                                animation.CurrentAnimation = "Walk" + direction.Heading;
+                                e.AddComponent(animation);
+                                e.Refresh();
                             }
 
                             if (moveVector[1] < 0)
                             {
                                 direction.Heading = "Up";
-                                //if (e.HasComponent<Animation>())
-                                //{
-                                //    e.GetComponent<Animation>().CurrentAnimation = "Walk" + direction.Heading;
-                                //}
+                                AnimationComponent animation = new AnimationComponent();
+                                animation.CurrentAnimation = "Walk" + direction.Heading;
+                                e.AddComponent(animation);
+                                e.Refresh();
                             }
                         }
                     }
