@@ -89,6 +89,10 @@ namespace EntityFramework.Managers
             {
                 entityComponents.Add(id, new Dictionary<uint, Component>());
             }
+            else
+            {
+               RemoveComponent(id, c.GetType());
+            }
             entityComponents[id].Add(c.Id, c);
             GetComponentBitVector(id).AddBit(c.Bit);      
         }

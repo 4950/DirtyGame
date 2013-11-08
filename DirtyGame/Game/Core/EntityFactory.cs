@@ -40,7 +40,7 @@ namespace DirtyGame.game.Core
             sprite.SpriteSheet = spriteSheet;
 
             //Creating an Animation component
-            Animation animation = new Animation();
+            AnimationComponent animation = new AnimationComponent();
             //Changing the animation with the string property
             animation.CurrentAnimation = animationName;
 
@@ -61,23 +61,17 @@ namespace DirtyGame.game.Core
 
             //Direction Component
             DirectionComponent direction = new DirectionComponent();
-            direction.Heading = "Down";      
-   
+            direction.Heading = "Down";
 
-            sprite.SpriteSheet = spriteSheet;// new SpriteSheet(resourceMgr.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
-           // sprite.SrcRect = new Rectangle(0, 0, 100, 100);
-
-            //Creating an Animation component
-            Animation animation = new Animation();
-            //Changing the animation with the string property
-            animation.CurrentAnimation = "Idle" + direction.Heading;
+            sprite.SpriteSheet = spriteSheet;
+            sprite.SrcRect = sprite.SpriteSheet.Animation["Idle" + direction.Heading][0];
 
             e.AddComponent(spatial);
             e.AddComponent(sprite);
             e.AddComponent(new Collidable());
             Player controllable = new Player();
             e.AddComponent(controllable);
-            e.AddComponent(animation);
+
             e.AddComponent(direction);
             return e;
         }
@@ -94,10 +88,15 @@ namespace DirtyGame.game.Core
             Spatial spatial = new Spatial();
             spatial.MoveTo(xPos, yPos);
 
+            //Direction Component
+            DirectionComponent direction = new DirectionComponent();
+            direction.Heading = "Down";
+
             //Create the Sprite for the new entity
           //  Sprite monsterSprite = sprite;
             Sprite monsterSprite = new Sprite();
             monsterSprite.SpriteSheet = spriteSheet;
+            monsterSprite.SrcRect = monsterSprite.SpriteSheet.Animation["Idle" + direction.Heading][0];
 
             //Create the TimeComponent for the new entity
             TimeComponent timeComponent = new TimeComponent();
@@ -105,14 +104,6 @@ namespace DirtyGame.game.Core
 
             //Create AIMovementComponent for the new entity
             AIMovementComponent movementComponent = new AIMovementComponent();
-
-            //Direction Component
-            DirectionComponent direction = new DirectionComponent();
-            direction.Heading = "Down";
-
-            //Animation
-            Animation animation = new Animation();
-            animation.CurrentAnimation = "Idle" + direction.Heading;
 
             //Add the new components to the entity
             monster.AddComponent(m);
@@ -122,7 +113,6 @@ namespace DirtyGame.game.Core
             monster.AddComponent(movementComponent);
             monster.AddComponent(new Collidable());
             monster.AddComponent(direction);
-            monster.AddComponent(animation);
 
             return monster;
         }

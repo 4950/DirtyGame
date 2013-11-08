@@ -9,13 +9,36 @@ using EntityFramework.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using DirtyGame.game.Input;
+using DirtyGame.game.Core.Components.Render;
 
 namespace DirtyGame.game.Core.Systems
 {
     class PlayerControlSystem : EntitySystem
     {
         private KeyboardState KeyboardState;
-        private bool movingUp, movingDown, movingLeft, movingRight, attacking;
+        private bool movingUpStart = false;
+        private bool movingDownStart = false;
+        private bool movingLeftStart = false;
+        private bool movingRightStart = false;
+        private bool attackingStart = false;
+
+        private bool movingUpFinish = true;
+        private bool movingDownFinish = true;
+        private bool movingLeftFinish = true;
+        private bool movingRightFinish = true;
+        private bool attackingFinish = true;
+
+        private bool movingUpPressing = false;
+        private bool movingDownPressing = false;
+        private bool movingLeftPressing = false;
+        private bool movingRightPressing = false;
+        private bool attackingPressing = false;
+
+        private bool movingUpAnimationAdded = false;
+        private bool movingDownAnimationAdded = false;
+        private bool movingLeftAnimationAdded = false;
+        private bool movingRightAnimationAdded = false;
+        private bool attackingAnimationAdded = false; 
 
         public PlayerControlSystem(InputContext context)
             : base(SystemDescriptions.PlayerControlSystem.Aspect, SystemDescriptions.PlayerControlSystem.Priority)
@@ -35,75 +58,181 @@ namespace DirtyGame.game.Core.Systems
 
                 Spatial spatial = e.GetComponent<Spatial>();
                 DirectionComponent direction = e.GetComponent<DirectionComponent>();
-
+                Sprite sprite = e.GetComponent<Sprite>();
                 Vector2 translateVector = new Vector2(0,0);
 
            //     if (!e.HasComponent<Animation>())
            //     {
-                Animation animation = e.GetComponent<Animation>(); //Eugene is going to kill me for putting this in here - JP
+   //             Animation animation = e.GetComponent<Animation>(); //Eugene is going to kill me for putting this in here - JP
            //     }
 
-                if (!attacking && !animation.StartedFiniteAnimation && animation.FinishedFiniteAnimation)
+
+                if (!attackingStart)// && !animation.StartedFiniteAnimation && animation.FinishedFiniteAnimation)
                 {
-                    if (movingUp)//W
+                    if (movingUpPressing)
                     {
-                        ////
-                        // Entity will add the animation component when the button is pressed
-                        // 
-                        // Entity will remove the animation component when the button is released
-                        //
-                        //
-                        ////
-                        translateVector.Y -= 3;
-                        direction.Heading = "Up";
-                        if (e.HasComponent<Animation>() && !movingDown && !movingLeft && !movingRight)
+                        if (movingUpStart && !movingUpFinish)   //These variables might be named backwards? -JP
                         {
-                            e.GetComponent<Animation>().CurrentAnimation = "Walk" + direction.Heading;
+                            //// How to implement the adding and removing AnimationComponent
+                            // Entity will add the animation component when the button is pressed
+                            // 
+                            // Entity will remove the animation component when the button is released
+                            ////
+                            translateVector.Y -= 3;
+                            direction.Heading = "Up";
+
+                            if (!movingUpAnimationAdded && !e.HasComponent<AnimationComponent>())
+                            {
+                                //   Sprite sprite = e.GetComponent<Sprite>();
+                                // sprite.SrcRect = new Rectangle(0, 0, 50, 50);
+                                AnimationComponent animation = new AnimationComponent();
+                                animation.CurrentAnimation = "Walk" + direction.Heading;
+                                e.AddComponent(animation);
+                                e.Refresh();
+                                movingUpAnimationAdded = true;
+                            }
                         }
                     }
-                    if (movingLeft)//A
+                    else if (!movingUpPressing)
                     {
-                        translateVector.X -= 3;
-                        direction.Heading = "Left";
-                        if (e.HasComponent<Animation>() && !movingDown && !movingRight && !movingUp)
+                        if (!movingUpStart && movingUpFinish && movingUpAnimationAdded)
                         {
-                            e.GetComponent<Animation>().CurrentAnimation = "Walk" + direction.Heading;
-                        }
-                    }
-                    if (movingDown)//S
-                    {
-                        translateVector.Y += 3;
-                        direction.Heading = "Down";
-                        if (e.HasComponent<Animation>() && !movingLeft && !movingRight && !movingUp)
-                        {
-                            e.GetComponent<Animation>().CurrentAnimation = "Walk" + direction.Heading;
-                        }
-                    }
-                    if (movingRight)//D
-                    {
-                        translateVector.X += 3;
-                        direction.Heading = "Right";
-                        if (e.HasComponent<Animation>() && !movingDown && !movingLeft && !movingUp)
-                        {
-                            e.GetComponent<Animation>().CurrentAnimation = "Walk" + direction.Heading;
-                        }
-                    }
-                    if (!movingLeft && !movingRight && !movingUp && !movingDown)
-                    {
-                        if (e.HasComponent<Animation>())
-                        {
-                            e.GetComponent<Animation>().CurrentAnimation = "Idle" + direction.Heading;
+                            AnimationComponent animationComponent = e.GetComponent<AnimationComponent>();
+                            if ((animationComponent != null) && animationComponent.CurrentAnimation.Contains("Up"))
+                            {
+                                //entitiesToRemoveAnimationComponent.Add(e);
+                                e.RemoveComponent<AnimationComponent>();
+                                movingUpAnimationAdded = false;
+                                sprite.SrcRect = sprite.SpriteSheet.Animation["Idle" + direction.Heading][0]; //I do not know if this is the best way to do this - JP
+                            }
                         }
                     }
 
+                    if (movingLeftPressing)
+                    {
+                        if (movingLeftStart && !movingLeftFinish)   //These variables might be named backwards? -JP
+                        {
+                            translateVector.X -= 3;
+                            direction.Heading = "Left";
+                            if (!movingLeftAnimationAdded && !e.HasComponent<AnimationComponent>())
+                            {
+                                AnimationComponent animation = new AnimationComponent();
+                                animation.CurrentAnimation = "Walk" + direction.Heading;
+                                e.AddComponent(animation);
+                                e.Refresh();
+                                movingLeftAnimationAdded = true;
+                            }
+                        }
+                    }
+                    else if (!movingLeftPressing)
+                    {
+                        if (!movingLeftStart && movingLeftFinish && movingLeftAnimationAdded)
+                        {
+                            AnimationComponent animationComponent = e.GetComponent<AnimationComponent>();
+                            if ((animationComponent != null) && animationComponent.CurrentAnimation.Contains("Left"))
+                            {
+                                e.RemoveComponent<AnimationComponent>();
+                                movingLeftAnimationAdded = false;
+                                sprite.SrcRect = sprite.SpriteSheet.Animation["Idle" + direction.Heading][0]; //I do not know if this is the best way to do this - JP
+                            }
+                        }
+                    }
+
+                    if (movingDownPressing)
+                    {
+                        if (movingDownStart && !movingDownFinish)   //These variables might be named backwards? -JP
+                        {
+                            //// How to implement the adding and removing AnimationComponent
+                            // Entity will add the animation component when the button is pressed
+                            // 
+                            // Entity will remove the animation component when the button is released
+                            ////
+                            translateVector.Y += 3;
+                            direction.Heading = "Down";
+
+                            if (!movingDownAnimationAdded && !e.HasComponent<AnimationComponent>())
+                            {
+                                //   Sprite sprite = e.GetComponent<Sprite>();
+                                // sprite.SrcRect = new Rectangle(0, 0, 50, 50);
+                                AnimationComponent animation = new AnimationComponent();
+                                animation.CurrentAnimation = "Walk" + direction.Heading;
+                                e.AddComponent(animation);
+                                e.Refresh();
+                                movingDownAnimationAdded = true;
+                            }
+                        }
+                    }
+                    else if (!movingDownPressing)
+                    {
+                        if (!movingDownStart && movingDownFinish && movingDownAnimationAdded)
+                        {
+                            AnimationComponent animationComponent = e.GetComponent<AnimationComponent>();
+                            if ((animationComponent != null) && animationComponent.CurrentAnimation.Contains("Down"))
+                            {
+                                //entitiesToRemoveAnimationComponent.Add(e);
+                                e.RemoveComponent<AnimationComponent>();
+                                movingDownAnimationAdded = false;
+                                sprite.SrcRect = sprite.SpriteSheet.Animation["Idle" + direction.Heading][0]; //I do not know if this is the best way to do this - JP
+                            }
+                        }
+                    }
+
+                    if (movingRightPressing)
+                    {
+                        if (movingRightStart && !movingRightFinish)   //These variables might be named backwards? -JP
+                        {
+                            //// How to implement the adding and removing AnimationComponent
+                            // Entity will add the animation component when the button is pressed
+                            // 
+                            // Entity will remove the animation component when the button is released
+                            ////
+                            translateVector.X += 3;
+                            direction.Heading = "Right";
+
+                            if (!movingRightAnimationAdded && !e.HasComponent<AnimationComponent>())
+                            {
+                                //   Sprite sprite = e.GetComponent<Sprite>();
+                                // sprite.SrcRect = new Rectangle(0, 0, 50, 50);
+                                AnimationComponent animation = new AnimationComponent();
+                                animation.CurrentAnimation = "Walk" + direction.Heading;
+                                e.AddComponent(animation);
+                                e.Refresh();
+                                movingRightAnimationAdded = true;
+                            }
+                        }
+                    }
+                    else if (!movingRightPressing)
+                    {
+                        if (!movingRightStart && movingRightFinish && movingRightAnimationAdded)
+                        {
+                            AnimationComponent animationComponent = e.GetComponent<AnimationComponent>();
+                            if ((animationComponent != null) && animationComponent.CurrentAnimation.Contains("Right"))
+                            {
+                                //entitiesToRemoveAnimationComponent.Add(e);
+                                e.RemoveComponent<AnimationComponent>();
+                                movingRightAnimationAdded = false;
+                                sprite.SrcRect = sprite.SpriteSheet.Animation["Idle" + direction.Heading][0]; //I do not know if this is the best way to do this - JP
+                            }
+                        }
+                    }
                     spatial.Translate(translateVector);
                 }
-                if (attacking)
+                if (attackingStart)
                 {
-                    if (e.HasComponent<Animation>() && !e.GetComponent<Animation>().CurrentAnimation.Contains("Attack"))
-                    {
-                        e.GetComponent<Animation>().CurrentAnimation = "Attack" + direction.Heading;
-                    }
+                    //Creating an Animation component
+                    AnimationComponent animation = new AnimationComponent();
+                    //Changing the animation with the string property
+                    animation.CurrentAnimation = "Attack" + direction.Heading;
+
+
+                    //if (e.HasComponent<AnimationComponent>() && !e.GetComponent<AnimationComponent>().CurrentAnimation.Contains("Attack"))
+                    //{
+                    //    e.GetComponent<AnimationComponent>().CurrentAnimation = "Attack" + direction.Heading;
+                    //}
+                }
+                if (attackingFinish)
+                {
+                  //  entitiesToRemoveAnimationComponent.Add(e);
                 }
       //          else if (!attacking)
       //          {
@@ -112,58 +241,6 @@ namespace DirtyGame.game.Core.Systems
       //                  e.GetComponent<Animation>().CurrentAnimation = "Attack" + direction.Heading;
       //              }
       //          }
-
-                /*
-                KeyboardState = Keyboard.GetState();
-                if (KeyboardState.IsKeyDown(Keys.Left))
-                {
-                    //Arbitrarily chosen number of pixels... speed can easily be added if we want
-                    translateVector.X -= 3;
-
-                    direction.Heading = "Left";
-                }
-                if (KeyboardState.IsKeyDown(Keys.Right))
-                {
-                    translateVector.X += 3;
-
-                    direction.Heading = "Right";
-                }
-                if (KeyboardState.IsKeyDown(Keys.Up))
-                {
-                    translateVector.Y -= 3;
-
-                    direction.Heading = "Up";
-                }
-                if (KeyboardState.IsKeyDown(Keys.Down))
-                {
-                    translateVector.Y += 3;
-
-                    direction.Heading = "Down";
-                }
-                */
-
-         //       if (KeyboardState.IsKeyDown(Keys.Space))
-         //       {
-         //           if (e.HasComponent<Animation>())
-         //           {
-         //               e.GetComponent<Animation>().CurrentAnimation = "AttackUp";
-         //           }
-         //       }
-        /*
-                if (KeyboardState.IsKeyUp(Keys.Left) && 
-                    KeyboardState.IsKeyUp(Keys.Right) && 
-                    KeyboardState.IsKeyUp(Keys.Up) && 
-                    KeyboardState.IsKeyUp(Keys.Down))
-                {
-                    if (!direction.Heading.Contains("Idle"))
-                    {
-                        direction.Heading = "Idle" + direction.Heading;
-                    }
-                }
-        */
-
-             /////   spatial.Translate(translateVector);
-
             }
         }
 
@@ -179,26 +256,33 @@ namespace DirtyGame.game.Core.Systems
 
         private void MoveLeft()
         {
-            movingLeft = !movingLeft;
+            movingLeftStart = !movingLeftStart;
+            movingLeftFinish = !movingLeftFinish;
+            movingLeftPressing = !movingLeftPressing;
         }
-
         private void MoveRight()
         {
-            movingRight = !movingRight;
+            movingRightStart = !movingRightStart;
+            movingRightFinish = !movingRightFinish;
+            movingRightPressing = !movingRightPressing;
         }
-
         private void MoveUp()
         {
-            movingUp = !movingUp;
+            movingUpStart = !movingUpStart;
+            movingUpFinish = !movingUpFinish;
+            movingUpPressing = !movingUpPressing;
         }
-
         private void MoveDown()
         {
-            movingDown = !movingDown;
+            movingDownStart = !movingDownStart;
+            movingDownFinish = !movingDownFinish;
+            movingDownPressing = !movingDownPressing;
         }
         private void Attack()
         {
-            attacking = !attacking;
+            attackingStart = !attackingStart;
+            attackingFinish = !attackingFinish;
+            attackingPressing = !attackingPressing;
         }
     }
 }

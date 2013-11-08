@@ -31,8 +31,8 @@ namespace DirtyGame.game.Systems
         }
 
         public override void OnEntityAdded(Entity e)
-        {           
-         
+        {
+            bool b = true;
         }
 
         public override void OnEntityRemoved(Entity e)
@@ -45,9 +45,14 @@ namespace DirtyGame.game.Systems
             foreach (Entity e in entities)
             {
                 //Getting components for this entity
-                Animation animation = e.GetComponent<Animation>();
+                AnimationComponent animation = e.GetComponent<AnimationComponent>();
                 Sprite sprite = e.GetComponent<Sprite>();
                 DirectionComponent direction = e.GetComponent<DirectionComponent>();
+
+                if (animation == null)
+                {
+                    continue;
+                }
 
          //       animation.CurrentAnimation = direction.Heading;  //do not understand why this is here
 

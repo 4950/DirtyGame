@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DirtyGame.game.Core.Components
 {
-    class Animation : Component
+    class AnimationComponent : Component
     {
         #region Variables
         //Current animation of the sprite
@@ -23,7 +23,7 @@ namespace DirtyGame.game.Core.Components
         #endregion
 
         #region Constructors
-        public Animation()
+        public AnimationComponent()
         {
             
         }
