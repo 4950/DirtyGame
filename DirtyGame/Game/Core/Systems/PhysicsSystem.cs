@@ -16,8 +16,6 @@ namespace DirtyGame.game.Core.Systems
     class PhysicsSystem : EntitySystem 
     {
 
-        private Dictionary<uint, Body> bodyDictionary;
-        private Dictionary<int, Entity> entityDictionary;
         private Physics physics;
         private FarseerPhysics.Dynamics.World physicsWorld;
 
@@ -26,8 +24,6 @@ namespace DirtyGame.game.Core.Systems
         {
             this.physics = physics;
             physicsWorld = physics.World;
-            bodyDictionary = new Dictionary<uint,Body>();
-            entityDictionary = new Dictionary<int, Entity>();
 
             ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
         }
@@ -39,13 +35,13 @@ namespace DirtyGame.game.Core.Systems
             foreach (Entity e in entities)
             {
                 Spatial spatial = e.GetComponent<Spatial>();
-                spatial.Position = ConvertUnits.ToDisplayUnits(bodyDictionary[e.Id].Position);
+                spatial.Position = ConvertUnits.ToDisplayUnits(physics.Body[e.Id].Position);
                 
-                if(e.HasComponent<MovementComponent>()) //Some could be static
-                {
+               if(e.HasComponent<MovementComponent>()) //Some could be static
+               {
                     
                     MovementComponent movement = e.GetComponent<MovementComponent>();
-                    bodyDictionary[e.Id].LinearVelocity = movement.Velocity;
+                    physics.Body[e.Id].LinearVelocity = movement.Velocity;
                 
                 }
                 
@@ -80,50 +76,50 @@ namespace DirtyGame.game.Core.Systems
 
             CollisionCategory(e, Body);
 
-            entityDictionary.Add(Body.BodyId, e);
-            physics.Add(Body.BodyId, e);
-            bodyDictionary.Add(e.Id, Body);
+            physics.AddEntity(Body.BodyId, e);
+            physics.AddBody(e.Id, Body);
         }
 
         private bool BodyOnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
         {
-            if (entityDictionary.ContainsKey(fixtureA.Body.BodyId) && entityDictionary.ContainsKey(fixtureB.Body.BodyId))
+            List<Entity> e = new List<Entity>();
+            int count = 0;
+            if (physics.Entity.ContainsKey(fixtureA.Body.BodyId) && physics.Entity.ContainsKey(fixtureB.Body.BodyId))
             {
-                if (entityDictionary[fixtureA.Body.BodyId].HasComponent<Player>())
+                if (physics.Entity[fixtureA.Body.BodyId].HasComponent<Player>())
                 {
-                    if (entityDictionary[fixtureA.Body.BodyId].HasComponent<WeaponComponent>())
+
+                    if (physics.Entity[fixtureA.Body.BodyId].HasComponent<WeaponComponent>())
                     {
 
                     }
 
-                    else if (entityDictionary[fixtureB.Body.BodyId].HasComponent<MonsterComponent>() && !entityDictionary[fixtureB.Body.BodyId].HasComponent<WeaponComponent>())
+                    else if (physics.Entity[fixtureB.Body.BodyId].HasComponent<MonsterComponent>() && !physics.Entity[fixtureB.Body.BodyId].HasComponent<WeaponComponent>())
                     {
-                        World.RemoveEntity(entityDictionary[fixtureB.Body.BodyId]);
-                        entityDictionary.Remove(fixtureB.Body.BodyId);
-                        fixtureB.Body.Dispose();
+                        World.RemoveEntity(physics.Entity[fixtureB.Body.BodyId]);
+                   
                     }
 
-                    else if (entityDictionary[fixtureB.Body.BodyId].HasComponent<MonsterComponent>() && entityDictionary[fixtureB.Body.BodyId].HasComponent<WeaponComponent>())
+                    else if (physics.Entity[fixtureB.Body.BodyId].HasComponent<MonsterComponent>() && physics.Entity[fixtureB.Body.BodyId].HasComponent<WeaponComponent>())
                     {
 
                     }
                 }
 
-                else if (entityDictionary[fixtureB.Body.BodyId].HasComponent<Player>())
+                else if (physics.Entity[fixtureB.Body.BodyId].HasComponent<Player>())
                 {
-                    if (entityDictionary[fixtureB.Body.BodyId].HasComponent<WeaponComponent>())
+                    if (physics.Entity[fixtureB.Body.BodyId].HasComponent<WeaponComponent>())
                     {
 
                     }
 
-                    else if (entityDictionary[fixtureA.Body.BodyId].HasComponent<MonsterComponent>() && !entityDictionary[fixtureA.Body.BodyId].HasComponent<WeaponComponent>())
+                    else if (physics.Entity[fixtureA.Body.BodyId].HasComponent<MonsterComponent>() && !physics.Entity[fixtureA.Body.BodyId].HasComponent<WeaponComponent>())
                     {
-                        World.RemoveEntity(entityDictionary[fixtureA.Body.BodyId]);
-                        entityDictionary.Remove(fixtureA.Body.BodyId);
-                        fixtureA.Body.Dispose();
+                        World.RemoveEntity(physics.Entity[fixtureA.Body.BodyId]);
+                    
                     }
 
-                    else if (entityDictionary[fixtureA.Body.BodyId].HasComponent<MonsterComponent>() && entityDictionary[fixtureA.Body.BodyId].HasComponent<WeaponComponent>())
+                    else if (physics.Entity[fixtureA.Body.BodyId].HasComponent<MonsterComponent>() && physics.Entity[fixtureA.Body.BodyId].HasComponent<WeaponComponent>())
                     {
 
                     }
@@ -134,9 +130,14 @@ namespace DirtyGame.game.Core.Systems
 
         public override void OnEntityRemoved(Entity e)
         {
-            if(bodyDictionary.ContainsKey(e.Id)) 
+            if(physics.Body.ContainsKey(e.Id)) 
             {
-                bodyDictionary.Remove(e.Id);
+                if(physics.Entity.ContainsKey(physics.Body[e.Id].BodyId))
+                {
+                    physics.Body[e.Id].Dispose();
+                    physics.RemoveEntity(physics.Body[e.Id].BodyId);
+                }
+                physics.RemoveBody(e.Id);
             } 
            
         }
