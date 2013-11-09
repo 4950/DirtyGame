@@ -86,6 +86,16 @@ namespace EntityFramework.Systems
             }                       
         }
 
+        // quick fix for "World.RemoveEntity" problems
+        internal void RemoveEntity(Entity e)
+        {
+            if (entities.Contains(e))
+            {
+                OnEntityRemoved(e);
+                entities.Remove(e);
+            }
+        }
+
         // I dont like this here
         internal void RemoveAllEntities()
         {

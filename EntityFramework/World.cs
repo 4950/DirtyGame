@@ -50,9 +50,11 @@ namespace EntityFramework
             // remove entity from systems  
 
             // THIS DOESNT WORK RIGHT NOW, JUST CHECK ALL SYSTEMS
-            //CheckSystems(e, systemMgr.GetSystems(e.SystemBits));
-            CheckSystems(e, systemMgr.Systems);
-
+            //CheckSystems(e, systemMgr.GetSystems(e.SystemBits));           
+            foreach (EntitySystem system in systemMgr.Systems)
+            {
+                system.RemoveEntity(e);
+            }
             entityMgr.RemoveEntity(e.Id);
         }
 
