@@ -93,6 +93,8 @@ namespace DirtyGame.game.Core.Systems
             {
                 Body b = entityToBodyDictionary[e];
                 physicsWorld.RemoveBody(b);
+                entityToBodyDictionary.Remove(e);
+                bodyToEntityDictionary.Remove(b);
             }            
         }
 
