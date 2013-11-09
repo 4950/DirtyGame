@@ -62,6 +62,7 @@
     <Compile Include="game\Core\GameStates\GameStateManager.cs" />
     <Compile Include="game\Core\GameStates\IGameState.cs" />
     <Compile Include="game\Core\GameStates\SplashScreenState.cs" />
+    <Compile Include="game\Core\Physics.cs" />
     <Compile Include="game\Core\ResourceManager.cs" />
     <Compile Include="game\Core\Systems\GameLogicSystem.cs" />
     <Compile Include="game\Core\Systems\MapBoundarySystem.cs" />

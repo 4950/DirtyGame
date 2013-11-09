@@ -35,7 +35,7 @@ namespace DirtyGame
         
 
         private Map map;
-        public FarseerPhysics.Dynamics.World physicsWorld;
+        public Physics physics;
         public EntityFramework.World world;
         public GraphicsDeviceManager graphics;
         public Renderer renderer;
@@ -51,7 +51,7 @@ namespace DirtyGame
             resourceManager = new ResourceManager(Content);                       
             renderer = new Renderer(graphics, new Camera());
             world = new EntityFramework.World();
-            physicsWorld = new FarseerPhysics.Dynamics.World(new Vector2(0, 0));
+            physics = new Physics();
             gameStateManager = new GameStateManager(this);
             entityFactory = new EntityFactory(world.EntityMgr, resourceManager);
             aiSystem = new AISystem();
@@ -61,7 +61,7 @@ namespace DirtyGame
             world.AddSystem(new MapBoundarySystem(renderer));
             world.AddSystem(new SpawnerSystem(entityFactory));
             world.AddSystem(new MonsterSystem(aiSystem));
-            world.AddSystem(new PhysicsSystem(physicsWorld));
+            world.AddSystem(new PhysicsSystem(physics));
             world.AddSystem(new GameLogicSystem());
             world.AddSystem(new AnimationSystem());
             map = new Map(graphics.GraphicsDevice);
@@ -100,7 +100,7 @@ namespace DirtyGame
 
 
             gameStateManager.CurrentState.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
-            physicsWorld.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
+            physics.Update(gameTime);
             base.Update(gameTime);
         }
 

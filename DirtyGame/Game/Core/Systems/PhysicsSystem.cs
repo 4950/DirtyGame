@@ -15,16 +15,20 @@ namespace DirtyGame.game.Core.Systems
 {
     class PhysicsSystem : EntitySystem 
     {
+
         private Dictionary<uint, Body> bodyDictionary;
         private Dictionary<int, Entity> entityDictionary;
-        public FarseerPhysics.Dynamics.World physicsWorld;
+        private Physics physics;
+        private FarseerPhysics.Dynamics.World physicsWorld;
 
-        public PhysicsSystem(FarseerPhysics.Dynamics.World  physicsWorld) 
+        public PhysicsSystem(Physics  physics) 
             : base(SystemDescriptions.PhysicsSystem.Aspect, SystemDescriptions.PhysicsSystem.Priority)
         {
-            this.physicsWorld = physicsWorld;
+            this.physics = physics;
+            physicsWorld = physics.World;
             bodyDictionary = new Dictionary<uint,Body>();
             entityDictionary = new Dictionary<int, Entity>();
+
             ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
         }
 
@@ -63,7 +67,7 @@ namespace DirtyGame.game.Core.Systems
                                                                                   (spatial.Width), ConvertUnits.ToSimUnits(spatial.Height), 1f, 
                                                                                   ConvertUnits.ToSimUnits(spatial.Position));
 
-            
+           
             
                 Body.BodyType = BodyType.Dynamic;
                 Body.Restitution = 0.3f;
@@ -77,6 +81,7 @@ namespace DirtyGame.game.Core.Systems
             CollisionCategory(e, Body);
 
             entityDictionary.Add(Body.BodyId, e);
+            physics.Add(Body.BodyId, e);
             bodyDictionary.Add(e.Id, Body);
         }
 
