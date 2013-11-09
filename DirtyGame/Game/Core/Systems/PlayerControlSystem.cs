@@ -28,38 +28,41 @@ namespace DirtyGame.game.Core.Systems
 
                 Spatial spatial = e.GetComponent<Spatial>();
                 DirectionComponent direction = e.GetComponent<DirectionComponent>();
-
-                Vector2 translateVector = new Vector2(0,0); 
+                MovementComponent movement = e.GetComponent<MovementComponent>();
+                
 
                 KeyboardState = Keyboard.GetState();
                 if (KeyboardState.IsKeyDown(Keys.Left))
                 {
                     //Arbitrarily chosen number of pixels... speed can easily be added if we want
-                    translateVector.X -= 5;
+                    movement.Horizontal = -5;
 
                     direction.Heading = "Left";
                 }
                 if (KeyboardState.IsKeyDown(Keys.Right))
                 {
-                    translateVector.X += 5;
+                    movement.Horizontal = 5;
 
                     direction.Heading = "Right";
+
                 }
                 if (KeyboardState.IsKeyDown(Keys.Up))
                 {
-                    translateVector.Y -= 5;
+                    movement.Vertical = -5;
 
                     direction.Heading = "Up";
                 }
                 if (KeyboardState.IsKeyDown(Keys.Down))
                 {
-                    translateVector.Y += 5;
+                    movement.Vertical = 5;
 
                     direction.Heading = "Down";
                 }
 
-                spatial.Translate(translateVector);
-
+                if(KeyboardState.IsKeyUp(Keys.Up) && KeyboardState.IsKeyUp(Keys.Right) && KeyboardState.IsKeyUp(Keys.Left) &&KeyboardState.IsKeyUp(Keys.Down))
+                {
+                    movement.Velocity = new Vector2(0, 0);
+                }
             }
         }
 

@@ -47,7 +47,9 @@ namespace EntityFramework.Systems
                         e.GetComponent<TimeComponent>().timeOfLastDraw = total_Time;
                         double[] moveVector = aiSys.calculateMoveVector(entities, e);
                         float f = (float)(moveVector[0] * 10.0);
-                        e.GetComponent<Spatial>().MoveTo(e.GetComponent<Spatial>().Position.X + (float)(moveVector[0] * 10.0), e.GetComponent<Spatial>().Position.Y + (float)(moveVector[1] * 10.0));
+                        //e.GetComponent<Spatial>().MoveTo(e.GetComponent<Spatial>().Position.X + (float)(moveVector[0] * 10.0), e.GetComponent<Spatial>().Position.Y + (float)(moveVector[1] * 10.0));
+                        
+
 
                         DirectionComponent direction = e.GetComponent<DirectionComponent>();
                         if (Math.Abs(moveVector[0]) > Math.Abs(moveVector[1]))

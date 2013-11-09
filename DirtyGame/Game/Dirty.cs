@@ -19,7 +19,8 @@ using Microsoft.Xna.Framework.GamerServices;
 using EntityFramework.Systems;
 using DirtyGame.game.Core.Systems.Monster;
 using DirtyGame.game.Core.GameStates;
-
+using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
 
 #endregion
 
@@ -34,8 +35,8 @@ namespace DirtyGame
         
 
         private Map map;
-
-        public World world;
+        public FarseerPhysics.Dynamics.World physicsWorld;
+        public EntityFramework.World world;
         public GraphicsDeviceManager graphics;
         public Renderer renderer;
         public EntityFactory entityFactory;
@@ -49,7 +50,8 @@ namespace DirtyGame
             graphics = new GraphicsDeviceManager(this);
             resourceManager = new ResourceManager(Content);                       
             renderer = new Renderer(graphics, new Camera());
-            world = new World();
+            world = new EntityFramework.World();
+            physicsWorld = new FarseerPhysics.Dynamics.World(new Vector2(0, 0));
             gameStateManager = new GameStateManager(this);
             entityFactory = new EntityFactory(world.EntityMgr, resourceManager);
             aiSystem = new AISystem();
@@ -59,8 +61,8 @@ namespace DirtyGame
             world.AddSystem(new MapBoundarySystem(renderer));
             world.AddSystem(new SpawnerSystem(entityFactory));
             world.AddSystem(new MonsterSystem(aiSystem));
+            world.AddSystem(new PhysicsSystem(physicsWorld));
             world.AddSystem(new GameLogicSystem());
-            world.AddSystem(new CollisionSystem());
             world.AddSystem(new AnimationSystem());
             map = new Map(graphics.GraphicsDevice);
 
@@ -70,13 +72,13 @@ namespace DirtyGame
             Entity e = entityFactory.CreatePlayerEntity(playerSpriteSheet);
             e.Refresh();
 
-            e = entityFactory.CreateSpawner(100, 100, playerSpriteSheet, new Rectangle(0, 0, 46, 46), MAX_MONSTERS / 4, new TimeSpan(0, 0, 0, 0, 1000));
+            e = entityFactory.CreateSpawner(100, 100, playerSpriteSheet, new Rectangle(0, 0, 46, 46), 1, new TimeSpan(0, 0, 0, 0, 1000));
             e.Refresh();
-            e = entityFactory.CreateSpawner(300, 100, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), MAX_MONSTERS / 4, new TimeSpan(0, 0, 0, 0, 2000));
+            e = entityFactory.CreateSpawner(300, 100, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), 1, new TimeSpan(0, 0, 0, 0, 2000));
             e.Refresh();
-            e = entityFactory.CreateSpawner(100, 300, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), MAX_MONSTERS / 4, new TimeSpan(0, 0, 0, 0, 3000));
+            e = entityFactory.CreateSpawner(100, 300, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), 1, new TimeSpan(0, 0, 0, 0, 3000));
             e.Refresh();
-            e = entityFactory.CreateSpawner(300, 300, playerSpriteSheet, new Rectangle(0, 0, 46, 46), MAX_MONSTERS / 4, new TimeSpan(0, 0, 0, 0, 500));
+            e = entityFactory.CreateSpawner(300, 300, playerSpriteSheet, new Rectangle(0, 0, 46, 46), 1, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
         }
 
@@ -98,6 +100,7 @@ namespace DirtyGame
 
 
             gameStateManager.CurrentState.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+            physicsWorld.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
             base.Update(gameTime);
         }
 
