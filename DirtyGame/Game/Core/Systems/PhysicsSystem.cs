@@ -71,7 +71,7 @@ namespace DirtyGame.game.Core.Systems
 
             if (e.HasComponent<Collidable>())
             {
-                Body.OnCollision += Body_OnCollision;
+                Body.OnCollision += BodyOnCollision;
             }
 
             CollisionCategory(e, Body);
@@ -80,7 +80,7 @@ namespace DirtyGame.game.Core.Systems
             bodyDictionary.Add(e.Id, Body);
         }
 
-        private bool Body_OnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
+        private bool BodyOnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
         {
             if (entityDictionary.ContainsKey(fixtureA.Body.BodyId) && entityDictionary.ContainsKey(fixtureB.Body.BodyId))
             {
