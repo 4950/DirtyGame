@@ -6,6 +6,7 @@ using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using EntityFramework.Systems;
 using FarseerPhysics.Factories;
+using DirtyGame.game.Core.Components.Movement;
 using EntityFramework;
 using DirtyGame.game.Core.Systems.Util;
 using DirtyGame.game.Core.Components;
@@ -45,10 +46,14 @@ namespace DirtyGame.game.Core.Systems
                     
                     MovementComponent movement = e.GetComponent<MovementComponent>();
                     bodyDictionary[e.Id].LinearVelocity = movement.Velocity;
-                
-                }
-                
 
+                }
+
+               if (e.HasComponent<AIMovementComponent>())
+               {
+                   AIMovementComponent aimovement = e.GetComponent<AIMovementComponent>();
+                   bodyDictionary[e.Id].LinearVelocity = aimovement.Velocity;
+               }
 
                 
              
@@ -66,11 +71,11 @@ namespace DirtyGame.game.Core.Systems
                                                                                   (spatial.Width), ConvertUnits.ToSimUnits(spatial.Height), 1f, 
                                                                                   ConvertUnits.ToSimUnits(spatial.Position));
 
-           
-            
+            if (e.HasComponent<MovementComponent>() || e.HasComponent<AIMovementComponent>())
+            {
                 Body.BodyType = BodyType.Dynamic;
                 Body.Restitution = 0.3f;
-            
+            }
 
             if (e.HasComponent<Collidable>())
             {

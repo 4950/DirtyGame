@@ -64,6 +64,7 @@ namespace DirtyGame
             world.AddSystem(new PhysicsSystem(physics));
             world.AddSystem(new GameLogicSystem());
             world.AddSystem(new AnimationSystem());
+            world.AddSystem(new MovementSystem());
             map = new Map(graphics.GraphicsDevice);
 
             SpriteSheet playerSpriteSheet =  new SpriteSheet(resourceManager.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
