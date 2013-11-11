@@ -12,16 +12,25 @@ namespace DirtyGame.game.Core.Components
         #region Constructors
         public Spatial()
         {
-            Position = new Vector2(0f, 0f);
+            Position = new Vector2(0, 0);
+            Bounds = new Rectangle();
         }
         #endregion
 
         #region Properties
+
         public Vector2 Position
         {
-            get;
-            set;
+            get
+            {
+                return new Vector2((int)Bounds.X, (int)Bounds.Y);
+            }
+            set
+            {
+                Bounds = new Rectangle((int)value.X, (int)value.Y, Bounds.Width, Bounds.Height);
+            }
         }
+
         public bool isMoving
         {
             get;
@@ -29,26 +38,40 @@ namespace DirtyGame.game.Core.Components
         }
         #endregion
 
+
+        public Rectangle Bounds
+        {
+            get;
+            set;
+        }
+
+        public int Height
+        {
+            get
+            {
+               return Bounds.Height;
+            }
+            set
+            {
+                Bounds = new Rectangle((int)Position.X, (int)Position.Y, Bounds.Width, value);
+            }
+        }
+
+        public int Width
+        {
+            get
+            {
+                return Bounds.Width;
+            }
+            set
+            {
+                Bounds = new Rectangle((int)Position.X, (int)Position.Y, value, Bounds.Height);
+            }
+        }
+
+
         #region Functions
-        public void MoveTo(Vector2 pos)
-        {
-            Position = pos;
-        }
 
-        public void MoveTo(float x, float y)
-        {
-            MoveTo(new Vector2(x, y));
-        }
-
-        public void Translate(Vector2 tanslation)
-        {
-            Position += tanslation;
-        }
-
-        public void Translate(float x, float y)
-        {
-            Translate(new Vector2(x, y));
-        }
         #endregion
     }
 }

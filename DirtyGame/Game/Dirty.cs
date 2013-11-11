@@ -23,6 +23,13 @@ using CoreUI;
 using CoreUI.DrawEngines;
 using DirtyGame.game.Input;
 
+using CoreUI;
+using CoreUI.DrawEngines;
+using DirtyGame.game.Input;
+
+
+using FarseerPhysics.Dynamics;
+
 
 #endregion
 
@@ -37,8 +44,8 @@ namespace DirtyGame
         
 
         private Map map;
-
-        public World world;
+        public Physics physics;
+        public EntityFramework.World world;
         public GraphicsDeviceManager graphics;
         public Renderer renderer;
         public EntityFactory entityFactory;
@@ -61,15 +68,18 @@ namespace DirtyGame
             baseContext.RegisterHandler(Keys.Escape, Exit, null);
 
             graphics = new GraphicsDeviceManager(this);
+
             resourceManager = new ResourceManager(Content);
             //init UI
             UIDraw = new MonoGameDrawEngine(graphics.GraphicsDevice, Content);
             UIEngine = new CoreUIEngine(UIDraw, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
             SpriteFont defaultFont = Content.Load<SpriteFont>("default");
-            UIDraw.setDefaultFont(defaultFont);
-         
-            renderer = new Renderer(graphics, new Camera(new Vector2(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height)));
-            world = new World();
+            UIDraw.setDefaultFont(defaultFont);      
+            resourceManager = new ResourceManager(Content);                       
+            renderer = new Renderer(graphics, new Camera(new Vector2(800, 600)));
+            world = new EntityFramework.World();
+            physics = new Physics(world.EntityMgr);
+
             gameStateManager = new GameStateManager(this);
             entityFactory = new EntityFactory(world.EntityMgr, resourceManager);
             aiSystem = new AISystem();
@@ -81,9 +91,11 @@ namespace DirtyGame
             world.AddSystem(new HUDSystem(renderer, UIEngine));
             world.AddSystem(new MonsterSystem(aiSystem));
             gLogicSystem = new GameLogicSystem();
-            world.AddSystem(gLogicSystem);
-            world.AddSystem(new CollisionSystem());
+            world.AddSystem(gLogicSystem);         
+            world.AddSystem(new PhysicsSystem(physics));
+            world.AddSystem(new GameLogicSystem());
             world.AddSystem(new AnimationSystem());
+            world.AddSystem(new MovementSystem());
             map = new Map(graphics.GraphicsDevice);
 
             
@@ -94,13 +106,13 @@ namespace DirtyGame
             Entity e = entityFactory.CreatePlayerEntity(playerSpriteSheet);
             e.Refresh();
 
-            e = entityFactory.CreateSpawner(100, 100, playerSpriteSheet, new Rectangle(0, 0, 46, 46), MAX_MONSTERS / 4, new TimeSpan(0, 0, 0, 0, 1000));
+            e = entityFactory.CreateSpawner(100, 100, playerSpriteSheet, new Rectangle(0, 0, 46, 46), 1, new TimeSpan(0, 0, 0, 0, 1000));
             e.Refresh();
-            e = entityFactory.CreateSpawner(300, 100, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), MAX_MONSTERS / 4, new TimeSpan(0, 0, 0, 0, 2000));
+            e = entityFactory.CreateSpawner(300, 100, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), 1, new TimeSpan(0, 0, 0, 0, 2000));
             e.Refresh();
-            e = entityFactory.CreateSpawner(100, 300, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), MAX_MONSTERS / 4, new TimeSpan(0, 0, 0, 0, 3000));
+            e = entityFactory.CreateSpawner(100, 300, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), 1, new TimeSpan(0, 0, 0, 0, 3000));
             e.Refresh();
-            e = entityFactory.CreateSpawner(300, 300, playerSpriteSheet, new Rectangle(0, 0, 46, 46), MAX_MONSTERS / 4, new TimeSpan(0, 0, 0, 0, 500));
+            e = entityFactory.CreateSpawner(300, 300, playerSpriteSheet, new Rectangle(0, 0, 46, 46), 1, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
         }
 
@@ -122,9 +134,12 @@ namespace DirtyGame
 
 
             gameStateManager.CurrentState.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
+
             MouseState ms = Mouse.GetState();
             UIEngine.GetInput(ms.X, ms.Y, ms.LeftButton == ButtonState.Pressed, ms.RightButton == ButtonState.Pressed, ms.MiddleButton == ButtonState.Pressed);
-            
+
+            physics.Update(gameTime);
+
             base.Update(gameTime);
         }
 

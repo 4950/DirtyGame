@@ -46,6 +46,7 @@
     <Compile Include="game\Core\Components\Collision\Collidable.cs" />
     <Compile Include="game\Core\Components\Collision\CollidableMonster.cs" />
     <Compile Include="game\Core\Components\Collision\CollidablePlayer.cs" />
+    <Compile Include="game\Core\Components\PhysicsComponent.cs" />
     <Compile Include="game\Core\Components\DirectionComponent.cs" />
     <Compile Include="game\Core\Components\MonsterComponent.cs" />
     <Compile Include="game\Core\Components\Movement\AIMovementComponent.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="game\Core\Components\Spatial.cs" />
     <Compile Include="game\Core\Components\SpawnerCompnent.cs" />
     <Compile Include="game\Core\Components\TimeComponent.cs" />
+    <Compile Include="game\Core\Components\WeaponComponent.cs" />
     <Compile Include="game\Core\EntityFactory.cs" />
     <Compile Include="game\Core\Events\Event.cs" />
     <Compile Include="game\Core\EventManager.cs" />
@@ -68,14 +70,15 @@
     <Compile Include="game\Core\GameStates\IGameState.cs" />
     <Compile Include="game\Core\GameStates\MainMenuState.cs" />
     <Compile Include="game\Core\GameStates\SplashScreenState.cs" />
+    <Compile Include="game\Core\Physics.cs" />
     <Compile Include="game\Core\ResourceManager.cs" />
-    <Compile Include="game\Core\Systems\CollisionSystem.cs" />
     <Compile Include="game\Core\Systems\GameLogicSystem.cs" />
     <Compile Include="game\Core\Systems\HUDSystem.cs" />
     <Compile Include="game\Core\Systems\MapBoundarySystem.cs" />
     <Compile Include="game\Core\Systems\Monster\AISystem.cs" />
     <Compile Include="game\Core\Systems\Monster\MonsterSystem.cs" />
     <Compile Include="game\Core\Systems\Movement\MovementSystem.cs" />
+    <Compile Include="game\Core\Systems\PhysicsSystem.cs" />
     <Compile Include="game\Core\Systems\PlayerControlSystem.cs" />
     <Compile Include="game\Core\Systems\Render\AnimationSystem.cs" />
     <Compile Include="game\Core\Systems\Render\CameraUpdateSystem.cs" />
@@ -147,6 +150,10 @@
     <ProjectReference Include="..\EntityFramework\EntityFramework.csproj">
       <Project>{43edc16e-8b0e-4f58-ad04-a71a1c492161}</Project>
       <Name>EntityFramework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Farseer Physics Engine 3.5\FarseerPhysicsMonoGame.csproj">
+      <Project>{0aad36e3-51a5-4a07-ab60-5c8a66bd38b7}</Project>
+      <Name>FarseerPhysicsMonoGame</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
