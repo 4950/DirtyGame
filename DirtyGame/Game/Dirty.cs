@@ -51,7 +51,7 @@ namespace DirtyGame
             resourceManager = new ResourceManager(Content);                       
             renderer = new Renderer(graphics, new Camera());
             world = new EntityFramework.World();
-            physics = new Physics();
+            physics = new Physics(world.EntityMgr);
             gameStateManager = new GameStateManager(this);
             entityFactory = new EntityFactory(world.EntityMgr, resourceManager);
             aiSystem = new AISystem();

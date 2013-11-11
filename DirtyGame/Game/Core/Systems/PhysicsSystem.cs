@@ -15,7 +15,8 @@ namespace DirtyGame.game.Core.Systems
 {
     class PhysicsSystem : EntitySystem 
     {
-
+        public Dictionary<int, Entity> entityDictionary;
+        public Dictionary<uint, Body> bodyDictionary;
         private Physics physics;
         private FarseerPhysics.Dynamics.World physicsWorld;
 
@@ -24,7 +25,9 @@ namespace DirtyGame.game.Core.Systems
         {
             this.physics = physics;
             physicsWorld = physics.World;
-
+            entityDictionary = new Dictionary<int, Entity>();
+            bodyDictionary = new Dictionary<uint, Body>();
+           
             ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
         }
 
@@ -35,13 +38,13 @@ namespace DirtyGame.game.Core.Systems
             foreach (Entity e in entities)
             {
                 Spatial spatial = e.GetComponent<Spatial>();
-                spatial.Position = ConvertUnits.ToDisplayUnits(physics.Body[e.Id].Position);
+                spatial.Position = ConvertUnits.ToDisplayUnits(bodyDictionary[e.Id].Position);
                 
                if(e.HasComponent<MovementComponent>()) //Some could be static
                {
                     
                     MovementComponent movement = e.GetComponent<MovementComponent>();
-                    physics.Body[e.Id].LinearVelocity = movement.Velocity;
+                    bodyDictionary[e.Id].LinearVelocity = movement.Velocity;
                 
                 }
                 
@@ -76,50 +79,50 @@ namespace DirtyGame.game.Core.Systems
 
             CollisionCategory(e, Body);
 
-            physics.AddEntity(Body.BodyId, e);
-            physics.AddBody(e.Id, Body);
+            entityDictionary.Add(Body.BodyId, e);
+            physics.AddEntityId(Body.BodyId, e.Id);
+            bodyDictionary.Add(e.Id, Body);
         }
 
         private bool BodyOnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
         {
-            List<Entity> e = new List<Entity>();
-            int count = 0;
-            if (physics.Entity.ContainsKey(fixtureA.Body.BodyId) && physics.Entity.ContainsKey(fixtureB.Body.BodyId))
+           
+            if (entityDictionary.ContainsKey(fixtureA.Body.BodyId) && entityDictionary.ContainsKey(fixtureB.Body.BodyId))
             {
-                if (physics.Entity[fixtureA.Body.BodyId].HasComponent<Player>())
+                if (entityDictionary[fixtureA.Body.BodyId].HasComponent<Player>())
                 {
 
-                    if (physics.Entity[fixtureA.Body.BodyId].HasComponent<WeaponComponent>())
+                    if (entityDictionary[fixtureA.Body.BodyId].HasComponent<WeaponComponent>())
                     {
 
                     }
 
-                    else if (physics.Entity[fixtureB.Body.BodyId].HasComponent<MonsterComponent>() && !physics.Entity[fixtureB.Body.BodyId].HasComponent<WeaponComponent>())
+                    else if (entityDictionary[fixtureB.Body.BodyId].HasComponent<MonsterComponent>() && !entityDictionary[fixtureB.Body.BodyId].HasComponent<WeaponComponent>())
                     {
-                        World.RemoveEntity(physics.Entity[fixtureB.Body.BodyId]);
+                        World.RemoveEntity(entityDictionary[fixtureB.Body.BodyId]);
                    
                     }
 
-                    else if (physics.Entity[fixtureB.Body.BodyId].HasComponent<MonsterComponent>() && physics.Entity[fixtureB.Body.BodyId].HasComponent<WeaponComponent>())
+                    else if (entityDictionary[fixtureB.Body.BodyId].HasComponent<MonsterComponent>() && entityDictionary[fixtureB.Body.BodyId].HasComponent<WeaponComponent>())
                     {
 
                     }
                 }
 
-                else if (physics.Entity[fixtureB.Body.BodyId].HasComponent<Player>())
+                else if (entityDictionary[fixtureB.Body.BodyId].HasComponent<Player>())
                 {
-                    if (physics.Entity[fixtureB.Body.BodyId].HasComponent<WeaponComponent>())
+                    if (entityDictionary[fixtureB.Body.BodyId].HasComponent<WeaponComponent>())
                     {
 
                     }
 
-                    else if (physics.Entity[fixtureA.Body.BodyId].HasComponent<MonsterComponent>() && !physics.Entity[fixtureA.Body.BodyId].HasComponent<WeaponComponent>())
+                    else if (entityDictionary[fixtureA.Body.BodyId].HasComponent<MonsterComponent>() && !entityDictionary[fixtureA.Body.BodyId].HasComponent<WeaponComponent>())
                     {
-                        World.RemoveEntity(physics.Entity[fixtureA.Body.BodyId]);
+                        World.RemoveEntity(entityDictionary[fixtureA.Body.BodyId]);
                     
                     }
 
-                    else if (physics.Entity[fixtureA.Body.BodyId].HasComponent<MonsterComponent>() && physics.Entity[fixtureA.Body.BodyId].HasComponent<WeaponComponent>())
+                    else if (entityDictionary[fixtureA.Body.BodyId].HasComponent<MonsterComponent>() && entityDictionary[fixtureA.Body.BodyId].HasComponent<WeaponComponent>())
                     {
 
                     }
@@ -130,14 +133,15 @@ namespace DirtyGame.game.Core.Systems
 
         public override void OnEntityRemoved(Entity e)
         {
-            if(physics.Body.ContainsKey(e.Id)) 
+            if(bodyDictionary.ContainsKey(e.Id)) 
             {
-                if(physics.Entity.ContainsKey(physics.Body[e.Id].BodyId))
+                if(entityDictionary.ContainsKey(bodyDictionary[e.Id].BodyId))
                 {
-                    physics.Body[e.Id].Dispose();
-                    physics.RemoveEntity(physics.Body[e.Id].BodyId);
+                    physicsWorld.RemoveBody(bodyDictionary[e.Id]);
+                    entityDictionary.Remove(bodyDictionary[e.Id].BodyId);
+                    physics.RemoveEntityId(bodyDictionary[e.Id].BodyId);
                 }
-                physics.RemoveBody(e.Id);
+                bodyDictionary.Remove(e.Id);
             } 
            
         }
@@ -175,5 +179,7 @@ namespace DirtyGame.game.Core.Systems
                 }
             }
         }
+
+        
     }
 }
