@@ -40,22 +40,14 @@ namespace DirtyGame.game.Core.Systems
             {
                 Spatial spatial = e.GetComponent<Spatial>();
                 spatial.Position = ConvertUnits.ToDisplayUnits(bodyDictionary[e.Id].Position);
-                
-               if(e.HasComponent<MovementComponent>()) //Some could be static
+
+                if (e.HasComponent<MovementComponent>()) //Some could be static
                {
                     
                     MovementComponent movement = e.GetComponent<MovementComponent>();
                     bodyDictionary[e.Id].LinearVelocity = movement.Velocity;
 
-                }
-
-               if (e.HasComponent<AIMovementComponent>())
-               {
-                   AIMovementComponent aimovement = e.GetComponent<AIMovementComponent>();
-                   bodyDictionary[e.Id].LinearVelocity = aimovement.Velocity;
-               }
-
-                
+                }                
              
                 
 
@@ -71,7 +63,7 @@ namespace DirtyGame.game.Core.Systems
                                                                                   (spatial.Width), ConvertUnits.ToSimUnits(spatial.Height), 1f, 
                                                                                   ConvertUnits.ToSimUnits(spatial.Position));
 
-            if (e.HasComponent<MovementComponent>() || e.HasComponent<AIMovementComponent>())
+            if (e.HasComponent<MovementComponent>())
             {
                 Body.BodyType = BodyType.Dynamic;
                 Body.Restitution = 0.3f;

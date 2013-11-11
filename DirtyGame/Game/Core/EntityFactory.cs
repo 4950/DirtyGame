@@ -130,7 +130,7 @@ namespace DirtyGame.game.Core
             monster.AddComponent(new PhysicsComponent());
             monster.AddComponent(direction);
             monster.AddComponent(new Animation());
-
+            monster.AddComponent(new MovementComponent());
             monster.GetComponent<Spatial>().Height = 20;
             monster.GetComponent<Spatial>().Width = 20;
 
