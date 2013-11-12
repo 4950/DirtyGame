@@ -99,15 +99,12 @@ namespace EntityFramework.Managers
         
         public bool HasComponent(uint id, Type type)
         {
-            if (entityComponents.ContainsKey(id))
-            {
-                BitVector bv = new BitVector();
-                bv.AddBitByOffset((int)componentTypeMapper.GetValue(type));          
-                if (bv.Contains(GetComponentBitVector(id)))
+             if (entityComponents.ContainsKey(id))
+            {                
+                if(entityComponents[id].ContainsKey(componentTypeMapper.GetValue(type)))
                 {
                     return true;
                 }
-                
             }
             return false;
         }
@@ -118,7 +115,14 @@ namespace EntityFramework.Managers
             {
                 return null;
             }
-            return  entityComponents[id][componentTypeMapper.GetValue(type)];
+            if(entityComponents[id].ContainsKey(componentTypeMapper.GetValue(type))) {
+                return  entityComponents[id][componentTypeMapper.GetValue(type)];
+            } else if(entityComponents[id].ContainsKey(componentTypeMapper.GetValue(type.BaseType))) {
+              return  entityComponents[id][componentTypeMapper.GetValue(type.BaseType)];
+            } else {               
+                return null;
+            }
+            
         }
 
         public IEnumerable<Component> GetComponents(uint id)

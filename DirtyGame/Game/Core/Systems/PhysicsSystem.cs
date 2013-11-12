@@ -41,7 +41,7 @@ namespace DirtyGame.game.Core.Systems
                 SpatialComponent spatial = e.GetComponent<SpatialComponent>();
                 spatial.Position = ConvertUnits.ToDisplayUnits(bodyDictionary[e.Id].Position);
 
-                if (e.HasComponent<MovementComponent>()) //Some could be static
+               if (e.HasComponent<MovementComponent>()) //Some could be static
                {
                     
                     MovementComponent movement = e.GetComponent<MovementComponent>();
