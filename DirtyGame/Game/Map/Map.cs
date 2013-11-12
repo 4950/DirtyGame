@@ -250,7 +250,7 @@ namespace DirtyGame.game.Map
             }
             public void draw(SpriteBatch batch, Matrix view)
             {
-                /*int i = 0;
+                int i = 0;
                 foreach (var entry in tileRectsBySet)
                 {
                     foreach (LayerTile t in entry.Value)
@@ -259,11 +259,14 @@ namespace DirtyGame.game.Map
                         batch.Draw(entry.Key.tex, t.dest, t.tile.coords, Color.White);
                     }
                 }
-                i = 0;*/
-                foreach (MapLayerSet l in mapLayerSets)
-                {
-                    l.render(batch.GraphicsDevice, view);
-                }
+                i = 0;
+
+
+                // THIS NEEDS TO GET FIXED
+              //  foreach (MapLayerSet l in mapLayerSets)
+              //  {
+              //      l.render(batch.GraphicsDevice, view);
+              //  }
             }
         }
 

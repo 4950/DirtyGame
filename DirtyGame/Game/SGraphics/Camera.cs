@@ -15,7 +15,24 @@ namespace DirtyGame.game.SGraphics
         {
             get
             {
-                return Matrix.CreateTranslation(-position.X, -position.Y, 0);
+               // return Matrix.CreateTranslation(-position.X, -position.Y, 0);
+                return View * Proj;
+            }
+        }
+
+        public Matrix Proj
+        {
+            get
+            {
+                return Matrix.CreateOrthographic(2, 2, 0, 10);
+            }
+        }
+
+        public Matrix View
+        {
+            get
+            {
+                return Matrix.CreateLookAt(new Vector3(position, 0), new Vector3(position, -1), new Vector3(0, 1, 0));
             }
         }
         public Vector2 size { get; set; }
