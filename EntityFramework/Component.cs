@@ -28,7 +28,7 @@ namespace EntityFramework
         {
             get
             {
-                return 1L << (int)Mappers.ComponentTypeMapper.GetValue(GetType()) | 1L << (int)Mappers.ComponentTypeMapper.GetValue(GetType().BaseType);
+                return 1L << (int)Id | 1L << (int)Mappers.ComponentTypeMapper.GetValue(GetType().BaseType);
             }
         }
     }

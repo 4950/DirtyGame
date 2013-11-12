@@ -8,9 +8,9 @@ using EntityFramework;
 
 namespace DirtyGame.game.Core.Components
 {
-    public abstract class Renderable : Component
+    public abstract class RenderComponent : Component
     {
-        protected Renderable()
+        protected RenderComponent()
         {
             RenderLayer = RenderLayer.INVALIDE;
         }

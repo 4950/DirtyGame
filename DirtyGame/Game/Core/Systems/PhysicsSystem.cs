@@ -38,7 +38,7 @@ namespace DirtyGame.game.Core.Systems
 
             foreach (Entity e in entities)
             {
-                Spatial spatial = e.GetComponent<Spatial>();
+                SpatialComponent spatial = e.GetComponent<SpatialComponent>();
                 spatial.Position = ConvertUnits.ToDisplayUnits(bodyDictionary[e.Id].Position);
 
                 if (e.HasComponent<MovementComponent>()) //Some could be static
@@ -56,7 +56,7 @@ namespace DirtyGame.game.Core.Systems
 
         public override void OnEntityAdded(Entity e)
         {
-            Spatial spatial = e.GetComponent<Spatial>();
+            SpatialComponent spatial = e.GetComponent<SpatialComponent>();
             Body Body = new Body(physicsWorld);
 
             Body = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits
@@ -69,10 +69,7 @@ namespace DirtyGame.game.Core.Systems
                 Body.Restitution = 0.3f;
             }
 
-            if (e.HasComponent<Collidable>())
-            {
-                Body.OnCollision += BodyOnCollision;
-            }
+            Body.OnCollision += BodyOnCollision;
 
             CollisionCategory(e, Body);
 
@@ -86,7 +83,7 @@ namespace DirtyGame.game.Core.Systems
            
             if (entityDictionary.ContainsKey(fixtureA.Body.BodyId) && entityDictionary.ContainsKey(fixtureB.Body.BodyId))
             {
-                if (entityDictionary[fixtureA.Body.BodyId].HasComponent<Player>())
+                if (entityDictionary[fixtureA.Body.BodyId].HasComponent<PlayerComponent>())
                 {
 
                     if (entityDictionary[fixtureA.Body.BodyId].HasComponent<WeaponComponent>())
@@ -106,7 +103,7 @@ namespace DirtyGame.game.Core.Systems
                     }
                 }
 
-                else if (entityDictionary[fixtureB.Body.BodyId].HasComponent<Player>())
+                else if (entityDictionary[fixtureB.Body.BodyId].HasComponent<PlayerComponent>())
                 {
                     if (entityDictionary[fixtureB.Body.BodyId].HasComponent<WeaponComponent>())
                     {
@@ -147,7 +144,7 @@ namespace DirtyGame.game.Core.Systems
 //Cat 1 = Player, Cat2= Player Weapon, Cat3 = Monster, Cat4 = Monster Weapon
         private void CollisionCategory(Entity e, Body body)
         {
-            if (e.HasComponent<Player>())
+            if (e.HasComponent<PlayerComponent>())
             {
                 if (e.HasComponent<WeaponComponent>())
                 {

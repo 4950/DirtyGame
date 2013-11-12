@@ -99,12 +99,15 @@ namespace EntityFramework.Managers
         
         public bool HasComponent(uint id, Type type)
         {
-             if (entityComponents.ContainsKey(id))
-            {                
-                if(entityComponents[id].ContainsKey(componentTypeMapper.GetValue(type)))
+            if (entityComponents.ContainsKey(id))
+            {
+                BitVector bv = new BitVector();
+                bv.AddBitByOffset((int)componentTypeMapper.GetValue(type));          
+                if (bv.Contains(GetComponentBitVector(id)))
                 {
                     return true;
                 }
+                
             }
             return false;
         }

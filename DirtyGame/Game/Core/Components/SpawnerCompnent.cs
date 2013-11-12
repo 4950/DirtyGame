@@ -12,6 +12,6 @@ namespace DirtyGame.game.Core.Components
         public TimeSpan timePerSpawn;
         public int numMobs;
         public TimeSpan timeOfLastSpawn;
-        public Sprite sprite;
+        public SpriteComponent sprite;
     }
 }

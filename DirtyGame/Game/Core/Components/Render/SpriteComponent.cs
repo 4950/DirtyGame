@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DirtyGame.game.Core.Components.Render
 {
-    public class Sprite : Renderable
+    public class SpriteComponent : RenderComponent
     {
         #region Variables
         private Rectangle srcRect;        
@@ -18,7 +18,7 @@ namespace DirtyGame.game.Core.Components.Render
         #endregion
 
         #region Constructors
-        public Sprite()
+        public SpriteComponent()
         {
             
         }

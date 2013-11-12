@@ -12,37 +12,37 @@ namespace DirtyGame.game.Core.Systems.Util
     public class SystemDescriptions
     {
         public static SystemParams SpriteRenderSystem =
-            new SystemParams(Aspect.CreateAspectFor(new List<Type> {typeof (Sprite), typeof (Spatial)}), 1000);
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> {typeof (SpriteComponent), typeof (SpatialComponent)}), 1000);
 
         public static SystemParams PhysicsSystem =
-          new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(Spatial) , typeof(PhysicsComponent) }), 1);
+          new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(SpatialComponent) , typeof(PhysicsComponent) }), 1);
 
         public static SystemParams AnimationSystem =
-            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(Sprite), typeof(Animation), typeof(DirectionComponent) }), 1);
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(SpriteComponent), typeof(AnimationComponent), typeof(DirectionComponent) }), 1);
 
         public static SystemParams PlayerControlSystem =
-            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(Player), typeof (Spatial), typeof(DirectionComponent)}), 1);
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(PlayerComponent), typeof (SpatialComponent), typeof(DirectionComponent)}), 1);
 
         public static SystemParams CameraUpdateSystem =
-            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(Player) }), 1);
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(PlayerComponent) }), 1);
 
         public static SystemParams MapBoundrySystem =
-            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(Spatial), typeof(Sprite) }), 1);
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(SpatialComponent), typeof(SpriteComponent) }), 1);
 
         public static SystemParams SpawnerSystem =
-            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof (Spatial), typeof(SpawnerComponent) }), 1);
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof (SpatialComponent), typeof(SpawnerComponent) }), 1);
 
         public static SystemParams GameLogicSystem =
             new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MonsterComponent) }), 1);
 
         public static SystemParams MonsterSystem =
-            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MonsterComponent), typeof(TimeComponent), typeof(Spatial), typeof(Sprite), typeof(DirectionComponent) }), 1);
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MonsterComponent), typeof(TimeComponent), typeof(SpatialComponent), typeof(SpriteComponent), typeof(DirectionComponent) }), 1);
 
         public static SystemParams MovementSystem =
-            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MovementComponent), typeof(TimeComponent), typeof(Spatial), typeof(Sprite) }), 1);
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MovementComponent), typeof(TimeComponent), typeof(SpatialComponent), typeof(SpriteComponent) }), 1);
 
         public static SystemParams HUDSystem =
-            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MovementComponent), typeof(TimeComponent), typeof(Spatial), typeof(Sprite) }), 1);
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MovementComponent), typeof(TimeComponent), typeof(SpatialComponent), typeof(SpriteComponent) }), 1);
 
     }
 }

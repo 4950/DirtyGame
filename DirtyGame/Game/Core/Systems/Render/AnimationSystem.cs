@@ -38,10 +38,10 @@ namespace DirtyGame.game.Systems
             foreach (Entity e in entities)
             {
                 //Getting components for this entity
-                Animation animation = e.GetComponent<Animation>();
-                Sprite sprite = e.GetComponent<Sprite>();
+                AnimationComponent animation = e.GetComponent<AnimationComponent>();
+                SpriteComponent sprite = e.GetComponent<SpriteComponent>();
                 DirectionComponent direction = e.GetComponent<DirectionComponent>();
-                Spatial sp = e.GetComponent<Spatial>();
+                SpatialComponent sp = e.GetComponent<SpatialComponent>();
 
                 animation.CurrentAnimation = direction.Heading;
 

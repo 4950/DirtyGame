@@ -39,23 +39,21 @@
     </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="game\Core\Components\Unit\UnitComponent.cs" />
     <Compile Include="game\Input\InputContext.cs" />
     <Compile Include="game\Input\KeyHandler.cs" />
     <Compile Include="game\Input\InputManager.cs" />
     <Compile Include="game\Core\Components\AIComponent.cs" />
-    <Compile Include="game\Core\Components\Collision\Collidable.cs" />
-    <Compile Include="game\Core\Components\Collision\CollidableMonster.cs" />
-    <Compile Include="game\Core\Components\Collision\CollidablePlayer.cs" />
     <Compile Include="game\Core\Components\PhysicsComponent.cs" />
-    <Compile Include="game\Core\Components\DirectionComponent.cs" />
-    <Compile Include="game\Core\Components\MonsterComponent.cs" />
+    <Compile Include="game\Core\Components\Movement\DirectionComponent.cs" />
+    <Compile Include="game\Core\Components\Unit\MonsterComponent.cs" />
     <Compile Include="game\Core\Components\Movement\AIMovementComponent.cs" />
     <Compile Include="game\Core\Components\Movement\MovementComponent.cs" />
-    <Compile Include="game\Core\Components\Player.cs" />
-    <Compile Include="game\Core\Components\Renderable.cs" />
-    <Compile Include="game\Core\Components\Animation.cs" />
-    <Compile Include="game\Core\Components\Render\Sprite.cs" />
-    <Compile Include="game\Core\Components\Spatial.cs" />
+    <Compile Include="game\Core\Components\Unit\PlayerComponent.cs" />
+    <Compile Include="game\Core\Components\Render\RenderComponent.cs" />
+    <Compile Include="game\Core\Components\Render\AnimationComponent.cs" />
+    <Compile Include="game\Core\Components\Render\SpriteComponent.cs" />
+    <Compile Include="game\Core\Components\Movement\SpatialComponent.cs" />
     <Compile Include="game\Core\Components\SpawnerCompnent.cs" />
     <Compile Include="game\Core\Components\TimeComponent.cs" />
     <Compile Include="game\Core\Components\WeaponComponent.cs" />

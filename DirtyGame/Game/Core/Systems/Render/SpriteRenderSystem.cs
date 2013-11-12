@@ -42,8 +42,8 @@ namespace DirtyGame.game.Systems
             foreach (Entity e in entities)
             {
                 //Getting the components for this entity
-                Spatial spatial = e.GetComponent<Spatial>();
-                Sprite sprite = e.GetComponent<Sprite>();
+                SpatialComponent spatial = e.GetComponent<SpatialComponent>();
+                SpriteComponent sprite = e.GetComponent<SpriteComponent>();
 
                 // create RenderInstance
                 RenderInstance instance = new RenderInstance();

@@ -44,8 +44,8 @@ namespace DirtyGame.game.Core.Systems.Render
         {
             foreach (Entity e in entities)
             {
-                if (!e.HasComponent<Player>()) continue;
-                Vector2 newPos = e.GetComponent<Spatial>().Position;
+                if (!e.HasComponent<PlayerComponent>()) continue;
+                Vector2 newPos = e.GetComponent<SpatialComponent>().Position;
                 newPos.X -= renderer.GetViewportWidth() / 2;
                 newPos.Y -= renderer.GetViewportHeight() / 2;
 

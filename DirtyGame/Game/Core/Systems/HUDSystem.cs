@@ -58,7 +58,7 @@ namespace DirtyGame.game.Core.Systems
                 {
                     
                     ProgressBar pb = mPBs[i];
-                    Vector2 pos = e.GetComponent<Spatial>().Position;
+                    Vector2 pos = e.GetComponent<SpatialComponent>().Position;
                     pos = Vector2.Transform(pos, renderer.ActiveCamera.Transform);
                     if (pos.X >= 0 && pos.Y >= 0 && pos.X <= renderer.ActiveCamera.size.X && pos.Y <= renderer.ActiveCamera.size.Y)
                     {

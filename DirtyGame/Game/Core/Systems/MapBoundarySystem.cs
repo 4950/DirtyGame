@@ -29,15 +29,15 @@ namespace DirtyGame.game.Core.Systems
         {
             foreach (Entity e in entities)
             {
-                Vector2 pos = e.GetComponent<Spatial>().Position;
+                Vector2 pos = e.GetComponent<SpatialComponent>().Position;
                 if (pos.X < 0) pos.X = 0;
                 if (pos.Y < 0) pos.Y = 0;
                 //Player width is a bit off and the player can't go all the way to the end of the map
-                if (pos.X > renderer.ActiveMap.getPixelWidth() - e.GetComponent<Sprite>().SrcRect.Width)
-                    pos.X = renderer.ActiveMap.getPixelWidth() - e.GetComponent<Sprite>().SrcRect.Width;
-                if (pos.Y > renderer.ActiveMap.getPixelHeight() - e.GetComponent<Sprite>().SrcRect.Height)
-                    pos.Y = renderer.ActiveMap.getPixelHeight() - e.GetComponent<Sprite>().SrcRect.Height;
-                e.GetComponent<Spatial>().Position = pos;
+                if (pos.X > renderer.ActiveMap.getPixelWidth() - e.GetComponent<SpriteComponent>().SrcRect.Width)
+                    pos.X = renderer.ActiveMap.getPixelWidth() - e.GetComponent<SpriteComponent>().SrcRect.Width;
+                if (pos.Y > renderer.ActiveMap.getPixelHeight() - e.GetComponent<SpriteComponent>().SrcRect.Height)
+                    pos.Y = renderer.ActiveMap.getPixelHeight() - e.GetComponent<SpriteComponent>().SrcRect.Height;
+                e.GetComponent<SpatialComponent>().Position = pos;
             }
         }
 

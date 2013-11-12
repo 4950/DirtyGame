@@ -50,11 +50,11 @@ namespace DirtyGame.game.Core.Systems.Monster
                 {
                     if (!m.GetComponent<MonsterComponent>().monsterType.Equals(e.GetComponent<MonsterComponent>().monsterType))
                     {
-                        int otherX = (int)e.GetComponent<Spatial>().Position.X;
-                        int otherY = (int)e.GetComponent<Spatial>().Position.Y;
-                        if (getDistance(m.GetComponent<Spatial>().Position.X, m.GetComponent<Spatial>().Position.Y, otherX, otherY) < 400)
+                        int otherX = (int)e.GetComponent<SpatialComponent>().Position.X;
+                        int otherY = (int)e.GetComponent<SpatialComponent>().Position.Y;
+                        if (getDistance(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, otherX, otherY) < 400)
                         {
-                            double[] chaseVector = getChaseVector(m.GetComponent<Spatial>().Position.X, m.GetComponent<Spatial>().Position.Y, otherX, otherY);
+                            double[] chaseVector = getChaseVector(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, otherX, otherY);
 
                             return chaseVector;
                         }

@@ -26,7 +26,7 @@ namespace DirtyGame.game.Core.Systems
             {
     //            if (!e.HasComponent<Player>()) continue;
 
-                Spatial spatial = e.GetComponent<Spatial>();
+                SpatialComponent spatial = e.GetComponent<SpatialComponent>();
                 DirectionComponent direction = e.GetComponent<DirectionComponent>();
                 MovementComponent movement = e.GetComponent<MovementComponent>();
                 

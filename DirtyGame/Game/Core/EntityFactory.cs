@@ -32,15 +32,15 @@ namespace DirtyGame.game.Core
         public Entity CreateTestEntity(SpriteSheet spriteSheet, Vector2 entityPosition, string animationName)
         {
             Entity e = entityMgr.CreateEntity();
-            Spatial spatial = new Spatial();
+            SpatialComponent spatial = new SpatialComponent();
             spatial.Position = entityPosition;
 
-            Sprite sprite = new Sprite();
+            SpriteComponent sprite = new SpriteComponent();
             sprite.RenderLayer = RenderLayer.BACKGROUND;
             sprite.SpriteSheet = spriteSheet;
 
             //Creating an Animation component
-            Animation animation = new Animation();
+            AnimationComponent animation = new AnimationComponent();
             //Changing the animation with the string property
             animation.CurrentAnimation = animationName;
 
@@ -53,10 +53,10 @@ namespace DirtyGame.game.Core
         public Entity CreatePlayerEntity(SpriteSheet spriteSheet)
         {
             Entity e = entityMgr.CreateEntity();
-            Spatial spatial = new Spatial();
+            SpatialComponent spatial = new SpatialComponent();
             spatial.Position = new Vector2(0, 0);
 
-            Sprite sprite = new Sprite();
+            SpriteComponent sprite = new SpriteComponent();
             sprite.RenderLayer = RenderLayer.BACKGROUND;
 
                         
@@ -67,7 +67,7 @@ namespace DirtyGame.game.Core
 
             //sprite.SpriteSheet = new SpriteSheet(resourceMgr.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
             //Creating an Animation component
-            Animation animation = new Animation();
+            AnimationComponent animation = new AnimationComponent();
             //Changing the animation with the string property
         //  animation.CurrentAnimation = "Down";
 
@@ -78,17 +78,17 @@ namespace DirtyGame.game.Core
 
             e.AddComponent(spatial);
             e.AddComponent(sprite);
-            e.AddComponent(new Collidable());
+         
             e.AddComponent(new PhysicsComponent());
-            Player controllable = new Player();
+            PlayerComponent controllable = new PlayerComponent();
             e.AddComponent(controllable);
             e.AddComponent(animation);
             e.AddComponent(direction);
             e.AddComponent(new MovementComponent());
 
 
-            e.GetComponent<Spatial>().Height = 20;
-            e.GetComponent<Spatial>().Width = 20;
+            e.GetComponent<SpatialComponent>().Height = 20;
+            e.GetComponent<SpatialComponent>().Width = 20;
             return e;
         }
 
@@ -101,12 +101,12 @@ namespace DirtyGame.game.Core
             m.monsterType = type;
 
             //Create the Spatial for the new entity
-            Spatial spatial = new Spatial();
+            SpatialComponent spatial = new SpatialComponent();
             spatial.Position = new Vector2(xPos, yPos);
 
             //Create the Sprite for the new entity
           //  Sprite monsterSprite = sprite;
-            Sprite monsterSprite = new Sprite();
+            SpriteComponent monsterSprite = new SpriteComponent();
             monsterSprite.SpriteSheet = spriteSheet;
 
             //Create the TimeComponent for the new entity
@@ -126,13 +126,12 @@ namespace DirtyGame.game.Core
             monster.AddComponent(monsterSprite);
             monster.AddComponent(timeComponent);
             monster.AddComponent(movementComponent);
-            monster.AddComponent(new Collidable());
+           
             monster.AddComponent(new PhysicsComponent());
             monster.AddComponent(direction);
-            monster.AddComponent(new Animation());
-            monster.AddComponent(new MovementComponent());
-            monster.GetComponent<Spatial>().Height = 20;
-            monster.GetComponent<Spatial>().Width = 20;
+            monster.AddComponent(new AnimationComponent());            
+            monster.GetComponent<SpatialComponent>().Height = 20;
+            monster.GetComponent<SpatialComponent>().Width = 20;
 
             return monster;
         }
@@ -142,11 +141,11 @@ namespace DirtyGame.game.Core
             Entity spawner = entityMgr.CreateEntity();
 
             //Create the Spatial for the new entity
-            Spatial spatial = new Spatial();
+            SpatialComponent spatial = new SpatialComponent();
             spatial.Position = new Vector2(xPos, yPos);
 
             //Create the Sprite for the new entity
-            Sprite sprite = new Sprite();
+            SpriteComponent sprite = new SpriteComponent();
             sprite.SpriteSheet = texture;
             sprite.SrcRect = rectangle;
 

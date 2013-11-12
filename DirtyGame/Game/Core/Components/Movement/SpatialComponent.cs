@@ -7,10 +7,10 @@ using Microsoft.Xna.Framework;
 
 namespace DirtyGame.game.Core.Components
 {
-    class Spatial : Component
+    class SpatialComponent : Component
     {
         #region Constructors
-        public Spatial()
+        public SpatialComponent()
         {
             Position = new Vector2(0, 0);
             Bounds = new Rectangle();
