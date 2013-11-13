@@ -61,11 +61,6 @@ namespace DirtyGame.game.Core.Systems
             {
                 entityB.GetComponent<HealthComponent>().LoseHealth(1);
             }
-
-            else if (entityB.HasComponent<PlayerComponent>() && entityA.HasComponent<MonsterComponent>())
-            {
-                entityA.GetComponent<HealthComponent>().LoseHealth(1);
-            }
         }
     }
 }
