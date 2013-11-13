@@ -68,7 +68,15 @@ namespace DirtyGame.game.Core.Systems
                     movement.Vertical = 0;
                 }
 
-               
+                if (movement.Velocity == new Vector2(0f, 0f))
+                {
+                    spatial.isMoving = false;
+                }
+
+                else
+                {
+                    spatial.isMoving = true;
+                }
             }
         }
 

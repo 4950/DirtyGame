@@ -85,7 +85,7 @@ namespace DirtyGame.game.Core
             e.AddComponent(animation);
             e.AddComponent(direction);
             e.AddComponent(new MovementComponent());
-
+            e.AddComponent(new HealthComponent());
 
             e.GetComponent<SpatialComponent>().Height = 20;
             e.GetComponent<SpatialComponent>().Width = 20;
@@ -126,7 +126,7 @@ namespace DirtyGame.game.Core
             monster.AddComponent(monsterSprite);
             monster.AddComponent(timeComponent);
             monster.AddComponent(movementComponent);
-           
+            monster.AddComponent(new HealthComponent());
             monster.AddComponent(new PhysicsComponent());
             monster.AddComponent(direction);
             monster.AddComponent(new AnimationComponent());            

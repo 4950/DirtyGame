@@ -21,6 +21,11 @@ namespace DirtyGame.game.Core.Systems
         private Physics physics;
         private FarseerPhysics.Dynamics.World physicsWorld;
 
+        //For OnCollision Detection so that there isn't multiple callbacks
+        private Entity lastEntityA;
+        private Entity lastEntityB;
+        private float lastCurrentPhysicsTime;
+
         public PhysicsSystem(Physics  physics) 
             : base(SystemDescriptions.PhysicsSystem.Aspect, SystemDescriptions.PhysicsSystem.Priority)
         {
@@ -83,42 +88,22 @@ namespace DirtyGame.game.Core.Systems
            
             if (entityDictionary.ContainsKey(fixtureA.Body.BodyId) && entityDictionary.ContainsKey(fixtureB.Body.BodyId))
             {
-                if (entityDictionary[fixtureA.Body.BodyId].HasComponent<PlayerComponent>())
+                if (((entityDictionary[fixtureA.Body.BodyId] != lastEntityA && entityDictionary[fixtureB.Body.BodyId] != lastEntityB)
+                    || (entityDictionary[fixtureA.Body.BodyId] != lastEntityB && entityDictionary[fixtureB.Body.BodyId] != lastEntityA))
+                    && physicsWorld.ContinuousPhysicsTime != lastCurrentPhysicsTime)
                 {
+                    lastEntityA = entityDictionary[fixtureA.Body.BodyId];
+                    lastEntityB = entityDictionary[fixtureB.Body.BodyId];
+                    lastCurrentPhysicsTime = physicsWorld.ContinuousPhysicsTime;
 
-                    if (entityDictionary[fixtureA.Body.BodyId].HasComponent<WeaponComponent>())
+                    if (!entityDictionary[fixtureA.Body.BodyId].GetComponent<PhysicsComponent>().IsCollisionListEmpty())
                     {
-
+                        entityDictionary[fixtureA.Body.BodyId].GetComponent<PhysicsComponent>().ExecuteCollisionList(entityDictionary[fixtureA.Body.BodyId], entityDictionary[fixtureB.Body.BodyId]);
                     }
 
-                    else if (entityDictionary[fixtureB.Body.BodyId].HasComponent<MonsterComponent>() && !entityDictionary[fixtureB.Body.BodyId].HasComponent<WeaponComponent>())
+                    if (!entityDictionary[fixtureB.Body.BodyId].GetComponent<PhysicsComponent>().IsCollisionListEmpty())
                     {
-                        World.RemoveEntity(entityDictionary[fixtureB.Body.BodyId]);
-                   
-                    }
-
-                    else if (entityDictionary[fixtureB.Body.BodyId].HasComponent<MonsterComponent>() && entityDictionary[fixtureB.Body.BodyId].HasComponent<WeaponComponent>())
-                    {
-
-                    }
-                }
-
-                else if (entityDictionary[fixtureB.Body.BodyId].HasComponent<PlayerComponent>())
-                {
-                    if (entityDictionary[fixtureB.Body.BodyId].HasComponent<WeaponComponent>())
-                    {
-
-                    }
-
-                    else if (entityDictionary[fixtureA.Body.BodyId].HasComponent<MonsterComponent>() && !entityDictionary[fixtureA.Body.BodyId].HasComponent<WeaponComponent>())
-                    {
-                        World.RemoveEntity(entityDictionary[fixtureA.Body.BodyId]);
-                    
-                    }
-
-                    else if (entityDictionary[fixtureA.Body.BodyId].HasComponent<MonsterComponent>() && entityDictionary[fixtureA.Body.BodyId].HasComponent<WeaponComponent>())
-                    {
-
+                        entityDictionary[fixtureB.Body.BodyId].GetComponent<PhysicsComponent>().ExecuteCollisionList(entityDictionary[fixtureB.Body.BodyId], entityDictionary[fixtureA.Body.BodyId]);
                     }
                 }
             }

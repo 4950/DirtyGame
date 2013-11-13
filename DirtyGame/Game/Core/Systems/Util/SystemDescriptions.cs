@@ -35,6 +35,9 @@ namespace DirtyGame.game.Core.Systems.Util
         public static SystemParams GameLogicSystem =
             new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MonsterComponent) }), 1);
 
+        public static SystemParams HealthSystem =
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(HealthComponent), typeof(PhysicsComponent) }), 1);
+
         public static SystemParams MonsterSystem =
             new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MonsterComponent), typeof(TimeComponent), typeof(SpatialComponent), typeof(SpriteComponent), typeof(DirectionComponent) }), 1);
 
