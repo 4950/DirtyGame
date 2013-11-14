@@ -98,42 +98,29 @@ namespace DirtyGame.game.Core.Systems
                         hitBody.Body.ApplyLinearImpulse(proj.GetComponent<ProjectileComponent>().direction * 10);
                     }
                 }
-                else if (entityDictionary[fixtureA.Body.BodyId].HasComponent<PlayerComponent>())
+                else if (A.HasComponent<PlayerComponent>() || B.HasComponent<PlayerComponent>())
                 {
+                    Entity player = A.HasComponent<PlayerComponent>() ? A : B;
+                    Entity hit = player == A ? B : A;
+                    Fixture hitBody = player == A ? fixtureB : fixtureA;
+                    Fixture playerBody = hitBody == fixtureA ? fixtureB : fixtureA;
 
-                    if (entityDictionary[fixtureA.Body.BodyId].HasComponent<WeaponComponent>())
+                    if (player.HasComponent<WeaponComponent>())
                     {
 
                     }
-
-                    else if (entityDictionary[fixtureB.Body.BodyId].HasComponent<MonsterComponent>() && !entityDictionary[fixtureB.Body.BodyId].HasComponent<WeaponComponent>())
+                    else if (hit.HasComponent<MonsterComponent>() )//&& !hit.HasComponent<WeaponComponent>())
                     {
-                        World.RemoveEntity(entityDictionary[fixtureB.Body.BodyId]);
-                   
-                    }
-
-                    else if (entityDictionary[fixtureB.Body.BodyId].HasComponent<MonsterComponent>() && entityDictionary[fixtureB.Body.BodyId].HasComponent<WeaponComponent>())
-                    {
-
-                    }
-                }
-
-                else if (entityDictionary[fixtureB.Body.BodyId].HasComponent<PlayerComponent>())
-                {
-                    if (entityDictionary[fixtureB.Body.BodyId].HasComponent<WeaponComponent>())
-                    {
-
-                    }
-
-                    else if (entityDictionary[fixtureA.Body.BodyId].HasComponent<MonsterComponent>() && !entityDictionary[fixtureA.Body.BodyId].HasComponent<WeaponComponent>())
-                    {
-                        World.RemoveEntity(entityDictionary[fixtureA.Body.BodyId]);
-                    
-                    }
-
-                    else if (entityDictionary[fixtureA.Body.BodyId].HasComponent<MonsterComponent>() && entityDictionary[fixtureA.Body.BodyId].HasComponent<WeaponComponent>())
-                    {
-
+                        //do damage to player and monster
+                        hit.GetComponent<HealthComponent>().CurrentHealth -= 25;
+                        player.GetComponent<HealthComponent>().CurrentHealth -= 25;
+                        //World.RemoveEntity(entityDictionary[fixtureB.Body.BodyId]);
+                        Vector2 a = hit.GetComponent<SpatialComponent>().Position - player.GetComponent<SpatialComponent>().Position;
+                        a.Normalize();
+                        Vector2 b = player.GetComponent<SpatialComponent>().Position - hit.GetComponent<SpatialComponent>().Position;
+                        b.Normalize();
+                        playerBody.Body.ApplyLinearImpulse(a * 5);
+                        hitBody.Body.ApplyLinearImpulse(b * 5);
                     }
                 }
             }

@@ -18,6 +18,7 @@ namespace DirtyGame.game.Core.Systems
 
         public int monstersdefeated;
         public int monstersalive;
+        private Dirty game;
 
 
         public override void OnEntityAdded(Entity e)
@@ -35,10 +36,20 @@ namespace DirtyGame.game.Core.Systems
                 monstersdefeated++;
                 if (--monstersalive == 0)
                 {
+                    game.GameWon = true;
+
                     Event gamestate = new Event();
                     gamestate.name = "GameStateGameOver";
                     EventManager.Instance.TriggerEvent(gamestate);
                 }
+            }
+            else if (e.HasComponent<PlayerComponent>())
+            {
+                game.GameWon = false;
+
+                Event gamestate = new Event();
+                gamestate.name = "GameStateGameOver";
+                EventManager.Instance.TriggerEvent(gamestate);
             }
         }
 
@@ -63,9 +74,9 @@ namespace DirtyGame.game.Core.Systems
             monstersdefeated = 0;
         }
 
-        public GameLogicSystem() : base(SystemDescriptions.GameLogicSystem.Aspect, SystemDescriptions.GameLogicSystem.Priority)
+        public GameLogicSystem(Dirty game) : base(SystemDescriptions.GameLogicSystem.Aspect, SystemDescriptions.GameLogicSystem.Priority)
         {
-           
+            this.game = game;
         }
     }
 }

@@ -90,10 +90,10 @@ namespace DirtyGame
             world.AddSystem(new SpawnerSystem(entityFactory));
             world.AddSystem(new HUDSystem(renderer, UIEngine));
             world.AddSystem(new MonsterSystem(aiSystem));
-            gLogicSystem = new GameLogicSystem();
+            gLogicSystem = new GameLogicSystem(this);
             world.AddSystem(gLogicSystem);         
             world.AddSystem(new PhysicsSystem(physics));
-            world.AddSystem(new GameLogicSystem());
+            world.AddSystem(new GameLogicSystem(this));
             world.AddSystem(new AnimationSystem());
             world.AddSystem(new MovementSystem());
             map = new Map(graphics.GraphicsDevice);
@@ -126,6 +126,11 @@ namespace DirtyGame
         protected override void UnloadContent()
         {
            
+        }
+        public bool GameWon
+        {
+            get;
+            set;
         }
 
         protected override void Update(GameTime gameTime)

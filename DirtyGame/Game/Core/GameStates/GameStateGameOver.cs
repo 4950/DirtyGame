@@ -10,16 +10,19 @@ namespace DirtyGame.game.Core.GameStates
     {
         private Dirty game;
 
+
         public GameStateGameOver()
         {
             game = null;
-
         }
 
         public void OnEnter(Dirty game)
         {
             this.game = game;
-            MessageBox.Show("You Won!\nGame Will Now Exit", "Game Over", MessageBox.MessageBoxButttons.Ok).DialogResult += endGame;
+            if(game.GameWon)
+                MessageBox.Show("You Won!\nGame Will Now Exit", "Game Over", MessageBox.MessageBoxButttons.Ok).DialogResult += endGame;
+            else
+                MessageBox.Show("You Lost! Loser...\nGame Will Now Exit", "Game Over", MessageBox.MessageBoxButttons.Ok).DialogResult += endGame;
         }
 
         private void endGame(object sender, MessageBox.MessageBoxResultButtons ResultButton)
