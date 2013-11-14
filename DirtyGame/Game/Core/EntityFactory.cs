@@ -79,7 +79,6 @@ namespace DirtyGame.game.Core
             hc.MaxHealth = 200;
             hc.CurrentHealth = 200;
 
-
             e.AddComponent(spatial);
             e.AddComponent(sprite);
             e.AddComponent(hc);
@@ -90,8 +89,6 @@ namespace DirtyGame.game.Core
             e.AddComponent(animation);
             e.AddComponent(direction);
             e.AddComponent(new MovementComponent());
-
-
             e.GetComponent<SpatialComponent>().Height = 20;
             e.GetComponent<SpatialComponent>().Width = 20;
             return e;
@@ -159,7 +156,7 @@ namespace DirtyGame.game.Core
             timeComponent.timeOfLastDraw = new TimeSpan(0,0,0,0,0);
 
             //Create AIMovementComponent for the new entity
-            AIMovementComponent movementComponent = new AIMovementComponent();
+            MovementComponent movementComponent = new MovementComponent();
 
             //Direction Component
             DirectionComponent direction = new DirectionComponent();
@@ -176,7 +173,8 @@ namespace DirtyGame.game.Core
            
             monster.AddComponent(new PhysicsComponent());
             monster.AddComponent(direction);
-            monster.AddComponent(new AnimationComponent());            
+            monster.AddComponent(new AnimationComponent());
+            monster.AddComponent(new SeparationComponent());
             monster.GetComponent<SpatialComponent>().Height = 20;
             monster.GetComponent<SpatialComponent>().Width = 20;
 

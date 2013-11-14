@@ -29,6 +29,7 @@ using DirtyGame.game.Input;
 
 
 using FarseerPhysics.Dynamics;
+using DirtyGame.game.Core.Systems.Movement;
 
 
 #endregion
@@ -89,13 +90,14 @@ namespace DirtyGame
             world.AddSystem(new MapBoundarySystem(renderer));
             world.AddSystem(new SpawnerSystem(entityFactory));
             world.AddSystem(new HUDSystem(renderer, UIEngine));
-            world.AddSystem(new MonsterSystem(aiSystem));
+            //world.AddSystem(new MonsterSystem(aiSystem));
             gLogicSystem = new GameLogicSystem(this);
             world.AddSystem(gLogicSystem);         
             world.AddSystem(new PhysicsSystem(physics));
             world.AddSystem(new GameLogicSystem(this));
             world.AddSystem(new AnimationSystem());
-            world.AddSystem(new MovementSystem());
+            world.AddSystem(new MovementSystem(aiSystem));
+            world.AddSystem(new SeparationSystem());
             map = new Map(graphics.GraphicsDevice);
 
             
