@@ -14,6 +14,7 @@ namespace DirtyGame.game.Core.Components.Render
         private Rectangle srcRect;        
         //Stores the sprite's sprite sheet and animations
         private SpriteSheet spriteSheet;
+        public Texture2D sprite;
         
         #endregion
 

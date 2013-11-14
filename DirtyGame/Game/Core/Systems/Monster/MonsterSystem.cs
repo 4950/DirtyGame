@@ -58,11 +58,12 @@ namespace EntityFramework.Systems
                             if (moveVector[0] > 0)
                             {
                                 direction.Heading = "Right";
+                                e.GetComponent<MovementComponent>().Horizontal = 1;
                             }
-
-                            if (moveVector[0] < 0)
+                            else if (moveVector[0] < 0)
                             {
                                 direction.Heading = "Left";
+                                e.GetComponent<MovementComponent>().Horizontal = -1;
                             }
                         }
                         else
@@ -70,11 +71,12 @@ namespace EntityFramework.Systems
                             if (moveVector[1] > 0)
                             {
                                 direction.Heading = "Down";
+                                e.GetComponent<MovementComponent>().Vertical = 1;
                             }
-
-                            if (moveVector[1] < 0)
+                            else if (moveVector[1] < 0)
                             {
                                 direction.Heading = "Up";
+                                e.GetComponent<MovementComponent>().Vertical = -1;
                             }
                         }
                     }

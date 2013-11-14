@@ -83,7 +83,22 @@ namespace DirtyGame.game.Core.Systems
            
             if (entityDictionary.ContainsKey(fixtureA.Body.BodyId) && entityDictionary.ContainsKey(fixtureB.Body.BodyId))
             {
-                if (entityDictionary[fixtureA.Body.BodyId].HasComponent<PlayerComponent>())
+                Entity A = entityDictionary[fixtureA.Body.BodyId];
+                Entity B = entityDictionary[fixtureB.Body.BodyId];
+                if (A.HasComponent<ProjectileComponent>() || B.HasComponent<ProjectileComponent>())
+                {
+                    Entity proj = A.HasComponent<ProjectileComponent>() ? A : B;
+                    Entity hit = proj == A ? B : A;
+                    Fixture hitBody = proj == A ? fixtureB : fixtureA;
+
+                    if (hit.HasComponent<HealthComponent>() && hit != proj.GetComponent<ProjectileComponent>().owner)//valid hit, do dmg
+                    {
+                        hit.GetComponent<HealthComponent>().CurrentHealth -= proj.GetComponent<ProjectileComponent>().damage;
+                        World.RemoveEntity(proj);
+                        hitBody.Body.ApplyLinearImpulse(proj.GetComponent<ProjectileComponent>().direction * 10);
+                    }
+                }
+                else if (entityDictionary[fixtureA.Body.BodyId].HasComponent<PlayerComponent>())
                 {
 
                     if (entityDictionary[fixtureA.Body.BodyId].HasComponent<WeaponComponent>())
