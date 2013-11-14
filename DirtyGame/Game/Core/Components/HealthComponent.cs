@@ -10,7 +10,8 @@ namespace DirtyGame.game.Core.Components
         #region Constructors
         public HealthComponent()
         {
-            CurrentHealth = 100;
+            MaxHealth = 100;
+            CurrentHealth = MaxHealth;
         }
         #endregion
 

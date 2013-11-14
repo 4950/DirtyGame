@@ -6,6 +6,7 @@ using EntityFramework;
 using EntityFramework.Systems;
 using DirtyGame.game.Core.Systems.Util;
 using DirtyGame.game.Core.Components;
+using DirtyGame.game.Core.Events;
 
 namespace DirtyGame.game.Core.Systems
 {
@@ -39,27 +40,29 @@ namespace DirtyGame.game.Core.Systems
             }
 
             
-        }
+        } 
 
         public override void OnEntityAdded(Entity e)
         {
             PhysicsComponent physics = e.GetComponent<PhysicsComponent>();
 
-            physics.AddCollisionCallback(HealthCollisionCallback);
+            physics.AddCollisionCallback("Health", HealthCollisionCallback);
         }
 
         public override void OnEntityRemoved(Entity e)
         {
             PhysicsComponent physics = e.GetComponent<PhysicsComponent>();
 
-            physics.RemoveCollisionCallback(HealthCollisionCallback);
+            physics.RemoveCollisionCallback("Health", HealthCollisionCallback);
         }
 
-        public void HealthCollisionCallback(Entity entityA, Entity entityB)
+        public void HealthCollisionCallback(Event e)
         {
-            if (entityA.HasComponent<PlayerComponent>() && entityB.HasComponent<MonsterComponent>())
+           CollisionEvent collision = (CollisionEvent) e;
+
+            if (collision.entityA.HasComponent<PlayerComponent>() && collision.entityB.HasComponent<MonsterComponent>())
             {
-                entityB.GetComponent<HealthComponent>().LoseHealth(1);
+                collision.entityB.GetComponent<HealthComponent>().LoseHealth(1);
             }
         }
     }

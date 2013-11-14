@@ -6,6 +6,7 @@ using EntityFramework;
 using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics;
+using DirtyGame.game.Core.Events;
 
 namespace DirtyGame.game.Core.Components
 {
@@ -14,41 +15,45 @@ namespace DirtyGame.game.Core.Components
         #region Constructors
         public PhysicsComponent()
         {
-            CollisionList = new List<CollisionCallback>();
+            CollisionCallbackString = new List<string>();
         }
         #endregion
 
         #region Properties
-     
-        public delegate void CollisionCallback(Entity entityA, Entity entityB);
 
-        private List<CollisionCallback> CollisionList;
+        private List<string> CollisionCallbackString;
 
         #endregion
 
         #region Functions
 
-        public void AddCollisionCallback(CollisionCallback collisionCallbacK)
+        public void AddCollisionCallback(string name, EventManager.EventCallback collisionCallback)
         {
-            CollisionList.Add(collisionCallbacK);
+            EventManager.Instance.AddListener(name, collisionCallback);
+            CollisionCallbackString.Add(name);
         }
 
-        public void RemoveCollisionCallback(CollisionCallback collisionCallback)
+        public void RemoveCollisionCallback(string name, EventManager.EventCallback collisionCallback)
         {
-            CollisionList.Remove(collisionCallback);
+            EventManager.Instance.RemoveListener(name, collisionCallback);
+            CollisionCallbackString.Remove(name);
         }
 
         public void ExecuteCollisionList(Entity entityA, Entity entityB)
         {
-            foreach (CollisionCallback collisionCallback in CollisionList)
+            foreach (string collisionCallback in CollisionCallbackString)
             {
-                collisionCallback(entityA, entityB);
+                CollisionEvent collision = new CollisionEvent();
+                collision.name = collisionCallback;
+                collision.entityA = entityA;
+                collision.entityB = entityB;
+                EventManager.Instance.TriggerEvent(collision);
             }
         }
 
-        public bool IsCollisionListEmpty()
+        public bool IsCollisionCallbackEmpty()
         {
-            if (CollisionList.Count > 0)
+            if (CollisionCallbackString.Count > 0)
             {
                 return false;
             }

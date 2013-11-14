@@ -96,12 +96,12 @@ namespace DirtyGame.game.Core.Systems
                     lastEntityB = entityDictionary[fixtureB.Body.BodyId];
                     lastCurrentPhysicsTime = physicsWorld.ContinuousPhysicsTime;
 
-                    if (!entityDictionary[fixtureA.Body.BodyId].GetComponent<PhysicsComponent>().IsCollisionListEmpty())
+                    if (!entityDictionary[fixtureA.Body.BodyId].GetComponent<PhysicsComponent>().IsCollisionCallbackEmpty())
                     {
                         entityDictionary[fixtureA.Body.BodyId].GetComponent<PhysicsComponent>().ExecuteCollisionList(entityDictionary[fixtureA.Body.BodyId], entityDictionary[fixtureB.Body.BodyId]);
                     }
 
-                    if (!entityDictionary[fixtureB.Body.BodyId].GetComponent<PhysicsComponent>().IsCollisionListEmpty())
+                    if (!entityDictionary[fixtureB.Body.BodyId].GetComponent<PhysicsComponent>().IsCollisionCallbackEmpty())
                     {
                         entityDictionary[fixtureB.Body.BodyId].GetComponent<PhysicsComponent>().ExecuteCollisionList(entityDictionary[fixtureB.Body.BodyId], entityDictionary[fixtureA.Body.BodyId]);
                     }
