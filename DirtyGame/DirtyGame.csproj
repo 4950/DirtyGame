@@ -39,6 +39,8 @@
     </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="game\Core\Components\HealthComponent.cs" />
+    <Compile Include="game\Core\Components\ProjectileComponent.cs" />
     <Compile Include="game\Core\Components\Unit\UnitComponent.cs" />
     <Compile Include="game\Input\InputContext.cs" />
     <Compile Include="game\Input\KeyHandler.cs" />

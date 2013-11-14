@@ -75,9 +75,14 @@ namespace DirtyGame.game.Core
             DirectionComponent direction = new DirectionComponent();
             direction.Heading = "Down";
 
+            HealthComponent hc = new HealthComponent();
+            hc.MaxHealth = 200;
+            hc.CurrentHealth = 200;
+
 
             e.AddComponent(spatial);
             e.AddComponent(sprite);
+            e.AddComponent(hc);
          
             e.AddComponent(new PhysicsComponent());
             PlayerComponent controllable = new PlayerComponent();
@@ -91,7 +96,39 @@ namespace DirtyGame.game.Core
             e.GetComponent<SpatialComponent>().Width = 20;
             return e;
         }
+        public Entity CreateProjectile(Entity owner, Vector2 origin, Vector2 direction, float range, float speed, float damage)
+        {
+            Entity proj = entityMgr.CreateEntity();
 
+            ProjectileComponent pc = new ProjectileComponent();
+            pc.direction = direction;
+            pc.origin = origin;
+            pc.range = range;
+            pc.owner = owner;
+            pc.damage = damage;
+
+            SpatialComponent spatial = new SpatialComponent();
+            spatial.Position = new Vector2(origin.X, origin.Y);
+            spatial.Width = 2;
+            spatial.Height = 2;
+
+            SpriteComponent sc = new SpriteComponent();
+            sc.sprite = resourceMgr.GetResource<Texture2D>("sword");
+            sc.SrcRect = sc.sprite.Bounds;
+
+            MovementComponent mc = new MovementComponent();
+            Vector2 vel = direction * speed;
+            mc.Vertical = vel.Y;
+            mc.Horizontal = vel.X;
+
+            proj.AddComponent(pc);
+            proj.AddComponent(spatial);
+            proj.AddComponent(mc);
+            proj.AddComponent(sc);
+            proj.AddComponent(new PhysicsComponent());
+
+            return proj;
+        }
         public Entity CreateMonster(string type, int xPos, int yPos, SpriteSheet spriteSheet) //Sprite sprite)
         {
             Entity monster = entityMgr.CreateEntity();
@@ -109,6 +146,14 @@ namespace DirtyGame.game.Core
             SpriteComponent monsterSprite = new SpriteComponent();
             monsterSprite.SpriteSheet = spriteSheet;
 
+            //create movement component
+            MovementComponent mc = new MovementComponent();
+
+            HealthComponent hc = new HealthComponent();
+            hc.CurrentHealth = 100;
+            hc.MaxHealth = 100;
+            
+
             //Create the TimeComponent for the new entity
             TimeComponent timeComponent = new TimeComponent();
             timeComponent.timeOfLastDraw = new TimeSpan(0,0,0,0,0);
@@ -122,10 +167,12 @@ namespace DirtyGame.game.Core
 
             //Add the new components to the entity
             monster.AddComponent(m);
+            monster.AddComponent(mc);
             monster.AddComponent(spatial);
             monster.AddComponent(monsterSprite);
             monster.AddComponent(timeComponent);
             monster.AddComponent(movementComponent);
+            monster.AddComponent(hc);
            
             monster.AddComponent(new PhysicsComponent());
             monster.AddComponent(direction);

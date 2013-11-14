@@ -9,8 +9,15 @@ namespace DirtyGame.game.SGraphics
     public class Camera
     {    
         private Vector2 position;
-        
 
+
+        public Vector2 Position
+        {
+            get
+            {
+                return position;
+            }
+        }
         public Matrix Transform
         {
             get

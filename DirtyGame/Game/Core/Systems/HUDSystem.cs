@@ -21,7 +21,7 @@ namespace DirtyGame.game.Core.Systems
         private Renderer renderer;
 
         public HUDSystem(Renderer r, CoreUIEngine UIEngine)
-            : base(SystemDescriptions.MonsterSystem.Aspect, SystemDescriptions.MonsterSystem.Priority)
+            : base(SystemDescriptions.HUDSystem.Aspect, SystemDescriptions.HUDSystem.Priority)
         {
             pbDisplay = new Panel();
             mPBs = new List<ProgressBar>();
@@ -31,7 +31,7 @@ namespace DirtyGame.game.Core.Systems
         }
         public override void OnEntityAdded(EntityFramework.Entity e)
         {
-            if (e.HasComponent<MonsterComponent>())
+            if (e.HasComponent<HealthComponent>())
             {
                 ProgressBar pb = new ProgressBar();
                 pb.Size = new System.Drawing.Point(50, 5);
@@ -43,7 +43,7 @@ namespace DirtyGame.game.Core.Systems
 
         public override void OnEntityRemoved(EntityFramework.Entity e)
         {
-            if (e.HasComponent<MonsterComponent>())
+            if (e.HasComponent<HealthComponent>())
             {
                 pbDisplay.RemoveElement(mPBs[mPBs.Count - 1]);
                 mPBs.RemoveAt(mPBs.Count - 1);
@@ -54,10 +54,14 @@ namespace DirtyGame.game.Core.Systems
             int i = 0;
             foreach (Entity e in entities)
             {
-                if (e.HasComponent<MonsterComponent>() && i < mPBs.Count)
+                if (e.HasComponent<HealthComponent>() && i < mPBs.Count)
                 {
-                    
+                    HealthComponent hc = e.GetComponent<HealthComponent>();
+
                     ProgressBar pb = mPBs[i];
+                    pb.Maximum = hc.MaxHealth;
+                    pb.Value = (int)hc.CurrentHealth;
+
                     Vector2 pos = e.GetComponent<SpatialComponent>().Position;
                     pos = Vector2.Transform(pos, renderer.ActiveCamera.Transform);
                     if (pos.X >= 0 && pos.Y >= 0 && pos.X <= renderer.ActiveCamera.size.X && pos.Y <= renderer.ActiveCamera.size.Y)

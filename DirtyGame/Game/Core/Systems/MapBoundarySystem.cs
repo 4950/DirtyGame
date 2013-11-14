@@ -22,7 +22,6 @@ namespace DirtyGame.game.Core.Systems
             : base(SystemDescriptions.MapBoundrySystem.Aspect, SystemDescriptions.MapBoundrySystem.Priority)
         {
             this.renderer = renderer;
-            
         }
 
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)

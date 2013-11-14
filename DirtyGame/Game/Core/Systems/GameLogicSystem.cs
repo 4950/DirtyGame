@@ -19,25 +19,43 @@ namespace DirtyGame.game.Core.Systems
         public int monstersdefeated;
         public int monstersalive;
 
+
         public override void OnEntityAdded(Entity e)
         {
-            monstersalive++;
+            if (e.HasComponent<MonsterComponent>())
+            {
+                monstersalive++;
+            }
         }
 
         public override void OnEntityRemoved(Entity e)
         {
-            monstersdefeated++;
-            if (--monstersalive == 0)
+            if (e.HasComponent<MonsterComponent>())
             {
-                Event gamestate = new Event();
-                gamestate.name = "GameStateGameOver";
-                EventManager.Instance.TriggerEvent(gamestate);
+                monstersdefeated++;
+                if (--monstersalive == 0)
+                {
+                    Event gamestate = new Event();
+                    gamestate.name = "GameStateGameOver";
+                    EventManager.Instance.TriggerEvent(gamestate);
+                }
             }
         }
 
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
         {
-            //Does Nothing
+            for (int i = 0; i < entities.Count(); i++)
+            {
+                Entity e = entities.ElementAt(i);
+
+                HealthComponent hc = e.GetComponent<HealthComponent>();
+                if (hc.CurrentHealth <= 0)//dead
+                {
+                    World.RemoveEntity(e);
+                    i--;
+                }
+
+            }
         }
 
         public override void Initialize()

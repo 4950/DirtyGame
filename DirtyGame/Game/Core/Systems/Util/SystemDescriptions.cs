@@ -33,7 +33,7 @@ namespace DirtyGame.game.Core.Systems.Util
             new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof (SpatialComponent), typeof(SpawnerComponent) }), 1);
 
         public static SystemParams GameLogicSystem =
-            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MonsterComponent) }), 1);
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(HealthComponent) }), 1);
 
         public static SystemParams MonsterSystem =
             new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MonsterComponent), typeof(TimeComponent), typeof(SpatialComponent), typeof(SpriteComponent), typeof(DirectionComponent) }), 1);
@@ -42,7 +42,7 @@ namespace DirtyGame.game.Core.Systems.Util
             new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MovementComponent), typeof(TimeComponent), typeof(SpatialComponent), typeof(SpriteComponent) }), 1);
 
         public static SystemParams HUDSystem =
-            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MovementComponent), typeof(TimeComponent), typeof(SpatialComponent), typeof(SpriteComponent) }), 1);
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> {  typeof(SpatialComponent), typeof(HealthComponent) }), 1);
 
     }
 }

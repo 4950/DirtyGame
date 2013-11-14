@@ -8,16 +8,23 @@ using EntityFramework;
 using EntityFramework.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using DirtyGame.game.SGraphics;
 
 namespace DirtyGame.game.Core.Systems
 {
     class PlayerControlSystem : EntitySystem
     {
         private KeyboardState KeyboardState;
+        private MouseState ms;
+        private MouseState prevMS;
+        private EntityFactory entityFactory;
+        private Renderer renderer;
 
-        public PlayerControlSystem()
+        public PlayerControlSystem(EntityFactory ef, Renderer renderer)
             : base(SystemDescriptions.PlayerControlSystem.Aspect, SystemDescriptions.PlayerControlSystem.Priority)
         {
+            this.entityFactory = ef;
+            this.renderer = renderer;
         }
 
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
@@ -66,6 +73,21 @@ namespace DirtyGame.game.Core.Systems
                 else
                 {
                     movement.Vertical = 0;
+                }
+
+                prevMS = ms;
+                ms = Mouse.GetState();
+                if (prevMS == null)
+                    prevMS = ms;
+                if (ms.RightButton == ButtonState.Pressed && prevMS.RightButton == ButtonState.Released)//right mouse down
+                {
+                    //projectile or something
+                    Vector2 m = new Vector2(ms.X, ms.Y) + renderer.ActiveCamera.Position;
+                    Vector2 dir = (m - spatial.Position);
+                    dir.Normalize();
+                    Entity proj = entityFactory.CreateProjectile(e, spatial.Position, dir, 200, 10, 25);
+
+                    proj.Refresh();
                 }
 
                

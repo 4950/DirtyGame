@@ -84,7 +84,7 @@ namespace DirtyGame
             entityFactory = new EntityFactory(world.EntityMgr, resourceManager);
             aiSystem = new AISystem();
             world.AddSystem(new SpriteRenderSystem(renderer));
-            world.AddSystem(new PlayerControlSystem());
+            world.AddSystem(new PlayerControlSystem(entityFactory, renderer));
             world.AddSystem(new CameraUpdateSystem(renderer));
             world.AddSystem(new MapBoundarySystem(renderer));
             world.AddSystem(new SpawnerSystem(entityFactory));
