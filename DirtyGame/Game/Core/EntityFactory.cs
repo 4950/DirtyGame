@@ -54,7 +54,7 @@ namespace DirtyGame.game.Core
         {
             Entity e = entityMgr.CreateEntity();
             SpatialComponent spatial = new SpatialComponent();
-            spatial.Position = new Vector2(0, 0);
+            spatial.Position = new Vector2(2, 2);
 
             SpriteComponent sprite = new SpriteComponent();
             sprite.RenderLayer = RenderLayer.BACKGROUND;
@@ -181,6 +181,17 @@ namespace DirtyGame.game.Core
             monster.GetComponent<SpatialComponent>().Width = 20;
 
             return monster;
+        }
+
+
+        public Entity CreateWallEntity(Vector2 topLeft, Vector2 bottomLeft, Vector2 topRight, Vector2 bottomRight)
+        {
+            Entity wall = entityMgr.CreateEntity();
+
+            wall.AddComponent(new PhysicsComponent());
+            wall.AddComponent(new BorderComponent(topLeft, bottomLeft, topRight, bottomRight));
+
+            return wall;
         }
 
         public Entity CreateSpawner(int xPos, int yPos, SpriteSheet texture, Rectangle rectangle, int numMobs, TimeSpan timePerSpawn)

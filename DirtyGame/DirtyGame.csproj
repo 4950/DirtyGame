@@ -39,6 +39,7 @@
     </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="game\Core\Components\BorderComponent.cs" />
     <Compile Include="game\Core\Components\HealthComponent.cs" />
     <Compile Include="game\Core\Components\ProjectileComponent.cs" />
     <Compile Include="game\Core\Components\Unit\UnitComponent.cs" />

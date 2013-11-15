@@ -114,12 +114,19 @@ namespace DirtyGame
             e.Refresh();
             e = entityFactory.CreateSpawner(300, 300, playerSpriteSheet, new Rectangle(0, 0, 46, 46), 1, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
+
+            
         }
 
         protected override void LoadContent()
         {
             map.LoadMap("Cave.tmx", graphics.GraphicsDevice, Content);
             renderer.ActiveMap = map;
+
+            //Need to be moved
+            Entity wall = entityFactory.CreateWallEntity(new Vector2(0f, 0f), new Vector2(0f, renderer.ActiveMap.getPixelHeight()),
+                            new Vector2(renderer.ActiveMap.getPixelWidth(), 0f), new Vector2(renderer.ActiveMap.getPixelWidth(), renderer.ActiveMap.getPixelHeight()));
+            wall.Refresh();
             
         }
 
