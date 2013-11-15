@@ -27,7 +27,7 @@ using CoreUI;
 using CoreUI.DrawEngines;
 using DirtyGame.game.Input;
 
-
+using DirtyGame.game.Core.Components;
 using FarseerPhysics.Dynamics;
 using DirtyGame.game.Core.Systems.Movement;
 
@@ -60,6 +60,7 @@ namespace DirtyGame
         public MonoGameDrawEngine UIDraw;
         public InputManager inputManager;
         public InputContext baseContext;
+        public Entity player;
 
         public Dirty()
         {
@@ -86,7 +87,7 @@ namespace DirtyGame
             entityFactory = new EntityFactory(world.EntityMgr, resourceManager);
             aiSystem = new AISystem();
             world.AddSystem(new SpriteRenderSystem(renderer));
-            world.AddSystem(new PlayerControlSystem(entityFactory, renderer));
+            world.AddSystem(new PlayerControlSystem(entityFactory, renderer, this));
             world.AddSystem(new CameraUpdateSystem(renderer));
             world.AddSystem(new MapBoundarySystem(renderer));
             world.AddSystem(new SpawnerSystem(entityFactory));
@@ -106,8 +107,17 @@ namespace DirtyGame
             SpriteSheet playerSpriteSheet =  new SpriteSheet(resourceManager.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
             SpriteSheet monsterSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("monsterSheet_JUNK"), "Content\\MonsterAnimation.xml");
             
-            Entity e = entityFactory.CreatePlayerEntity(playerSpriteSheet);
+            
+            player = entityFactory.CreatePlayerEntity(playerSpriteSheet);
+            player.Refresh();
+
+            //weapons
+            Entity e = entityFactory.CreateRangedWeaponEntity("Doomsbow", "sword", "sword", 400, 25, 10, "sword");
             e.Refresh();
+            player.GetComponent<InventoryComponent>().addWeapon(e);
+            e = entityFactory.CreateRangedWeaponEntity("Spear", "spear", "spear", 200, 35, 5, "spear");
+            e.Refresh();
+            player.GetComponent<InventoryComponent>().addWeapon(e);
 
             e = entityFactory.CreateSpawner(100, 100, playerSpriteSheet, new Rectangle(0, 0, 46, 46), 1, new TimeSpan(0, 0, 0, 0, 1000));
             e.Refresh();

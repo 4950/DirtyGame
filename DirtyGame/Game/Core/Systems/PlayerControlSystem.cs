@@ -19,14 +19,34 @@ namespace DirtyGame.game.Core.Systems
         private MouseState prevMS;
         private EntityFactory entityFactory;
         private Renderer renderer;
+        private Dirty game;
 
-        public PlayerControlSystem(EntityFactory ef, Renderer renderer)
+        public PlayerControlSystem(EntityFactory ef, Renderer renderer, Dirty game)
             : base(SystemDescriptions.PlayerControlSystem.Aspect, SystemDescriptions.PlayerControlSystem.Priority)
         {
             this.entityFactory = ef;
             this.renderer = renderer;
+            this.game = game;
+            game.baseContext.RegisterHandler(Keys.Tab, changeWeapon, null);
         }
-
+        private void changeWeapon()
+        {
+            InventoryComponent ic = game.player.GetComponent<InventoryComponent>();
+            var weapons = ic.WeaponList;
+            if (ic.CurrentWeapon == null)
+            {
+                if (weapons.Count > 0)
+                    ic.setCurrentWeapon(weapons[0]);
+            }
+            else
+            {
+                int i = weapons.IndexOf(ic.CurrentWeapon);
+                i++;
+                if (i >= weapons.Count)
+                    i = 0;
+                ic.setCurrentWeapon(weapons[i]);
+            }
+        }
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
         {
             foreach (Entity e in entities)
@@ -75,19 +95,31 @@ namespace DirtyGame.game.Core.Systems
                     movement.Vertical = 0;
                 }
 
+                
+
                 prevMS = ms;
                 ms = Mouse.GetState();
                 if (prevMS == null)
                     prevMS = ms;
                 if (ms.RightButton == ButtonState.Pressed && prevMS.RightButton == ButtonState.Released)//right mouse down
                 {
-                    //projectile or something
-                    Vector2 m = new Vector2(ms.X, ms.Y) + renderer.ActiveCamera.Position;
-                    Vector2 dir = (m - spatial.Position);
-                    dir.Normalize();
-                    Entity proj = entityFactory.CreateProjectile(e, spatial.Position, dir, 200, 10, 25);
+                    Entity curWeapon = game.player.GetComponent<InventoryComponent>().CurrentWeapon;
 
-                    proj.Refresh();
+                    if (curWeapon != null)
+                    {
+                        WeaponComponent wc = curWeapon.GetComponent<WeaponComponent>();
+
+                        if (wc.Type == WeaponComponent.WeaponType.Ranged)
+                        {
+                            //projectile or something
+                            Vector2 m = new Vector2(ms.X, ms.Y) + renderer.ActiveCamera.Position;
+                            Vector2 dir = (m - spatial.Position);
+                            dir.Normalize();
+                            Entity proj = entityFactory.CreateProjectile(e, spatial.Position, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, wc.BaseDamage);
+
+                            proj.Refresh();
+                        }
+                    }
                 }
 
                

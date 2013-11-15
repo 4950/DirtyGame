@@ -43,18 +43,37 @@ namespace DirtyGame.game.Core
             AnimationComponent animation = new AnimationComponent();
             //Changing the animation with the string property
             animation.CurrentAnimation = animationName;
-
+            
             e.AddComponent(spatial);
             e.AddComponent(sprite);
             e.AddComponent(animation);
             return e;
         }
+        public Entity CreateRangedWeaponEntity(String name, String sprite, String portrait, float range, float baseDamage, float projSpeed, String projectileSprite)
+        {
+            
+            Entity proj = entityMgr.CreateEntity();
 
+            WeaponComponent wc = new WeaponComponent();
+            wc.BaseDamage = baseDamage;
+            wc.Name = name;
+            wc.Type = WeaponComponent.WeaponType.Ranged;
+            wc.Range = range;
+            wc.Portrait = portrait;
+            wc.ProjectileSpeed = projSpeed;
+            wc.ProjectileSprite = projectileSprite;
+
+            proj.AddComponent(wc);
+
+            return proj;
+        }
         public Entity CreatePlayerEntity(SpriteSheet spriteSheet)
         {
             Entity e = entityMgr.CreateEntity();
             SpatialComponent spatial = new SpatialComponent();
             spatial.Position = new Vector2(0, 0);
+
+            InventoryComponent ic = new InventoryComponent();
 
             SpriteComponent sprite = new SpriteComponent();
             sprite.RenderLayer = RenderLayer.BACKGROUND;
@@ -82,6 +101,7 @@ namespace DirtyGame.game.Core
             e.AddComponent(spatial);
             e.AddComponent(sprite);
             e.AddComponent(hc);
+            e.AddComponent(ic);
          
             e.AddComponent(new PhysicsComponent());
             PlayerComponent controllable = new PlayerComponent();
@@ -93,7 +113,7 @@ namespace DirtyGame.game.Core
             e.GetComponent<SpatialComponent>().Width = 20;
             return e;
         }
-        public Entity CreateProjectile(Entity owner, Vector2 origin, Vector2 direction, float range, float speed, float damage)
+        public Entity CreateProjectile(Entity owner, Vector2 origin, Vector2 direction, String sprite, float range, float speed, float damage)
         {
             Entity proj = entityMgr.CreateEntity();
 
@@ -110,7 +130,7 @@ namespace DirtyGame.game.Core
             spatial.Height = 2;
 
             SpriteComponent sc = new SpriteComponent();
-            sc.sprite = resourceMgr.GetResource<Texture2D>("sword");
+            sc.sprite = resourceMgr.GetResource<Texture2D>(sprite);
             sc.SrcRect = sc.sprite.Bounds;
 
             MovementComponent mc = new MovementComponent();
