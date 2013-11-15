@@ -46,5 +46,8 @@ namespace DirtyGame.game.Core.Systems.Util
 
         public static SystemParams SeparationSystem =
             new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MovementComponent), typeof(SeparationComponent) }), 1);
+
+        public static SystemParams ProjectileSystem =
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(ProjectileComponent) }), 1);
     }
 }

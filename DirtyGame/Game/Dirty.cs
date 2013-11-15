@@ -92,6 +92,7 @@ namespace DirtyGame
             world.AddSystem(new MapBoundarySystem(renderer));
             world.AddSystem(new SpawnerSystem(entityFactory));
             world.AddSystem(new HUDSystem(renderer, UIEngine));
+            world.AddSystem(new ProjectileSystem(this));
             //world.AddSystem(new MonsterSystem(aiSystem));
             gLogicSystem = new GameLogicSystem(this);
             world.AddSystem(gLogicSystem);         
