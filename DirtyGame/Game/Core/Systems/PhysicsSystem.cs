@@ -11,6 +11,7 @@ using EntityFramework;
 using DirtyGame.game.Core.Systems.Util;
 using DirtyGame.game.Core.Components;
 using Microsoft.Xna.Framework;
+using FarseerPhysics.Common;
 
 namespace DirtyGame.game.Core.Systems
 {
@@ -38,8 +39,11 @@ namespace DirtyGame.game.Core.Systems
 
             foreach (Entity e in entities)
             {
-                SpatialComponent spatial = e.GetComponent<SpatialComponent>();
-                spatial.Position = ConvertUnits.ToDisplayUnits(bodyDictionary[e.Id].Position);
+                if (e.HasComponent<SpatialComponent>())
+                {
+                    SpatialComponent spatial = e.GetComponent<SpatialComponent>();
+                    spatial.Position = ConvertUnits.ToDisplayUnits(bodyDictionary[e.Id].Position);
+                }
 
                if (e.HasComponent<MovementComponent>()) //Some could be static
                {
@@ -56,14 +60,34 @@ namespace DirtyGame.game.Core.Systems
 
         public override void OnEntityAdded(Entity e)
         {
-            SpatialComponent spatial = e.GetComponent<SpatialComponent>();
+
             Body Body = new Body(physicsWorld);
 
-            Body = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits
-                                                                                  (spatial.Width), ConvertUnits.ToSimUnits(spatial.Height), 1f, 
-                                                                                  ConvertUnits.ToSimUnits(spatial.Position));
+            if(e.HasComponent<SpatialComponent>())
+            {
+                SpatialComponent spatial = e.GetComponent<SpatialComponent>();
+                
 
-            if (e.HasComponent<MovementComponent>())
+                Body = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits
+                                                                                      (spatial.Width), ConvertUnits.ToSimUnits(spatial.Height), 1f,
+                                                                                      ConvertUnits.ToSimUnits(spatial.Position));
+            }
+
+            if (e.HasComponent<BorderComponent>())
+            {
+                BorderComponent border = e.GetComponent<BorderComponent>();
+                Vertices borders = new Vertices(4);
+                borders.Add(ConvertUnits.ToSimUnits(border.TopLeft));
+                borders.Add(ConvertUnits.ToSimUnits(border.TopRight));
+                borders.Add(ConvertUnits.ToSimUnits(border.BottomRight));
+                borders.Add(ConvertUnits.ToSimUnits(border.BottomLeft));
+
+                Body = BodyFactory.CreateLoopShape(physicsWorld, borders);
+                Body.CollisionCategories = Category.All;
+                Body.CollidesWith = Category.All;
+            }
+
+            if(e.HasComponent<MovementComponent>())
             {
                 Body.BodyType = BodyType.Dynamic;
                 Body.Restitution = 0.3f;

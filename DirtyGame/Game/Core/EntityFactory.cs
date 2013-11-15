@@ -43,18 +43,37 @@ namespace DirtyGame.game.Core
             AnimationComponent animation = new AnimationComponent();
             //Changing the animation with the string property
             animation.CurrentAnimation = animationName;
-
+            
             e.AddComponent(spatial);
             e.AddComponent(sprite);
             e.AddComponent(animation);
             return e;
         }
+        public Entity CreateRangedWeaponEntity(String name, String sprite, String portrait, float range, float baseDamage, float projSpeed, String projectileSprite)
+        {
+            
+            Entity proj = entityMgr.CreateEntity();
 
+            WeaponComponent wc = new WeaponComponent();
+            wc.BaseDamage = baseDamage;
+            wc.Name = name;
+            wc.Type = WeaponComponent.WeaponType.Ranged;
+            wc.Range = range;
+            wc.Portrait = portrait;
+            wc.ProjectileSpeed = projSpeed;
+            wc.ProjectileSprite = projectileSprite;
+
+            proj.AddComponent(wc);
+
+            return proj;
+        }
         public Entity CreatePlayerEntity(SpriteSheet spriteSheet)
         {
             Entity e = entityMgr.CreateEntity();
             SpatialComponent spatial = new SpatialComponent();
-            spatial.Position = new Vector2(0, 0);
+            spatial.Position = new Vector2(2, 2);
+
+            InventoryComponent ic = new InventoryComponent();
 
             SpriteComponent sprite = new SpriteComponent();
             sprite.RenderLayer = RenderLayer.BACKGROUND;
@@ -79,10 +98,10 @@ namespace DirtyGame.game.Core
             hc.MaxHealth = 200;
             hc.CurrentHealth = 200;
 
-
             e.AddComponent(spatial);
             e.AddComponent(sprite);
             e.AddComponent(hc);
+            e.AddComponent(ic);
          
             e.AddComponent(new PhysicsComponent());
             PlayerComponent controllable = new PlayerComponent();
@@ -90,13 +109,11 @@ namespace DirtyGame.game.Core
             e.AddComponent(animation);
             e.AddComponent(direction);
             e.AddComponent(new MovementComponent());
-
-
             e.GetComponent<SpatialComponent>().Height = 20;
             e.GetComponent<SpatialComponent>().Width = 20;
             return e;
         }
-        public Entity CreateProjectile(Entity owner, Vector2 origin, Vector2 direction, float range, float speed, float damage)
+        public Entity CreateProjectile(Entity owner, Vector2 origin, Vector2 direction, String sprite, float range, float speed, float damage)
         {
             Entity proj = entityMgr.CreateEntity();
 
@@ -113,7 +130,7 @@ namespace DirtyGame.game.Core
             spatial.Height = 2;
 
             SpriteComponent sc = new SpriteComponent();
-            sc.sprite = resourceMgr.GetResource<Texture2D>("sword");
+            sc.sprite = resourceMgr.GetResource<Texture2D>(sprite);
             sc.SrcRect = sc.sprite.Bounds;
 
             MovementComponent mc = new MovementComponent();
@@ -159,7 +176,7 @@ namespace DirtyGame.game.Core
             timeComponent.timeOfLastDraw = new TimeSpan(0,0,0,0,0);
 
             //Create AIMovementComponent for the new entity
-            AIMovementComponent movementComponent = new AIMovementComponent();
+            MovementComponent movementComponent = new MovementComponent();
 
             //Direction Component
             DirectionComponent direction = new DirectionComponent();
@@ -176,11 +193,23 @@ namespace DirtyGame.game.Core
            
             monster.AddComponent(new PhysicsComponent());
             monster.AddComponent(direction);
-            monster.AddComponent(new AnimationComponent());            
+            monster.AddComponent(new AnimationComponent());
+            monster.AddComponent(new SeparationComponent());
             monster.GetComponent<SpatialComponent>().Height = 20;
             monster.GetComponent<SpatialComponent>().Width = 20;
 
             return monster;
+        }
+
+
+        public Entity CreateWallEntity(Vector2 topLeft, Vector2 bottomLeft, Vector2 topRight, Vector2 bottomRight)
+        {
+            Entity wall = entityMgr.CreateEntity();
+
+            wall.AddComponent(new PhysicsComponent());
+            wall.AddComponent(new BorderComponent(topLeft, bottomLeft, topRight, bottomRight));
+
+            return wall;
         }
 
         public Entity CreateSpawner(int xPos, int yPos, SpriteSheet texture, Rectangle rectangle, int numMobs, TimeSpan timePerSpawn)

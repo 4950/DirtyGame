@@ -15,7 +15,7 @@ namespace DirtyGame.game.Core.Systems.Util
             new SystemParams(Aspect.CreateAspectFor(new List<Type> {typeof (SpriteComponent), typeof (SpatialComponent)}), 1000);
 
         public static SystemParams PhysicsSystem =
-          new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(SpatialComponent) , typeof(PhysicsComponent) }), 1);
+          new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(PhysicsComponent) }), 1);
 
         public static SystemParams AnimationSystem =
             new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(SpriteComponent), typeof(AnimationComponent), typeof(DirectionComponent) }), 1);
@@ -39,10 +39,15 @@ namespace DirtyGame.game.Core.Systems.Util
             new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MonsterComponent), typeof(TimeComponent), typeof(SpatialComponent), typeof(SpriteComponent), typeof(DirectionComponent) }), 1);
 
         public static SystemParams MovementSystem =
-            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MovementComponent), typeof(TimeComponent), typeof(SpatialComponent), typeof(SpriteComponent) }), 1);
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MovementComponent), typeof(SpatialComponent), typeof(SpriteComponent) }), 1);
 
         public static SystemParams HUDSystem =
             new SystemParams(Aspect.CreateAspectFor(new List<Type> {  typeof(SpatialComponent), typeof(HealthComponent) }), 1);
 
+        public static SystemParams SeparationSystem =
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MovementComponent), typeof(SeparationComponent) }), 1);
+
+        public static SystemParams ProjectileSystem =
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(ProjectileComponent) }), 1);
     }
 }

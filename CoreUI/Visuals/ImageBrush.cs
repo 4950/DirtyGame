@@ -19,6 +19,7 @@ namespace CoreUI.Visuals
             set
             {
                 tex = value;
+                InvalidateVisual();
             }
         }
         public void LoadImage(String ImagePath)
@@ -26,10 +27,12 @@ namespace CoreUI.Visuals
             if (tex != null)
                 tex.Delete();
             tex = CoreUIEngine.mDrawEngine.CreateTexture(ImagePath);
+            InvalidateVisual();
         }
         public void ClearImage()
         {
             tex = null;
+            InvalidateVisual();
         }
     }
 }

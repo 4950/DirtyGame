@@ -27,8 +27,10 @@ using CoreUI;
 using CoreUI.DrawEngines;
 using DirtyGame.game.Input;
 
-
+using DirtyGame.game.Core.Components;
 using FarseerPhysics.Dynamics;
+using DirtyGame.game.Core.Systems.Movement;
+
 
 
 #endregion
@@ -58,6 +60,7 @@ namespace DirtyGame
         public MonoGameDrawEngine UIDraw;
         public InputManager inputManager;
         public InputContext baseContext;
+        public Entity player;
 
         public Dirty()
         {
@@ -84,18 +87,20 @@ namespace DirtyGame
             entityFactory = new EntityFactory(world.EntityMgr, resourceManager);
             aiSystem = new AISystem();
             world.AddSystem(new SpriteRenderSystem(renderer));
-            world.AddSystem(new PlayerControlSystem(entityFactory, renderer));
+            world.AddSystem(new PlayerControlSystem(entityFactory, renderer, this));
             world.AddSystem(new CameraUpdateSystem(renderer));
             world.AddSystem(new MapBoundarySystem(renderer));
             world.AddSystem(new SpawnerSystem(entityFactory));
             world.AddSystem(new HUDSystem(renderer, UIEngine));
-            world.AddSystem(new MonsterSystem(aiSystem));
+            world.AddSystem(new ProjectileSystem(this));
+            //world.AddSystem(new MonsterSystem(aiSystem));
             gLogicSystem = new GameLogicSystem(this);
             world.AddSystem(gLogicSystem);         
             world.AddSystem(new PhysicsSystem(physics));
             world.AddSystem(new GameLogicSystem(this));
             world.AddSystem(new AnimationSystem());
-            world.AddSystem(new MovementSystem());
+            world.AddSystem(new MovementSystem(aiSystem));
+            world.AddSystem(new SeparationSystem());
             map = new Map(graphics.GraphicsDevice);
 
             
@@ -103,8 +108,17 @@ namespace DirtyGame
             SpriteSheet playerSpriteSheet =  new SpriteSheet(resourceManager.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
             SpriteSheet monsterSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("monsterSheet_JUNK"), "Content\\MonsterAnimation.xml");
             
-            Entity e = entityFactory.CreatePlayerEntity(playerSpriteSheet);
+            
+            player = entityFactory.CreatePlayerEntity(playerSpriteSheet);
+            player.Refresh();
+
+            //weapons
+            Entity e = entityFactory.CreateRangedWeaponEntity("Doomsbow", "sword", "sword", 400, 25, 10, "sword");
             e.Refresh();
+            player.GetComponent<InventoryComponent>().addWeapon(e);
+            e = entityFactory.CreateRangedWeaponEntity("Spear", "spear", "spear", 200, 35, 5, "spear");
+            e.Refresh();
+            player.GetComponent<InventoryComponent>().addWeapon(e);
 
             e = entityFactory.CreateSpawner(100, 100, playerSpriteSheet, new Rectangle(0, 0, 46, 46), 1, new TimeSpan(0, 0, 0, 0, 1000));
             e.Refresh();
@@ -114,12 +128,19 @@ namespace DirtyGame
             e.Refresh();
             e = entityFactory.CreateSpawner(300, 300, playerSpriteSheet, new Rectangle(0, 0, 46, 46), 1, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
+
+            
         }
 
         protected override void LoadContent()
         {
             map.LoadMap("Cave.tmx", graphics.GraphicsDevice, Content);
             renderer.ActiveMap = map;
+
+            //Need to be moved
+            Entity wall = entityFactory.CreateWallEntity(new Vector2(0f, 0f), new Vector2(0f, renderer.ActiveMap.getPixelHeight()),
+                            new Vector2(renderer.ActiveMap.getPixelWidth(), 0f), new Vector2(renderer.ActiveMap.getPixelWidth(), renderer.ActiveMap.getPixelHeight()));
+            wall.Refresh();
             
         }
 
