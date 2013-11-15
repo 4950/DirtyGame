@@ -2,6 +2,7 @@
 using DirtyGame.game.Core.Systems.Util;
 using EntityFramework;
 using EntityFramework.Systems;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,10 +47,10 @@ namespace DirtyGame.game.Core.Systems.Monster
 
             foreach (Entity e in entities)
             {
-                if (e.HasComponent<MonsterComponent>())
+                if (e.HasComponent<PlayerComponent>())
                 {
-                    if (!m.GetComponent<MonsterComponent>().monsterType.Equals(e.GetComponent<MonsterComponent>().monsterType))
-                    {
+                    //if (!m.GetComponent<MonsterComponent>().monsterType.Equals(e.GetComponent<MonsterComponent>().monsterType))
+                    //{
                         int otherX = (int)e.GetComponent<SpatialComponent>().Position.X;
                         int otherY = (int)e.GetComponent<SpatialComponent>().Position.Y;
                         if (getDistance(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, otherX, otherY) < 400)
@@ -58,38 +59,39 @@ namespace DirtyGame.game.Core.Systems.Monster
 
                             return chaseVector;
                         }
-                    }
+                        //}
                 }
-            }
+           }
 
-            //else, Random walk 
-            int randInt;
-            randInt = r.Next(0, 101);
-            double[] randDir = new double[2];
-            if (randInt < 26)
-            {
-                randDir[0] = 1.0;
-                randDir[1] = 0.0;
-            }
-            else if (randInt < 51)
-            {
-                randDir[0] = -1.0;
-                randDir[1] = 0.0;
-            }
-            else if (randInt < 76)
-            {
-                randDir[0] = 0.0;
-                randDir[1] = 1.0;
-            }
-            else
-            {
-                randDir[0] = 0.0;
-                randDir[1] = -1.0;
-            }
+                //else, Random walk 
+                int randInt;
+                randInt = r.Next(0, 101);
+                double[] randDir = new double[2];
+                if (randInt < 26)
+                {
+                    randDir[0] = 1.0;
+                    randDir[1] = 0.0;
+                }
+                else if (randInt < 51)
+                {
+                    randDir[0] = -1.0;
+                    randDir[1] = 0.0;
+                }
+                else if (randInt < 76)
+                {
+                    randDir[0] = 0.0;
+                    randDir[1] = 1.0;
+                }
+                else
+                {
+                    randDir[0] = 0.0;
+                    randDir[1] = -1.0;
+                }
 
-            return randDir;
-
+                return randDir;
         }
+
+      
 
         private double getDistance(double x, double y, double ox, double oy)
         {

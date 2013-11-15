@@ -36,6 +36,24 @@ namespace EntityFramework.Systems
 
             foreach (Entity e in entities)
             {
+                SpatialComponent mySpatial = e.GetComponent<SpatialComponent>();
+                //Check for entities with an AI movement component
+                if (e.HasComponent<MonsterComponent>())
+                {
+                    //Console.WriteLine("found one");
+                    if (e.GetComponent<TimeComponent>().timeOfLastDraw + t <= totalTime)
+                    {
+                        e.GetComponent<TimeComponent>().timeOfLastDraw = totalTime;
+                        double[] moveVector = aiSystem.calculateMoveVector(entities, e);
+                        float f = (float) (moveVector[0] * 10.0);
+                        e.GetComponent<MovementComponent>().Horizontal = (float)moveVector[0];
+                        e.GetComponent<MovementComponent>().Vertical = (float)moveVector[1];
+
+                        //e.GetComponent<SpatialComponent>().MoveTo( e.GetComponent<SpatialComponent>().Position.X + (float)(moveVector[0] * 10.0), e.GetComponent<Spatial>().Position.Y + (float)(moveVector[1] * 10.0));
+         
+                    }
+                }
+
                 
 
                 //Can check for different types of entities down here!
