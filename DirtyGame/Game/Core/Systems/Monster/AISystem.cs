@@ -44,6 +44,7 @@ namespace DirtyGame.game.Core.Systems.Monster
         {
             List<Entity> nextState = new List<Entity>();
             Random r = new Random();
+            DirectionComponent direction;
 
             foreach (Entity e in entities)
             {
@@ -56,6 +57,51 @@ namespace DirtyGame.game.Core.Systems.Monster
                         if (getDistance(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, otherX, otherY) < 400)
                         {
                             double[] chaseVector = getChaseVector(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, otherX, otherY);
+
+                            //Maybe put the monster animation here
+                            direction = m.GetComponent<DirectionComponent>();
+                            if (Math.Abs(chaseVector[0]) > Math.Abs(chaseVector[1]))
+                            {
+                                if (chaseVector[0] > 0)
+                                {
+                                    direction.Heading = "Right";
+                                    m.GetComponent<MovementComponent>().Horizontal = 1;
+                                    AnimationComponent animation = new AnimationComponent();
+                                    animation.CurrentAnimation = "Walk" + direction.Heading;
+                                    m.AddComponent(animation);
+                                    m.Refresh();
+                                }
+                                else if (chaseVector[0] < 0)
+                                {
+                                    direction.Heading = "Left";
+                                    m.GetComponent<MovementComponent>().Horizontal = -1;
+                                    AnimationComponent animation = new AnimationComponent();
+                                    animation.CurrentAnimation = "Walk" + direction.Heading;
+                                    m.AddComponent(animation);
+                                    m.Refresh();
+                                }
+                            }
+                            else
+                            {
+                                if (chaseVector[1] > 0)
+                                {
+                                    direction.Heading = "Down";
+                                    m.GetComponent<MovementComponent>().Vertical = 1;
+                                    AnimationComponent animation = new AnimationComponent();
+                                    animation.CurrentAnimation = "Walk" + direction.Heading;
+                                    m.AddComponent(animation);
+                                    m.Refresh();
+                                }
+                                else if (chaseVector[1] < 0)
+                                {
+                                    direction.Heading = "Up";
+                                    m.GetComponent<MovementComponent>().Vertical = -1;
+                                    AnimationComponent animation = new AnimationComponent();
+                                    animation.CurrentAnimation = "Walk" + direction.Heading;
+                                    m.AddComponent(animation);
+                                    m.Refresh();
+                                }
+                            }
 
                             return chaseVector;
                         }
@@ -86,6 +132,51 @@ namespace DirtyGame.game.Core.Systems.Monster
                 {
                     randDir[0] = 0.0;
                     randDir[1] = -1.0;
+                }
+
+            //Maybe put the monster movement animation here too
+                direction = m.GetComponent<DirectionComponent>();
+                if (Math.Abs(randDir[0]) > Math.Abs(randDir[1]))
+                {
+                    if (randDir[0] > 0)
+                    {
+                        direction.Heading = "Right";
+                        m.GetComponent<MovementComponent>().Horizontal = 1;
+                        AnimationComponent animation = new AnimationComponent();
+                        animation.CurrentAnimation = "Walk" + direction.Heading;
+                        m.AddComponent(animation);
+                        m.Refresh();
+                    }
+                    else if (randDir[0] < 0)
+                    {
+                        direction.Heading = "Left";
+                        m.GetComponent<MovementComponent>().Horizontal = -1;
+                        AnimationComponent animation = new AnimationComponent();
+                        animation.CurrentAnimation = "Walk" + direction.Heading;
+                        m.AddComponent(animation);
+                        m.Refresh();
+                    }
+                }
+                else
+                {
+                    if (randDir[1] > 0)
+                    {
+                        direction.Heading = "Down";
+                        m.GetComponent<MovementComponent>().Vertical = 1;
+                        AnimationComponent animation = new AnimationComponent();
+                        animation.CurrentAnimation = "Walk" + direction.Heading;
+                        m.AddComponent(animation);
+                        m.Refresh();
+                    }
+                    else if (randDir[1] < 0)
+                    {
+                        direction.Heading = "Up";
+                        m.GetComponent<MovementComponent>().Vertical = -1;
+                        AnimationComponent animation = new AnimationComponent();
+                        animation.CurrentAnimation = "Walk" + direction.Heading;
+                        m.AddComponent(animation);
+                        m.Refresh();
+                    }
                 }
 
                 return randDir;
