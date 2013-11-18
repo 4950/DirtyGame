@@ -8,9 +8,9 @@ namespace DirtyGame.game.Core.Components
 {
     class DirectionComponent : Component
     {
-        #region
+        #region Variables
         //Sprite direction
-        private string heading;
+        private string heading = "Down";
         #endregion
 
         #region Properties

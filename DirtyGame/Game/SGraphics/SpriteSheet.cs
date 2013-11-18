@@ -19,6 +19,8 @@ namespace DirtyGame.game.SGraphics
         private Dictionary<string, Rectangle[]> sAnimations = new Dictionary<string, Rectangle[]>();
         //Stores the sprite offsets for each of the animations
         private Dictionary<string, Vector2> sOffsets = new Dictionary<string, Vector2>();
+        //Stores the information if the animation is finite
+        private Dictionary<string, bool> sFinite = new Dictionary<string, bool>();
         #endregion
 
         #region Properties
@@ -39,6 +41,20 @@ namespace DirtyGame.game.SGraphics
             get
             {
                 return spriteSheetTexture;
+            }
+        }
+        public Dictionary<string, Vector2> Offset
+        {
+            get
+            {
+                return sOffsets;
+            }
+        }
+        public Dictionary<string, bool> Finite
+        {
+            get
+            {
+                return sFinite;
             }
         }
         #endregion
@@ -76,6 +92,7 @@ namespace DirtyGame.game.SGraphics
                 int width;
                 int height;
                 int frameCount = 0;
+                bool finite;
 
                 //Switching between the type of animation XML definitions
                 switch (animationReader.Name)
@@ -97,9 +114,11 @@ namespace DirtyGame.game.SGraphics
                         width = Convert.ToInt32(animationReader.GetAttribute("width"));
                         //height
                         height = Convert.ToInt32(animationReader.GetAttribute("height"));
+                        //finite
+                        finite = Convert.ToBoolean(animationReader.GetAttribute("finite"));
 
                         //Adding the animation to the dictionaries
-                        AddAnimationDefault(numberOfFrames, yPosition, xStartFrame, animationName, width, height, new Vector2(xOffset, yOffset));
+                        AddAnimationDefault(numberOfFrames, yPosition, xStartFrame, animationName, width, height, new Vector2(xOffset, yOffset), finite);
 
                         break;
 
@@ -112,6 +131,8 @@ namespace DirtyGame.game.SGraphics
                         yOffset = Convert.ToInt32(animationReader.GetAttribute("yOffset"));
                         //numberOfFrames
                         numberOfFrames = Convert.ToInt32(animationReader.GetAttribute("numberOfFrames"));
+                        //finite
+                        finite = Convert.ToBoolean(animationReader.GetAttribute("finite"));
 
                         //Temporary Rectangle array
                         Rectangle[] tempRectangles = new Rectangle[numberOfFrames];
@@ -142,6 +163,8 @@ namespace DirtyGame.game.SGraphics
                         sAnimations.Add(animationName, tempRectangles);
                         //Saving the animation's offset to the offset Dictionary
                         sOffsets.Add(animationName, new Vector2(xOffset, yOffset));
+                        //Saving if the animation is finite
+                        sFinite.Add(animationName, finite);
 
                         break;
                 }
@@ -154,7 +177,7 @@ namespace DirtyGame.game.SGraphics
 
         #region Methods
         //Adding a specified animation to the sprite component, default
-        private void AddAnimationDefault(int numFrames, int yPosition, int xStartFrame, string animationName, int frameWidth, int frameHeight, Vector2 frameOffset)
+        private void AddAnimationDefault(int numFrames, int yPosition, int xStartFrame, string animationName, int frameWidth, int frameHeight, Vector2 frameOffset, bool finite)
         {
             //Stores the rectangles for the individual frames of an animation
             Rectangle[] tempRectangles = new Rectangle[numFrames];
@@ -167,6 +190,8 @@ namespace DirtyGame.game.SGraphics
             sAnimations.Add(animationName, tempRectangles);
             //Saving the animation's offset to the offset Dictionary
             sOffsets.Add(animationName, frameOffset);
+            //Saving if the animation is finite
+            sFinite.Add(animationName, finite);
         }
 
         #endregion

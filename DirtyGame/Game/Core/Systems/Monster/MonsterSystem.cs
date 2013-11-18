@@ -59,11 +59,19 @@ namespace EntityFramework.Systems
                             {
                                 direction.Heading = "Right";
                                 e.GetComponent<MovementComponent>().Horizontal = 1;
+                                AnimationComponent animation = new AnimationComponent();
+                                animation.CurrentAnimation = "Walk" + direction.Heading;
+                                e.AddComponent(animation);
+                                e.Refresh();
                             }
                             else if (moveVector[0] < 0)
                             {
                                 direction.Heading = "Left";
                                 e.GetComponent<MovementComponent>().Horizontal = -1;
+                                AnimationComponent animation = new AnimationComponent();
+                                animation.CurrentAnimation = "Walk" + direction.Heading;
+                                e.AddComponent(animation);
+                                e.Refresh();
                             }
                         }
                         else
@@ -72,11 +80,19 @@ namespace EntityFramework.Systems
                             {
                                 direction.Heading = "Down";
                                 e.GetComponent<MovementComponent>().Vertical = 1;
+                                AnimationComponent animation = new AnimationComponent();
+                                animation.CurrentAnimation = "Walk" + direction.Heading;
+                                e.AddComponent(animation);
+                                e.Refresh();
                             }
                             else if (moveVector[1] < 0)
                             {
                                 direction.Heading = "Up";
                                 e.GetComponent<MovementComponent>().Vertical = -1;
+                                AnimationComponent animation = new AnimationComponent();
+                                animation.CurrentAnimation = "Walk" + direction.Heading;
+                                e.AddComponent(animation);
+                                e.Refresh();
                             }
                         }
                     }

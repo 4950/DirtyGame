@@ -79,20 +79,18 @@ namespace DirtyGame.game.Core
             sprite.RenderLayer = RenderLayer.BACKGROUND;
 
                         
-   
+            //Direction Component
+            DirectionComponent direction = new DirectionComponent();
+            direction.Heading = "Down";
 
             sprite.SpriteSheet = spriteSheet;// new SpriteSheet(resourceMgr.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
-           // sprite.SrcRect = new Rectangle(0, 0, 100, 100);
+            sprite.SrcRect = sprite.SpriteSheet.Animation["Idle" + direction.Heading][0];
 
             //sprite.SpriteSheet = new SpriteSheet(resourceMgr.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
             //Creating an Animation component
             AnimationComponent animation = new AnimationComponent();
             //Changing the animation with the string property
         //  animation.CurrentAnimation = "Down";
-
-            //Direction Component
-            DirectionComponent direction = new DirectionComponent();
-            direction.Heading = "Down";
 
             HealthComponent hc = new HealthComponent();
             hc.MaxHealth = 200;
@@ -106,7 +104,7 @@ namespace DirtyGame.game.Core
             e.AddComponent(new PhysicsComponent());
             PlayerComponent controllable = new PlayerComponent();
             e.AddComponent(controllable);
-            e.AddComponent(animation);
+         //   e.AddComponent(animation);
             e.AddComponent(direction);
             e.AddComponent(new MovementComponent());
             e.GetComponent<SpatialComponent>().Height = 20;
@@ -158,10 +156,15 @@ namespace DirtyGame.game.Core
             SpatialComponent spatial = new SpatialComponent();
             spatial.Position = new Vector2(xPos, yPos);
 
+            //Direction Component
+            DirectionComponent direction = new DirectionComponent();
+            direction.Heading = "Down";
+
             //Create the Sprite for the new entity
           //  Sprite monsterSprite = sprite;
             SpriteComponent monsterSprite = new SpriteComponent();
             monsterSprite.SpriteSheet = spriteSheet;
+            monsterSprite.SrcRect = monsterSprite.SpriteSheet.Animation["Idle" + direction.Heading][0];
 
             //create movement component
             MovementComponent mc = new MovementComponent();
@@ -178,10 +181,6 @@ namespace DirtyGame.game.Core
             //Create AIMovementComponent for the new entity
             MovementComponent movementComponent = new MovementComponent();
 
-            //Direction Component
-            DirectionComponent direction = new DirectionComponent();
-            direction.Heading = "Down";
-
             //Add the new components to the entity
             monster.AddComponent(m);
             monster.AddComponent(mc);
@@ -193,7 +192,7 @@ namespace DirtyGame.game.Core
            
             monster.AddComponent(new PhysicsComponent());
             monster.AddComponent(direction);
-            monster.AddComponent(new AnimationComponent());
+       //     monster.AddComponent(new AnimationComponent());
             monster.AddComponent(new SeparationComponent());
             monster.GetComponent<SpatialComponent>().Height = 20;
             monster.GetComponent<SpatialComponent>().Width = 20;
