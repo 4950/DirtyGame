@@ -91,7 +91,7 @@ namespace DirtyGame.game.Core.Systems
 
                 //if (!attackingPressing)
                 //{
-                    if (movingUpPressing)
+                    if (movingUpPressing && !movingDownPressing)
                     {
                         if (movingUpStart && !movingUpFinish)   //These variables might be named backwards? -JP
                         {
@@ -99,8 +99,6 @@ namespace DirtyGame.game.Core.Systems
                             direction.Heading = "Up";
                             if (!movingUpAnimationAdded && !e.HasComponent<AnimationComponent>())
                             {
-                                //   Sprite sprite = e.GetComponent<Sprite>();
-                                // sprite.SrcRect = new Rectangle(0, 0, 50, 50);
                                 AnimationComponent animation = new AnimationComponent();
                                 animation.CurrentAnimation = "Walk" + direction.Heading;
                                 e.AddComponent(animation);
@@ -116,7 +114,6 @@ namespace DirtyGame.game.Core.Systems
                             AnimationComponent animationComponent = e.GetComponent<AnimationComponent>();
                             if ((animationComponent != null) && animationComponent.CurrentAnimation.Contains("Up"))
                             {
-                                //entitiesToRemoveAnimationComponent.Add(e);
                                 e.RemoveComponent<AnimationComponent>();
                                 movingUpAnimationAdded = false;
                                 sprite.SrcRect = sprite.SpriteSheet.Animation["Idle" + direction.Heading][0]; //I do not know if this is the best way to do this - JP
@@ -124,7 +121,7 @@ namespace DirtyGame.game.Core.Systems
                         }
                     }
 
-                    if (movingLeftPressing)
+                    if (movingLeftPressing && !movingRightPressing)
                     {
                         if (movingLeftStart && !movingLeftFinish)   //These variables might be named backwards? -JP
                         {
@@ -154,7 +151,7 @@ namespace DirtyGame.game.Core.Systems
                         }
                     }
 
-                    if (movingDownPressing)
+                    if (movingDownPressing && !movingUpPressing)
                     {
                         if (movingDownStart && !movingDownFinish)   //These variables might be named backwards? -JP
                         {
@@ -163,8 +160,6 @@ namespace DirtyGame.game.Core.Systems
 
                             if (!movingDownAnimationAdded && !e.HasComponent<AnimationComponent>())
                             {
-                                //   Sprite sprite = e.GetComponent<Sprite>();
-                                // sprite.SrcRect = new Rectangle(0, 0, 50, 50);
                                 AnimationComponent animation = new AnimationComponent();
                                 animation.CurrentAnimation = "Walk" + direction.Heading;
                                 e.AddComponent(animation);
@@ -180,7 +175,6 @@ namespace DirtyGame.game.Core.Systems
                             AnimationComponent animationComponent = e.GetComponent<AnimationComponent>();
                             if ((animationComponent != null) && animationComponent.CurrentAnimation.Contains("Down"))
                             {
-                                //entitiesToRemoveAnimationComponent.Add(e);
                                 e.RemoveComponent<AnimationComponent>();
                                 movingDownAnimationAdded = false;
                                 sprite.SrcRect = sprite.SpriteSheet.Animation["Idle" + direction.Heading][0]; //I do not know if this is the best way to do this - JP
@@ -188,7 +182,7 @@ namespace DirtyGame.game.Core.Systems
                         }
                     }
 
-                    if (movingRightPressing)
+                    if (movingRightPressing && !movingLeftPressing)
                     {
                         if (movingRightStart && !movingRightFinish)   //These variables might be named backwards? -JP
                         {
@@ -196,8 +190,6 @@ namespace DirtyGame.game.Core.Systems
                             direction.Heading = "Right";
                             if (!movingRightAnimationAdded && !e.HasComponent<AnimationComponent>())
                             {
-                                //   Sprite sprite = e.GetComponent<Sprite>();
-                                // sprite.SrcRect = new Rectangle(0, 0, 50, 50);
                                 AnimationComponent animation = new AnimationComponent();
                                 animation.CurrentAnimation = "Walk" + direction.Heading;
                                 e.AddComponent(animation);
@@ -213,7 +205,6 @@ namespace DirtyGame.game.Core.Systems
                             AnimationComponent animationComponent = e.GetComponent<AnimationComponent>();
                             if ((animationComponent != null) && animationComponent.CurrentAnimation.Contains("Right"))
                             {
-                                //entitiesToRemoveAnimationComponent.Add(e);
                                 e.RemoveComponent<AnimationComponent>();
                                 movingRightAnimationAdded = false;
                                 sprite.SrcRect = sprite.SpriteSheet.Animation["Idle" + direction.Heading][0]; //I do not know if this is the best way to do this - JP
@@ -238,47 +229,8 @@ namespace DirtyGame.game.Core.Systems
                 //    e.AddComponent(animation);
                 //    e.Refresh();
                 //}
-
-////Adeeb's method of doing it
-                //KeyboardState = Keyboard.GetState();
-                //if (KeyboardState.IsKeyDown(Keys.Left))
-                //{
-                //    //Arbitrarily chosen number of pixels... speed can easily be added if we want
-                //    movement.Horizontal = -5;
-
-                //    direction.Heading = "Left";
-                //}                
-                //else if (KeyboardState.IsKeyDown(Keys.Right))
-                //{
-                //    movement.Horizontal = 5;
-
-                //    direction.Heading = "Right";
-
-                //}
-                //else
-                //{
-                //    movement.Horizontal = 0;
-                //}
-
-                //if (KeyboardState.IsKeyDown(Keys.Up))
-                //{
-                //    movement.Vertical = -5;
-
-                //    direction.Heading = "Up";
-                //}
-                //else if (KeyboardState.IsKeyDown(Keys.Down))
-                //{
-                //    movement.Vertical = 5;
-
-                //    direction.Heading = "Down";
-                //}
-                //else
-                //{
-                //    movement.Vertical = 0;
-                //}
-
-                
-
+              
+                //Attacking with the mouse
                 prevMS = ms;
                 ms = Mouse.GetState();
                 if (prevMS == null)
@@ -303,8 +255,6 @@ namespace DirtyGame.game.Core.Systems
                         }
                     }
                 }
-
-               
             }
         }
 
