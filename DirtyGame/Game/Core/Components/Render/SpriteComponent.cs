@@ -38,6 +38,13 @@ namespace DirtyGame.game.Core.Components.Render
             }
         }
 
+        public float Angle { get; set; }
+
+        /// <summary>
+        /// Draw origin of the sprite. (0, 0) is top left corner, (1, 1) is bottom right.
+        /// </summary>
+        public Vector2 origin { get; set; }
+
         public SpriteSheet SpriteSheet
         {
             get

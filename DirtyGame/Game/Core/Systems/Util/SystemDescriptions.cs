@@ -49,5 +49,8 @@ namespace DirtyGame.game.Core.Systems.Util
 
         public static SystemParams ProjectileSystem =
             new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(ProjectileComponent) }), 1);
+
+        public static SystemParams WeaponSystem =
+           new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(WeaponComponent) }), 1);
     }
 }

@@ -23,7 +23,8 @@ namespace DirtyGame.game.Core.GameStates
         private ImageBrush weaponImg;
         private Label weaponName;
         private Label weaponDamage;
-        
+        private ProgressBar weaponAmmo;
+        private Label weaponAmmoLabel;
 
         private Entity curWeapon;
 
@@ -34,6 +35,7 @@ namespace DirtyGame.game.Core.GameStates
 
         public void OnEnter(Dirty game)
         {
+            //curWeapon = game.player.GetComponent<InventoryComponent>().CurrentWeapon;
             this.game = game;
             if (monsterHUD == null)
             {
@@ -87,6 +89,19 @@ namespace DirtyGame.game.Core.GameStates
                 weaponDamage.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.White);
                 windowCont.AddElement(weaponDamage);
 
+                weaponAmmo = new ProgressBar();
+                weaponAmmo.Size = new System.Drawing.Point(100, 20);
+                weaponAmmo.Position = new System.Drawing.Point(42, 50);
+                //weaponAmmo.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.Black);
+                windowCont.AddElement(weaponAmmo);
+
+                weaponAmmoLabel = new Label();
+                weaponAmmoLabel.Size = new System.Drawing.Point(100, 20);
+                weaponAmmoLabel.Position = new System.Drawing.Point(42, 50);
+                weaponAmmoLabel.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.Black);
+                weaponAmmoLabel.TextPosition = TextPosition.Center;
+                windowCont.AddElement(weaponAmmoLabel);
+
             }
             monsterHUD.Visibility = Visibility.Visible;
             playerStuff.Show();
@@ -104,17 +119,35 @@ namespace DirtyGame.game.Core.GameStates
             aliveLbl.Text = "Monsters Left: " + game.gLogicSystem.monstersalive;
             killLbl.Text = "Monsters Killed: " + game.gLogicSystem.monstersdefeated;
 
+            WeaponComponent wc = curWeapon == null ? null : curWeapon.GetComponent<WeaponComponent>();
             if (curWeapon != game.player.GetComponent<InventoryComponent>().CurrentWeapon)
             {
                 curWeapon = game.player.GetComponent<InventoryComponent>().CurrentWeapon;
 
-                WeaponComponent wc = curWeapon.GetComponent<WeaponComponent>();
+                wc = curWeapon.GetComponent<WeaponComponent>();
 
                 weaponImg.ClearImage();
                 weaponImg.LoadImage(curWeapon.GetComponent<WeaponComponent>().Portrait);
 
                 weaponName.Text = wc.Name;
                 weaponDamage.Text = "Damage: " + wc.BaseDamage;
+
+                if (wc.MaxAmmo == -1)
+                {
+                    weaponAmmo.Value = 1;
+                    weaponAmmo.Maximum = 1;
+                    weaponAmmoLabel.Text = "infinite";
+
+                }
+
+            }
+
+            if (curWeapon.GetComponent<WeaponComponent>().Ammo != weaponAmmo.Value && curWeapon.GetComponent<WeaponComponent>().MaxAmmo != -1)
+            {
+                weaponAmmo.Maximum = wc.MaxAmmo;
+                weaponAmmo.Value = wc.Ammo;
+                weaponAmmoLabel.Text = wc.Ammo + "/" + wc.MaxAmmo;
+
             }
         }
     }
