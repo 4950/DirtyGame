@@ -49,7 +49,7 @@ namespace DirtyGame.game.Core
             e.AddComponent(animation);
             return e;
         }
-        public Entity CreateRangedWeaponEntity(String name, String sprite, String portrait, float range, float baseDamage, float projSpeed, String projectileSprite)
+        public Entity CreateRangedWeaponEntity(String name, String sprite, String portrait, float range, float baseDamage, float projSpeed, String projectileSprite, int ammo, float cooldown)
         {
             
             Entity proj = entityMgr.CreateEntity();
@@ -62,6 +62,8 @@ namespace DirtyGame.game.Core
             wc.Portrait = portrait;
             wc.ProjectileSpeed = projSpeed;
             wc.ProjectileSprite = projectileSprite;
+            wc.Ammo = wc.MaxAmmo = ammo;
+            wc.Cooldown = cooldown;
 
             proj.AddComponent(wc);
 
@@ -132,6 +134,8 @@ namespace DirtyGame.game.Core
             SpriteComponent sc = new SpriteComponent();
             sc.sprite = resourceMgr.GetResource<Texture2D>(sprite);
             sc.SrcRect = sc.sprite.Bounds;
+            sc.Angle = (float)Math.Atan2(direction.X, -direction.Y);
+            sc.origin = new Vector2(.5f, 0);
 
             MovementComponent mc = new MovementComponent();
             Vector2 vel = direction * speed;
@@ -162,6 +166,7 @@ namespace DirtyGame.game.Core
           //  Sprite monsterSprite = sprite;
             SpriteComponent monsterSprite = new SpriteComponent();
             monsterSprite.SpriteSheet = spriteSheet;
+            monsterSprite.origin = new Vector2(.5f, 1);
 
             //create movement component
             MovementComponent mc = new MovementComponent();

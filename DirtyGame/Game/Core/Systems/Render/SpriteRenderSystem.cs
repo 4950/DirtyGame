@@ -50,7 +50,7 @@ namespace DirtyGame.game.Systems
                 if(sprite.SpriteSheet != null)
                     instance.DrawCall = new BatchDrawSprite(sprite.SpriteSheet.SpriteSheetTexture, spatial.Position, sprite.SrcRect, Color.White);
                 else if(sprite.sprite != null)
-                    instance.DrawCall = new BatchDrawSprite(sprite.sprite, spatial.Position, sprite.SrcRect, Color.White);
+                    instance.DrawCall = new BatchDrawSprite(sprite.sprite, spatial.Position, sprite.SrcRect, Color.White, sprite.Angle, new Vector2(sprite.SrcRect.X + sprite.SrcRect.Width * sprite.origin.X, sprite.SrcRect.Y + sprite.SrcRect.Height * sprite.origin.Y));
                 instance.SortKey.SetRenderLayer(sprite.RenderLayer);
 
                 renderGroup.AddInstance(instance);
