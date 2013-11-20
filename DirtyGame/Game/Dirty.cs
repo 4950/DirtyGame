@@ -62,6 +62,10 @@ namespace DirtyGame
         public InputContext baseContext;
         public Entity player;
 
+        private void Exit(Keys key)
+        {
+            Exit();
+        }
         public Dirty()
         {
 
@@ -69,7 +73,7 @@ namespace DirtyGame
             baseContext = new InputContext();
             inputManager.AddInputContext(baseContext);
             baseContext.RegisterHandler(Keys.Escape, Exit, null);
-
+            
             graphics = new GraphicsDeviceManager(this);
 
             resourceManager = new ResourceManager(Content);

@@ -28,8 +28,9 @@ namespace DirtyGame.game.Core.Systems
             this.renderer = renderer;
             this.game = game;
             game.baseContext.RegisterHandler(Keys.Tab, changeWeapon, null);
+            
         }
-        private void changeWeapon()
+        private void changeWeapon(Keys key)
         {
             InventoryComponent ic = game.player.GetComponent<InventoryComponent>();
             var weapons = ic.WeaponList;
@@ -59,14 +60,14 @@ namespace DirtyGame.game.Core.Systems
                 
 
                 KeyboardState = Keyboard.GetState();
-                if (KeyboardState.IsKeyDown(Keys.Left))
+                if (KeyboardState.IsKeyDown(Keys.Left) || KeyboardState.IsKeyDown(Keys.A))
                 {
                     //Arbitrarily chosen number of pixels... speed can easily be added if we want
                     movement.Horizontal = -5;
 
                     direction.Heading = "Left";
-                }                
-                else if (KeyboardState.IsKeyDown(Keys.Right))
+                }
+                else if (KeyboardState.IsKeyDown(Keys.Right) || KeyboardState.IsKeyDown(Keys.D))
                 {
                     movement.Horizontal = 5;
 
@@ -78,13 +79,13 @@ namespace DirtyGame.game.Core.Systems
                     movement.Horizontal = 0;
                 }
 
-                if (KeyboardState.IsKeyDown(Keys.Up))
+                if (KeyboardState.IsKeyDown(Keys.Up) || KeyboardState.IsKeyDown(Keys.W))
                 {
                     movement.Vertical = -5;
 
                     direction.Heading = "Up";
                 }
-                else if (KeyboardState.IsKeyDown(Keys.Down))
+                else if (KeyboardState.IsKeyDown(Keys.Down) || KeyboardState.IsKeyDown(Keys.S))
                 {
                     movement.Vertical = 5;
 
