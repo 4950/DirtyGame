@@ -52,7 +52,7 @@ namespace EntityFramework.Systems
                         spawner.numMobs--;
 
                         //Create new entity
-                        Entity monster = entityFactory.CreateMonster(e.GetComponent<SpawnerComponent>().sprite.SpriteSheet.SpriteSheetTexture.Name,
+                        Entity monster = entityFactory.CreateMonster(e.GetComponent<SpawnerComponent>().data,
                                                                         (int)e.GetComponent<SpatialComponent>().Position.X + r.Next(-75, 76),
                                                                         (int)e.GetComponent<SpatialComponent>().Position.Y + r.Next(-75, 76),
                                                                         e.GetComponent<SpawnerComponent>().sprite.SpriteSheet);

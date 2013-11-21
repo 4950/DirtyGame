@@ -125,13 +125,13 @@ namespace DirtyGame
             e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e);
 
-            e = entityFactory.CreateSpawner(100, 100, playerSpriteSheet, new Rectangle(0, 0, 46, 46), 1, new TimeSpan(0, 0, 0, 0, 1000));
+            e = entityFactory.CreateSpawner(100, 100, playerSpriteSheet, new Rectangle(0, 0, 46, 46), MonsterData.RangedMonster, 1, new TimeSpan(0, 0, 0, 0, 1000));
             e.Refresh();
-            e = entityFactory.CreateSpawner(300, 100, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), 1, new TimeSpan(0, 0, 0, 0, 2000));
+            e = entityFactory.CreateSpawner(300, 100, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), MonsterData.BasicMonster, 1, new TimeSpan(0, 0, 0, 0, 2000));
             e.Refresh();
-            e = entityFactory.CreateSpawner(100, 300, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), 1, new TimeSpan(0, 0, 0, 0, 3000));
+            e = entityFactory.CreateSpawner(100, 300, playerSpriteSheet, new Rectangle(0, 0, 46, 46), MonsterData.RangedMonster, 1, new TimeSpan(0, 0, 0, 0, 3000));
             e.Refresh();
-            e = entityFactory.CreateSpawner(300, 300, playerSpriteSheet, new Rectangle(0, 0, 46, 46), 1, new TimeSpan(0, 0, 0, 0, 500));
+            e = entityFactory.CreateSpawner(300, 300, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), MonsterData.BasicMonster, 1, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
 
             

@@ -150,13 +150,13 @@ namespace DirtyGame.game.Core
 
             return proj;
         }
-        public Entity CreateMonster(string type, int xPos, int yPos, SpriteSheet spriteSheet) //Sprite sprite)
+        public Entity CreateMonster(MonsterData data, int xPos, int yPos, SpriteSheet spriteSheet) //Sprite sprite)
         {
             Entity monster = entityMgr.CreateEntity();
 
             //Create the MonsterComponent for the new entity
             MonsterComponent m = new MonsterComponent();
-            m.monsterType = type;
+            m.data = data;
 
             //Create the Spatial for the new entity
             SpatialComponent spatial = new SpatialComponent();
@@ -172,8 +172,8 @@ namespace DirtyGame.game.Core
             MovementComponent mc = new MovementComponent();
 
             HealthComponent hc = new HealthComponent();
-            hc.CurrentHealth = 100;
-            hc.MaxHealth = 100;
+            hc.CurrentHealth = data.Health;
+            hc.MaxHealth = data.Health;
             
 
             //Create the TimeComponent for the new entity
@@ -217,7 +217,7 @@ namespace DirtyGame.game.Core
             return wall;
         }
 
-        public Entity CreateSpawner(int xPos, int yPos, SpriteSheet texture, Rectangle rectangle, int numMobs, TimeSpan timePerSpawn)
+        public Entity CreateSpawner(int xPos, int yPos, SpriteSheet texture, Rectangle rectangle, MonsterData data, int numMobs, TimeSpan timePerSpawn)
         {
             Entity spawner = entityMgr.CreateEntity();
 
@@ -235,6 +235,7 @@ namespace DirtyGame.game.Core
             spawnerCmp.timeOfLastSpawn = new TimeSpan(0, 0, 0, 0, 0);
             spawnerCmp.timePerSpawn = timePerSpawn;
             spawnerCmp.sprite = sprite;
+            spawnerCmp.data = data;
 
             //Add the new components to the entity
             spawner.AddComponent(spatial);

@@ -13,5 +13,6 @@ namespace DirtyGame.game.Core.Components
         public int numMobs;
         public TimeSpan timeOfLastSpawn;
         public SpriteComponent sprite;
+        public MonsterData data;
     }
 }

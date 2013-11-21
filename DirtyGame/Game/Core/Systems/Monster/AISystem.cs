@@ -44,7 +44,7 @@ namespace DirtyGame.game.Core.Systems.Monster
         {
             List<Entity> nextState = new List<Entity>();
             Random r = new Random();
-
+            
             foreach (Entity e in entities)
             {
                 if (e.HasComponent<PlayerComponent>())
