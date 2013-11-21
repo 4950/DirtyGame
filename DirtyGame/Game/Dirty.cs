@@ -101,7 +101,7 @@ namespace DirtyGame
             //world.AddSystem(new MonsterSystem(aiSystem));
             gLogicSystem = new GameLogicSystem(this);
             world.AddSystem(gLogicSystem);         
-            world.AddSystem(new PhysicsSystem(physics));
+            world.AddSystem(new PhysicsSystem(physics, renderer));
             world.AddSystem(new GameLogicSystem(this));
             world.AddSystem(new AnimationSystem());
             world.AddSystem(new MovementSystem(aiSystem));

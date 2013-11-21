@@ -97,6 +97,7 @@
     <Compile Include="game\SGraphics\Camera.cs" />
     <Compile Include="game\SGraphics\Commands\BeginBatchDraw.cs" />
     <Compile Include="game\SGraphics\Commands\DrawCall.cs" />
+    <Compile Include="game\SGraphics\Commands\DrawCalls\BatchDrawLine.cs" />
     <Compile Include="game\SGraphics\Commands\DrawCalls\BatchDrawSprite.cs" />
     <Compile Include="game\SGraphics\Commands\DrawCalls\BatchDrawText.cs" />
     <Compile Include="game\SGraphics\RenderCommand.cs" />

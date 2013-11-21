@@ -14,7 +14,7 @@ namespace DirtyGame.game.SGraphics.Commands.DrawCalls
 
         }
 
-        public override void Execute(SpriteBatch spriteBatch)
+        public override void Execute(SpriteBatch spriteBatch, Renderer r)
         {
             throw new NotImplementedException();
         }
