@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 
 //------------------------------------------------------------------------------
-//MonsterSystem has been replaces with a generic movement system, MovementSystem
+//MonsterSystem has been replaced with a generic movement system, MovementSystem
 //------------------------------------------------------------------------------
 
 namespace EntityFramework.Systems
@@ -48,6 +48,8 @@ namespace EntityFramework.Systems
                         e.GetComponent<TimeComponent>().timeOfLastDraw = total_Time;
                         double[] moveVector = aiSys.calculateMoveVector(entities, e);
                         float f = (float)(moveVector[0] * 10.0);
+                        e.GetComponent<MovementComponent>().Horizontal = (float)moveVector[0];
+                        e.GetComponent<MovementComponent>().Vertical = (float)moveVector[1];
                         //e.GetComponent<Spatial>().MoveTo(e.GetComponent<Spatial>().Position.X + (float)(moveVector[0] * 10.0), e.GetComponent<Spatial>().Position.Y + (float)(moveVector[1] * 10.0));
                         
 
@@ -58,12 +60,12 @@ namespace EntityFramework.Systems
                             if (moveVector[0] > 0)
                             {
                                 direction.Heading = "Right";
-                                e.GetComponent<MovementComponent>().Horizontal = 1;
+                                //e.GetComponent<MovementComponent>().Horizontal = 1;
                             }
                             else if (moveVector[0] < 0)
                             {
                                 direction.Heading = "Left";
-                                e.GetComponent<MovementComponent>().Horizontal = -1;
+                                //e.GetComponent<MovementComponent>().Horizontal = -1;
                             }
                         }
                         else
@@ -71,12 +73,12 @@ namespace EntityFramework.Systems
                             if (moveVector[1] > 0)
                             {
                                 direction.Heading = "Down";
-                                e.GetComponent<MovementComponent>().Vertical = 1;
+                                //e.GetComponent<MovementComponent>().Vertical = 1;
                             }
                             else if (moveVector[1] < 0)
                             {
                                 direction.Heading = "Up";
-                                e.GetComponent<MovementComponent>().Vertical = -1;
+                                //e.GetComponent<MovementComponent>().Vertical = -1;
                             }
                         }
                     }

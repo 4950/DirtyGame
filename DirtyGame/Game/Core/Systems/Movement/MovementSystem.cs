@@ -50,7 +50,33 @@ namespace EntityFramework.Systems
                         e.GetComponent<MovementComponent>().Vertical = (float)moveVector[1];
 
                         //e.GetComponent<SpatialComponent>().MoveTo( e.GetComponent<SpatialComponent>().Position.X + (float)(moveVector[0] * 10.0), e.GetComponent<Spatial>().Position.Y + (float)(moveVector[1] * 10.0));
-         
+                        DirectionComponent direction = e.GetComponent<DirectionComponent>();
+                        if (Math.Abs(moveVector[0]) > Math.Abs(moveVector[1]))
+                        {
+                            if (moveVector[0] > 0)
+                            {
+                                direction.Heading = "Right";
+                                //e.GetComponent<MovementComponent>().Horizontal = 1;
+                            }
+                            else if (moveVector[0] < 0)
+                            {
+                                direction.Heading = "Left";
+                                //e.GetComponent<MovementComponent>().Horizontal = -1;
+                            }
+                        }
+                        else
+                        {
+                            if (moveVector[1] > 0)
+                            {
+                                direction.Heading = "Down";
+                                //e.GetComponent<MovementComponent>().Vertical = 1;
+                            }
+                            else if (moveVector[1] < 0)
+                            {
+                                direction.Heading = "Up";
+                                //e.GetComponent<MovementComponent>().Vertical = -1;
+                            }
+                        }
                     }
                 }
 
