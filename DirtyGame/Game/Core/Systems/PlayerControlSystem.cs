@@ -109,11 +109,15 @@ namespace DirtyGame.game.Core.Systems
                     {
                         WeaponComponent wc = curWeapon.GetComponent<WeaponComponent>();
 
-                        if (wc.Type == WeaponComponent.WeaponType.Ranged)
+                        if (wc.Type == WeaponComponent.WeaponType.Ranged && (wc.Ammo > 0 || wc.MaxAmmo == -1) && wc.LastFire <= 0)
                         {
-                            //projectile or something
+                            if(wc.Ammo > 0)
+                                wc.Ammo--;
+                            wc.LastFire = wc.Cooldown;
+                            //projectile
                             Vector2 m = new Vector2(ms.X, ms.Y) + renderer.ActiveCamera.Position;
                             Vector2 dir = (m - spatial.Position);
+
                             dir.Normalize();
                             Entity proj = entityFactory.CreateProjectile(e, spatial.Position, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, wc.BaseDamage);
 

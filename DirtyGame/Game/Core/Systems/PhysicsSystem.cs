@@ -68,9 +68,8 @@ namespace DirtyGame.game.Core.Systems
                 SpatialComponent spatial = e.GetComponent<SpatialComponent>();
                 
 
-                Body = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits
-                                                                                      (spatial.Width), ConvertUnits.ToSimUnits(spatial.Height), 1f,
-                                                                                      ConvertUnits.ToSimUnits(spatial.Position));
+                Body = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(spatial.Width), ConvertUnits.ToSimUnits(spatial.Height), 1f, ConvertUnits.ToSimUnits(spatial.Position));
+                
             }
 
             if (e.HasComponent<BorderComponent>())
@@ -115,11 +114,18 @@ namespace DirtyGame.game.Core.Systems
                     Entity hit = proj == A ? B : A;
                     Fixture hitBody = proj == A ? fixtureB : fixtureA;
 
-                    if (hit.HasComponent<HealthComponent>() && hit != proj.GetComponent<ProjectileComponent>().owner)//valid hit, do dmg
+                    if (hit != proj.GetComponent<ProjectileComponent>().owner)
                     {
-                        hit.GetComponent<HealthComponent>().CurrentHealth -= proj.GetComponent<ProjectileComponent>().damage;
-                        World.RemoveEntity(proj);
-                        hitBody.Body.ApplyLinearImpulse(proj.GetComponent<ProjectileComponent>().direction * 10);
+                        if (hit.HasComponent<HealthComponent>())//valid hit, do dmg
+                        {
+                            hit.GetComponent<HealthComponent>().CurrentHealth -= proj.GetComponent<ProjectileComponent>().damage;
+                            World.RemoveEntity(proj);
+                            hitBody.Body.ApplyLinearImpulse(proj.GetComponent<ProjectileComponent>().direction * 10);
+                        }
+                        else if (hit.HasComponent<BorderComponent>())//hit map bounds, remove
+                        {
+                            World.RemoveEntity(proj);
+                        }
                     }
                 }
                 else if (A.HasComponent<PlayerComponent>() || B.HasComponent<PlayerComponent>())

@@ -31,6 +31,13 @@ namespace DirtyGame.game.Core.Components
         public WeaponType Type { get; set; }
         public String ProjectileSprite { get; set; }
         public float ProjectileSpeed { get; set; }
+        public float Cooldown { get; set; }
+        public float LastFire { get; set; }
+        /// <summary>
+        /// Max Ammo level. -1 is infinite
+        /// </summary>
+        public int MaxAmmo { get; set; }
+        public int Ammo { get; set; }
         #endregion
 
         #region Functions

@@ -47,6 +47,7 @@
     <Compile Include="game\Core\Components\Unit\UnitComponent.cs" />
     <Compile Include="game\Core\Systems\Monster\SeparationSystem.cs" />
     <Compile Include="game\Core\Systems\ProjectileSystem.cs" />
+    <Compile Include="game\Core\Systems\WeaponSystem.cs" />
     <Compile Include="game\Input\InputContext.cs" />
     <Compile Include="game\Input\KeyHandler.cs" />
     <Compile Include="game\Input\InputManager.cs" />

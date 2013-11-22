@@ -88,6 +88,7 @@ namespace DirtyGame
             aiSystem = new AISystem();
             world.AddSystem(new SpriteRenderSystem(renderer));
             world.AddSystem(new PlayerControlSystem(entityFactory, renderer, this));
+            world.AddSystem(new WeaponSystem());
             world.AddSystem(new CameraUpdateSystem(renderer));
             world.AddSystem(new MapBoundarySystem(renderer));
             world.AddSystem(new SpawnerSystem(entityFactory));
@@ -113,10 +114,10 @@ namespace DirtyGame
             player.Refresh();
 
             //weapons
-            Entity e = entityFactory.CreateRangedWeaponEntity("Doomsbow", "sword", "sword", 400, 25, 10, "sword");
+            Entity e = entityFactory.CreateRangedWeaponEntity("Doomsbow", "bow", "bow", 400, 25, 10, "arrow", -1, 1f);
             e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e);
-            e = entityFactory.CreateRangedWeaponEntity("Spear", "spear", "spear", 200, 35, 5, "spear");
+            e = entityFactory.CreateRangedWeaponEntity("Spear", "spear", "spear", 200, 35, 5, "spear", 5, 2f);
             e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e);
 

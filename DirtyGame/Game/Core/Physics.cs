@@ -37,7 +37,6 @@ namespace DirtyGame.game.Core
         public List<Entity> Query(Vector2 center, float width, float height)
         {
             
-                List<int> Found = new List<int>();
                 List<Entity> entity = new List<Entity>();
                 List<Fixture> fixtures = new List<Fixture>();
 
@@ -51,9 +50,8 @@ namespace DirtyGame.game.Core
                 foreach (Fixture f in fixtures)
                 {
 
-                    if (!Found.Contains(f.Body.BodyId))
+                    if (!entity.Contains(entityManager.GetEntity(BodyIdToEntityId[f.Body.BodyId])))
                     {
-                        Found.Add(f.Body.BodyId);
                         entity.Add(entityManager.GetEntity(BodyIdToEntityId[f.Body.BodyId]));
                     }
                 }
@@ -63,7 +61,23 @@ namespace DirtyGame.game.Core
             
         }
 
-        
+        public List<Entity> RayCast(Vector2 point1, Vector2 point2)
+        {
+            List<Entity> entity = new List<Entity>();
+            List<Fixture> fixtures = new List<Fixture>();
+
+            fixtures = physicsWorld.RayCast(ConvertUnits.ToSimUnits(point1), ConvertUnits.ToSimUnits(point2));
+
+            foreach (Fixture f in fixtures)
+            {
+                if (!entity.Contains(entityManager.GetEntity(BodyIdToEntityId[f.Body.BodyId])))
+                {
+                    entity.Add(entityManager.GetEntity(BodyIdToEntityId[f.Body.BodyId]));
+                }
+            }
+
+            return entity;
+        }
 
         public void Update(GameTime gameTime)
         {
