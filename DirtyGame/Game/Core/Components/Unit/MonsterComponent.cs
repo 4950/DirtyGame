@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using DirtyGame.game.Core.Components;
 
 namespace EntityFramework
 {
@@ -11,11 +12,14 @@ namespace EntityFramework
     {
         public int Health;
         public Vector2 Size;
+        //public WeaponComponent.WeaponType 
+        public Entity weapon;
          
         public MonsterData(int health, Vector2 size)
         {
             this.Health = health;
             this.Size = size;
+            this.weapon = null;
         }
 
         public static MonsterData BasicMonster
