@@ -7,6 +7,7 @@
              yOffset="0"
              numberOfFrames="3" 
              width="16" 
-             height="22">
+             height="22"
+             finite="false">
   </animationDefault>
 </root>
