@@ -9,7 +9,7 @@ namespace EntityFramework
     /// <summary>
     /// Purely data objects 
     /// </summary>
-    public abstract class Component
+    public abstract class Component : ICloneable
     {
         // Future
         //public abstract void Deserialize(BinaryReader reader);
@@ -30,6 +30,11 @@ namespace EntityFramework
             {
                 return 1L << (int)Id | 1L << (int)Mappers.ComponentTypeMapper.GetValue(GetType().BaseType);
             }
+        }
+
+        public object Clone()
+        {
+            return MemberwiseClone();
         }
     }
 }

@@ -23,7 +23,17 @@ namespace DirtyGame.game.Core
             entityMgr = em;
             this.resourceMgr = resourceMgr;
         }
+        public Entity CloneEntity(Entity m)
+        {
+            Entity ret = entityMgr.CreateEntity();
 
+            foreach (Component c in m.Components)
+            {
+                ret.AddComponent((Component)c.Clone());
+            }
+            ret.Refresh();
+            return ret;
+        }
         public Entity CreateTestEntity()
         {
             return CreateTestEntity(new SpriteSheet(resourceMgr.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml"), new Vector2(0.0f, 0.0f), "Down");
@@ -150,20 +160,20 @@ namespace DirtyGame.game.Core
 
             return proj;
         }
-        public Entity CreateMonster(string type, int xPos, int yPos, SpriteSheet spriteSheet) //Sprite sprite)
+        private Entity CreateMonsterBase(Vector2 pos, SpriteSheet spriteSheet)
         {
             Entity monster = entityMgr.CreateEntity();
 
             //Create the MonsterComponent for the new entity
             MonsterComponent m = new MonsterComponent();
-            m.monsterType = type;
+            //m.data = data;
 
             //Create the Spatial for the new entity
             SpatialComponent spatial = new SpatialComponent();
-            spatial.Position = new Vector2(xPos, yPos);
+            spatial.Position = pos;
 
             //Create the Sprite for the new entity
-          //  Sprite monsterSprite = sprite;
+            //  Sprite monsterSprite = sprite;
             SpriteComponent monsterSprite = new SpriteComponent();
             monsterSprite.SpriteSheet = spriteSheet;
             monsterSprite.origin = new Vector2(.5f, 1);
@@ -172,13 +182,10 @@ namespace DirtyGame.game.Core
             MovementComponent mc = new MovementComponent();
 
             HealthComponent hc = new HealthComponent();
-            hc.CurrentHealth = 100;
-            hc.MaxHealth = 100;
-            
 
             //Create the TimeComponent for the new entity
             TimeComponent timeComponent = new TimeComponent();
-            timeComponent.timeOfLastDraw = new TimeSpan(0,0,0,0,0);
+            timeComponent.timeOfLastDraw = new TimeSpan(0, 0, 0, 0, 0);
 
             //Create AIMovementComponent for the new entity
             MovementComponent movementComponent = new MovementComponent();
@@ -195,7 +202,7 @@ namespace DirtyGame.game.Core
             monster.AddComponent(timeComponent);
             monster.AddComponent(movementComponent);
             monster.AddComponent(hc);
-           
+
             monster.AddComponent(new PhysicsComponent());
             monster.AddComponent(direction);
             monster.AddComponent(new AnimationComponent());
@@ -205,7 +212,26 @@ namespace DirtyGame.game.Core
 
             return monster;
         }
+        public Entity CreateBasicMonster(Vector2 pos, SpriteSheet spriteSheet)
+        {
+            Entity monster = CreateMonsterBase(pos, spriteSheet);
 
+            HealthComponent hc = monster.GetComponent<HealthComponent>();
+            hc.CurrentHealth = hc.MaxHealth = 100;
+
+            return monster;
+        }
+        public Entity CreateRangedMonster(Vector2 pos, SpriteSheet spriteSheet, Entity rangedWeapon)
+        {
+            Entity monster = CreateBasicMonster(pos, spriteSheet);
+
+            InventoryComponent ic = new InventoryComponent();
+            ic.addWeapon(rangedWeapon);
+
+            monster.AddComponent(ic);
+
+            return monster;
+        }
 
         public Entity CreateWallEntity(Vector2 topLeft, Vector2 bottomLeft, Vector2 topRight, Vector2 bottomRight)
         {
@@ -217,7 +243,7 @@ namespace DirtyGame.game.Core
             return wall;
         }
 
-        public Entity CreateSpawner(int xPos, int yPos, SpriteSheet texture, Rectangle rectangle, int numMobs, TimeSpan timePerSpawn)
+        public Entity CreateSpawner(int xPos, int yPos, SpriteSheet texture, Rectangle rectangle, MonsterData data, int numMobs, TimeSpan timePerSpawn)
         {
             Entity spawner = entityMgr.CreateEntity();
 
@@ -235,6 +261,7 @@ namespace DirtyGame.game.Core
             spawnerCmp.timeOfLastSpawn = new TimeSpan(0, 0, 0, 0, 0);
             spawnerCmp.timePerSpawn = timePerSpawn;
             spawnerCmp.sprite = sprite;
+            spawnerCmp.data = data;
 
             //Add the new components to the entity
             spawner.AddComponent(spatial);

@@ -62,6 +62,10 @@ namespace DirtyGame
         public InputContext baseContext;
         public Entity player;
 
+        private void Exit(Keys key)
+        {
+            Exit();
+        }
         public Dirty()
         {
 
@@ -69,7 +73,7 @@ namespace DirtyGame
             baseContext = new InputContext();
             inputManager.AddInputContext(baseContext);
             baseContext.RegisterHandler(Keys.Escape, Exit, null);
-
+            
             graphics = new GraphicsDeviceManager(this);
 
             resourceManager = new ResourceManager(Content);
@@ -85,7 +89,8 @@ namespace DirtyGame
 
             gameStateManager = new GameStateManager(this);
             entityFactory = new EntityFactory(world.EntityMgr, resourceManager);
-            aiSystem = new AISystem();
+            aiSystem = new AISystem(this, entityFactory);
+            world.AddSystem(aiSystem);
             world.AddSystem(new SpriteRenderSystem(renderer));
             world.AddSystem(new PlayerControlSystem(entityFactory, renderer, this));
             world.AddSystem(new WeaponSystem());
@@ -97,7 +102,7 @@ namespace DirtyGame
             //world.AddSystem(new MonsterSystem(aiSystem));
             gLogicSystem = new GameLogicSystem(this);
             world.AddSystem(gLogicSystem);         
-            world.AddSystem(new PhysicsSystem(physics));
+            world.AddSystem(new PhysicsSystem(physics, renderer));
             world.AddSystem(new GameLogicSystem(this));
             world.AddSystem(new AnimationSystem());
             world.AddSystem(new MovementSystem(aiSystem));
@@ -121,13 +126,18 @@ namespace DirtyGame
             e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e);
 
-            e = entityFactory.CreateSpawner(100, 100, playerSpriteSheet, new Rectangle(0, 0, 46, 46), 1, new TimeSpan(0, 0, 0, 0, 1000));
+            Entity monsterWeapon = entityFactory.CreateRangedWeaponEntity("Monsterbow", "bow", "bow", 400, 20, 10, "arrow", -1, 3f);
+            monsterWeapon.Refresh();
+            MonsterData rangedData = MonsterData.RangedMonster;
+            rangedData.weapon = monsterWeapon;
+
+            e = entityFactory.CreateSpawner(100, 100, playerSpriteSheet, new Rectangle(0, 0, 46, 46), rangedData, 1, new TimeSpan(0, 0, 0, 0, 1000));
             e.Refresh();
-            e = entityFactory.CreateSpawner(300, 100, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), 1, new TimeSpan(0, 0, 0, 0, 2000));
+            e = entityFactory.CreateSpawner(300, 100, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), MonsterData.BasicMonster, 1, new TimeSpan(0, 0, 0, 0, 2000));
             e.Refresh();
-            e = entityFactory.CreateSpawner(100, 300, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), 1, new TimeSpan(0, 0, 0, 0, 3000));
+            e = entityFactory.CreateSpawner(100, 300, playerSpriteSheet, new Rectangle(0, 0, 46, 46), rangedData, 1, new TimeSpan(0, 0, 0, 0, 3000));
             e.Refresh();
-            e = entityFactory.CreateSpawner(300, 300, playerSpriteSheet, new Rectangle(0, 0, 46, 46), 1, new TimeSpan(0, 0, 0, 0, 500));
+            e = entityFactory.CreateSpawner(300, 300, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), MonsterData.BasicMonster, 1, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
 
             

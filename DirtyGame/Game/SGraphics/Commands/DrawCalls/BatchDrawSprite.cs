@@ -29,7 +29,7 @@ namespace DirtyGame.game.SGraphics.Commands.DrawCalls
             this.origin = origin;
         }
 
-        public override void Execute(SpriteBatch spriteBatch)
+        public override void Execute(SpriteBatch spriteBatch, Renderer r)
         {
         	spriteBatch.Draw(texture, position, srcRect, color, angle, origin, 1, SpriteEffects.None, 0);          
         }

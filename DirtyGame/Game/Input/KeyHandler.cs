@@ -9,7 +9,7 @@ namespace DirtyGame.game.Input
 {
     public class KeyHandler
     {
-        public delegate void KeyHandlerDelegate();
+        public delegate void KeyHandlerDelegate(Keys key);
 
         public KeyHandler(Keys key, KeyHandlerDelegate onPressedDelegate, KeyHandlerDelegate onReleadedDelegate)
         {

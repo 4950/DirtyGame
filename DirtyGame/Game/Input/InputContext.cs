@@ -46,7 +46,7 @@ namespace DirtyGame.game.Input
             }
             else
             {
-                handler();
+                handler(key);
                 return true;
             }
             

@@ -20,6 +20,9 @@ namespace DirtyGame.game.SGraphics
         //I don't know why I have to do this...
         private Map.Map map;
 
+        private Texture2D gradPixel;
+        private Texture2D pixel;
+
         public Map.Map ActiveMap
         {
             get
@@ -29,6 +32,21 @@ namespace DirtyGame.game.SGraphics
             set
             {
                 map = value;
+            }
+        }
+
+        public Texture2D GradientPixel
+        {
+            get
+            {
+                return gradPixel;
+            }
+        }
+        public Texture2D Pixel
+        {
+            get
+            {
+                return pixel;
             }
         }
 
@@ -51,6 +69,17 @@ namespace DirtyGame.game.SGraphics
             renderInstances = new List<RenderInstance>();
             spriteBatch = new SpriteBatch(device);
             this.camera = camera;
+
+            pixel = new Texture2D(device, 1, 1, false, SurfaceFormat.Color);
+            Color[] rectData = new Color[1];
+            rectData[0] = Color.White;
+            pixel.SetData(rectData);
+
+            gradPixel = new Texture2D(device, 2, 1, false, SurfaceFormat.Color);
+            rectData = new Color[2];
+            rectData[0] = Color.Transparent;
+            rectData[1] = Color.White;
+            gradPixel.SetData(rectData);
         }
 
         public void Submit(RenderInstance renderInstance)
@@ -119,9 +148,9 @@ namespace DirtyGame.game.SGraphics
                         default:
                             break;
                     }
-                    command.Execute(spriteBatch);
+                    command.Execute(spriteBatch, this);
                 }
-                instance.DrawCall.Execute(spriteBatch);
+                instance.DrawCall.Execute(spriteBatch, this);
             }
 
             if (inBatch)

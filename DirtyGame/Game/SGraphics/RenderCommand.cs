@@ -15,7 +15,8 @@ namespace DirtyGame.game.SGraphics
         {         
             BeginBatchDraw,
             BatchDrawSprite,
-            BatchDrawText,                       
+            BatchDrawText,
+            BatchDrawLine     
         }
 
         private CommandType type;
@@ -33,7 +34,7 @@ namespace DirtyGame.game.SGraphics
             this.type = type;
         }
         
-        public abstract void Execute(SpriteBatch spriteBatch);
+        public abstract void Execute(SpriteBatch spriteBatch, Renderer r);
     }
 
 }
