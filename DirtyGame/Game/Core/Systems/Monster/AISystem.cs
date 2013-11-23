@@ -27,7 +27,7 @@ namespace DirtyGame.game.Core.Systems.Monster
 
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
         {
-            Vector2 playerPos = game.player.GetComponent<SpatialComponent>().Position;
+            Vector2 playerPos = game.player.GetComponent<SpatialComponent>().Center;
 
             foreach (Entity e in entities)
             {
@@ -36,7 +36,7 @@ namespace DirtyGame.game.Core.Systems.Monster
                     Entity weapon = e.GetComponent<InventoryComponent>().CurrentWeapon;
                     WeaponComponent wc = weapon.GetComponent<WeaponComponent>();
 
-                    Vector2 monsterPos = e.GetComponent<SpatialComponent>().Position;
+                    Vector2 monsterPos = e.GetComponent<SpatialComponent>().Center;
 
                     if (wc.Type == WeaponComponent.WeaponType.Ranged)
                     {
