@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 using DirtyGame.game.Core.Events;
 
 
@@ -14,13 +15,14 @@ namespace DirtyGame.game.Core.GameStates
         private IGameState currentState;
         private Dirty game;
 
+
         public IGameState CurrentState 
         { 
             get{ return currentState; }
         }
 
         private States nextState;
-        enum States { Splash, Pause, Game, MainMenu, GameOver, Exit };
+        enum States { Splash, Pause, Game, Purchase, Boss, MainMenu, GameOver, Exit };
 
         public void GameStateEventCallback(Event e)
         {
@@ -37,6 +39,16 @@ namespace DirtyGame.game.Core.GameStates
             nextState = States.Game;
             SwitchState();
         }
+        public void GameStatePurchaseCallback(Event e)
+        {
+            nextState = States.Purchase;
+            SwitchState();
+        }
+        public void GameStateBossCallback(Event e)
+        {
+            nextState = States.Boss;
+            SwitchState();
+        }
         public GameStateManager(Dirty game)
         {
             currentState = null;
@@ -46,6 +58,8 @@ namespace DirtyGame.game.Core.GameStates
             EventManager.Instance.AddListener("GameState", GameStateEventCallback);
             EventManager.Instance.AddListener("GameStateGameOver", GameStateGameOverCallback);
             EventManager.Instance.AddListener("GameStateGame", GameStateGameCallback);
+            EventManager.Instance.AddListener("GameStatePurchase", GameStatePurchaseCallback);
+            EventManager.Instance.AddListener("GameStateBoss", GameStateBossCallback);
         }
         
         private void SwitchState()
@@ -78,7 +92,16 @@ namespace DirtyGame.game.Core.GameStates
                        currentState = new GamePlay();
                        break;
                    }
-
+                case States.Purchase:
+                   {
+                       currentState = new PurchaseState();
+                       break;
+                   }
+                case States.Boss:
+                   {
+                       currentState = new BossState();
+                       break;
+                   }
                 case States.Exit:
                    {
                        currentState = new ExitState();

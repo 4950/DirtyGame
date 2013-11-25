@@ -45,6 +45,8 @@
     <Compile Include="game\Core\Components\Movement\SeparationComponent.cs" />
     <Compile Include="game\Core\Components\ProjectileComponent.cs" />
     <Compile Include="game\Core\Components\Unit\UnitComponent.cs" />
+    <Compile Include="game\Core\GameStates\BossState.cs" />
+    <Compile Include="game\Core\GameStates\PurchaseState.cs" />
     <Compile Include="game\Core\Systems\Monster\SeparationSystem.cs" />
     <Compile Include="game\Core\Systems\ProjectileSystem.cs" />
     <Compile Include="game\Core\Systems\WeaponSystem.cs" />

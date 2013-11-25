@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 using CoreUI;
 using CoreUI.Elements;
 using CoreUI.DrawEngines;
 using CoreUI.Visuals;
 using EntityFramework;
+using DirtyGame.game.Core.Events;
 using DirtyGame.game.Core.Components;
 
 
@@ -26,17 +28,39 @@ namespace DirtyGame.game.Core.GameStates
         private ProgressBar weaponAmmo;
         private Label weaponAmmoLabel;
 
+        private Label clockLabel;
+        private Stopwatch timer;
+        private readonly long WAVE_TIME_IN_MILLISECONDS = 3000;    // 10 sec
+        private readonly int WAVES_PER_ROUND = 5;
+
+        private Label waveLabel;
+
         private Entity curWeapon;
+
+        private static int currentWave = 0;
 
         public GamePlay()
         {
             game = null;
+            timer = new Stopwatch();
         }
 
         public void OnEnter(Dirty game)
         {
             //curWeapon = game.player.GetComponent<InventoryComponent>().CurrentWeapon;
             this.game = game;
+            timer.Start();
+            currentWave++;
+
+            if (currentWave > WAVES_PER_ROUND)
+            {
+                currentWave = 0;
+
+                Event startBossWave = new Event();
+                startBossWave.name = "GameStateBoss";
+                EventManager.Instance.TriggerEvent(startBossWave);
+            }
+
             if (monsterHUD == null)
             {
                 monsterHUD = new Panel();
@@ -45,6 +69,18 @@ namespace DirtyGame.game.Core.GameStates
                 monsterHUD.Background = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.Black);
                 monsterHUD.Visibility = Visibility.Hidden;
                 game.UIEngine.Children.AddElement(monsterHUD);
+
+                clockLabel = new Label();
+                clockLabel.Size = new System.Drawing.Point(120, 25);
+                clockLabel.Position = new System.Drawing.Point(680, 50);
+                clockLabel.Foreground = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.White);
+                monsterHUD.AddElement(clockLabel);
+
+                waveLabel = new Label();
+                waveLabel.Size = new System.Drawing.Point(120, 25);
+                waveLabel.Position = new System.Drawing.Point(400, 0);
+                waveLabel.Foreground = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.White);
+                monsterHUD.AddElement(waveLabel);
 
                 killLbl = new Label();
                 killLbl.Size = new System.Drawing.Point(120, 25);
@@ -109,15 +145,33 @@ namespace DirtyGame.game.Core.GameStates
 
         public void OnExit()
         {
-            monsterHUD.Visibility = Visibility.Hidden;
-            playerStuff.Hide();
+            if (monsterHUD != null)
+            {
+                monsterHUD.Visibility = Visibility.Hidden;
+            }
+            if (playerStuff != null)
+            {
+                playerStuff.Hide();
+            }
         }
 
         public void Update(float dt)
         {
             game.world.Update(dt);
+            clockLabel.Text = "Time remaining: " + Math.Ceiling((WAVE_TIME_IN_MILLISECONDS - timer.ElapsedMilliseconds) / 1000.0);
+            waveLabel.Text = "Wave: " + currentWave;
             aliveLbl.Text = "Monsters Left: " + game.gLogicSystem.monstersalive;
             killLbl.Text = "Monsters Killed: " + game.gLogicSystem.monstersdefeated;
+
+            long elapsedTime = timer.ElapsedMilliseconds;
+            if (elapsedTime >= WAVE_TIME_IN_MILLISECONDS)
+            {
+                timer.Stop();
+
+                Event purchaseStart = new Event();
+                purchaseStart.name = "GameStatePurchase";
+                EventManager.Instance.TriggerEvent(purchaseStart);
+            }
 
             WeaponComponent wc = curWeapon == null ? null : curWeapon.GetComponent<WeaponComponent>();
             if (curWeapon != game.player.GetComponent<InventoryComponent>().CurrentWeapon)
