@@ -102,7 +102,7 @@ namespace DirtyGame
             world.AddSystem(new AnimationSystem());
             world.AddSystem(new MovementSystem(aiSystem));
             world.AddSystem(new SeparationSystem());
-            map = new Map(graphics.GraphicsDevice);
+            map = new Map(graphics.GraphicsDevice, entityFactory);
 
             
 
@@ -121,14 +121,14 @@ namespace DirtyGame
             e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e);
 
-            e = entityFactory.CreateSpawner(100, 100, playerSpriteSheet, new Rectangle(0, 0, 46, 46), 10, new TimeSpan(0, 0, 0, 0, 1000));
-            e.Refresh();
-            e = entityFactory.CreateSpawner(300, 100, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), 10, new TimeSpan(0, 0, 0, 0, 2000));
-            e.Refresh();
-            e = entityFactory.CreateSpawner(100, 300, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), 10, new TimeSpan(0, 0, 0, 0, 3000));
-            e.Refresh();
-            e = entityFactory.CreateSpawner(300, 300, playerSpriteSheet, new Rectangle(0, 0, 46, 46), 10, new TimeSpan(0, 0, 0, 0, 500));
-            e.Refresh();
+            //e = entityFactory.CreateSpawner(100, 100, playerSpriteSheet, new Rectangle(0, 0, 46, 46), 10, new TimeSpan(0, 0, 0, 0, 1000));
+            //e.Refresh();
+            //e = entityFactory.CreateSpawner(300, 100, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), 10, new TimeSpan(0, 0, 0, 0, 2000));
+            //e.Refresh();
+            //e = entityFactory.CreateSpawner(100, 300, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), 10, new TimeSpan(0, 0, 0, 0, 3000));
+            //e.Refresh();
+            //e = entityFactory.CreateSpawner(300, 300, playerSpriteSheet, new Rectangle(0, 0, 46, 46), 10, new TimeSpan(0, 0, 0, 0, 500));
+            //e.Refresh();
 
             
         }
@@ -142,7 +142,10 @@ namespace DirtyGame
             Entity wall = entityFactory.CreateWallEntity(new Vector2(0f, 0f), new Vector2(0f, renderer.ActiveMap.getPixelHeight()),
                             new Vector2(renderer.ActiveMap.getPixelWidth(), 0f), new Vector2(renderer.ActiveMap.getPixelWidth(), renderer.ActiveMap.getPixelHeight()));
             wall.Refresh();
-            
+
+            //Entity wall2 = entityFactory.CreateWallEntity(new Vector2(100f, 0f), new Vector2(100f, renderer.ActiveMap.getPixelHeight()),
+            //                new Vector2(renderer.ActiveMap.getPixelWidth(), 0f), new Vector2(renderer.ActiveMap.getPixelWidth(), renderer.ActiveMap.getPixelHeight()));
+            //wall2.Refresh();
         }
 
         protected override void UnloadContent()

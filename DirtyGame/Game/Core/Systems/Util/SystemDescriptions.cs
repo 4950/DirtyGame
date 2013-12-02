@@ -15,7 +15,7 @@ namespace DirtyGame.game.Core.Systems.Util
             new SystemParams(Aspect.CreateAspectFor(new List<Type> {typeof (SpriteComponent), typeof (SpatialComponent)}), 1000);
 
         public static SystemParams PhysicsSystem =
-          new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(PhysicsComponent) }), 1);
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(PhysicsComponent) }), 1);
 
         public static SystemParams AnimationSystem =
             new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(SpriteComponent), typeof(AnimationComponent), typeof(DirectionComponent) }), 1);
