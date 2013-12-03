@@ -72,6 +72,16 @@ namespace DirtyGame.game.Core.Systems
             game.baseContext.RegisterHandler(Keys.Up, move, idle);
             game.baseContext.RegisterHandler(Keys.Down, move, idle);
 
+            game.baseContext.RegisterHandler(Keys.A, move, idle);
+            game.baseContext.RegisterHandler(Keys.D, move, idle);
+            game.baseContext.RegisterHandler(Keys.W, move, idle);
+            game.baseContext.RegisterHandler(Keys.S, move, idle);
+
+            //game.baseContext.RegisterHandler(Keys.Space, , );
+        }
+        private void meleeAttack(Keys key)
+        {
+
         }
         private void move(Keys key)
         {
