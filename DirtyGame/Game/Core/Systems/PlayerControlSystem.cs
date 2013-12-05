@@ -35,6 +35,8 @@ namespace DirtyGame.game.Core.Systems
         private MoveDirection currentDirection = MoveDirection.Idle;
         private MoveDirection previousDirection = MoveDirection.Idle;
 
+        private bool meleeAttacking = false;
+
         //private bool movingUpStart = false;
         //private bool movingDownStart = false;
         //private bool movingLeftStart = false;
@@ -77,11 +79,11 @@ namespace DirtyGame.game.Core.Systems
             game.baseContext.RegisterHandler(Keys.W, move, idle);
             game.baseContext.RegisterHandler(Keys.S, move, idle);
 
-            //game.baseContext.RegisterHandler(Keys.Space, , );
+            game.baseContext.RegisterHandler(Keys.Space, meleeAttack, meleeAttack);
         }
         private void meleeAttack(Keys key)
         {
-
+            this.meleeAttacking = !this.meleeAttacking;
         }
         private void move(Keys key)
         {
@@ -161,6 +163,17 @@ namespace DirtyGame.game.Core.Systems
                 //=======
                 //if (!attackingPressing)
                 //{
+
+                //Attacking
+                if (meleeAttacking)
+                {
+                    Entity meleeEntity = entityFactory.CreateMeleeEntity(e);
+                    meleeEntity.Refresh();
+
+                    //Entity testEntity = entityFactory.CreateBasicMonster(new Vector2(50.0f, 50.0f), e.GetComponent<SpriteComponent>().SpriteSheet);
+                    //testEntity.Refresh();
+                    
+                }
 
                 if (previousDirection != currentDirection)//direction state changed
                 {

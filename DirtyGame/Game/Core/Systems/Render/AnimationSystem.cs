@@ -18,9 +18,12 @@ namespace DirtyGame.game.Systems
 {
     class AnimationSystem : EntitySystem
     {
-        public AnimationSystem()
+        private Dirty game;
+
+        public AnimationSystem(Dirty game)
             : base(SystemDescriptions.AnimationSystem.Aspect, SystemDescriptions.AnimationSystem.Priority)
         {
+            this.game = game;
         }
 
         public override void OnEntityAdded(Entity e)
@@ -36,6 +39,7 @@ namespace DirtyGame.game.Systems
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
         {
             List<Entity> entitiesToRemoveAnimationComponent = new List<Entity>();
+            List<Entity> entitiesToDelete = new List<Entity>();
 
             foreach (Entity e in entities)
             {
@@ -87,9 +91,16 @@ namespace DirtyGame.game.Systems
                                 animation.FinishedFiniteAnimation = true;
                                 //animation.CurrentAnimation = animation.CurrentAnimation.Remove(0, 6); //this needs to change the currentAnimation to just the direction
                                 //animation.CurrentAnimation = "Down";
-                                animation.CurrentAnimation = "Idle" + direction.Heading;
+                                if (e.GetComponent<NameComponent>().Name.Equals("PLAYER MELEE"))
+                                {
+                                    entitiesToDelete.Add(e);
+                                }
+                                else
+                                {
+                                    //animation.CurrentAnimation = "Idle" + direction.Heading;
 
-                                entitiesToRemoveAnimationComponent.Add(e);
+                                    entitiesToRemoveAnimationComponent.Add(e);
+                                }
                             }
                         }
                     }
@@ -136,6 +147,10 @@ namespace DirtyGame.game.Systems
                 //else
                 //    animation.CurrentFrame = 0;
 
+                if(e.HasComponent<MeleeComponent>() ){
+
+                    }
+
                 //Setting the rectangle of the sprite sheet to draw
                 sprite.SrcRect = sprite.SpriteSheet.Animation[animation.CurrentAnimation][animation.CurrentFrame];
             }
@@ -144,6 +159,11 @@ namespace DirtyGame.game.Systems
             {
                 //World.RemoveEntity(e);
                 e.RemoveComponent<AnimationComponent>();
+            }
+
+            foreach (Entity e in entitiesToDelete)
+            {
+                game.world.RemoveEntity(e);
             }
         }
     }

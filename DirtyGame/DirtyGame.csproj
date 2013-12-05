@@ -40,6 +40,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="game\Core\Components\BorderComponent.cs" />
+    <Compile Include="game\Core\Components\NameComponent.cs" />
+    <Compile Include="game\Core\Components\MeleeComponent.cs" />
+    <Compile Include="game\Core\Components\SpellComponent.cs" />
     <Compile Include="game\Core\Components\HealthComponent.cs" />
     <Compile Include="game\Core\Components\InventoryComponent.cs" />
     <Compile Include="game\Core\Components\Movement\SeparationComponent.cs" />
@@ -165,6 +168,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Caves.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\MeleeAnimation.xml">
+      <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\MonsterAnimation.xml">
