@@ -105,8 +105,8 @@ namespace DirtyGame.game.Core
             direction.Heading = owner.GetComponent<DirectionComponent>().Heading;
 
             AnimationComponent animation = new AnimationComponent();
-         //   animation.CurrentAnimation = "Attack" + direction.Heading;
-            animation.CurrentAnimation = "Attack" + "Right";   //Need to change this for all the directions
+            animation.CurrentAnimation = "Attack" + direction.Heading;
+         //   animation.CurrentAnimation = "Attack" + "Right";   //Need to change this for all the directions
 
             SpriteComponent sprite = new SpriteComponent();
             sprite.SpriteSheet = owner.GetComponent<MeleeComponent>().MeleeSpriteSheet;

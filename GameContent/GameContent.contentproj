@@ -63,8 +63,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RightMelee.png">
-      <Name>RightMelee</Name>
+    <Compile Include="SwordMeleeSpriteSheet.png">
+      <Name>SwordMeleeSpriteSheet</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

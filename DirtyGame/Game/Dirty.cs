@@ -114,7 +114,7 @@ namespace DirtyGame
             SpriteSheet playerSpriteSheet =  new SpriteSheet(resourceManager.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
             SpriteSheet monsterSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("monsterSheet_JUNK"), "Content\\MonsterAnimation.xml");
 
-            SpriteSheet meleeSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("RightMelee"), "Content\\MeleeAnimation.xml");
+            SpriteSheet meleeSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("SwordMeleeSpriteSheet"), "Content\\MeleeAnimation.xml");
             
             player = entityFactory.CreatePlayerEntity(playerSpriteSheet);
 
