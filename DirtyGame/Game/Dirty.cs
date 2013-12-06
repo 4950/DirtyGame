@@ -61,6 +61,7 @@ namespace DirtyGame
         public InputManager inputManager;
         public InputContext baseContext;
         public Entity player;
+        public int CurrentLevel { get; set; }
 
         private void Exit(Keys key)
         {
@@ -80,7 +81,7 @@ namespace DirtyGame
             //init UI
             UIDraw = new MonoGameDrawEngine(graphics.GraphicsDevice, Content);
             UIEngine = new CoreUIEngine(UIDraw, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
-            SpriteFont defaultFont = Content.Load<SpriteFont>("default");
+            SpriteFont defaultFont = resourceManager.GetResource<SpriteFont>("default");
             UIDraw.setDefaultFont(defaultFont);      
             resourceManager = new ResourceManager(Content);                       
             renderer = new Renderer(graphics, new Camera(new Vector2(800, 600)));
@@ -103,7 +104,6 @@ namespace DirtyGame
             gLogicSystem = new GameLogicSystem(this);
             world.AddSystem(gLogicSystem);         
             world.AddSystem(new PhysicsSystem(physics, renderer));
-            world.AddSystem(new GameLogicSystem(this));
             world.AddSystem(new AnimationSystem(this));
             world.AddSystem(new MovementSystem(aiSystem));
             world.AddSystem(new SeparationSystem());
@@ -113,8 +113,10 @@ namespace DirtyGame
 
             SpriteSheet playerSpriteSheet =  new SpriteSheet(resourceManager.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
             SpriteSheet monsterSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("monsterSheet_JUNK"), "Content\\MonsterAnimation.xml");
-
             SpriteSheet meleeSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("SwordMeleeSpriteSheet"), "Content\\MeleeAnimation.xml");
+            resourceManager.AddResource<SpriteSheet>(playerSpriteSheet, "playerSheet");
+            resourceManager.AddResource<SpriteSheet>(monsterSpriteSheet, "monsterSheet_JUNK");
+            resourceManager.AddResource<SpriteSheet>(meleeSpriteSheet, "SwordMeleeSpriteSheet");
             
             player = entityFactory.CreatePlayerEntity(playerSpriteSheet);
             player.Refresh();
@@ -130,7 +132,7 @@ namespace DirtyGame
             e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e);
 
-            Entity monsterWeapon = entityFactory.CreateRangedWeaponEntity("Monsterbow", "bow", "bow", 400, 20, 10, "arrow", -1, 3f);
+            /*Entity monsterWeapon = entityFactory.CreateRangedWeaponEntity("Monsterbow", "bow", "bow", 400, 20, 10, "arrow", -1, 3f);
             monsterWeapon.Refresh();
             MonsterData rangedData = MonsterData.RangedMonster;
             rangedData.weapon = monsterWeapon;
@@ -147,8 +149,10 @@ namespace DirtyGame
             e = entityFactory.CreateSpawner(100, 300, playerSpriteSheet, new Rectangle(0, 0, 46, 46), rangedData, 1, new TimeSpan(0, 0, 0, 0, 3000));
             e.Refresh();
             e = entityFactory.CreateSpawner(300, 300, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), meleeData, 1, new TimeSpan(0, 0, 0, 0, 500));
-            e.Refresh();
+            e.Refresh();*/
 
+            CurrentLevel = 1;
+            gLogicSystem.SetupNextRound();
             
         }
 

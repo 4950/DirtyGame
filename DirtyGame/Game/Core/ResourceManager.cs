@@ -32,7 +32,15 @@ namespace DirtyGame.game.Core
             }
             return (T)resources[typeof (T)][name];
         }
+        public void AddResource<T>(T resource, string name)
+        {
+            if (!resources.ContainsKey(typeof(T)))
+            {
+                resources.Add(typeof(T), new Dictionary<string, object>());
+            }
 
+            resources[typeof(T)].Add(name, resource);
+        }
         private T Load<T>(string name)
         {
             T resource = content.Load<T>(name);
