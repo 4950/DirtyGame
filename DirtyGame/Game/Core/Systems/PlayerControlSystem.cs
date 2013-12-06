@@ -412,10 +412,10 @@ namespace DirtyGame.game.Core.Systems
                             {
                                 //projectile
                                 Vector2 m = new Vector2(ms.X, ms.Y) + renderer.ActiveCamera.Position;
-                                Vector2 dir = (m - spatial.Position);
+                                Vector2 dir = (m - spatial.Center);
 
                                 dir.Normalize();
-                                Entity proj = entityFactory.CreateProjectile(e, spatial.Position, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, wc.BaseDamage);
+                                Entity proj = entityFactory.CreateProjectile(e, spatial.Center, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, wc.BaseDamage);
 
                                 proj.Refresh();
                             }
