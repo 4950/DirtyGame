@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root id="Melee">
+  <animationDefault name="AttackRight" 
+             yPosition="0" 
+             xStartFrame="0" 
+             xOffset="0" 
+             yOffset="0"
+             numberOfFrames="7" 
+             width="64" 
+             height="64"
+             finite="true">
+  </animationDefault>
+  <animationDefault name="AttackLeft"
+             yPosition="64"
+             xStartFrame="0"
+             xOffset="0"
+             yOffset="0"
+             numberOfFrames="7"
+             width="64"
+             height="64"
+             finite="true">
+  </animationDefault>
+  <animationDefault name="AttackUp"
+             yPosition="128"
+             xStartFrame="0"
+             xOffset="0"
+             yOffset="0"
+             numberOfFrames="7"
+             width="64"
+             height="64"
+             finite="true">
+  </animationDefault>
+  <animationDefault name="AttackDown"
+             yPosition="192"
+             xStartFrame="0"
+             xOffset="0"
+             yOffset="0"
+             numberOfFrames="7"
+             width="64"
+             height="64"
+             finite="true">
+  </animationDefault>
+</root>

@@ -28,6 +28,7 @@ namespace DirtyGame.game.Core.Systems
         private FarseerPhysics.Dynamics.World physicsWorld;
         private Renderer renderer;
         private bool PhysicsDebug = true;
+        uint playerId;
 
         public PhysicsSystem(Physics physics, Renderer renderer)
             : base(SystemDescriptions.PhysicsSystem.Aspect, SystemDescriptions.PhysicsSystem.Priority)
@@ -111,13 +112,20 @@ namespace DirtyGame.game.Core.Systems
 
             Body Body = new Body(physicsWorld);
 
+            if (e.HasComponent<PlayerComponent>())
+            {
+                playerId = e.Id;
+            }
+
             if (e.HasComponent<SpatialComponent>())
             {
                 SpatialComponent spatial = e.GetComponent<SpatialComponent>();
 
                 
-                Body = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(spatial.Width), ConvertUnits.ToSimUnits(spatial.Height), 1f, ConvertUnits.ToSimUnits(spatial.Position));
 
+                
+               Body = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(spatial.Width), ConvertUnits.ToSimUnits(spatial.Height), 1f, ConvertUnits.ToSimUnits(spatial.Position));
+               
             }
 
             if (e.HasComponent<BorderComponent>())
@@ -151,7 +159,7 @@ namespace DirtyGame.game.Core.Systems
 
         private bool BodyOnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
         {
-
+            
             if (entityDictionary.ContainsKey(fixtureA.Body.BodyId) && entityDictionary.ContainsKey(fixtureB.Body.BodyId))
             {
                 Entity A = entityDictionary[fixtureA.Body.BodyId];
@@ -200,6 +208,35 @@ namespace DirtyGame.game.Core.Systems
                         playerBody.Body.ApplyLinearImpulse(a * 5);
                         hitBody.Body.ApplyLinearImpulse(b * 5);
                     }
+                }
+
+                else if (A.HasComponent<NameComponent>() || B.HasComponent<NameComponent>())
+                {
+                   
+                      if (A.HasComponent<NameComponent>())
+                    {
+                        if (A.GetComponent<NameComponent>().Name.Equals("PLAYER MELEE"))
+                        {
+                            if (fixtureB.Body != bodyDictionary[playerId] && B.HasComponent<HealthComponent>()) //Don't hit player
+                            {
+                                B.GetComponent<HealthComponent>().CurrentHealth -= 75;
+                            }
+                        }
+                    }
+                    else if (B.HasComponent<NameComponent>())
+                    {
+                        if (B.GetComponent<NameComponent>().Name.Equals("PLAYER MELEE"))
+                        {
+                            if (fixtureA.Body != bodyDictionary[playerId] && A.HasComponent<HealthComponent>()) //Don't hit player
+                            {
+                                 A.GetComponent<HealthComponent>().CurrentHealth -= 75;
+                            }
+                        }
+                    }
+
+                   
+
+
                 }
             }
             return true;
@@ -250,6 +287,15 @@ namespace DirtyGame.game.Core.Systems
                 {
                     body.CollisionCategories = Category.Cat3;
                     body.CollidesWith = Category.Cat1 | Category.Cat2;
+                }
+            }
+
+            else if (e.HasComponent<ParentComponent>())
+            {
+                if (e.GetComponent<ParentComponent>().ParentId == playerId)
+                {
+                    body.CollisionCategories = Category.Cat2;
+                    body.CollidesWith = Category.Cat3; //Weapon only collides with Monster (Can Change to collide with Monster Weapon too)
                 }
             }
         }
