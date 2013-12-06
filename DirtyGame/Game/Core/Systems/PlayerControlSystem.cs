@@ -79,7 +79,7 @@ namespace DirtyGame.game.Core.Systems
             game.baseContext.RegisterHandler(Keys.W, move, idle);
             game.baseContext.RegisterHandler(Keys.S, move, idle);
 
-            game.baseContext.RegisterHandler(Keys.Space, meleeAttack, meleeAttack);
+            game.baseContext.RegisterHandler(Keys.Space, meleeAttack, null);
         }
         private void meleeAttack(Keys key)
         {
@@ -167,6 +167,7 @@ namespace DirtyGame.game.Core.Systems
                 //Attacking
                 if (meleeAttacking)
                 {
+                    meleeAttacking = false;
                     Entity meleeEntity = entityFactory.CreateMeleeEntity(e);
                     meleeEntity.Refresh();
 

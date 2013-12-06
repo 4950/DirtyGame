@@ -120,6 +120,10 @@ namespace DirtyGame.game.Core
             meleeEntity.AddComponent(animation);
             meleeEntity.AddComponent(sprite);
             meleeEntity.AddComponent(name);
+            meleeEntity.AddComponent(new PhysicsComponent());
+            meleeEntity.AddComponent(new ParentComponent(owner.Id));
+            spatial.Height = 20;
+            spatial.Width = 20;
 
             return meleeEntity;
         }
