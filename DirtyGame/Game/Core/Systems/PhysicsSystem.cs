@@ -213,23 +213,23 @@ namespace DirtyGame.game.Core.Systems
                 else if (A.HasComponent<NameComponent>() || B.HasComponent<NameComponent>())
                 {
                    
-                    if (A.HasComponent<NameComponent>())
+                      if (A.HasComponent<NameComponent>())
                     {
-                        if (A.GetComponent<NameComponent>().Name.Equals("Player Melee"))
+                        if (A.GetComponent<NameComponent>().Name.Equals("PLAYER MELEE"))
                         {
                             if (fixtureB.Body != bodyDictionary[playerId] && B.HasComponent<HealthComponent>()) //Don't hit player
                             {
-                                B.GetComponent<HealthComponent>().CurrentHealth -= 15;
+                                B.GetComponent<HealthComponent>().CurrentHealth -= 75;
                             }
                         }
                     }
                     else if (B.HasComponent<NameComponent>())
                     {
-                        if (B.GetComponent<NameComponent>().Name.Equals("Player Melee"))
+                        if (B.GetComponent<NameComponent>().Name.Equals("PLAYER MELEE"))
                         {
                             if (fixtureA.Body != bodyDictionary[playerId] && A.HasComponent<HealthComponent>()) //Don't hit player
                             {
-                                A.GetComponent<HealthComponent>().CurrentHealth -= 15;
+                                 A.GetComponent<HealthComponent>().CurrentHealth -= 75;
                             }
                         }
                     }

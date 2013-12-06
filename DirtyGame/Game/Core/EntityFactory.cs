@@ -108,22 +108,30 @@ namespace DirtyGame.game.Core
             {
                 case "Up":
                     xOffset = 0.0f;
-                    yOffset = -40.0f;
+                    yOffset = -20.0f;
+                    spatial.Height = 20;
+                    spatial.Width = 40;
                     break;
 
                 case "Down":
                     xOffset = 0.0f;
-                    yOffset = 20.0f;
+                    yOffset = 50.0f;
+                    spatial.Height = 20;
+                    spatial.Width = 40;
                     break;
 
                 case "Right":
-                    xOffset = 20.0f;
+                    xOffset = 40.0f;
                     yOffset = 0.0f;
+                    spatial.Height = 40;
+                    spatial.Width = 20;
                     break;
 
                 case "Left":
-                    xOffset = -20.0f;
+                    xOffset = -15.0f;
                     yOffset = 0.0f;
+                    spatial.Height = 40;
+                    spatial.Width = 20;
                     break;
             }
             spatial.Position = new Vector2(ownerLocation.X + xOffset, ownerLocation.Y + yOffset);
@@ -146,8 +154,7 @@ namespace DirtyGame.game.Core
             meleeEntity.AddComponent(name);
             meleeEntity.AddComponent(new PhysicsComponent());
             meleeEntity.AddComponent(new ParentComponent(owner.Id));
-            spatial.Height = 20;
-            spatial.Width = 20;
+           
 
             return meleeEntity;
         }
