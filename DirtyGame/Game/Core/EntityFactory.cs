@@ -98,11 +98,35 @@ namespace DirtyGame.game.Core
             //Current player location
             Vector2 ownerLocation = owner.GetComponent<SpatialComponent>().Position;
 
-            SpatialComponent spatial = new SpatialComponent();
-            spatial.Position = new Vector2(ownerLocation.X + 25.0f, ownerLocation.Y + 25.0f); //Need to offset the location
-
             DirectionComponent direction = new DirectionComponent();
             direction.Heading = owner.GetComponent<DirectionComponent>().Heading;
+
+            SpatialComponent spatial = new SpatialComponent();
+            float xOffset = 0.0f;
+            float yOffset = 0.0f;
+            switch (direction.Heading)
+            {
+                case "Up":
+                    xOffset = 0.0f;
+                    yOffset = -40.0f;
+                    break;
+
+                case "Down":
+                    xOffset = 0.0f;
+                    yOffset = 20.0f;
+                    break;
+
+                case "Right":
+                    xOffset = 20.0f;
+                    yOffset = 0.0f;
+                    break;
+
+                case "Left":
+                    xOffset = -20.0f;
+                    yOffset = 0.0f;
+                    break;
+            }
+            spatial.Position = new Vector2(ownerLocation.X + xOffset, ownerLocation.Y + yOffset);
 
             AnimationComponent animation = new AnimationComponent();
             animation.CurrentAnimation = "Attack" + direction.Heading;
