@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root id="Monster">
-  <animationDefault name="Down" 
+  <animationDefault name="WalkDown" 
              yPosition="0" 
              xStartFrame="0" 
              xOffset="0" 
              yOffset="0"
              numberOfFrames="12" 
              width="50" 
-             height="50">
+             height="50"
+             finite="false">
   </animationDefault>
   <animationDefault name="IdleDown" 
              yPosition="0" 
@@ -16,16 +17,18 @@
              yOffset="0"
              numberOfFrames="1" 
              width="50" 
-             height="50">
+             height="50"
+             finite="false">
   </animationDefault>
-  <animationDefault name="Up"
+  <animationDefault name="WalkUp"
              yPosition="50"
              xStartFrame="0"
              xOffset="0"
              yOffset="0"
              numberOfFrames="12"
              width="50"
-             height="50">
+             height="50"
+             finite="false">
   </animationDefault>
   <animationDefault name="IdleUp"
              yPosition="50"
@@ -34,16 +37,18 @@
              yOffset="0"
              numberOfFrames="1"
              width="50"
-             height="50">
+             height="50"
+             finite="false">
   </animationDefault>
-  <animationDefault name="Left" 
+  <animationDefault name="WalkLeft" 
              yPosition="100"
              xStartFrame="0"
              xOffset="0"
              yOffset="0" 
              numberOfFrames="8" 
              width="50"
-             height="50">
+             height="50"
+             finite="false">
   </animationDefault>
   <animationDefault name="IdleLeft"
              yPosition="100"
@@ -52,16 +57,18 @@
              yOffset="0" 
              numberOfFrames="1"
              width="50" 
-             height="50">
+             height="50"
+             finite="false">
   </animationDefault>
-  <animationDefault name="Right"
+  <animationDefault name="WalkRight"
              yPosition="100"
              xStartFrame="8"
              xOffset="0"
              yOffset="0" 
              numberOfFrames="8"
              width="50"
-             height="50">
+             height="50"
+             finite="false">
   </animationDefault>
   <animationDefault name="IdleRight" 
              yPosition="100" 
@@ -70,7 +77,8 @@
              yOffset="0" 
              numberOfFrames="1"
              width="50" 
-             height="50">
+             height="50"
+             finite="false">
   </animationDefault>
   <animationDefault name="AttackDown"
              yPosition="150"
@@ -79,7 +87,8 @@
              yOffset="0"
              numberOfFrames="9"
              width="70"
-             height="80">
+             height="80"
+             finite="true">
   </animationDefault>
   <animationDefault name="AttackUp"
              yPosition="230"
@@ -88,7 +97,8 @@
              yOffset="-27"
              numberOfFrames="9"
              width="70"
-             height="80">
+             height="80"
+             finite="true">
   </animationDefault>
   <animationDefault name="AttackLeft"
              yPosition="310"
@@ -97,7 +107,8 @@
              yOffset="-5"
              numberOfFrames="9"
              width="70"
-             height="70">
+             height="70"
+             finite="true">
   </animationDefault>
   <animationDefault name="AttackRight"
              yPosition="380"
@@ -106,6 +117,7 @@
              yOffset="-5"
              numberOfFrames="9"
              width="70"
-             height="70">
+             height="70"
+             finite="true">
   </animationDefault>
 </root>

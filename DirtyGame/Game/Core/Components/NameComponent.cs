@@ -6,23 +6,23 @@ using EntityFramework;
 
 namespace DirtyGame.game.Core.Components
 {
-    class DirectionComponent : Component
+    class NameComponent : Component
     {
         #region Variables
         //Sprite direction
-        private string heading = "Down";
+        private string name = "DEFAULT";
         #endregion
 
         #region Properties
-        public string Heading
+        public string Name
         {
             get
             {
-                return heading;
+                return name;
             }
             set
             {
-                heading = value;
+                name = value;
             }
         }
         #endregion

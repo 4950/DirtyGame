@@ -36,6 +36,7 @@ namespace DirtyGame.game.Core.Components
             get;
             set;
         }
+
         public Rectangle Bounds
         {
             get;
@@ -73,8 +74,6 @@ namespace DirtyGame.game.Core.Components
             }
         }
         #endregion
-
-
 
 
 

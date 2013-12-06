@@ -38,7 +38,7 @@ namespace DirtyGame.game.Core.Systems.Monster
 
                     Vector2 monsterPos = e.GetComponent<SpatialComponent>().Center;
 
-                    if (wc.Type == WeaponComponent.WeaponType.Ranged)
+                    if (wc.Type != WeaponComponent.WeaponType.AOE)
                     {
                         double dist = getDistance(monsterPos.X, monsterPos.Y, playerPos.X, playerPos.Y);
 
@@ -50,13 +50,22 @@ namespace DirtyGame.game.Core.Systems.Monster
                                 if (wc.Ammo > 0)
                                     wc.Ammo--;
                                 wc.LastFire = wc.Cooldown;
-                                //projectile
-                                Vector2 dir = (playerPos - monsterPos);
 
-                                dir.Normalize();
-                                Entity proj = entityFactory.CreateProjectile(e, monsterPos, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, wc.BaseDamage);
+                                if (wc.Type == WeaponComponent.WeaponType.Ranged)
+                                {
+                                    //projectile
+                                    Vector2 dir = (playerPos - monsterPos);
 
-                                proj.Refresh();
+                                    dir.Normalize();
+                                    Entity proj = entityFactory.CreateProjectile(e, monsterPos, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, wc.BaseDamage);
+
+                                    proj.Refresh();
+                                }
+                                else
+                                {
+                                    Entity meleeEntity = entityFactory.CreateMeleeEntity(e, wc);
+                                    meleeEntity.Refresh();
+                                }
                             }
                         }
                     }
@@ -81,7 +90,6 @@ namespace DirtyGame.game.Core.Systems.Monster
         // If no monster of another type is nearby... wander.
         public double[] calculateMoveVector(IEnumerable<Entity> entities, Entity m)
         {
-            //List<Entity> nextState = new List<Entity>();
 
             double[] vel = new double[2];
 
@@ -98,6 +106,12 @@ namespace DirtyGame.game.Core.Systems.Monster
                     if (vel[0] == vel[1] && vel[0] == 0)//player not in sight or in range, wander
                         vel = randDir();
                 }
+                else if (wc.Type == WeaponComponent.WeaponType.Melee)
+                {
+                    vel = seekPlayer(entities, m, (int)wc.Range, 600, true);//if player is not within weapon range but in sight range, chase
+                    if (vel[0] == vel[1] && vel[0] == 0)//player not in sight or in range, wander
+                        vel = randDir();
+                }
             }
             else//old ai
             {
@@ -108,7 +122,8 @@ namespace DirtyGame.game.Core.Systems.Monster
 
             }
 
-            //else, Random walk 
+            setDirection(vel, m);
+
             return vel;
         }
         private double[] seekPlayer(IEnumerable<Entity> entities, Entity m, int minrange, int maxrange, bool seek)
@@ -117,8 +132,7 @@ namespace DirtyGame.game.Core.Systems.Monster
             {
                 if (e.HasComponent<PlayerComponent>())
                 {
-                    //if (!m.GetComponent<MonsterComponent>().monsterType.Equals(e.GetComponent<MonsterComponent>().monsterType))
-                    //{
+
                     int otherX = (int)e.GetComponent<SpatialComponent>().Position.X;
                     int otherY = (int)e.GetComponent<SpatialComponent>().Position.Y;
                     if (getDistance(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, otherX, otherY) < maxrange &&
@@ -133,11 +147,57 @@ namespace DirtyGame.game.Core.Systems.Monster
 
                         return chaseVector;
                     }
-                    //}
                 }
             }
 
             return new double[2];
+        }
+        private void setDirection(double[] vel, Entity m)
+        {
+            DirectionComponent direction = m.GetComponent<DirectionComponent>();
+
+            if (Math.Abs(vel[0]) > Math.Abs(vel[1]))
+            {
+                if (vel[0] > 0)
+                {
+                    direction.Heading = "Right";
+                    m.GetComponent<MovementComponent>().Horizontal = 1;
+                    AnimationComponent animation = new AnimationComponent();
+                    animation.CurrentAnimation = "Walk" + direction.Heading;
+                    m.AddComponent(animation);
+                    m.Refresh();
+                }
+                else if (vel[0] < 0)
+                {
+                    direction.Heading = "Left";
+                    m.GetComponent<MovementComponent>().Horizontal = -1;
+                    AnimationComponent animation = new AnimationComponent();
+                    animation.CurrentAnimation = "Walk" + direction.Heading;
+                    m.AddComponent(animation);
+                    m.Refresh();
+                }
+            }
+            else
+            {
+                if (vel[1] > 0)
+                {
+                    direction.Heading = "Down";
+                    m.GetComponent<MovementComponent>().Vertical = 1;
+                    AnimationComponent animation = new AnimationComponent();
+                    animation.CurrentAnimation = "Walk" + direction.Heading;
+                    m.AddComponent(animation);
+                    m.Refresh();
+                }
+                else if (vel[1] < 0)
+                {
+                    direction.Heading = "Up";
+                    m.GetComponent<MovementComponent>().Vertical = -1;
+                    AnimationComponent animation = new AnimationComponent();
+                    animation.CurrentAnimation = "Walk" + direction.Heading;
+                    m.AddComponent(animation);
+                    m.Refresh();
+                }
+            }
         }
         private double[] randDir()
         {
