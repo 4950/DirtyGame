@@ -210,10 +210,24 @@ namespace DirtyGame.game.Core.Systems
                     }
                 }
 
-                else if (A.HasComponent<NameComponent>() || B.HasComponent<NameComponent>())
+                else if (A.HasComponent<MeleeComponent>() || B.HasComponent<MeleeComponent>())
                 {
-                   
-                      if (A.HasComponent<NameComponent>())
+                    Entity melee = A.HasComponent<MeleeComponent>() ? A : B;
+                    Entity hit = melee == A ? B : A;
+
+                    MeleeComponent mc = melee.GetComponent<MeleeComponent>();
+                    if (mc.Owner != hit)//don't hit owner (later this needs to be don't hit team to turn off friendly fire)
+                    {
+                        if (hit.HasComponent<HealthComponent>())//valid hit, do dmg
+                        {
+                            if (!mc.targetsHit.Contains(hit))//have not already hit target
+                            {
+                                mc.targetsHit.Add(hit);
+                                hit.GetComponent<HealthComponent>().CurrentHealth -= mc.Damage;
+                            }
+                        }
+                    }
+                    /*  if (A.HasComponent<NameComponent>())
                     {
                         if (A.GetComponent<NameComponent>().Name.Equals("PLAYER MELEE"))
                         {
@@ -232,7 +246,7 @@ namespace DirtyGame.game.Core.Systems
                                  A.GetComponent<HealthComponent>().CurrentHealth -= 75;
                             }
                         }
-                    }
+                    }*/
 
                    
 

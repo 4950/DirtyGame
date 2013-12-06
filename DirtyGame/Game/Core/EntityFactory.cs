@@ -79,7 +79,25 @@ namespace DirtyGame.game.Core
 
             return proj;
         }
-        public Entity CreateMeleeEntity(Entity owner)
+        public Entity CreateMeleeWeaponEntity(String name, String portrait, float range, float baseDamage, int ammo, float cooldown, SpriteSheet meleeSprite)
+        {
+            Entity proj = entityMgr.CreateEntity();
+
+            WeaponComponent wc = new WeaponComponent();
+            wc.BaseDamage = baseDamage;
+            wc.Name = name;
+            wc.Type = WeaponComponent.WeaponType.Melee;
+            wc.Range = range;
+            wc.Portrait = portrait;
+            wc.Ammo = wc.MaxAmmo = ammo;
+            wc.Cooldown = cooldown;
+            wc.MeleeSheet = meleeSprite;
+
+            proj.AddComponent(wc);
+
+            return proj;
+        }
+        public Entity CreateMeleeEntity(Entity owner, WeaponComponent wc)
         {
             Entity meleeEntity = entityMgr.CreateEntity();
 
@@ -92,8 +110,6 @@ namespace DirtyGame.game.Core
             //      - Directional = Jared
             //      - Sprite = Jared
 
-            //Getting the MeleeComponent information
-            MeleeComponent ownerMeleeComponent = owner.GetComponent<MeleeComponent>();
 
             //Current player location
             Vector2 ownerLocation = owner.GetComponent<SpatialComponent>().Position;
@@ -141,17 +157,18 @@ namespace DirtyGame.game.Core
          //   animation.CurrentAnimation = "Attack" + "Right";   //Need to change this for all the directions
 
             SpriteComponent sprite = new SpriteComponent();
-            sprite.SpriteSheet = owner.GetComponent<MeleeComponent>().MeleeSpriteSheet;
+            sprite.SpriteSheet = wc.MeleeSheet;
 
-            NameComponent name = new NameComponent();
-            name.Name = "PLAYER MELEE";
+            MeleeComponent mc = new MeleeComponent();
+            mc.Damage = wc.BaseDamage;
+            mc.Owner = owner;
 
             //Adding the components to the melee entity
             meleeEntity.AddComponent(spatial);
             meleeEntity.AddComponent(direction);
             meleeEntity.AddComponent(animation);
             meleeEntity.AddComponent(sprite);
-            meleeEntity.AddComponent(name);
+            meleeEntity.AddComponent(mc);
             meleeEntity.AddComponent(new PhysicsComponent());
             meleeEntity.AddComponent(new ParentComponent(owner.Id));
            

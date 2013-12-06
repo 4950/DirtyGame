@@ -117,13 +117,13 @@ namespace DirtyGame
             SpriteSheet meleeSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("SwordMeleeSpriteSheet"), "Content\\MeleeAnimation.xml");
             
             player = entityFactory.CreatePlayerEntity(playerSpriteSheet);
-
-            player.GetComponent<MeleeComponent>().MeleeSpriteSheet = meleeSpriteSheet;
-
             player.Refresh();
 
             //weapons
-            Entity e = entityFactory.CreateRangedWeaponEntity("Doomsbow", "bow", "bow", 400, 25, 10, "arrow", -1, 1f);
+            Entity e = entityFactory.CreateMeleeWeaponEntity("Basic Sword", "sword", 50, 25, 50, 1f, meleeSpriteSheet);
+            e.Refresh();
+            player.GetComponent<InventoryComponent>().addWeapon(e);
+            e = entityFactory.CreateRangedWeaponEntity("Doomsbow", "bow", "bow", 400, 25, 10, "arrow", -1, 1f);
             e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e);
             e = entityFactory.CreateRangedWeaponEntity("Spear", "spear", "spear", 200, 35, 5, "spear", 5, 2f);
@@ -135,13 +135,18 @@ namespace DirtyGame
             MonsterData rangedData = MonsterData.RangedMonster;
             rangedData.weapon = monsterWeapon;
 
+            Entity monsterMelee = entityFactory.CreateMeleeWeaponEntity("Monstersword", "sword", 50, 15, -1, 2f, meleeSpriteSheet);
+            monsterMelee.Refresh();
+            MonsterData meleeData = MonsterData.BasicMonster;
+            meleeData.weapon = monsterMelee;
+
             e = entityFactory.CreateSpawner(100, 100, playerSpriteSheet, new Rectangle(0, 0, 46, 46), rangedData, 1, new TimeSpan(0, 0, 0, 0, 1000));
             e.Refresh();
-            e = entityFactory.CreateSpawner(300, 100, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), MonsterData.BasicMonster, 1, new TimeSpan(0, 0, 0, 0, 2000));
+            e = entityFactory.CreateSpawner(300, 100, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), meleeData, 1, new TimeSpan(0, 0, 0, 0, 2000));
             e.Refresh();
             e = entityFactory.CreateSpawner(100, 300, playerSpriteSheet, new Rectangle(0, 0, 46, 46), rangedData, 1, new TimeSpan(0, 0, 0, 0, 3000));
             e.Refresh();
-            e = entityFactory.CreateSpawner(300, 300, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), MonsterData.BasicMonster, 1, new TimeSpan(0, 0, 0, 0, 500));
+            e = entityFactory.CreateSpawner(300, 300, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), meleeData, 1, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
 
             

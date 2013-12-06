@@ -88,7 +88,7 @@ namespace DirtyGame.game.Systems
                                 animation.StartedFiniteAnimation = false;
                                 animation.FinishedFiniteAnimation = true;
                                 //Removing the player's melee entity from the world when the animation is finished
-                                if (e.GetComponent<NameComponent>().Name.Equals("PLAYER MELEE"))
+                                if (e.HasComponent<MeleeComponent>())
                                 {
                                     entitiesToDelete.Add(e);
                                 }

@@ -168,8 +168,7 @@ namespace DirtyGame.game.Core.Systems
                 if (meleeAttacking)
                 {
                     meleeAttacking = false;
-                    Entity meleeEntity = entityFactory.CreateMeleeEntity(e);
-                    meleeEntity.Refresh();
+                    
 
                     //Entity testEntity = entityFactory.CreateBasicMonster(new Vector2(50.0f, 50.0f), e.GetComponent<SpriteComponent>().SpriteSheet);
                     //testEntity.Refresh();
@@ -403,19 +402,28 @@ namespace DirtyGame.game.Core.Systems
                     {
                         WeaponComponent wc = curWeapon.GetComponent<WeaponComponent>();
 
-                        if (wc.Type == WeaponComponent.WeaponType.Ranged && (wc.Ammo > 0 || wc.MaxAmmo == -1) && wc.LastFire <= 0)
+                        if ((wc.Ammo > 0 || wc.MaxAmmo == -1) && wc.LastFire <= 0)
                         {
                             if (wc.Ammo > 0)
                                 wc.Ammo--;
                             wc.LastFire = wc.Cooldown;
-                            //projectile
-                            Vector2 m = new Vector2(ms.X, ms.Y) + renderer.ActiveCamera.Position;
-                            Vector2 dir = (m - spatial.Position);
 
-                            dir.Normalize();
-                            Entity proj = entityFactory.CreateProjectile(e, spatial.Position, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, wc.BaseDamage);
+                            if (wc.Type == WeaponComponent.WeaponType.Ranged)
+                            {
+                                //projectile
+                                Vector2 m = new Vector2(ms.X, ms.Y) + renderer.ActiveCamera.Position;
+                                Vector2 dir = (m - spatial.Position);
 
-                            proj.Refresh();
+                                dir.Normalize();
+                                Entity proj = entityFactory.CreateProjectile(e, spatial.Position, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, wc.BaseDamage);
+
+                                proj.Refresh();
+                            }
+                            else if(wc.Type == WeaponComponent.WeaponType.Melee)
+                            {
+                                Entity meleeEntity = entityFactory.CreateMeleeEntity(e, wc);
+                                meleeEntity.Refresh();
+                            }
                         }
                     }
                 }

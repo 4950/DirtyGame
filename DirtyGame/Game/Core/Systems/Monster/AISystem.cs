@@ -38,7 +38,7 @@ namespace DirtyGame.game.Core.Systems.Monster
 
                     Vector2 monsterPos = e.GetComponent<SpatialComponent>().Position;
 
-                    if (wc.Type == WeaponComponent.WeaponType.Ranged)
+                    if (wc.Type != WeaponComponent.WeaponType.AOE)
                     {
                         double dist = getDistance(monsterPos.X, monsterPos.Y, playerPos.X, playerPos.Y);
 
@@ -50,13 +50,22 @@ namespace DirtyGame.game.Core.Systems.Monster
                                 if (wc.Ammo > 0)
                                     wc.Ammo--;
                                 wc.LastFire = wc.Cooldown;
-                                //projectile
-                                Vector2 dir = (playerPos - monsterPos);
 
-                                dir.Normalize();
-                                Entity proj = entityFactory.CreateProjectile(e, monsterPos, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, wc.BaseDamage);
+                                if (wc.Type == WeaponComponent.WeaponType.Ranged)
+                                {
+                                    //projectile
+                                    Vector2 dir = (playerPos - monsterPos);
 
-                                proj.Refresh();
+                                    dir.Normalize();
+                                    Entity proj = entityFactory.CreateProjectile(e, monsterPos, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, wc.BaseDamage);
+
+                                    proj.Refresh();
+                                }
+                                else
+                                {
+                                    Entity meleeEntity = entityFactory.CreateMeleeEntity(e, wc);
+                                    meleeEntity.Refresh();
+                                }
                             }
                         }
                     }
@@ -94,6 +103,12 @@ namespace DirtyGame.game.Core.Systems.Monster
                     vel = seekPlayer(entities, m, 0, 200, false);//if player is close, run
                     if (vel[0] == vel[1] && vel[0] == 0)
                         seekPlayer(entities, m, (int)wc.Range - 50, 600, true);//if player is not within weapon range but in sight range, chase
+                    if (vel[0] == vel[1] && vel[0] == 0)//player not in sight or in range, wander
+                        vel = randDir();
+                }
+                else if (wc.Type == WeaponComponent.WeaponType.Melee)
+                {
+                    vel = seekPlayer(entities, m, (int)wc.Range, 600, true);//if player is not within weapon range but in sight range, chase
                     if (vel[0] == vel[1] && vel[0] == 0)//player not in sight or in range, wander
                         vel = randDir();
                 }

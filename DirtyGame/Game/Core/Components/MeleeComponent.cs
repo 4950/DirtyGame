@@ -10,14 +10,13 @@ namespace DirtyGame.game.Core.Components
     public class MeleeComponent : Component
     {
         private Entity meleeEntity;
-        private SpriteSheet meleeSpriteSheet;
 
         public MeleeComponent()
         {
 
         }
         
-        public Entity MeleeEntity
+        public Entity Owner
         {
             get
             {
@@ -28,16 +27,7 @@ namespace DirtyGame.game.Core.Components
                 meleeEntity = value;
             }
         }
-        public SpriteSheet MeleeSpriteSheet
-        {
-            get
-            {
-                return meleeSpriteSheet;
-            }
-            set
-            {
-                meleeSpriteSheet = value;
-            }
-        }
+        public float Damage { get; set; }
+        public List<Entity> targetsHit = new List<Entity>();
     }
 }
