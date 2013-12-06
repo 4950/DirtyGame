@@ -36,9 +36,7 @@ namespace DirtyGame.game.Core.Components
             get;
             set;
         }
-        #endregion
-
-
+        
         public Rectangle Bounds
         {
             get;
@@ -68,7 +66,7 @@ namespace DirtyGame.game.Core.Components
                 Bounds = new Rectangle((int)Position.X, (int)Position.Y, value, Bounds.Height);
             }
         }
-
+        #endregion
 
         #region Functions
 

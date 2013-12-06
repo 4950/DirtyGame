@@ -29,7 +29,7 @@ namespace DirtyGame.game.SGraphics.Commands
             transformMatrix = transform;
         }
 
-        public override void Execute(SpriteBatch spriteBatch)
+        public override void Execute(SpriteBatch spriteBatch, Renderer r)
         {
         	spriteBatch.Begin(sortMode, blendState, samplerState, depthStencilState, rasterizerState, effect, transformMatrix);
         }

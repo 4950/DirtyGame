@@ -15,7 +15,7 @@ namespace EntityFramework.Systems
     class SpawnerSystem : EntitySystem
     {
         public EntityFactory entityFactory;
-        public TimeSpan totalTime = new TimeSpan(0,0,0,0,0);
+        public TimeSpan totalTime = new TimeSpan(0, 0, 0, 0, 0);
 
         public SpawnerSystem(EntityFactory eF)
             : base(SystemDescriptions.SpawnerSystem.Aspect, SystemDescriptions.SpawnerSystem.Priority)
@@ -25,7 +25,7 @@ namespace EntityFramework.Systems
 
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
         {
-            Random r  = new Random();
+            Random r = new Random();
 
             //Keep track of total gameTime
             int elapsed = (int)Math.Floor(dt * 1000);
@@ -36,12 +36,12 @@ namespace EntityFramework.Systems
                 {
                     SpawnerComponent spawner = e.GetComponent<SpawnerComponent>();
 
-                    
 
-                  //  Console.Write(dt);
-                  //  Console.WriteLine(totalTime);
 
-                    if (((spawner.timeOfLastSpawn + spawner.timePerSpawn) <= totalTime)  && (spawner.numMobs!=0))
+                    //  Console.Write(dt);
+                    //  Console.WriteLine(totalTime);
+
+                    if (((spawner.timeOfLastSpawn + spawner.timePerSpawn) <= totalTime) && (spawner.numMobs != 0))
                     {
                         //Reset spawner timeOfLstSpawn
                         //int seconds = (int) Math.Floor(dt);
@@ -52,10 +52,14 @@ namespace EntityFramework.Systems
                         spawner.numMobs--;
 
                         //Create new entity
-                        Entity monster = entityFactory.CreateMonster(e.GetComponent<SpawnerComponent>().sprite.SpriteSheet.SpriteSheetTexture.Name,
-                                                                        (int)e.GetComponent<SpatialComponent>().Position.X + r.Next(-75, 76),
-                                                                        (int)e.GetComponent<SpatialComponent>().Position.Y + r.Next(-75, 76),
-                                                                        e.GetComponent<SpawnerComponent>().sprite.SpriteSheet);
+                        Vector2 pos = new Vector2(e.GetComponent<SpatialComponent>().Position.X + r.Next(-75, 76), (int)e.GetComponent<SpatialComponent>().Position.Y + r.Next(-75, 76));
+                        Entity monster = null;
+                        if (spawner.data.weapon != null)
+                        {
+                            monster = entityFactory.CreateRangedMonster(pos, e.GetComponent<SpawnerComponent>().sprite.SpriteSheet, entityFactory.CloneEntity(spawner.data.weapon));
+                        }
+                        else
+                            monster = entityFactory.CreateBasicMonster(pos, e.GetComponent<SpawnerComponent>().sprite.SpriteSheet);
 
                         monster.Refresh();
                     }

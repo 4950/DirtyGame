@@ -11,51 +11,99 @@ using EntityFramework;
 using DirtyGame.game.Core.Systems.Util;
 using DirtyGame.game.Core.Components;
 using Microsoft.Xna.Framework;
+using DirtyGame.game.SGraphics;
+using DirtyGame.game.SGraphics.Commands;
+using DirtyGame.game.SGraphics.Commands.DrawCalls;
 using FarseerPhysics.Common;
+using FarseerPhysics.Collision.Shapes;
+using FarseerPhysics.Collision;
 
 namespace DirtyGame.game.Core.Systems
 {
-    class PhysicsSystem : EntitySystem 
+    class PhysicsSystem : EntitySystem
     {
         public Dictionary<int, Entity> entityDictionary;
         public Dictionary<uint, Body> bodyDictionary;
         private Physics physics;
         private FarseerPhysics.Dynamics.World physicsWorld;
+        private Renderer renderer;
+        private bool PhysicsDebug = true;
 
-        public PhysicsSystem(Physics  physics) 
+        public PhysicsSystem(Physics physics, Renderer renderer)
             : base(SystemDescriptions.PhysicsSystem.Aspect, SystemDescriptions.PhysicsSystem.Priority)
         {
             this.physics = physics;
             physicsWorld = physics.World;
             entityDictionary = new Dictionary<int, Entity>();
             bodyDictionary = new Dictionary<uint, Body>();
-           
+
             ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
+
+            this.renderer = renderer;
         }
 
 
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
         {
-
+            RenderGroup renderGroup = null;
+            if (PhysicsDebug)
+            {
+                renderGroup = new RenderGroup();
+                renderGroup.AddCommand(new BeginBatchDraw(renderer.ActiveCamera.Transform));
+            }
             foreach (Entity e in entities)
             {
                 if (e.HasComponent<SpatialComponent>())
                 {
                     SpatialComponent spatial = e.GetComponent<SpatialComponent>();
-                    spatial.Position = ConvertUnits.ToDisplayUnits(bodyDictionary[e.Id].Position);
+                    //body position seems to be the bottm right corner, while spatial position is top left
+                    spatial.Position = ConvertUnits.ToDisplayUnits(bodyDictionary[e.Id].Position) - new Vector2(spatial.Width, spatial.Height);
+                    
+
+                    if (PhysicsDebug)
+                    {
+                        foreach (Fixture f in bodyDictionary[e.Id].FixtureList)
+                        {
+                            Transform t;
+                            f.Body.GetTransform(out t);
+                            AABB aabb;
+                            f.Shape.ComputeAABB(out aabb, ref t, 0);
+
+                            if (aabb.Vertices.Count > 1)
+                            {
+                                RenderInstance instance = new RenderInstance();
+                                instance.DrawCall = new BatchDrawLine(ConvertUnits.ToDisplayUnits(aabb.Vertices[0]), ConvertUnits.ToDisplayUnits(aabb.Vertices[aabb.Vertices.Count - 1]), Color.Red);
+                                //instance.SortKey.SetRenderLayer(sprite.RenderLayer);
+
+                                renderGroup.AddInstance(instance);
+                            }
+                            for (int i = 1; i < aabb.Vertices.Count; i++)
+                            {
+                                RenderInstance instance = new RenderInstance();
+                                instance.DrawCall = new BatchDrawLine(ConvertUnits.ToDisplayUnits(aabb.Vertices[i - 1]), ConvertUnits.ToDisplayUnits(aabb.Vertices[i]), Color.Red);
+                                //instance.SortKey.SetRenderLayer(sprite.RenderLayer);
+
+                                renderGroup.AddInstance(instance);
+                            }
+                        }
+                    }
+
                 }
 
-               if (e.HasComponent<MovementComponent>()) //Some could be static
-               {
-                    
+                if (e.HasComponent<MovementComponent>()) //Some could be static
+                {
+
                     MovementComponent movement = e.GetComponent<MovementComponent>();
                     bodyDictionary[e.Id].LinearVelocity = movement.Velocity;
 
-                }                
-             
-                
+                }
+
+
 
             }
+
+            if (PhysicsDebug)
+                renderer.Submit(renderGroup);
         }
 
         public override void OnEntityAdded(Entity e)
@@ -63,13 +111,13 @@ namespace DirtyGame.game.Core.Systems
 
             Body Body = new Body(physicsWorld);
 
-            if(e.HasComponent<SpatialComponent>())
+            if (e.HasComponent<SpatialComponent>())
             {
                 SpatialComponent spatial = e.GetComponent<SpatialComponent>();
-                
 
-                Body = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(spatial.Width), ConvertUnits.ToSimUnits(spatial.Height), 1f, ConvertUnits.ToSimUnits(spatial.Position));
                 
+                Body = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(spatial.Width), ConvertUnits.ToSimUnits(spatial.Height), 1f, ConvertUnits.ToSimUnits(spatial.Position));
+
             }
 
             if (e.HasComponent<BorderComponent>())
@@ -86,7 +134,7 @@ namespace DirtyGame.game.Core.Systems
                 Body.CollidesWith = Category.All;
             }
 
-            if(e.HasComponent<MovementComponent>())
+            if (e.HasComponent<MovementComponent>())
             {
                 Body.BodyType = BodyType.Dynamic;
                 Body.Restitution = 0.3f;
@@ -103,7 +151,7 @@ namespace DirtyGame.game.Core.Systems
 
         private bool BodyOnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
         {
-           
+
             if (entityDictionary.ContainsKey(fixtureA.Body.BodyId) && entityDictionary.ContainsKey(fixtureB.Body.BodyId))
             {
                 Entity A = entityDictionary[fixtureA.Body.BodyId];
@@ -139,7 +187,7 @@ namespace DirtyGame.game.Core.Systems
                     {
 
                     }
-                    else if (hit.HasComponent<MonsterComponent>() )//&& !hit.HasComponent<WeaponComponent>())
+                    else if (hit.HasComponent<MonsterComponent>())//&& !hit.HasComponent<WeaponComponent>())
                     {
                         //do damage to player and monster
                         hit.GetComponent<HealthComponent>().CurrentHealth -= 25;
@@ -159,21 +207,21 @@ namespace DirtyGame.game.Core.Systems
 
         public override void OnEntityRemoved(Entity e)
         {
-            if(bodyDictionary.ContainsKey(e.Id)) 
+            if (bodyDictionary.ContainsKey(e.Id))
             {
-                if(entityDictionary.ContainsKey(bodyDictionary[e.Id].BodyId))
+                if (entityDictionary.ContainsKey(bodyDictionary[e.Id].BodyId))
                 {
                     physicsWorld.RemoveBody(bodyDictionary[e.Id]);
                     entityDictionary.Remove(bodyDictionary[e.Id].BodyId);
                     physics.RemoveEntityId(bodyDictionary[e.Id].BodyId);
                 }
                 bodyDictionary.Remove(e.Id);
-            } 
-           
+            }
+
         }
 
 
-//Cat 1 = Player, Cat2= Player Weapon, Cat3 = Monster, Cat4 = Monster Weapon
+        //Cat 1 = Player, Cat2= Player Weapon, Cat3 = Monster, Cat4 = Monster Weapon
         private void CollisionCategory(Entity e, Body body)
         {
             if (e.HasComponent<PlayerComponent>())
@@ -188,7 +236,7 @@ namespace DirtyGame.game.Core.Systems
                     body.CollisionCategories = Category.Cat1;
                     body.CollidesWith = Category.All; //Player can collide with Monster weapon too
                 }
-                
+
             }
 
             else if (e.HasComponent<MonsterComponent>())
@@ -206,6 +254,6 @@ namespace DirtyGame.game.Core.Systems
             }
         }
 
-        
+
     }
 }

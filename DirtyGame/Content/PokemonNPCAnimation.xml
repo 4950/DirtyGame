@@ -7,13 +7,15 @@
              yOffset="0"
              numberOfFrames="3"
              width="16"
-             height="22">
+             height="22"
+             finite="false">
   </animationDefault>
 
   <animationByFrame name="WalkLeft"
              xOffset="0"
              yOffset="0"
-             numberOfFrames="3">
+             numberOfFrames="3"
+             finite="false">
     <frame xPosition="0"
            yPosition="30"
            width="20"
