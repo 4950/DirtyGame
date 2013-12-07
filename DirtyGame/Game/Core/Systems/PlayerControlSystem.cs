@@ -22,6 +22,7 @@ namespace DirtyGame.game.Core.Systems
         private EntityFactory entityFactory;
         private Renderer renderer;
         private Dirty game;
+        private List<Keys> keysDown = new List<Keys>();
 
         enum MoveDirection
         {
@@ -59,6 +60,11 @@ namespace DirtyGame.game.Core.Systems
         private void move(Keys key)
         {
             previousDirection = currentDirection;
+            keysDown.Add(key);
+            setDirection(key);
+        }
+        private void setDirection(Keys key)
+        {
             switch (key)
             {
                 case Keys.Up:
@@ -84,11 +90,18 @@ namespace DirtyGame.game.Core.Systems
         }
         private void idle(Keys key)
         {
+            keysDown.Remove(key);
+            previousDirection = currentDirection;
+            if (keysDown.Count > 0)
+                setDirection(keysDown[keysDown.Count - 1]);
+            else
+                currentDirection = MoveDirection.Idle;
+            /*
             move(key);
             if (previousDirection == currentDirection)
                 currentDirection = MoveDirection.Idle;
             else
-                currentDirection = previousDirection;
+                currentDirection = previousDirection;*/
         }
         private void changeWeapon(Keys key)
         {
