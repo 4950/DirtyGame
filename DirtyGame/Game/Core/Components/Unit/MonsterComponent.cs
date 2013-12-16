@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using DirtyGame.game.Core.Components;
+using System.Xml.Serialization;
 
 namespace EntityFramework
 {
@@ -13,6 +14,7 @@ namespace EntityFramework
         public int Health;
         public Vector2 Size;
         //public WeaponComponent.WeaponType 
+        [XmlIgnoreAttribute]
         public Entity weapon;
          
         public MonsterData(int health, Vector2 size)
@@ -40,7 +42,7 @@ namespace EntityFramework
             }
         }
     }
-    class MonsterComponent : UnitComponent
+    public class MonsterComponent : UnitComponent
     {
         public MonsterData data { get; set; }
         //public string monsterType;

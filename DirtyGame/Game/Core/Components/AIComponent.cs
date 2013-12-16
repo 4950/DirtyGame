@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DirtyGame.game.Core.Components
 {
-    class AIComponent : Component
+    public class AIComponent : Component
     {
         public double[] moveVector;
     }

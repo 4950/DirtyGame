@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DirtyGame.game.Core.Components.Movement
 {
-    class SeparationComponent : Component
+    public class SeparationComponent : Component
     {
     }
 }

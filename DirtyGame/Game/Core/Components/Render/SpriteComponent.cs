@@ -5,6 +5,7 @@ using System.Text;
 using DirtyGame.game.SGraphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Xml.Serialization;
 
 namespace DirtyGame.game.Core.Components.Render
 {
@@ -13,7 +14,9 @@ namespace DirtyGame.game.Core.Components.Render
         #region Variables
         private Rectangle srcRect;        
         //Stores the sprite's sprite sheet and animations
+        [XmlIgnoreAttribute]
         private SpriteSheet spriteSheet;
+        [XmlIgnoreAttribute]
         public Texture2D sprite;
         
         #endregion
@@ -45,6 +48,7 @@ namespace DirtyGame.game.Core.Components.Render
         /// </summary>
         public Vector2 origin { get; set; }
 
+        [XmlIgnoreAttribute]
         public SpriteSheet SpriteSheet
         {
             get

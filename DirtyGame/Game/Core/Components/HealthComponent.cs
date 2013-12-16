@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DirtyGame.game.Core.Components
 {
-    class HealthComponent : Component
+    public class HealthComponent : Component
     {
         public int MaxHealth;
         public float CurrentHealth;

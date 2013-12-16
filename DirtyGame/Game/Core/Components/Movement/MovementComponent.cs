@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace DirtyGame.game.Core.Components
 {
-    class MovementComponent : Component
+    public class MovementComponent : Component
     {
 
        #region Constructors

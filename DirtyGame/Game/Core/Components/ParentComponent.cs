@@ -6,13 +6,16 @@ using EntityFramework;
 
 namespace DirtyGame.game.Core.Components
 {
-    class ParentComponent : Component
+    public class ParentComponent : Component
     {
         
          #region Constructors
         public ParentComponent(uint parent)
         {
             ParentId = parent;
+        }
+        private ParentComponent()
+        {
         }
         #endregion
 

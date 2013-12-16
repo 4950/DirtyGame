@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace DirtyGame.game.Core.Components
 {
-    class SpatialComponent : Component
+    public class SpatialComponent : Component
     {
         #region Constructors
         public SpatialComponent()

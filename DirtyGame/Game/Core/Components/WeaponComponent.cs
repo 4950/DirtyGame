@@ -6,6 +6,7 @@ using EntityFramework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using DirtyGame.game.SGraphics;
+using System.Xml.Serialization;
 
 namespace DirtyGame.game.Core.Components
 {
@@ -39,6 +40,7 @@ namespace DirtyGame.game.Core.Components
         /// </summary>
         public int MaxAmmo { get; set; }
         public int Ammo { get; set; }
+        [XmlIgnoreAttribute]
         public SpriteSheet MeleeSheet;
         #endregion
 
