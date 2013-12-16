@@ -38,7 +38,7 @@ namespace DirtyGame.game.Core.Systems
         {
             foreach (Entity ee in spawners)//clear old spawners
             {
-                game.world.RemoveEntity(ee);
+                game.world.DestroyEntity(ee);
             }
 
             roundLabel.Text = "~Round " + game.CurrentLevel + "~";
@@ -136,7 +136,7 @@ namespace DirtyGame.game.Core.Systems
                 HealthComponent hc = e.GetComponent<HealthComponent>();
                 if (hc.CurrentHealth <= 0)//dead
                 {
-                    World.RemoveEntity(e);
+                    World.DestroyEntity(e);
                     i--;
                 }
 
