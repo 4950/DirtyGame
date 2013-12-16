@@ -17,7 +17,7 @@ namespace EntityFramework.Managers
         private Dictionary<uint, BitVector> systemBitVectors;
         private Dictionary<uint, Dictionary<uint, Component>> entityComponents;
         private TypeMapper<Component> componentTypeMapper;
-        private World world;
+        internal World world;
 
 
         public TagManager<uint> TagManager
@@ -143,7 +143,7 @@ namespace EntityFramework.Managers
             }
         }
 
-        public void RemoveEntity(uint id)
+        public void DestroyEntity(uint id)
         {
             if (!entities.ContainsKey(id))
             {
@@ -253,7 +253,7 @@ namespace EntityFramework.Managers
         public void RemoveAllEntities()
         {
             while (entities.Count > 0)
-                world.RemoveEntity(entities.Values.ElementAt(0));
+                world.DestroyEntity(entities.Values.ElementAt(0));
         }
     }
 }

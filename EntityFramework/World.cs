@@ -45,7 +45,7 @@ namespace EntityFramework
             systemMgr.RemoveSystem(system);
         }
 
-        public void RemoveEntity(Entity e)
+        public void DestroyEntity(Entity e)
         {
             // remove entity from systems  
 
@@ -57,7 +57,7 @@ namespace EntityFramework
                 system.RemoveEntity(e);
             }
 
-            entityMgr.RemoveEntity(e.Id);
+            entityMgr.DestroyEntity(e.Id);
         }
 
         public void Refresh(Entity e)

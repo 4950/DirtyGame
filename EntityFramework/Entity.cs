@@ -3,16 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EntityFramework.Managers;
+using System.Xml.Serialization;
 
 namespace EntityFramework
 {
+    public class EntityRef
+    {
+        private uint id;
+        [XmlIgnoreAttribute]
+        private EntityManager manager;
+
+        public Entity entity
+        {
+            get
+            {
+                return manager.GetEntity(id);
+            }
+        }
+        public EntityRef(Entity e)
+        {
+            id = e.Id;
+            manager = e.entityManager;
+        }
+    }
     /// <summary>
     /// Lightweight object for grouping sets on components together
     /// </summary>
     public class Entity
     {
         #region Variables
-        private EntityManager entityManager;
+        internal EntityManager entityManager;
         private Guid guid;
         #endregion
 
@@ -41,7 +61,13 @@ namespace EntityFramework
             get;
             private set;
         }
-
+        public EntityRef reference
+        {
+            get
+            {
+                return new EntityRef(this);
+            }
+        }
         public string Tag
         {
             get
@@ -56,12 +82,12 @@ namespace EntityFramework
                 }
                 else
                 {
-                    entityManager.TagManager.AddTag(Id, value);    
+                    entityManager.TagManager.AddTag(Id, value);
                 }
-                
+
             }
         }
-       
+
         public IEnumerable<Component> Components
         {
             get
@@ -105,12 +131,12 @@ namespace EntityFramework
 
         public bool HasComponent<T>()
         {
-            return HasComponent(typeof (T));
+            return HasComponent(typeof(T));
         }
 
         public T GetComponent<T>() where T : Component
         {
-            return (T) entityManager.GetComponent(Id, typeof (T));
+            return (T)entityManager.GetComponent(Id, typeof(T));
         }
 
         public void AddComponent(Component comp)
@@ -136,6 +162,11 @@ namespace EntityFramework
         public void RemoveTag()
         {
             Tag = "";
+        }
+
+        public void Destroy()
+        {
+            entityManager.world.DestroyEntity(this);
         }
 
         /// <summary>
