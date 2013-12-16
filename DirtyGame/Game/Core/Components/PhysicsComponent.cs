@@ -9,7 +9,7 @@ using FarseerPhysics;
 
 namespace DirtyGame.game.Core.Components
 {
-    class PhysicsComponent : Component
+    public class PhysicsComponent : Component
     {
         #region Constructors
         public PhysicsComponent()

@@ -7,7 +7,7 @@ using DirtyGame.game.Core.Components.Unit;
 
 namespace DirtyGame.game.Core.Components
 {
-    class PlayerComponent : UnitComponent
+    public class PlayerComponent : UnitComponent
     {
     }
 }

@@ -7,9 +7,12 @@ using EntityFramework;
 
 namespace DirtyGame.game.Core.Components
 {
-    class BorderComponent : Component
+    public class BorderComponent : Component
     {
         #region Constructors
+        private BorderComponent()
+        {
+        }
         public BorderComponent(Vector2 topLeft, Vector2 bottomLeft, Vector2 topRight, Vector2 bottomRight)
         {
             TopLeft = topLeft;

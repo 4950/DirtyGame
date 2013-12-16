@@ -32,7 +32,10 @@ namespace EntityFramework
                 return entityManager.GetSystemBitVector(Id);
             }
         }
-
+        public Guid GUID
+        {
+            get { return guid; }
+        }
         public uint Id
         {
             get;
@@ -77,11 +80,20 @@ namespace EntityFramework
         #endregion
 
         #region Constructors
+        internal Entity()
+        {
+        }
         internal Entity(EntityManager em)
         {
             guid = Guid.NewGuid();
             Id = (uint)guid.GetHashCode();
             entityManager = em;
+        }
+        internal Entity(EntityManager em, Guid old_id)
+        {
+            entityManager = em;
+            guid = old_id;
+            Id = (uint)old_id.GetHashCode();
         }
         #endregion
 

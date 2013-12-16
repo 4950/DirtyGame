@@ -8,6 +8,7 @@ using CoreUI.DrawEngines;
 using CoreUI.Visuals;
 using EntityFramework;
 using DirtyGame.game.Core.Components;
+using Microsoft.Xna.Framework.Input;
 
 
 namespace DirtyGame.game.Core.GameStates
@@ -32,9 +33,21 @@ namespace DirtyGame.game.Core.GameStates
         {
             game = null;
         }
+        private void SaveGame(Keys key)
+        {
+            game.world.EntityMgr.SerializeEntities(App.Path + "test.xml");
+        }
+        private void LoadGame(Keys key)
+        {
+            game.world.EntityMgr.RemoveAllEntities();
+            game.world.EntityMgr.DeserializeEntities(App.Path + "test.xml");
 
+        }
         public void OnEnter(Dirty game)
         {
+            game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.F5, SaveGame, null);
+            game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.F6, LoadGame, null);
+
             //curWeapon = game.player.GetComponent<InventoryComponent>().CurrentWeapon;
             this.game = game;
             if (monsterHUD == null)
