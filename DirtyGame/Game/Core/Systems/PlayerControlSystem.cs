@@ -139,7 +139,7 @@ namespace DirtyGame.game.Core.Systems
                     AnimationComponent animationComponent = e.GetComponent<AnimationComponent>();
                     if ((animationComponent != null))
                     {
-                        e.RemoveComponent<AnimationComponent>();
+                        e.RemoveComponent(e.GetComponent<AnimationComponent>());
                         e.Refresh();
                         sprite.SrcRect = sprite.SpriteSheet.Animation["Idle" + direction.Heading][0]; //I do not know if this is the best way to do this - JP
                     }

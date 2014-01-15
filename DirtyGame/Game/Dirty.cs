@@ -61,7 +61,7 @@ namespace DirtyGame
         public InputManager inputManager;
         public InputContext baseContext;
         public Entity player;
-        public int CurrentLevel { get; set; }
+        public EntityRef gameEntity;
 
         private void Exit(Keys key)
         {
@@ -102,13 +102,23 @@ namespace DirtyGame
             world.AddSystem(new ProjectileSystem(this));
             //world.AddSystem(new MonsterSystem(aiSystem));
             gLogicSystem = new GameLogicSystem(this);
-            world.AddSystem(gLogicSystem);         
+                     
             world.AddSystem(new PhysicsSystem(physics, renderer));
             world.AddSystem(new AnimationSystem(this));
             world.AddSystem(new MovementSystem(aiSystem));
             world.AddSystem(new SeparationSystem());
+            world.AddSystem(new PropertySystem());
             map = new Map(graphics.GraphicsDevice);
 
+            //game entity
+            Entity e = entityFactory.CreateBasicEntity();
+            e.AddComponent(new PropertyComponent<int>("GameScore", 0));
+            e.AddComponent(new PropertyComponent<int>("GameCash", 0));
+            e.AddComponent(new PropertyComponent<int>("GameRound", 1));
+            e.AddComponent(new PropertyComponent<int>("GameKills", 0));
+            e.Refresh();
+            gameEntity = e.reference;
+            world.AddSystem(gLogicSystem);
             
 
             SpriteSheet playerSpriteSheet =  new SpriteSheet(resourceManager.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
@@ -122,7 +132,7 @@ namespace DirtyGame
             player.Refresh();
 
             //weapons
-            Entity e = entityFactory.CreateMeleeWeaponEntity("Basic Sword", "sword", 50, 25, 50, 1f, meleeSpriteSheet);
+            e = entityFactory.CreateMeleeWeaponEntity("Basic Sword", "sword", 50, 25, 50, 1f, meleeSpriteSheet);
             e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e);
             e = entityFactory.CreateRangedWeaponEntity("Doomsbow", "bow", "bow", 400, 25, 10, "arrow", -1, 1f);
@@ -151,7 +161,6 @@ namespace DirtyGame
             e = entityFactory.CreateSpawner(300, 300, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), meleeData, 1, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();*/
 
-            CurrentLevel = 1;
             gLogicSystem.SetupNextRound();
             
         }

@@ -123,7 +123,7 @@ namespace DirtyGame.game.Systems
             foreach (Entity e in entitiesToRemoveAnimationComponent)
             {
                 //World.RemoveEntity(e);
-                e.RemoveComponent<AnimationComponent>();
+                e.RemoveComponent(e.GetComponent<AnimationComponent>());
             }
 
             foreach (Entity e in entitiesToDelete)

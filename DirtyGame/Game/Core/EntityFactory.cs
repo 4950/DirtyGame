@@ -79,6 +79,10 @@ namespace DirtyGame.game.Core
 
             return proj;
         }
+        public Entity CreateBasicEntity()
+        {
+            return entityMgr.CreateEntity();
+        }
         public Entity CreateMeleeWeaponEntity(String name, String portrait, float range, float baseDamage, int ammo, float cooldown, SpriteSheet meleeSprite)
         {
             Entity proj = entityMgr.CreateEntity();

@@ -138,15 +138,18 @@ namespace EntityFramework
         {
             return (T)entityManager.GetComponent(Id, typeof(T));
         }
-
+        public T GetComponent<T>(string name) where T : Component
+        {
+            return (T)entityManager.GetComponent(Id, name);
+        }
         public void AddComponent(Component comp)
         {
             entityManager.AddComponent(Id, comp);
         }
 
-        public void RemoveComponent<T>()
+        public void RemoveComponent(Component comp)
         {
-            entityManager.RemoveComponent(Id, typeof(T));
+            entityManager.RemoveComponent(Id, comp);
         }
 
         public void AddToGroup(string group)

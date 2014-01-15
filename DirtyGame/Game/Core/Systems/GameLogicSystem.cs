@@ -24,6 +24,7 @@ namespace DirtyGame.game.Core.Systems
         private Dirty game;
         private Label roundLabel;
         private float roundLblTime;
+        private EntityRef gameEntity;
 
         private List<Entity> spawners = new List<Entity>();
 
@@ -40,27 +41,30 @@ namespace DirtyGame.game.Core.Systems
             {
                 game.world.DestroyEntity(ee);
             }
+            gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += monstersdefeated;
+            monstersdefeated = 0;
 
-            roundLabel.Text = "~Round " + game.CurrentLevel + "~";
+            int CurrentLevel = gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value;
+            roundLabel.Text = "~Round " + CurrentLevel + "~";
             roundLabel.Visibility = CoreUI.Visibility.Visible;
             roundLblTime = 3f;
 
-            Entity monsterWeapon = game.entityFactory.CreateRangedWeaponEntity("Monsterbow", "bow", "bow", 400, 20 + 20 * (game.CurrentLevel / 5f), 10, "arrow", -1, 3f);
+            Entity monsterWeapon = game.entityFactory.CreateRangedWeaponEntity("Monsterbow", "bow", "bow", 400, 20 + 20 * (CurrentLevel / 5f), 10, "arrow", -1, 3f);
             monsterWeapon.Refresh();
             MonsterData rangedData = MonsterData.RangedMonster;
             rangedData.weapon = monsterWeapon;
-            rangedData.Health += (int)(rangedData.Health * (game.CurrentLevel / 5f));
+            rangedData.Health += (int)(rangedData.Health * (CurrentLevel / 5f));
 
-            Entity monsterMelee = game.entityFactory.CreateMeleeWeaponEntity("Monstersword", "sword", 50, 15 + 15 * (game.CurrentLevel / 5f), -1, 2f, game.resourceManager.GetResource<SpriteSheet>("SwordMeleeSpriteSheet"));
+            Entity monsterMelee = game.entityFactory.CreateMeleeWeaponEntity("Monstersword", "sword", 50, 15 + 15 * (CurrentLevel / 5f), -1, 2f, game.resourceManager.GetResource<SpriteSheet>("SwordMeleeSpriteSheet"));
             monsterMelee.Refresh();
             MonsterData meleeData = MonsterData.BasicMonster;
             meleeData.weapon = monsterMelee;
-            meleeData.Health += (int)(meleeData.Health * (game.CurrentLevel / 5f));
+            meleeData.Health += (int)(meleeData.Health * (CurrentLevel / 5f));
 
-            int numRanged = 2 + 2 * game.CurrentLevel;
-            int numMelee = 2 + 2 * game.CurrentLevel;
+            int numRanged = 2 + 2 * CurrentLevel;
+            int numMelee = 2 + 2 * CurrentLevel;
 
-            switch (game.CurrentLevel)
+            switch (CurrentLevel)
             {
                 case 1:
                     numRanged = 0;
@@ -86,13 +90,15 @@ namespace DirtyGame.game.Core.Systems
         }
         private void AdvanceLevel()
         {
-            game.CurrentLevel++;
+            gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value++;
         }
         public override void OnEntityRemoved(Entity e)
         {
             if (e.HasComponent<MonsterComponent>())
             {
                 monstersdefeated++;
+                gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += 50;
+                gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").value += 10;
                 if (--monstersalive == 0)
                 {
                     /*
@@ -154,11 +160,14 @@ namespace DirtyGame.game.Core.Systems
             roundLabel.TextPosition = TextPosition.Center;
             roundLabel.Visibility = CoreUI.Visibility.Hidden;
             game.UIEngine.Children.AddElement(roundLabel);
+            gameEntity = game.gameEntity;
         }
 
-        public GameLogicSystem(Dirty game) : base(SystemDescriptions.GameLogicSystem.Aspect, SystemDescriptions.GameLogicSystem.Priority)
+        public GameLogicSystem(Dirty game)
+            : base(SystemDescriptions.GameLogicSystem.Aspect, SystemDescriptions.GameLogicSystem.Priority)
         {
             this.game = game;
+
         }
     }
 }
