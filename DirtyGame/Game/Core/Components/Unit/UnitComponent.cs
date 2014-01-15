@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DirtyGame.game.Core.Components.Unit
 {
-    class UnitComponent : Component
+    public class UnitComponent : Component
     {
     }
 }

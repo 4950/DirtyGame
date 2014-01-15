@@ -59,7 +59,7 @@ namespace DirtyGame.game.Core.Systems
                     SpatialComponent spatial = e.GetComponent<SpatialComponent>();
                     //body position seems to be the bottm right corner, while spatial position is top left
                     spatial.Position = ConvertUnits.ToDisplayUnits(bodyDictionary[e.Id].Position) - new Vector2(spatial.Width, spatial.Height);
-                    
+
 
                     if (PhysicsDebug)
                     {
@@ -121,11 +121,11 @@ namespace DirtyGame.game.Core.Systems
             {
                 SpatialComponent spatial = e.GetComponent<SpatialComponent>();
 
-                
 
-                
-               Body = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(spatial.Width), ConvertUnits.ToSimUnits(spatial.Height), 1f, ConvertUnits.ToSimUnits(spatial.Position));
-               
+
+
+                Body = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(spatial.Width), ConvertUnits.ToSimUnits(spatial.Height), 1f, ConvertUnits.ToSimUnits(spatial.Position));
+
             }
 
             if (e.HasComponent<BorderComponent>())
@@ -159,12 +159,12 @@ namespace DirtyGame.game.Core.Systems
 
         private bool BodyOnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
         {
-            
+
             if (entityDictionary.ContainsKey(fixtureA.Body.BodyId) && entityDictionary.ContainsKey(fixtureB.Body.BodyId))
             {
                 Entity A = entityDictionary[fixtureA.Body.BodyId];
                 Entity B = entityDictionary[fixtureB.Body.BodyId];
-                if (A.HasComponent<ProjectileComponent>() || B.HasComponent<ProjectileComponent>())
+                if (A.HasComponent<ProjectileComponent>() || B.HasComponent<ProjectileComponent>())//Projectiles
                 {
                     Entity proj = A.HasComponent<ProjectileComponent>() ? A : B;
                     Entity hit = proj == A ? B : A;
@@ -175,42 +175,16 @@ namespace DirtyGame.game.Core.Systems
                         if (hit.HasComponent<HealthComponent>())//valid hit, do dmg
                         {
                             hit.GetComponent<HealthComponent>().CurrentHealth -= proj.GetComponent<ProjectileComponent>().damage;
-                            World.RemoveEntity(proj);
                             hitBody.Body.ApplyLinearImpulse(proj.GetComponent<ProjectileComponent>().direction * 10);
+                            World.DestroyEntity(proj); 
                         }
                         else if (hit.HasComponent<BorderComponent>())//hit map bounds, remove
                         {
-                            World.RemoveEntity(proj);
+                            World.DestroyEntity(proj);
                         }
                     }
                 }
-                else if (A.HasComponent<PlayerComponent>() || B.HasComponent<PlayerComponent>())
-                {
-                    Entity player = A.HasComponent<PlayerComponent>() ? A : B;
-                    Entity hit = player == A ? B : A;
-                    Fixture hitBody = player == A ? fixtureB : fixtureA;
-                    Fixture playerBody = hitBody == fixtureA ? fixtureB : fixtureA;
-
-                    if (player.HasComponent<WeaponComponent>())
-                    {
-
-                    }
-                    else if (hit.HasComponent<MonsterComponent>())//&& !hit.HasComponent<WeaponComponent>())
-                    {
-                        //do damage to player and monster
-                        hit.GetComponent<HealthComponent>().CurrentHealth -= 25;
-                        player.GetComponent<HealthComponent>().CurrentHealth -= 25;
-                        //World.RemoveEntity(entityDictionary[fixtureB.Body.BodyId]);
-                        Vector2 a = hit.GetComponent<SpatialComponent>().Position - player.GetComponent<SpatialComponent>().Position;
-                        a.Normalize();
-                        Vector2 b = player.GetComponent<SpatialComponent>().Position - hit.GetComponent<SpatialComponent>().Position;
-                        b.Normalize();
-                        playerBody.Body.ApplyLinearImpulse(a * 5);
-                        hitBody.Body.ApplyLinearImpulse(b * 5);
-                    }
-                }
-
-                else if (A.HasComponent<MeleeComponent>() || B.HasComponent<MeleeComponent>())
+                else if (A.HasComponent<MeleeComponent>() || B.HasComponent<MeleeComponent>())//Melee
                 {
                     Entity melee = A.HasComponent<MeleeComponent>() ? A : B;
                     Entity hit = melee == A ? B : A;
@@ -227,30 +201,32 @@ namespace DirtyGame.game.Core.Systems
                             }
                         }
                     }
-                    /*  if (A.HasComponent<NameComponent>())
+
+                }
+                else if (A.HasComponent<PlayerComponent>() || B.HasComponent<PlayerComponent>())
+                {
+                    Entity player = A.HasComponent<PlayerComponent>() ? A : B;
+                    Entity hit = player == A ? B : A;
+                    Fixture hitBody = player == A ? fixtureB : fixtureA;
+                    Fixture playerBody = hitBody == fixtureA ? fixtureB : fixtureA;
+
+                    if (player.HasComponent<WeaponComponent>())
                     {
-                        if (A.GetComponent<NameComponent>().Name.Equals("PLAYER MELEE"))
-                        {
-                            if (fixtureB.Body != bodyDictionary[playerId] && B.HasComponent<HealthComponent>()) //Don't hit player
-                            {
-                                B.GetComponent<HealthComponent>().CurrentHealth -= 75;
-                            }
-                        }
+
                     }
-                    else if (B.HasComponent<NameComponent>())
+                    else if (hit.HasComponent<MonsterComponent>())//&& !hit.HasComponent<WeaponComponent>())
                     {
-                        if (B.GetComponent<NameComponent>().Name.Equals("PLAYER MELEE"))
-                        {
-                            if (fixtureA.Body != bodyDictionary[playerId] && A.HasComponent<HealthComponent>()) //Don't hit player
-                            {
-                                 A.GetComponent<HealthComponent>().CurrentHealth -= 75;
-                            }
-                        }
-                    }*/
-
-                   
-
-
+                        //do damage to player and monster
+                        //hit.GetComponent<HealthComponent>().CurrentHealth -= 25;
+                        //player.GetComponent<HealthComponent>().CurrentHealth -= 25;
+                        //World.RemoveEntity(entityDictionary[fixtureB.Body.BodyId]);
+                        Vector2 a = hit.GetComponent<SpatialComponent>().Position - player.GetComponent<SpatialComponent>().Position;
+                        a.Normalize();
+                        Vector2 b = player.GetComponent<SpatialComponent>().Position - hit.GetComponent<SpatialComponent>().Position;
+                        b.Normalize();
+                        playerBody.Body.ApplyLinearImpulse(a * 5);
+                        hitBody.Body.ApplyLinearImpulse(b * 5);
+                    }
                 }
             }
             return true;
@@ -304,12 +280,17 @@ namespace DirtyGame.game.Core.Systems
                 }
             }
 
-            else if (e.HasComponent<ParentComponent>())
+            else if (e.HasComponent<MeleeComponent>())
             {
-                if (e.GetComponent<ParentComponent>().ParentId == playerId)
+                if (e.GetComponent<MeleeComponent>().Owner.Id == playerId)//player melee
                 {
                     body.CollisionCategories = Category.Cat2;
                     body.CollidesWith = Category.Cat3; //Weapon only collides with Monster (Can Change to collide with Monster Weapon too)
+                }
+                else//monster melee
+                {
+                    body.CollisionCategories = Category.Cat4;
+                    body.CollidesWith = Category.Cat1;
                 }
             }
         }

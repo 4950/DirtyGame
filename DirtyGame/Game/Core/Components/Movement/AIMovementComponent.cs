@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DirtyGame.game.Core.Components.Movement
 {
-    class AIMovementComponent : MovementComponent
+    public class AIMovementComponent : MovementComponent
     {
     }
 }

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace EntityFramework
 {
-    class TimeComponent : Component
+    public class TimeComponent : Component
     {
         public TimeSpan timeOfLastDraw;
         public TimeSpan timeBetweenDraw;

@@ -39,7 +39,7 @@ namespace DirtyGame.game.Core.Systems
 
                     if (Vector2.Distance(pc.origin, e.GetComponent<SpatialComponent>().Position) > pc.range)
                     {
-                        game.world.RemoveEntity(e);
+                        game.world.DestroyEntity(e);
                     }
                 }
             }

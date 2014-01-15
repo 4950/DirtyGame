@@ -170,8 +170,6 @@ namespace DirtyGame.game.Core
             meleeEntity.AddComponent(sprite);
             meleeEntity.AddComponent(mc);
             meleeEntity.AddComponent(new PhysicsComponent());
-            meleeEntity.AddComponent(new ParentComponent(owner.Id));
-           
 
             return meleeEntity;
         }

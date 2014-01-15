@@ -4,13 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using System.Xml.Serialization;
 
 namespace DirtyGame.game.Core.Components
 {
-    class ProjectileComponent : Component
+    public class ProjectileComponent : Component
     {
         public Vector2 origin;
         public Vector2 direction;
+        [XmlIgnoreAttribute]
         public Entity owner;
         public float damage;
         public float range;

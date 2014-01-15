@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Xml.Serialization;
+using System.IO;
+using System.Xml;
+using System.Linq;
 
 namespace EntityFramework.Managers
 {
@@ -8,14 +11,14 @@ namespace EntityFramework.Managers
     {
         // Dictionary all the things!    
         private TagManager<uint> tagManager;
-        private GroupManager<uint> groupManager; 
+        private GroupManager<uint> groupManager;
         private Dictionary<uint, Entity> entities;
         private Dictionary<uint, BitVector> componentBitVectors;
         private Dictionary<uint, BitVector> systemBitVectors;
         private Dictionary<uint, Dictionary<uint, Component>> entityComponents;
         private TypeMapper<Component> componentTypeMapper;
-        private World world;
-        
+        internal World world;
+
 
         public TagManager<uint> TagManager
         {
@@ -31,14 +34,14 @@ namespace EntityFramework.Managers
             {
                 return groupManager;
             }
-        } 
+        }
 
         internal EntityManager(World world)
         {
             tagManager = new TagManager<uint>();
             groupManager = new GroupManager<uint>();
             entities = new Dictionary<uint, Entity>();
-            entityComponents = new Dictionary<uint, Dictionary<uint, Component>>();         
+            entityComponents = new Dictionary<uint, Dictionary<uint, Component>>();
             componentTypeMapper = Mappers.ComponentTypeMapper;
             componentBitVectors = new Dictionary<uint, BitVector>();
             systemBitVectors = new Dictionary<uint, BitVector>();
@@ -51,27 +54,107 @@ namespace EntityFramework.Managers
         /// <returns>New Entity</returns>
         public Entity CreateEntity()
         {
-            Entity e = new Entity(this);                        
+            Entity e = new Entity(this);
             entities.Add(e.Id, e);
             return e;
         }
 
         public void Refresh(uint id)
-        {          
+        {
             world.Refresh(entities[id]);
         }
 
-        public void RemoveEntity(uint id)
+        public void SerializeEntities(String filePath)
+        {
+            if (Directory.Exists(Path.GetDirectoryName(filePath)))
+            {
+                XmlWriterSettings sett = new XmlWriterSettings();
+                sett.Indent = true;
+                sett.IndentChars = "\t";
+
+                XmlWriter writer = XmlWriter.Create(filePath, sett);
+                writer.WriteStartElement("root");
+
+                XmlSerializer xs = new XmlSerializer(typeof(Component), Component.ComponentTypes.ToArray());
+                int numFailed = 0;
+                int num = 0;
+                foreach (uint key in entities.Keys)
+                {
+                    Entity e = entities[key];
+
+                    writer.WriteStartElement("Entity");
+                    writer.WriteAttributeString("guid", e.GUID.ToString());
+
+                    Dictionary<uint, Component> d = entityComponents[key];
+                    foreach (Component c in d.Values)
+                    {
+                        num++;
+                        try
+                        {
+                            xs.Serialize(writer, c);
+                        }
+                        catch (InvalidOperationException)
+                        {
+                            numFailed++;
+                        }
+                    }
+                    writer.WriteEndElement();
+                }
+
+                writer.WriteEndDocument();
+                writer.Flush();
+                writer.Close();
+            }
+
+        }
+
+        public void DeserializeEntities(String filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                XmlReader read = XmlReader.Create(filePath);
+
+                read.ReadStartElement();
+
+                XmlSerializer xs = new XmlSerializer(typeof(Component), Component.ComponentTypes.ToArray());
+                int numFailed = 0;
+                int num = 0;
+
+                while (read.IsStartElement())
+                {
+                    //read attributes first
+                    Guid guid = Guid.Parse(read.GetAttribute("guid"));
+                    Entity e = new Entity(this, guid);
+                    entities.Add(e.Id, e);
+
+                    read.ReadStartElement();//<Entity>
+                    
+
+                    while (read.IsStartElement())//<Component>
+                    {
+                        Component c = (Component)xs.Deserialize(read);
+                        e.AddComponent(c);
+                    }
+
+                    e.Refresh();
+
+                    read.ReadEndElement();//</Entity>
+                }
+            }
+        }
+
+        public void DestroyEntity(uint id)
         {
             if (!entities.ContainsKey(id))
             {
                 return;
-            }            
+            }
             entities.Remove(id);
             groupManager.RemoveFromAllGroups(id);
             tagManager.RemoveTag(id);
             componentBitVectors.Remove(id);
-            systemBitVectors.Remove(id);            
+            systemBitVectors.Remove(id);
+            entityComponents.Remove(id);
         }
 
         public Entity GetEntity(uint id)
@@ -81,7 +164,7 @@ namespace EntityFramework.Managers
                 return null;
             }
             return entities[id];
-        }    
+        }
 
         public void AddComponent(uint id, Component c)
         {
@@ -94,14 +177,14 @@ namespace EntityFramework.Managers
                 RemoveComponent(id, c.GetType());
             }
             entityComponents[id].Add(c.Id, c);
-            GetComponentBitVector(id).AddBit(c.Bit);      
+            GetComponentBitVector(id).AddBit(c.Bit);
         }
-        
+
         public bool HasComponent(uint id, Type type)
         {
-             if (entityComponents.ContainsKey(id))
-            {                
-                if(entityComponents[id].ContainsKey(componentTypeMapper.GetValue(type)))
+            if (entityComponents.ContainsKey(id))
+            {
+                if (entityComponents[id].ContainsKey(componentTypeMapper.GetValue(type)))
                 {
                     return true;
                 }
@@ -115,14 +198,19 @@ namespace EntityFramework.Managers
             {
                 return null;
             }
-            if(entityComponents[id].ContainsKey(componentTypeMapper.GetValue(type))) {
-                return  entityComponents[id][componentTypeMapper.GetValue(type)];
-            } else if(entityComponents[id].ContainsKey(componentTypeMapper.GetValue(type.BaseType))) {
-              return  entityComponents[id][componentTypeMapper.GetValue(type.BaseType)];
-            } else {               
+            if (entityComponents[id].ContainsKey(componentTypeMapper.GetValue(type)))
+            {
+                return entityComponents[id][componentTypeMapper.GetValue(type)];
+            }
+            else if (entityComponents[id].ContainsKey(componentTypeMapper.GetValue(type.BaseType)))
+            {
+                return entityComponents[id][componentTypeMapper.GetValue(type.BaseType)];
+            }
+            else
+            {
                 return null;
             }
-            
+
         }
 
         public IEnumerable<Component> GetComponents(uint id)
@@ -132,7 +220,7 @@ namespace EntityFramework.Managers
                 return entityComponents[id].Values;
             }
             return new List<Component>();
-        } 
+        }
 
         public void RemoveComponent(uint id, Type type)
         {
@@ -160,6 +248,12 @@ namespace EntityFramework.Managers
                 systemBitVectors[id] = new BitVector();
             }
             return systemBitVectors[id];
+        }
+
+        public void RemoveAllEntities()
+        {
+            while (entities.Count > 0)
+                world.DestroyEntity(entities.Values.ElementAt(0));
         }
     }
 }

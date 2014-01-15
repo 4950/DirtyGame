@@ -128,7 +128,7 @@ namespace DirtyGame.game.Systems
 
             foreach (Entity e in entitiesToDelete)
             {
-                game.world.RemoveEntity(e);
+                game.world.DestroyEntity(e);
             }
         }
     }

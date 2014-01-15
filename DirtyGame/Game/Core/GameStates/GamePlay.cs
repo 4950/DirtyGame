@@ -8,6 +8,7 @@ using CoreUI.DrawEngines;
 using CoreUI.Visuals;
 using EntityFramework;
 using DirtyGame.game.Core.Components;
+using Microsoft.Xna.Framework.Input;
 
 
 namespace DirtyGame.game.Core.GameStates
@@ -26,15 +27,27 @@ namespace DirtyGame.game.Core.GameStates
         private ProgressBar weaponAmmo;
         private Label weaponAmmoLabel;
 
-        private Entity curWeapon;
+        private EntityRef curWeapon;
 
         public GamePlay()
         {
             game = null;
         }
+        private void SaveGame(Keys key)
+        {
+            game.world.EntityMgr.SerializeEntities(App.Path + "test.xml");
+        }
+        private void LoadGame(Keys key)
+        {
+            game.world.EntityMgr.RemoveAllEntities();
+            game.world.EntityMgr.DeserializeEntities(App.Path + "test.xml");
 
+        }
         public void OnEnter(Dirty game)
         {
+            game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.F5, SaveGame, null);
+            game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.F6, LoadGame, null);
+
             //curWeapon = game.player.GetComponent<InventoryComponent>().CurrentWeapon;
             this.game = game;
             if (monsterHUD == null)
@@ -119,15 +132,16 @@ namespace DirtyGame.game.Core.GameStates
             aliveLbl.Text = "Monsters Left: " + game.gLogicSystem.monstersalive;
             killLbl.Text = "Monsters Killed: " + game.gLogicSystem.monstersdefeated;
 
-            WeaponComponent wc = curWeapon == null ? null : curWeapon.GetComponent<WeaponComponent>();
-            if (curWeapon != game.player.GetComponent<InventoryComponent>().CurrentWeapon)
-            {
-                curWeapon = game.player.GetComponent<InventoryComponent>().CurrentWeapon;
 
-                wc = curWeapon.GetComponent<WeaponComponent>();
+            WeaponComponent wc = curWeapon == null || curWeapon.entity == null ? null : curWeapon.entity.GetComponent<WeaponComponent>();
+            if (curWeapon == null || curWeapon.entity == null || curWeapon.entity != game.player.GetComponent<InventoryComponent>().CurrentWeapon)
+            {
+                curWeapon = game.player.GetComponent<InventoryComponent>().CurrentWeapon.reference;
+
+                wc = curWeapon.entity.GetComponent<WeaponComponent>();
 
                 weaponImg.ClearImage();
-                weaponImg.LoadImage(curWeapon.GetComponent<WeaponComponent>().Portrait);
+                weaponImg.LoadImage(curWeapon.entity.GetComponent<WeaponComponent>().Portrait);
 
                 weaponName.Text = wc.Name;
                 weaponDamage.Text = "Damage: " + wc.BaseDamage;
@@ -142,7 +156,7 @@ namespace DirtyGame.game.Core.GameStates
 
             }
 
-            if (curWeapon.GetComponent<WeaponComponent>().Ammo != weaponAmmo.Value && curWeapon.GetComponent<WeaponComponent>().MaxAmmo != -1)
+            if (curWeapon.entity.GetComponent<WeaponComponent>().Ammo != weaponAmmo.Value && curWeapon.entity.GetComponent<WeaponComponent>().MaxAmmo != -1)
             {
                 weaponAmmo.Maximum = wc.MaxAmmo;
                 weaponAmmo.Value = wc.Ammo;

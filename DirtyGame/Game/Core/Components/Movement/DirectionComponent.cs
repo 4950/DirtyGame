@@ -6,7 +6,7 @@ using EntityFramework;
 
 namespace DirtyGame.game.Core.Components
 {
-    class DirectionComponent : Component
+    public class DirectionComponent : Component
     {
         #region Variables
         //Sprite direction

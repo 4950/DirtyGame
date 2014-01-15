@@ -3,18 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace DirtyGame.game.Core.Components
 {
     public class SpellComponent : Component
     {
+        [XmlIgnoreAttribute]
         private List<Entity> spells;
+        [XmlIgnoreAttribute]
         private Entity currentSpell;
 
         public SpellComponent()
         {
             spells = new List<Entity>();
         }
+        [XmlIgnoreAttribute]
         public List<Entity> SpellList { get { return spells; } }
         public void addSpell(Entity spell)
         {
@@ -30,6 +34,7 @@ namespace DirtyGame.game.Core.Components
             if (spells.Contains(spell))
                 currentSpell = spell;
         }
+        [XmlIgnoreAttribute]
         public Entity CurrentSpell { get { return currentSpell; } }
         public void removeSpell(Entity spell)
         {

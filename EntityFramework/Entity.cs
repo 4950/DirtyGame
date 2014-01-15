@@ -3,16 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EntityFramework.Managers;
+using System.Xml.Serialization;
 
 namespace EntityFramework
 {
+    public class EntityRef
+    {
+        private uint id;
+        [XmlIgnoreAttribute]
+        private EntityManager manager;
+
+        public Entity entity
+        {
+            get
+            {
+                return manager.GetEntity(id);
+            }
+        }
+        public EntityRef(Entity e)
+        {
+            id = e.Id;
+            manager = e.entityManager;
+        }
+    }
     /// <summary>
     /// Lightweight object for grouping sets on components together
     /// </summary>
     public class Entity
     {
         #region Variables
-        private EntityManager entityManager;
+        internal EntityManager entityManager;
         private Guid guid;
         #endregion
 
@@ -32,13 +52,22 @@ namespace EntityFramework
                 return entityManager.GetSystemBitVector(Id);
             }
         }
-
+        public Guid GUID
+        {
+            get { return guid; }
+        }
         public uint Id
         {
             get;
             private set;
         }
-
+        public EntityRef reference
+        {
+            get
+            {
+                return new EntityRef(this);
+            }
+        }
         public string Tag
         {
             get
@@ -53,12 +82,12 @@ namespace EntityFramework
                 }
                 else
                 {
-                    entityManager.TagManager.AddTag(Id, value);    
+                    entityManager.TagManager.AddTag(Id, value);
                 }
-                
+
             }
         }
-       
+
         public IEnumerable<Component> Components
         {
             get
@@ -77,11 +106,20 @@ namespace EntityFramework
         #endregion
 
         #region Constructors
+        internal Entity()
+        {
+        }
         internal Entity(EntityManager em)
         {
             guid = Guid.NewGuid();
             Id = (uint)guid.GetHashCode();
             entityManager = em;
+        }
+        internal Entity(EntityManager em, Guid old_id)
+        {
+            entityManager = em;
+            guid = old_id;
+            Id = (uint)old_id.GetHashCode();
         }
         #endregion
 
@@ -93,12 +131,12 @@ namespace EntityFramework
 
         public bool HasComponent<T>()
         {
-            return HasComponent(typeof (T));
+            return HasComponent(typeof(T));
         }
 
         public T GetComponent<T>() where T : Component
         {
-            return (T) entityManager.GetComponent(Id, typeof (T));
+            return (T)entityManager.GetComponent(Id, typeof(T));
         }
 
         public void AddComponent(Component comp)
@@ -124,6 +162,11 @@ namespace EntityFramework
         public void RemoveTag()
         {
             Tag = "";
+        }
+
+        public void Destroy()
+        {
+            entityManager.world.DestroyEntity(this);
         }
 
         /// <summary>
