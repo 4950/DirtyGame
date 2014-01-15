@@ -5,6 +5,7 @@ using System.Text;
 using EntityFramework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using DirtyGame.game.SGraphics;
 
 namespace DirtyGame.game.Core.Components
 {
@@ -38,6 +39,7 @@ namespace DirtyGame.game.Core.Components
         /// </summary>
         public int MaxAmmo { get; set; }
         public int Ammo { get; set; }
+        public SpriteSheet MeleeSheet;
         #endregion
 
         #region Functions
