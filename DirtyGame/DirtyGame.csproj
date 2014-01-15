@@ -65,7 +65,7 @@
     <Compile Include="game\Core\Components\Render\AnimationComponent.cs" />
     <Compile Include="game\Core\Components\Render\SpriteComponent.cs" />
     <Compile Include="game\Core\Components\Movement\SpatialComponent.cs" />
-    <Compile Include="game\Core\Components\SpawnerCompnent.cs" />
+    <Compile Include="game\Core\Components\SpawnerComponent.cs" />
     <Compile Include="game\Core\Components\TimeComponent.cs" />
     <Compile Include="game\Core\Components\WeaponComponent.cs" />
     <Compile Include="game\Core\EntityFactory.cs" />
