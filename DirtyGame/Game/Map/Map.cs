@@ -244,17 +244,26 @@ namespace DirtyGame.game.Map
                     lt.dest = new Rectangle(tileX * map.tileWidth, tileY * map.tileHeight, map.tileWidth, map.tileHeight);
                     lt.tile = set.tiles[GID];
 
-                    if (GID == 739 ||
-                        GID == 740 ||
-                        GID == 741 ||
-                        GID == 742 ||
-                        GID == 743 ||
-                        GID == 747 ||
-                        GID == 749 ||
-                        GID == 755 ||
-                        GID == 756 ||
-                        GID == 757 ||
-                        GID == 759)
+                    //if (GID == 739 ||
+                    //    GID == 740 ||
+                    //    GID == 741 ||
+                    //    GID == 742 ||
+                    //    GID == 743 ||
+                    //    GID == 747 ||
+                    //    GID == 749 ||
+                    //    GID == 755 ||
+                    //    GID == 756 ||
+                    //    GID == 757 ||
+                    //    GID == 759)
+                    if(GID == 740 ||
+                       GID == 741 ||
+                       GID == 742 ||
+                       GID == 748 ||
+                       GID == 750 ||
+                       GID == 756 ||
+                       GID == 757 ||
+                       GID == 758 ||
+                       GID == 760)
                     {
                         //if (GID == 749)
                         //{
