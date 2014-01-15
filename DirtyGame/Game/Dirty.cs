@@ -107,7 +107,7 @@ namespace DirtyGame
             world.AddSystem(new AnimationSystem(this));
             world.AddSystem(new MovementSystem(aiSystem));
             world.AddSystem(new SeparationSystem());
-            map = new Map(graphics.GraphicsDevice);
+            map = new Map(graphics.GraphicsDevice, entityFactory);
 
             
 
@@ -165,7 +165,10 @@ namespace DirtyGame
             Entity wall = entityFactory.CreateWallEntity(new Vector2(0f, 0f), new Vector2(0f, renderer.ActiveMap.getPixelHeight()),
                             new Vector2(renderer.ActiveMap.getPixelWidth(), 0f), new Vector2(renderer.ActiveMap.getPixelWidth(), renderer.ActiveMap.getPixelHeight()));
             wall.Refresh();
-            
+
+            //Entity wall2 = entityFactory.CreateWallEntity(new Vector2(100f, 0f), new Vector2(100f, renderer.ActiveMap.getPixelHeight()),
+            //                new Vector2(renderer.ActiveMap.getPixelWidth(), 0f), new Vector2(renderer.ActiveMap.getPixelWidth(), renderer.ActiveMap.getPixelHeight()));
+            //wall2.Refresh();
         }
 
         protected override void UnloadContent()
