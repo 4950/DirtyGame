@@ -25,6 +25,7 @@ namespace DirtyGame.game.Core.Systems
         private Label roundLabel;
         private float roundLblTime;
         private EntityRef gameEntity;
+        private bool cheatEndRound = false;
 
         private List<Entity> spawners = new List<Entity>();
 
@@ -49,13 +50,13 @@ namespace DirtyGame.game.Core.Systems
             roundLabel.Visibility = CoreUI.Visibility.Visible;
             roundLblTime = 3f;
 
-            Entity monsterWeapon = game.entityFactory.CreateRangedWeaponEntity("Monsterbow", "bow", "bow", 400, 20 + 20 * (CurrentLevel / 5f), 10, "arrow", -1, 3f);
+            Entity monsterWeapon = game.entityFactory.CreateRangedWeaponEntity("Monsterbow", "bow", "bow", 400, 20 + 20 * (CurrentLevel / 5f), 10, "arrow", -1, 3f, 100, 0);
             monsterWeapon.Refresh();
             MonsterData rangedData = MonsterData.RangedMonster;
             rangedData.weapon = monsterWeapon;
             rangedData.Health += (int)(rangedData.Health * (CurrentLevel / 5f));
 
-            Entity monsterMelee = game.entityFactory.CreateMeleeWeaponEntity("Monstersword", "sword", 50, 15 + 15 * (CurrentLevel / 5f), -1, 2f, game.resourceManager.GetResource<SpriteSheet>("SwordMeleeSpriteSheet"));
+            Entity monsterMelee = game.entityFactory.CreateMeleeWeaponEntity("Monstersword", "sword", 50, 15 + 15 * (CurrentLevel / 5f), -1, 2f, 100, 0, game.resourceManager.GetResource<SpriteSheet>("SwordMeleeSpriteSheet"));
             monsterMelee.Refresh();
             MonsterData meleeData = MonsterData.BasicMonster;
             meleeData.weapon = monsterMelee;
@@ -87,10 +88,20 @@ namespace DirtyGame.game.Core.Systems
             e = game.entityFactory.CreateSpawner(300, 300, game.resourceManager.GetResource<SpriteSheet>("monsterSheet_JUNK"), new Rectangle(0, 0, 46, 46), meleeData, numMelee / 2, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
             spawners.Add(e);
+
+            //show buy phase before starting
+            if (CurrentLevel > 1)
+                BuyPhase();
         }
         private void AdvanceLevel()
         {
             gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value++;
+        }
+        private void BuyPhase()
+        {
+            Events.Event buy = new Events.Event();
+            buy.name = "GameStateBuy";
+            EventManager.Instance.TriggerEvent(buy);
         }
         public override void OnEntityRemoved(Entity e)
         {
@@ -135,17 +146,34 @@ namespace DirtyGame.game.Core.Systems
                     roundLabel.Visibility = CoreUI.Visibility.Hidden;
                 }
             }
-            for (int i = 0; i < entities.Count(); i++)
+
+            if (cheatEndRound)
             {
-                Entity e = entities.ElementAt(i);
-
-                HealthComponent hc = e.GetComponent<HealthComponent>();
-                if (hc.CurrentHealth <= 0)//dead
+                cheatEndRound = false;
+                for (int i = 0; i < entities.Count(); i++)
                 {
-                    World.DestroyEntity(e);
-                    i--;
+                    Entity e = entities.ElementAt(i);
+                    if (e.HasComponent<MonsterComponent>())
+                    {
+                        World.DestroyEntity(e);
+                        i--;
+                    }
                 }
+            }
+            else
+            {
+                for (int i = 0; i < entities.Count(); i++)
+                {
+                    Entity e = entities.ElementAt(i);
 
+                    HealthComponent hc = e.GetComponent<HealthComponent>();
+                    if (hc.CurrentHealth <= 0)//dead
+                    {
+                        World.DestroyEntity(e);
+                        i--;
+                    }
+
+                }
             }
         }
 
@@ -161,6 +189,12 @@ namespace DirtyGame.game.Core.Systems
             roundLabel.Visibility = CoreUI.Visibility.Hidden;
             game.UIEngine.Children.AddElement(roundLabel);
             gameEntity = game.gameEntity;
+            game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.OemTilde, CheatEndRound, null);
+        }
+
+        private void CheatEndRound(Microsoft.Xna.Framework.Input.Keys key)
+        {
+            cheatEndRound = true;
         }
 
         public GameLogicSystem(Dirty game)

@@ -148,6 +148,8 @@ namespace DirtyGame.game.Core.GameStates
         {
             monsterHUD.Visibility = Visibility.Hidden;
             playerStuff.Hide();
+            game.baseContext.UnregisterHandlers(Microsoft.Xna.Framework.Input.Keys.F5);
+            game.baseContext.UnregisterHandlers(Microsoft.Xna.Framework.Input.Keys.F6);
         }
 
         public void Update(float dt)

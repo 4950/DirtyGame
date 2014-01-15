@@ -132,13 +132,13 @@ namespace DirtyGame
             player.Refresh();
 
             //weapons
-            e = entityFactory.CreateMeleeWeaponEntity("Basic Sword", "sword", 50, 25, 50, 1f, meleeSpriteSheet);
+            e = entityFactory.CreateMeleeWeaponEntity("Basic Sword", "sword", 50, 25, 50, 1f, 100, 2, meleeSpriteSheet);
             e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e);
-            e = entityFactory.CreateRangedWeaponEntity("Doomsbow", "bow", "bow", 400, 25, 10, "arrow", -1, 1f);
+            e = entityFactory.CreateRangedWeaponEntity("Doomsbow", "bow", "bow", 400, 25, 10, "arrow", -1, 1f, 100, 0);
             e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e);
-            e = entityFactory.CreateRangedWeaponEntity("Spear", "spear", "spear", 200, 35, 5, "spear", 5, 2f);
+            e = entityFactory.CreateRangedWeaponEntity("Spear", "spear", "spear", 200, 35, 5, "spear", 5, 2f, 150, 10);
             e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e);
 

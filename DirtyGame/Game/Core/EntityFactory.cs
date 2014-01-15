@@ -59,7 +59,7 @@ namespace DirtyGame.game.Core
             e.AddComponent(animation);
             return e;
         }
-        public Entity CreateRangedWeaponEntity(String name, String sprite, String portrait, float range, float baseDamage, float projSpeed, String projectileSprite, int ammo, float cooldown)
+        public Entity CreateRangedWeaponEntity(String name, String sprite, String portrait, float range, float baseDamage, float projSpeed, String projectileSprite, int ammo, float cooldown, float price, float ammoprice)
         {
             
             Entity proj = entityMgr.CreateEntity();
@@ -74,6 +74,8 @@ namespace DirtyGame.game.Core
             wc.ProjectileSprite = projectileSprite;
             wc.Ammo = wc.MaxAmmo = ammo;
             wc.Cooldown = cooldown;
+            wc.Price = price;
+            wc.AmmoPrice = ammoprice;
 
             proj.AddComponent(wc);
 
@@ -83,7 +85,7 @@ namespace DirtyGame.game.Core
         {
             return entityMgr.CreateEntity();
         }
-        public Entity CreateMeleeWeaponEntity(String name, String portrait, float range, float baseDamage, int ammo, float cooldown, SpriteSheet meleeSprite)
+        public Entity CreateMeleeWeaponEntity(String name, String portrait, float range, float baseDamage, int ammo, float cooldown, float price, float ammoprice, SpriteSheet meleeSprite)
         {
             Entity proj = entityMgr.CreateEntity();
 
@@ -96,6 +98,8 @@ namespace DirtyGame.game.Core
             wc.Ammo = wc.MaxAmmo = ammo;
             wc.Cooldown = cooldown;
             wc.MeleeSheet = meleeSprite;
+            wc.Price = price;
+            wc.AmmoPrice = ammoprice;
 
             proj.AddComponent(wc);
 

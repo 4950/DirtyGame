@@ -35,6 +35,8 @@ namespace DirtyGame.game.Core.Components
         public float ProjectileSpeed { get; set; }
         public float Cooldown { get; set; }
         public float LastFire { get; set; }
+        public float Price { get; set; }
+        public float AmmoPrice { get; set; }
         /// <summary>
         /// Max Ammo level. -1 is infinite
         /// </summary>

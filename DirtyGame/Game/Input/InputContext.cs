@@ -15,6 +15,10 @@ namespace DirtyGame.game.Input
         {
             keyHandlers.Add(key, new KeyHandler(key, onPressedDelegate, onReleadedDelegate)); 
         }
+        public void UnregisterHandlers(Keys key)
+        {
+            keyHandlers.Remove(key);
+        }
 
         public bool Dispatch(Keys key, KeyState state)
         {
