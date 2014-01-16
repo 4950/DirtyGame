@@ -24,6 +24,7 @@ namespace DirtyGame.game.Core.Systems
         private Dirty game;
         private Label roundLabel;
         private float roundLblTime;
+        private float roundTime;
         private EntityRef gameEntity;
         private bool cheatEndRound = false;
 
@@ -44,6 +45,9 @@ namespace DirtyGame.game.Core.Systems
             }
             gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += monstersdefeated;
             monstersdefeated = 0;
+
+            //restore player health
+            game.player.GetComponent<HealthComponent>().CurrentHealth = game.player.GetComponent<HealthComponent>().MaxHealth;
         }
         public void SetupNextRound()
         {
@@ -97,6 +101,8 @@ namespace DirtyGame.game.Core.Systems
             //show buy phase before starting
             if (CurrentLevel > 1)
                 BuyPhase();
+
+            roundTime = 60;
         }
         private void SetupBoss()
         {
@@ -143,9 +149,12 @@ namespace DirtyGame.game.Core.Systems
         {
             if (e.HasComponent<MonsterComponent>())
             {
-                monstersdefeated++;
-                gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += 50;
-                gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").value += 10;
+                if (roundTime > 0)
+                {
+                    monstersdefeated++;
+                    gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += 50;
+                    gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").value += 10;
+                }
                 if (--monstersalive == 0)
                 {
                     /*
@@ -178,7 +187,26 @@ namespace DirtyGame.game.Core.Systems
                 if (roundLblTime <= 0)
                 {
                     roundLblTime = 0;
-                    roundLabel.Visibility = CoreUI.Visibility.Hidden;
+                }
+            }
+            if (roundTime > 0)
+            {
+                roundTime -= dt;
+                if(roundLblTime == 0)//if done showing round number, show time
+                    roundLabel.Text = "Time Remaining: " + (int)roundTime + "s";
+
+                if (roundTime <= 0)//if time over, end round
+                {
+                    roundTime = 0;
+                    for (int i = 0; i < entities.Count(); i++)
+                    {
+                        Entity e = entities.ElementAt(i);
+                        if (e.HasComponent<MonsterComponent>())
+                        {
+                            World.DestroyEntity(e);
+                            i--;
+                        }
+                    }
                 }
             }
 
@@ -218,7 +246,7 @@ namespace DirtyGame.game.Core.Systems
 
             roundLabel = new Label();
             roundLabel.Size = new System.Drawing.Point(200, 40);
-            roundLabel.Position = new System.Drawing.Point(200, 200);
+            roundLabel.Position = new System.Drawing.Point(200, 0);
             roundLabel.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.Red);
             roundLabel.Background = new MonoGameColor(Microsoft.Xna.Framework.Color.Black);
             roundLabel.TextPosition = TextPosition.Center;
