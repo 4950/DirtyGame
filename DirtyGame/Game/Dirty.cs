@@ -110,14 +110,22 @@ namespace DirtyGame
             world.AddSystem(new PropertySystem());
             map = new Map(graphics.GraphicsDevice);
 
+            Entity e;
+
+            //add component types to list
+            Component.ComponentTypes.Add(typeof(PropertyComponent<int>));
             //game entity
-            Entity e = entityFactory.CreateBasicEntity();
+            
+            /*e = entityFactory.CreateBasicEntity();
+            e.Name = "Game";
             e.AddComponent(new PropertyComponent<int>("GameScore", 0));
             e.AddComponent(new PropertyComponent<int>("GameCash", 0));
             e.AddComponent(new PropertyComponent<int>("GameRound", 1));
             e.AddComponent(new PropertyComponent<int>("GameKills", 0));
             e.Refresh();
-            gameEntity = e.reference;
+            gameEntity = e.reference;*/
+            world.EntityMgr.DeserializeEntities(App.Path + "Main.xml");
+            gameEntity = world.EntityMgr.GetEntityByName("Game").reference;
             world.AddSystem(gLogicSystem);
             
 
@@ -129,6 +137,7 @@ namespace DirtyGame
             resourceManager.AddResource<SpriteSheet>(meleeSpriteSheet, "SwordMeleeSpriteSheet");
             
             player = entityFactory.CreatePlayerEntity(playerSpriteSheet);
+            player.Name = "Player";
             player.Refresh();
 
             //weapons

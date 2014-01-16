@@ -38,12 +38,12 @@ namespace DirtyGame.game.Core.GameStates
         }
         private void SaveGame(Keys key)
         {
-            game.world.EntityMgr.SerializeEntities(App.Path + "test.xml");
+            game.world.EntityMgr.SerializeEntities(App.Path + "..\\quicksave.xml");
         }
         private void LoadGame(Keys key)
         {
             game.world.EntityMgr.RemoveAllEntities();
-            game.world.EntityMgr.DeserializeEntities(App.Path + "test.xml");
+            game.world.EntityMgr.DeserializeEntities(App.Path + "..\\quicksave.xml");
 
         }
         public void OnEnter(Dirty game)

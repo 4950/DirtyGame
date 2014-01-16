@@ -13,6 +13,7 @@ namespace EntityFramework.Managers
         private TagManager<uint> tagManager;
         private GroupManager<uint> groupManager;
         private Dictionary<uint, Entity> entities;
+        private Dictionary<string, Entity> entityNames;
         private Dictionary<uint, BitVector> componentBitVectors;
         private Dictionary<uint, BitVector> systemBitVectors;
         private Dictionary<uint, Dictionary<int, Component>> entityComponents;
@@ -41,6 +42,7 @@ namespace EntityFramework.Managers
             tagManager = new TagManager<uint>();
             groupManager = new GroupManager<uint>();
             entities = new Dictionary<uint, Entity>();
+            entityNames = new Dictionary<string, Entity>();
             entityComponents = new Dictionary<uint, Dictionary<int, Component>>();
             componentTypeMapper = Mappers.ComponentTypeMapper;
             componentBitVectors = new Dictionary<uint, BitVector>();
@@ -63,6 +65,24 @@ namespace EntityFramework.Managers
         {
             world.Refresh(entities[id]);
         }
+        public void SetEntityName(string name, uint id)
+        {
+            if (name != null && entities.ContainsKey(id))
+            {
+                if (entities[id].Name != null)
+                    if (entityNames.ContainsKey(entities[id].Name))
+                        entityNames.Remove(entities[id].Name);
+                entityNames.Add(name, entities[id]);
+                entities[id].setName(name);
+            }
+        }
+
+        public Entity GetEntityByName(string name)
+        {
+            if (entityNames.ContainsKey(name))
+                return entityNames[name];
+            return null;
+        }
 
         public void SerializeEntities(String filePath)
         {
@@ -84,6 +104,8 @@ namespace EntityFramework.Managers
 
                     writer.WriteStartElement("Entity");
                     writer.WriteAttributeString("guid", e.GUID.ToString());
+                    if (e.Name != null)
+                        writer.WriteAttributeString("name", e.Name);
 
                     Dictionary<int, Component> d = entityComponents[key];
                     foreach (Component c in d.Values)
@@ -124,8 +146,11 @@ namespace EntityFramework.Managers
                 {
                     //read attributes first
                     Guid guid = Guid.Parse(read.GetAttribute("guid"));
+                    String name = read.GetAttribute("name");
                     Entity e = new Entity(this, guid);
                     entities.Add(e.Id, e);
+                    if (name != null)
+                        e.Name = name;
 
                     read.ReadStartElement();//<Entity>
 
@@ -172,7 +197,7 @@ namespace EntityFramework.Managers
             {
                 entityComponents.Add(id, new Dictionary<int, Component>());
             }
-            else if(HasComponent(id, c.Name))
+            else if (HasComponent(id, c.Name))
             {
                 RemoveComponent(id, c.Name);
             }

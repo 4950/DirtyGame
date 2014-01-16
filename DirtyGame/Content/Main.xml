@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <Entity guid="c1a35aef-bc76-4fed-a8e0-04aa39e691a5" name="Game">
+    <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="PropertyComponentOfInt32">
+      <Name>GameScore</Name>
+      <IsModified>false</IsModified>
+      <value>0</value>
+    </Component>
+    <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="PropertyComponentOfInt32">
+      <Name>GameCash</Name>
+      <IsModified>false</IsModified>
+      <value>0</value>
+    </Component>
+    <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="PropertyComponentOfInt32">
+      <Name>GameRound</Name>
+      <IsModified>false</IsModified>
+      <value>1</value>
+    </Component>
+    <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="PropertyComponentOfInt32">
+      <Name>GameKills</Name>
+      <IsModified>false</IsModified>
+      <value>0</value>
+    </Component>
+  </Entity>
+</root>

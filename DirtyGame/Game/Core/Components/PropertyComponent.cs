@@ -24,7 +24,10 @@ namespace DirtyGame.game.Core.Components
     public class PropertyComponent<T> : PropertyComponent
     {
         private T val;
-        
+
+        private PropertyComponent()
+        {
+        }
         public PropertyComponent(string Name, T value)
         {
             this.Name = Name;

@@ -34,8 +34,12 @@ namespace EntityFramework
         #region Variables
         internal EntityManager entityManager;
         private Guid guid;
+        private string name = null;
         #endregion
-
+        internal void setName(string name)
+        {
+            this.name = name;
+        }
         #region Properties
         public BitVector ComponentBits
         {
@@ -55,6 +59,17 @@ namespace EntityFramework
         public Guid GUID
         {
             get { return guid; }
+        }
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                entityManager.SetEntityName(value, Id);
+            }
         }
         public uint Id
         {
