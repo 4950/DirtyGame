@@ -19,6 +19,9 @@ namespace DirtyGame.game.Core.GameStates
         private Panel monsterHUD;
         private Label killLbl;
         private Label aliveLbl;
+        private Label roundLbl;
+        private Label scoreLbl;
+        private Label cashLbl;
         private Window playerStuff;
         private Panel windowCont;
         private ImageBrush weaponImg;
@@ -53,21 +56,42 @@ namespace DirtyGame.game.Core.GameStates
             if (monsterHUD == null)
             {
                 monsterHUD = new Panel();
-                monsterHUD.Size = new System.Drawing.Point(120, 50);
+                monsterHUD.Size = new System.Drawing.Point(120, 145);
                 monsterHUD.Position = new System.Drawing.Point(680, 0);
                 monsterHUD.Background = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.Black);
                 monsterHUD.Visibility = Visibility.Hidden;
                 game.UIEngine.Children.AddElement(monsterHUD);
 
+                scoreLbl = new Label();
+                scoreLbl.Size = new System.Drawing.Point(120, 25);
+                scoreLbl.Position = new System.Drawing.Point(680, 0);
+                scoreLbl.Foreground = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.White);
+                scoreLbl.Text = "Score: 0";
+                monsterHUD.AddElement(scoreLbl);
+
+                cashLbl = new Label();
+                cashLbl.Size = new System.Drawing.Point(120, 25);
+                cashLbl.Position = new System.Drawing.Point(680, 25);
+                cashLbl.Foreground = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.White);
+                cashLbl.Text = "Cash: 0";
+                monsterHUD.AddElement(cashLbl);
+
+                roundLbl = new Label();
+                roundLbl.Size = new System.Drawing.Point(120, 25);
+                roundLbl.Position = new System.Drawing.Point(680, 70);
+                roundLbl.Foreground = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.White);
+                roundLbl.Text = "Round: 1";
+                monsterHUD.AddElement(roundLbl);
+
                 killLbl = new Label();
                 killLbl.Size = new System.Drawing.Point(120, 25);
-                killLbl.Position = new System.Drawing.Point(680, 0);
+                killLbl.Position = new System.Drawing.Point(680, 95);
                 killLbl.Foreground = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.White);
                 monsterHUD.AddElement(killLbl);
 
                 aliveLbl = new Label();
                 aliveLbl.Size = new System.Drawing.Point(120, 25);
-                aliveLbl.Position = new System.Drawing.Point(680, 25);
+                aliveLbl.Position = new System.Drawing.Point(680, 120);
                 aliveLbl.Foreground = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.White);
                 monsterHUD.AddElement(aliveLbl);
 
@@ -124,6 +148,8 @@ namespace DirtyGame.game.Core.GameStates
         {
             monsterHUD.Visibility = Visibility.Hidden;
             playerStuff.Hide();
+            game.baseContext.UnregisterHandlers(Microsoft.Xna.Framework.Input.Keys.F5);
+            game.baseContext.UnregisterHandlers(Microsoft.Xna.Framework.Input.Keys.F6);
         }
 
         public void Update(float dt)
@@ -132,6 +158,14 @@ namespace DirtyGame.game.Core.GameStates
             aliveLbl.Text = "Monsters Left: " + game.gLogicSystem.monstersalive;
             killLbl.Text = "Monsters Killed: " + game.gLogicSystem.monstersdefeated;
 
+            if (game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").IsModified)
+                roundLbl.Text = "Round: " + game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value;
+
+            if (game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").IsModified)
+                cashLbl.Text = "Cash: " + game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").value;
+
+            if (game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").IsModified)
+                scoreLbl.Text = "Score: " + game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value;
 
             WeaponComponent wc = curWeapon == null || curWeapon.entity == null ? null : curWeapon.entity.GetComponent<WeaponComponent>();
             if (curWeapon == null || curWeapon.entity == null || curWeapon.entity != game.player.GetComponent<InventoryComponent>().CurrentWeapon)

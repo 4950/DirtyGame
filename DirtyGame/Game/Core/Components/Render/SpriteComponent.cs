@@ -24,7 +24,8 @@ namespace DirtyGame.game.Core.Components.Render
         #region Constructors
         public SpriteComponent()
         {
-            
+            Angle = 0;
+            Scale = 1;
         }
         #endregion
 
@@ -41,6 +42,7 @@ namespace DirtyGame.game.Core.Components.Render
             }
         }
 
+        public float Scale { get; set; }
         public float Angle { get; set; }
 
         /// <summary>

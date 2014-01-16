@@ -10,7 +10,7 @@ namespace DirtyGame.game.Core.GameStates
     public class GameStateManager
     {
 
-     
+        private Dictionary<Type, IGameState> states = new Dictionary<Type, IGameState>();
         private IGameState currentState;
         private Dirty game;
 
@@ -20,7 +20,7 @@ namespace DirtyGame.game.Core.GameStates
         }
 
         private States nextState;
-        enum States { Splash, Pause, Game, MainMenu, GameOver, Exit };
+        enum States { Splash, Pause, Game, MainMenu, GameOver, Buy, Exit };
 
         public void GameStateEventCallback(Event e)
         {
@@ -37,6 +37,11 @@ namespace DirtyGame.game.Core.GameStates
             nextState = States.Game;
             SwitchState();
         }
+        public void GameStateBuyEventCallback(Event e)
+        {
+            nextState = States.Buy;
+            SwitchState();
+        }
         public GameStateManager(Dirty game)
         {
             currentState = null;
@@ -44,10 +49,21 @@ namespace DirtyGame.game.Core.GameStates
             nextState = States.MainMenu;
             SwitchState();
             EventManager.Instance.AddListener("GameState", GameStateEventCallback);
+            EventManager.Instance.AddListener("GameStateBuy", GameStateBuyEventCallback);
             EventManager.Instance.AddListener("GameStateGameOver", GameStateGameOverCallback);
             EventManager.Instance.AddListener("GameStateGame", GameStateGameCallback);
         }
-        
+        private void SwitchToState<T>() where T : IGameState, new()
+        {
+            if (states.Keys.Contains(typeof(T)))
+                currentState = states[typeof(T)];
+            else
+            {
+                T state = new T();
+                states.Add(typeof(T), state);
+                currentState = state;
+            }
+        }
         private void SwitchState()
         {
             States switchState = nextState;
@@ -75,10 +91,12 @@ namespace DirtyGame.game.Core.GameStates
                    break;
                 case States.Game:
                    {
-                       currentState = new GamePlay();
+                       SwitchToState<GamePlay>();
                        break;
                    }
-
+                case States.Buy:
+                   SwitchToState<BuyState>();
+                   break;
                 case States.Exit:
                    {
                        currentState = new ExitState();

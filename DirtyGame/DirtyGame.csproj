@@ -42,14 +42,17 @@
     <Compile Include="game\Core\Components\BorderComponent.cs" />
     <Compile Include="game\Core\Components\NameComponent.cs" />
     <Compile Include="game\Core\Components\MeleeComponent.cs" />
+    <Compile Include="game\Core\Components\PropertyComponent.cs" />
     <Compile Include="game\Core\Components\SpellComponent.cs" />
     <Compile Include="game\Core\Components\HealthComponent.cs" />
     <Compile Include="game\Core\Components\InventoryComponent.cs" />
     <Compile Include="game\Core\Components\Movement\SeparationComponent.cs" />
     <Compile Include="game\Core\Components\ProjectileComponent.cs" />
     <Compile Include="game\Core\Components\Unit\UnitComponent.cs" />
+    <Compile Include="game\Core\GameStates\BuyState.cs" />
     <Compile Include="game\Core\Systems\Monster\SeparationSystem.cs" />
     <Compile Include="game\Core\Systems\ProjectileSystem.cs" />
+    <Compile Include="game\Core\Systems\PropertySystem.cs" />
     <Compile Include="game\Core\Systems\WeaponSystem.cs" />
     <Compile Include="game\Input\InputContext.cs" />
     <Compile Include="game\Input\KeyHandler.cs" />

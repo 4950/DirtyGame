@@ -122,6 +122,12 @@ namespace CoreUI.Elements
             }
             CalculatePosition();
         }
+        public void RemoveAllItems()
+        {
+            ListBoxObjects.Clear();
+            DisplayTexts.Clear();
+            CalculatePosition();
+        }
         private void CalculatePosition()
         {
             if (ListBoxObjects.Count < DisplayNum)

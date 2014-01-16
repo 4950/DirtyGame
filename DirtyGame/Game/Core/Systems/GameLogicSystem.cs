@@ -24,6 +24,8 @@ namespace DirtyGame.game.Core.Systems
         private Dirty game;
         private Label roundLabel;
         private float roundLblTime;
+        private EntityRef gameEntity;
+        private bool cheatEndRound = false;
 
         private List<Entity> spawners = new List<Entity>();
 
@@ -34,33 +36,41 @@ namespace DirtyGame.game.Core.Systems
                 monstersalive++;
             }
         }
-        public void SetupNextRound()
+        private void resetRound()
         {
             foreach (Entity ee in spawners)//clear old spawners
             {
                 game.world.DestroyEntity(ee);
             }
+            gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += monstersdefeated;
+            monstersdefeated = 0;
+        }
+        public void SetupNextRound()
+        {
+            resetRound();
 
-            roundLabel.Text = "~Round " + game.CurrentLevel + "~";
+            int CurrentLevel = gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value;
+
+            roundLabel.Text = "~Round " + CurrentLevel + "~";
             roundLabel.Visibility = CoreUI.Visibility.Visible;
             roundLblTime = 3f;
 
-            Entity monsterWeapon = game.entityFactory.CreateRangedWeaponEntity("Monsterbow", "bow", "bow", 400, 20 + 20 * (game.CurrentLevel / 5f), 10, "arrow", -1, 3f);
+            Entity monsterWeapon = game.entityFactory.CreateRangedWeaponEntity("Monsterbow", "bow", "bow", 400, 20 + 20 * (CurrentLevel / 5f), 10, "arrow", -1, 3f, 100, 0);
             monsterWeapon.Refresh();
             MonsterData rangedData = MonsterData.RangedMonster;
             rangedData.weapon = monsterWeapon;
-            rangedData.Health += (int)(rangedData.Health * (game.CurrentLevel / 5f));
+            rangedData.Health += (int)(rangedData.Health * (CurrentLevel / 5f));
 
-            Entity monsterMelee = game.entityFactory.CreateMeleeWeaponEntity("Monstersword", "sword", 50, 15 + 15 * (game.CurrentLevel / 5f), -1, 2f, game.resourceManager.GetResource<SpriteSheet>("SwordMeleeSpriteSheet"));
+            Entity monsterMelee = game.entityFactory.CreateMeleeWeaponEntity("Monstersword", "sword", 50, 15 + 15 * (CurrentLevel / 5f), -1, 2f, 100, 0, game.resourceManager.GetResource<SpriteSheet>("SwordMeleeSpriteSheet"));
             monsterMelee.Refresh();
             MonsterData meleeData = MonsterData.BasicMonster;
             meleeData.weapon = monsterMelee;
-            meleeData.Health += (int)(meleeData.Health * (game.CurrentLevel / 5f));
+            meleeData.Health += (int)(meleeData.Health * (CurrentLevel / 5f));
 
-            int numRanged = 2 + 2 * game.CurrentLevel;
-            int numMelee = 2 + 2 * game.CurrentLevel;
+            int numRanged = 2 + 2 * CurrentLevel;
+            int numMelee = 2 + 2 * CurrentLevel;
 
-            switch (game.CurrentLevel)
+            switch (CurrentLevel)
             {
                 case 1:
                     numRanged = 0;
@@ -83,16 +93,59 @@ namespace DirtyGame.game.Core.Systems
             e = game.entityFactory.CreateSpawner(300, 300, game.resourceManager.GetResource<SpriteSheet>("monsterSheet_JUNK"), new Rectangle(0, 0, 46, 46), meleeData, numMelee / 2, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
             spawners.Add(e);
+
+            //show buy phase before starting
+            if (CurrentLevel > 1)
+                BuyPhase();
+        }
+        private void SetupBoss()
+        {
+            resetRound();
+
+            int CurrentLevel = gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value;
+
+            roundLabel.Text = "~Boss Battle~";
+            roundLabel.Visibility = CoreUI.Visibility.Visible;
+            roundLblTime = 3f;
+
+            Entity monsterWeapon = game.entityFactory.CreateRangedWeaponEntity("Monsterbow", "bow", "bow", 400, 20 + 20 * (CurrentLevel / 5f), 10, "arrow", -1, 3f, 100, 0);
+            monsterWeapon.Refresh();
+            MonsterData rangedData = MonsterData.RangedMonster;
+            rangedData.weapon = monsterWeapon;
+            rangedData.scale = 3;
+            rangedData.Health = (int)(500 * (CurrentLevel / 4f));
+
+            Entity monsterMelee = game.entityFactory.CreateMeleeWeaponEntity("Monstersword", "sword", 50, 15 + 15 * (CurrentLevel / 5f), -1, 2f, 100, 0, game.resourceManager.GetResource<SpriteSheet>("SwordMeleeSpriteSheet"));
+            monsterMelee.Refresh();
+            MonsterData meleeData = MonsterData.BasicMonster;
+            meleeData.weapon = monsterMelee;
+            meleeData.Health += (int)(meleeData.Health * (CurrentLevel / 5f));
+
+            Entity e = game.entityFactory.CreateSpawner(100, 100, game.resourceManager.GetResource<SpriteSheet>("playerSheet"), new Rectangle(0, 0, 46, 46), rangedData, 1, new TimeSpan(0, 0, 0, 0, 1000));
+            e.Refresh();
+            spawners.Add(e);
         }
         private void AdvanceLevel()
         {
-            game.CurrentLevel++;
+            gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value++;
+            if (gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value % 4 == 0)
+                SetupBoss();
+            else
+                SetupNextRound();
+        }
+        private void BuyPhase()
+        {
+            Events.Event buy = new Events.Event();
+            buy.name = "GameStateBuy";
+            EventManager.Instance.TriggerEvent(buy);
         }
         public override void OnEntityRemoved(Entity e)
         {
             if (e.HasComponent<MonsterComponent>())
             {
                 monstersdefeated++;
+                gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += 50;
+                gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").value += 10;
                 if (--monstersalive == 0)
                 {
                     /*
@@ -105,7 +158,6 @@ namespace DirtyGame.game.Core.Systems
 
                     //next game round
                     AdvanceLevel();
-                    SetupNextRound();
                 }
             }
             else if (e.HasComponent<PlayerComponent>())
@@ -129,17 +181,34 @@ namespace DirtyGame.game.Core.Systems
                     roundLabel.Visibility = CoreUI.Visibility.Hidden;
                 }
             }
-            for (int i = 0; i < entities.Count(); i++)
+
+            if (cheatEndRound)
             {
-                Entity e = entities.ElementAt(i);
-
-                HealthComponent hc = e.GetComponent<HealthComponent>();
-                if (hc.CurrentHealth <= 0)//dead
+                cheatEndRound = false;
+                for (int i = 0; i < entities.Count(); i++)
                 {
-                    World.DestroyEntity(e);
-                    i--;
+                    Entity e = entities.ElementAt(i);
+                    if (e.HasComponent<MonsterComponent>())
+                    {
+                        World.DestroyEntity(e);
+                        i--;
+                    }
                 }
+            }
+            else
+            {
+                for (int i = 0; i < entities.Count(); i++)
+                {
+                    Entity e = entities.ElementAt(i);
 
+                    HealthComponent hc = e.GetComponent<HealthComponent>();
+                    if (hc.CurrentHealth <= 0)//dead
+                    {
+                        World.DestroyEntity(e);
+                        i--;
+                    }
+
+                }
             }
         }
 
@@ -150,15 +219,25 @@ namespace DirtyGame.game.Core.Systems
             roundLabel = new Label();
             roundLabel.Size = new System.Drawing.Point(200, 40);
             roundLabel.Position = new System.Drawing.Point(200, 200);
-            roundLabel.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.Black);
+            roundLabel.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.Red);
+            roundLabel.Background = new MonoGameColor(Microsoft.Xna.Framework.Color.Black);
             roundLabel.TextPosition = TextPosition.Center;
             roundLabel.Visibility = CoreUI.Visibility.Hidden;
             game.UIEngine.Children.AddElement(roundLabel);
+            gameEntity = game.gameEntity;
+            game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.OemTilde, CheatEndRound, null);
         }
 
-        public GameLogicSystem(Dirty game) : base(SystemDescriptions.GameLogicSystem.Aspect, SystemDescriptions.GameLogicSystem.Priority)
+        private void CheatEndRound(Microsoft.Xna.Framework.Input.Keys key)
+        {
+            cheatEndRound = true;
+        }
+
+        public GameLogicSystem(Dirty game)
+            : base(SystemDescriptions.GameLogicSystem.Aspect, SystemDescriptions.GameLogicSystem.Priority)
         {
             this.game = game;
+
         }
     }
 }
