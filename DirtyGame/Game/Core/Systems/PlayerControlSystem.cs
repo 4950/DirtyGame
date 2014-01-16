@@ -222,11 +222,21 @@ namespace DirtyGame.game.Core.Systems
                                 //projectile
                                 Vector2 m = new Vector2(ms.X, ms.Y) + renderer.ActiveCamera.Position;
                                 Vector2 dir = (m - spatial.Center);
-
                                 dir.Normalize();
-                                Entity proj = entityFactory.CreateProjectile(e, spatial.Center, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, wc.BaseDamage);
 
-                                proj.Refresh();
+                                if (wc.Name == "Scattershot")
+                                {
+                                    for (float f = -.5f; f <= .5f; f += .25f)
+                                    {
+                                        Entity proj = entityFactory.CreateProjectile(e, spatial.Center, Vector2.Transform(dir, Matrix.CreateRotationZ(f)), wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, wc.BaseDamage);
+                                        proj.Refresh();
+                                    }
+                                }
+                                else
+                                {
+                                    Entity proj = entityFactory.CreateProjectile(e, spatial.Center, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, wc.BaseDamage);
+                                    proj.Refresh();
+                                }
                             }
                             else if(wc.Type == WeaponComponent.WeaponType.Melee)
                             {
