@@ -54,12 +54,12 @@ namespace EntityFramework.Systems
                         //Create new entity
                         Vector2 pos = new Vector2(e.GetComponent<SpatialComponent>().Position.X + r.Next(-75, 76), (int)e.GetComponent<SpatialComponent>().Position.Y + r.Next(-75, 76));
                         Entity monster = null;
-                        if (spawner.data.weapon != null)
-                        {
-                            monster = entityFactory.CreateRangedMonster(pos, e.GetComponent<SpawnerComponent>().sprite.SpriteSheet, entityFactory.CloneEntity(spawner.data.weapon));
-                        }
-                        else
-                            monster = entityFactory.CreateBasicMonster(pos, e.GetComponent<SpawnerComponent>().sprite.SpriteSheet);
+                        // if (spawner.data.weapon != null)
+                        //{
+                        monster = entityFactory.CreateBasicMonster(pos, e.GetComponent<SpawnerComponent>().sprite.SpriteSheet, spawner.data);
+                        // }
+                        //else
+                        //    monster = entityFactory.CreateBasicMonster(pos, e.GetComponent<SpawnerComponent>().sprite.SpriteSheet, data);
 
                         monster.Refresh();
                     }

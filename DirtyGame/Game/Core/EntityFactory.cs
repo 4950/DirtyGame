@@ -266,7 +266,7 @@ namespace DirtyGame.game.Core
 
             return proj;
         }
-        private Entity CreateMonsterBase(Vector2 pos, SpriteSheet spriteSheet)
+        private Entity CreateMonsterBase(Vector2 pos, SpriteSheet spriteSheet, float scale)
         {
             Entity monster = entityMgr.CreateEntity();
 
@@ -287,6 +287,7 @@ namespace DirtyGame.game.Core
             SpriteComponent monsterSprite = new SpriteComponent();
             monsterSprite.SpriteSheet = spriteSheet;
             monsterSprite.origin = new Vector2(.5f, 1);
+            monsterSprite.Scale = scale;
             monsterSprite.SrcRect = monsterSprite.SpriteSheet.Animation["Idle" + direction.Heading][0];
 
             //create movement component
@@ -314,31 +315,40 @@ namespace DirtyGame.game.Core
             monster.AddComponent(direction);
        //     monster.AddComponent(new AnimationComponent());
             monster.AddComponent(new SeparationComponent());
-            monster.GetComponent<SpatialComponent>().Height = 20;
-            monster.GetComponent<SpatialComponent>().Width = 20;
+            monster.GetComponent<SpatialComponent>().Height = (int)(monsterSprite.SrcRect.Height * monsterSprite.Scale / 2);
+            monster.GetComponent<SpatialComponent>().Width = (int)(monsterSprite.SrcRect.Width * monsterSprite.Scale / 2);
 
             return monster;
         }
-        public Entity CreateBasicMonster(Vector2 pos, SpriteSheet spriteSheet)
+        /// <summary>
+        /// Constructs a basic monster using MonsterData. Weapon is cloned
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <param name="spriteSheet"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public Entity CreateBasicMonster(Vector2 pos, SpriteSheet spriteSheet, MonsterData data)
         {
-            Entity monster = CreateMonsterBase(pos, spriteSheet);
+            Entity monster = CreateMonsterBase(pos, spriteSheet, data.scale);
 
             HealthComponent hc = monster.GetComponent<HealthComponent>();
-            hc.CurrentHealth = hc.MaxHealth = 100;
-
-            return monster;
-        }
-        public Entity CreateRangedMonster(Vector2 pos, SpriteSheet spriteSheet, Entity rangedWeapon)
-        {
-            Entity monster = CreateBasicMonster(pos, spriteSheet);
+            hc.CurrentHealth = hc.MaxHealth = data.Health;
 
             InventoryComponent ic = new InventoryComponent();
-            ic.addWeapon(rangedWeapon);
-
+            ic.addWeapon(CloneEntity(data.weapon));
+            
             monster.AddComponent(ic);
 
             return monster;
         }
+        /*public Entity CreateRangedMonster(Vector2 pos, SpriteSheet spriteSheet, MonsterData data)
+        {
+            Entity monster = CreateBasicMonster(pos, spriteSheet, data);
+
+            
+
+            return monster;
+        }*/
 
         public Entity CreateWallEntity(Vector2 topLeft, Vector2 bottomLeft, Vector2 topRight, Vector2 bottomRight)
         {
