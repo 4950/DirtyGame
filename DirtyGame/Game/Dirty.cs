@@ -179,16 +179,25 @@ namespace DirtyGame
             gLogicSystem.SetupNextRound();
             
         }
-
-        protected override void LoadContent()
+        public void LoadMap(string mapname)
         {
-            map.LoadMap("Cave.tmx", graphics.GraphicsDevice, Content);
+            map.LoadMap(mapname, graphics.GraphicsDevice, Content);
             renderer.ActiveMap = map;
 
             //Need to be moved
             Entity wall = entityFactory.CreateWallEntity(new Vector2(0f, 0f), new Vector2(0f, renderer.ActiveMap.getPixelHeight()),
                             new Vector2(renderer.ActiveMap.getPixelWidth(), 0f), new Vector2(renderer.ActiveMap.getPixelWidth(), renderer.ActiveMap.getPixelHeight()));
-            wall.Refresh();
+             wall.Refresh();
+        }
+        protected override void LoadContent()
+        {
+            //map.LoadMap("Forest.tmx", graphics.GraphicsDevice, Content);
+            //renderer.ActiveMap = map;
+
+            //Need to be moved
+            //Entity wall = entityFactory.CreateWallEntity(new Vector2(0f, 0f), new Vector2(0f, renderer.ActiveMap.getPixelHeight()),
+            //                new Vector2(renderer.ActiveMap.getPixelWidth(), 0f), new Vector2(renderer.ActiveMap.getPixelWidth(), renderer.ActiveMap.getPixelHeight()));
+           // wall.Refresh();
             
         }
 

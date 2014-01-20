@@ -84,8 +84,8 @@ namespace DirtyGame.game.SGraphics
 
         public void Submit(RenderInstance renderInstance)
         {
-            renderInstances.Add(renderInstance);   
-            
+            renderInstances.Add(renderInstance);
+
         }
 
         public void Submit(RenderGroup renderGroup)
@@ -95,7 +95,7 @@ namespace DirtyGame.game.SGraphics
             {
                 foreach (RenderCommand command in renderGroup.Commands)
                 {
-                    instance.AddCommand(command);    
+                    instance.AddCommand(command);
                 }
                 renderInstances.Add(instance);
             }
@@ -104,10 +104,11 @@ namespace DirtyGame.game.SGraphics
         public void Render()
         {
             device.Clear(Color.CornflowerBlue);
-            map.draw(camera);
+            if (map != null)
+                map.draw(camera);
 
 
-           
+
 
             // sort everything by sortkey
             renderInstances.Sort();
@@ -126,17 +127,17 @@ namespace DirtyGame.game.SGraphics
                             break;
                         case RenderCommand.CommandType.BatchDrawText:
                             // drawcall...shouldnt be in commands list
-                            break;   
+                            break;
                         case RenderCommand.CommandType.BeginBatchDraw:
                             if (lastBeginBatchDraw == null)
                             {
-                                lastBeginBatchDraw = (BeginBatchDraw) command;
+                                lastBeginBatchDraw = (BeginBatchDraw)command;
                                 inBatch = true;
                             }
-                            else if (lastBeginBatchDraw.CompareTo((BeginBatchDraw) command) == -1)
+                            else if (lastBeginBatchDraw.CompareTo((BeginBatchDraw)command) == -1)
                             {
                                 spriteBatch.End();
-                                lastBeginBatchDraw = (BeginBatchDraw) command;
+                                lastBeginBatchDraw = (BeginBatchDraw)command;
                                 inBatch = true;
                             }
                             else
@@ -144,7 +145,7 @@ namespace DirtyGame.game.SGraphics
                                 // dont execute the command
                                 continue;
                             }
-                            break;   
+                            break;
                         default:
                             break;
                     }
