@@ -12,15 +12,15 @@ namespace EntityFramework
     public struct MonsterData
     {
         public int Health;
-        public Vector2 Size;
+        public float scale;
         //public WeaponComponent.WeaponType 
         [XmlIgnoreAttribute]
         public Entity weapon;
          
-        public MonsterData(int health, Vector2 size)
+        public MonsterData(int health, float scale)
         {
             this.Health = health;
-            this.Size = size;
+            this.scale = scale;
             this.weapon = null;
         }
 
@@ -28,7 +28,7 @@ namespace EntityFramework
         {
             get
             {
-                MonsterData m = new MonsterData(200, new Vector2(46, 46));
+                MonsterData m = new MonsterData(200, 1);
                 return m;
             }
         }
@@ -37,7 +37,7 @@ namespace EntityFramework
         {
             get
             {
-                MonsterData m = new MonsterData(100, new Vector2(46, 46));
+                MonsterData m = new MonsterData(100, 1);
                 return m;
             }
         }

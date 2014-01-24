@@ -42,14 +42,17 @@
     <Compile Include="game\Core\Components\BorderComponent.cs" />
     <Compile Include="game\Core\Components\NameComponent.cs" />
     <Compile Include="game\Core\Components\MeleeComponent.cs" />
+    <Compile Include="game\Core\Components\PropertyComponent.cs" />
     <Compile Include="game\Core\Components\SpellComponent.cs" />
     <Compile Include="game\Core\Components\HealthComponent.cs" />
     <Compile Include="game\Core\Components\InventoryComponent.cs" />
     <Compile Include="game\Core\Components\Movement\SeparationComponent.cs" />
     <Compile Include="game\Core\Components\ProjectileComponent.cs" />
     <Compile Include="game\Core\Components\Unit\UnitComponent.cs" />
+    <Compile Include="game\Core\GameStates\BuyState.cs" />
     <Compile Include="game\Core\Systems\Monster\SeparationSystem.cs" />
     <Compile Include="game\Core\Systems\ProjectileSystem.cs" />
+    <Compile Include="game\Core\Systems\PropertySystem.cs" />
     <Compile Include="game\Core\Systems\WeaponSystem.cs" />
     <Compile Include="game\Input\InputContext.cs" />
     <Compile Include="game\Input\KeyHandler.cs" />
@@ -125,6 +128,7 @@
       <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\Lidgren.Network.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="Tao.Sdl">
       <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsGL\Tao.Sdl.dll</HintPath>
     </Reference>
@@ -133,6 +137,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Cave.tmx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Forest.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\Monster.xnb">
@@ -145,6 +152,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\monster4.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Arena.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Content\Player.png">
@@ -166,7 +176,25 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\ArenaPreview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\CavePreview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Caves.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\ForestPreview.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\GSCTileset32x32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Mage_City_Tileset_by_Hyptosis.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Main.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\MeleeAnimation.xml">
