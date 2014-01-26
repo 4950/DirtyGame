@@ -52,7 +52,7 @@ namespace EntityFramework.Systems
                         spawner.numMobs--;
 
                         //Create new entity
-                        Vector2 pos = new Vector2(e.GetComponent<SpatialComponent>().Position.X + r.Next(-75, 76), (int)e.GetComponent<SpatialComponent>().Position.Y + r.Next(-75, 76));
+                        Vector2 pos = new Vector2(e.GetComponent<SpatialComponent>().Position.X + r.Next(-25, 26), (int)e.GetComponent<SpatialComponent>().Position.Y + r.Next(-25, 26));
                         Entity monster = null;
                         // if (spawner.data.weapon != null)
                         //{

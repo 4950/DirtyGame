@@ -9,6 +9,8 @@ using DirtyGame.game.SGraphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using DirtyGame.game.Core;
+using EntityFramework;
 
 namespace DirtyGame.game.Map
 {
@@ -26,10 +28,12 @@ namespace DirtyGame.game.Map
             public String name; //name of tileset
             public Dictionary<int, TileData> tiles; //maps GIDs to tiledata
             public Texture2D tex;
+            public EntityFactory entityFactory;
 
-            public TileSet()
+            public TileSet(EntityFactory e)
             {
                 tiles = new Dictionary<int, TileData>();
+                entityFactory = e;
             }
             public void LoadSet(XmlElement setXML, GraphicsDevice dev, Map map, ContentManager Content)
             {
@@ -56,10 +60,18 @@ namespace DirtyGame.game.Map
 
                         TileData t = new TileData();
                         t.coords = new Rectangle(tilewidth * col, tileheight * row, tilewidth, tileheight);
+                        // x, y, width, height
                         t.passable = true;
                         tiles.Add(tileID, t);
                         map.tileSetsByTileGID.Add(tileID, this);
                         tileID++;
+
+                        //Entity e = entityFactory.CreateWallEntity(new Vector2((float)tilewidth * col, (float)tileheight * row), 
+                        //                                            new Vector2((float)tilewidth * col, (float)((tileheight * row)+tileheight)), 
+                        //                                            new Vector2((float)((tilewidth * col)+tilewidth), (float)tileheight * row), 
+                        //                                            new Vector2((float)((tilewidth * col)+tilewidth), (float)((tileheight * row)+tileheight)));
+                        //e.Refresh();
+
                     }
                 }
 
@@ -187,9 +199,11 @@ namespace DirtyGame.game.Map
             int width, height; //width and height of layer in tiles
             public Dictionary<TileSet, List<LayerTile>> tileRectsBySet;
             List<MapLayerSet> mapLayerSets;
+            EntityFactory entityFactory;
 
-            public MapLayer()
+            public MapLayer(EntityFactory e)
             {
+                entityFactory = e;
                 tileRectsBySet = new Dictionary<TileSet, List<LayerTile>>();
                 mapLayerSets = new List<MapLayerSet>();
             }
@@ -229,6 +243,46 @@ namespace DirtyGame.game.Map
                     LayerTile lt = new LayerTile();
                     lt.dest = new Rectangle(tileX * map.tileWidth, tileY * map.tileHeight, map.tileWidth, map.tileHeight);
                     lt.tile = set.tiles[GID];
+
+                    //if (GID == 739 ||
+                    //    GID == 740 ||
+                    //    GID == 741 ||
+                    //    GID == 742 ||
+                    //    GID == 743 ||
+                    //    GID == 747 ||
+                    //    GID == 749 ||
+                    //    GID == 755 ||
+                    //    GID == 756 ||
+                    //    GID == 757 ||
+                    //    GID == 759)
+                    if(GID == 740 ||
+                       GID == 741 ||
+                       GID == 742 ||
+                       GID == 748 ||
+                       GID == 750 ||
+                       GID == 756 ||
+                       GID == 757 ||
+                       GID == 758 ||
+                       GID == 760)
+                    {
+                        //if (GID == 749)
+                        //{
+                        //    Console.WriteLine("Made IT");
+                        //}
+                        Entity e = entityFactory.CreateWallEntity(new Vector2((float)tileX * map.tileWidth, (float)tileY * map.tileHeight),
+                                                        new Vector2((float)tileX * map.tileWidth, ((float)tileY * map.tileHeight + map.tileHeight)),
+                                                        new Vector2(((float)tileX * map.tileWidth + map.tileWidth), (float)tileY * map.tileHeight),
+                                                        new Vector2(((float)tileX * map.tileWidth + map.tileWidth), ((float)tileY * map.tileHeight + map.tileHeight)));
+                        e.Refresh();
+                    }
+
+                    
+
+                    //Entity e = entityFactory.CreateWallEntity(new Vector2((float)tilewidth * col, (float)tileheight * row), 
+                    //                                            new Vector2((float)tilewidth * col, (float)((tileheight * row)+tileheight)), 
+                    //                                            new Vector2((float)((tilewidth * col)+tilewidth), (float)tileheight * row), 
+                    //                                            new Vector2((float)((tilewidth * col)+tilewidth), (float)((tileheight * row)+tileheight)));
+                    //e.Refresh();
 
                     if (!tileRectsBySet.ContainsKey(set))
                         tileRectsBySet.Add(set, new List<LayerTile>());
@@ -276,6 +330,7 @@ namespace DirtyGame.game.Map
         Dictionary<int, TileSet> tileSetsByTileGID;
         List<MapLayer> layers;
         SpriteBatch batch;
+        EntityFactory entityFactory;
 
         public int getPixelHeight()
         {
@@ -287,12 +342,13 @@ namespace DirtyGame.game.Map
             return width * tileWidth;
         }
 
-        public Map(GraphicsDevice dev)
+        public Map(GraphicsDevice dev, EntityFactory entityFact)
         {
             tileSets = new Dictionary<string, TileSet>();
             tileSetsByTileGID = new Dictionary<int, TileSet>();
             layers = new List<MapLayer>();
             batch = new SpriteBatch(dev);
+            entityFactory = entityFact;
         }
         public bool LoadMap(String filename, GraphicsDevice dev, ContentManager Content)
         {
@@ -313,7 +369,7 @@ namespace DirtyGame.game.Map
                 XmlNodeList tileSetsXML = mapXML.GetElementsByTagName("tileset");
                 foreach (XmlElement tileSetXML in tileSetsXML)
                 {
-                    TileSet T = new TileSet();
+                    TileSet T = new TileSet(entityFactory);
                     T.LoadSet(tileSetXML, dev, this, Content);
                     tileSets.Add(T.name, T);
                 }
@@ -321,7 +377,7 @@ namespace DirtyGame.game.Map
                 XmlNodeList layersXML = mapXML.GetElementsByTagName("layer");
                 foreach (XmlElement layerXML in layersXML)
                 {
-                    MapLayer l = new MapLayer();
+                    MapLayer l = new MapLayer(entityFactory);
                     l.LoadLayer(layerXML, this, dev);
                     layers.Add(l);
                 }
