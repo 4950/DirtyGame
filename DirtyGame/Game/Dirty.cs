@@ -108,7 +108,7 @@ namespace DirtyGame
             world.AddSystem(new MovementSystem(aiSystem));
             world.AddSystem(new SeparationSystem());
             world.AddSystem(new PropertySystem());
-            map = new Map(graphics.GraphicsDevice);
+            map = new Map(graphics.GraphicsDevice, entityFactory);
 
             Entity e;
 

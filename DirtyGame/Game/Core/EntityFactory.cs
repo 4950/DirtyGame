@@ -185,7 +185,7 @@ namespace DirtyGame.game.Core
         {
             Entity e = entityMgr.CreateEntity();
             SpatialComponent spatial = new SpatialComponent();
-            spatial.Position = new Vector2(100, 100);
+            spatial.Position = new Vector2(150, 150);
 
             InventoryComponent ic = new InventoryComponent();
 
