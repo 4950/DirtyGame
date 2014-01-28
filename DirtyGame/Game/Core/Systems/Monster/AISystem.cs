@@ -60,11 +60,10 @@ namespace DirtyGame.game.Core.Systems.Monster
         }
 
 
-        int speedNumber = 10;
 
         //Make monsters of different types rush towards each other.
         // If no monster of another type is nearby... wander.
-        public double[] calculateMoveVector(IEnumerable<Entity> entities, Entity m)
+        public Vector2 calculateMoveVector(IEnumerable<Entity> entities, Entity m)
         {
 
             double[] vel = new double[2];
@@ -100,7 +99,7 @@ namespace DirtyGame.game.Core.Systems.Monster
 
             setDirection(vel, m);
 
-            return vel;
+            return new Vector2((float)vel[0], (float)vel[1]) * (m.GetComponent<StatsComponent>().MoveSpeed / 100.0f);
         }
         private double[] seekPlayer(IEnumerable<Entity> entities, Entity m, int minrange, int maxrange, bool seek)
         {

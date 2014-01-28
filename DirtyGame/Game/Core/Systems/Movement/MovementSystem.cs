@@ -37,6 +37,7 @@ namespace EntityFramework.Systems
             foreach (Entity e in entities)
             {
                 SpatialComponent mySpatial = e.GetComponent<SpatialComponent>();
+                StatsComponent s = e.GetComponent<StatsComponent>();
                 //Check for entities with an AI movement component
                 if (e.HasComponent<MonsterComponent>())
                 {
@@ -44,21 +45,21 @@ namespace EntityFramework.Systems
                     if (e.GetComponent<TimeComponent>().timeOfLastDraw + t <= totalTime)
                     {
                         e.GetComponent<TimeComponent>().timeOfLastDraw = totalTime;
-                        double[] moveVector = aiSystem.calculateMoveVector(entities, e);
-                        float f = (float) (moveVector[0] * 10.0);
-                        e.GetComponent<MovementComponent>().Horizontal = (float)moveVector[0];
-                        e.GetComponent<MovementComponent>().Vertical = (float)moveVector[1];
+                        Vector2 moveVector = aiSystem.calculateMoveVector(entities, e);
+                        //float f = (float) (moveVector[0] * 10.0 * (s.MoveSpeed / 100));
+                        e.GetComponent<MovementComponent>().Horizontal = moveVector.X;
+                        e.GetComponent<MovementComponent>().Vertical = moveVector.Y;
 
                         //e.GetComponent<SpatialComponent>().MoveTo( e.GetComponent<SpatialComponent>().Position.X + (float)(moveVector[0] * 10.0), e.GetComponent<Spatial>().Position.Y + (float)(moveVector[1] * 10.0));
                         DirectionComponent direction = e.GetComponent<DirectionComponent>();
-                        if (Math.Abs(moveVector[0]) > Math.Abs(moveVector[1]))
+                        if (Math.Abs(moveVector.X) > Math.Abs(moveVector.Y))
                         {
-                            if (moveVector[0] > 0)
+                            if (moveVector.X > 0)
                             {
                                 direction.Heading = "Right";
                                 //e.GetComponent<MovementComponent>().Horizontal = 1;
                             }
-                            else if (moveVector[0] < 0)
+                            else if (moveVector.X < 0)
                             {
                                 direction.Heading = "Left";
                                 //e.GetComponent<MovementComponent>().Horizontal = -1;
@@ -66,12 +67,12 @@ namespace EntityFramework.Systems
                         }
                         else
                         {
-                            if (moveVector[1] > 0)
+                            if (moveVector.Y > 0)
                             {
                                 direction.Heading = "Down";
                                 //e.GetComponent<MovementComponent>().Vertical = 1;
                             }
-                            else if (moveVector[1] < 0)
+                            else if (moveVector.Y < 0)
                             {
                                 direction.Heading = "Up";
                                 //e.GetComponent<MovementComponent>().Vertical = -1;
