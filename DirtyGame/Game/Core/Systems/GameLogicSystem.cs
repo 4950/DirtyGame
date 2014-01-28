@@ -99,8 +99,8 @@ namespace DirtyGame.game.Core.Systems
             spawners.Add(e);
 
             //show buy phase before starting
-            if (CurrentLevel > 1)
-                BuyPhase();
+            //if (CurrentLevel > 1)
+            //    BuyPhase();
 
             roundTime = 60;
         }
@@ -134,9 +134,9 @@ namespace DirtyGame.game.Core.Systems
         private void AdvanceLevel()
         {
             gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value++;
-            if (gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value % 4 == 0)
-                SetupBoss();
-            else
+            //if (gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value % 4 == 0)
+            //    SetupBoss();
+            //else
                 SetupNextRound();
         }
         private void BuyPhase()
@@ -189,26 +189,26 @@ namespace DirtyGame.game.Core.Systems
                     roundLblTime = 0;
                 }
             }
-            if (roundTime > 0)
-            {
-                roundTime -= dt;
-                if(roundLblTime == 0)//if done showing round number, show time
-                    roundLabel.Text = "Time Remaining: " + (int)roundTime + "s";
+            //if (roundTime > 0)
+            //{
+            //    roundTime -= dt;
+            //    if(roundLblTime == 0)//if done showing round number, show time
+            //        roundLabel.Text = "Time Remaining: " + (int)roundTime + "s";
 
-                if (roundTime <= 0)//if time over, end round
-                {
-                    roundTime = 0;
-                    for (int i = 0; i < entities.Count(); i++)
-                    {
-                        Entity e = entities.ElementAt(i);
-                        if (e.HasComponent<MonsterComponent>())
-                        {
-                            World.DestroyEntity(e);
-                            i--;
-                        }
-                    }
-                }
-            }
+            //    if (roundTime <= 0)//if time over, end round
+            //    {
+            //        roundTime = 0;
+            //        for (int i = 0; i < entities.Count(); i++)
+            //        {
+            //            Entity e = entities.ElementAt(i);
+            //            if (e.HasComponent<MonsterComponent>())
+            //            {
+            //                World.DestroyEntity(e);
+            //                i--;
+            //            }
+            //        }
+            //    }
+            //}
 
             if (cheatEndRound)
             {
