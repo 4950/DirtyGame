@@ -42,32 +42,8 @@ namespace DirtyGame.game.Core.Systems.Monster
                     {
                         double dist = getDistance(monsterPos.X, monsterPos.Y, playerPos.X, playerPos.Y);
 
-                        if ((wc.Ammo > 0 || wc.MaxAmmo == -1) && wc.LastFire <= 0)//weapon ready
-                        {
-                            if (dist <= wc.Range)//weapon is in range
-                            {
+                        game.weaponSystem.FireWeapon(weapon, e, playerPos);
 
-                                if (wc.Ammo > 0)
-                                    wc.Ammo--;
-                                wc.LastFire = wc.Cooldown;
-
-                                if (wc.Type == WeaponComponent.WeaponType.Ranged)
-                                {
-                                    //projectile
-                                    Vector2 dir = (playerPos - monsterPos);
-
-                                    dir.Normalize();
-                                    Entity proj = entityFactory.CreateProjectile(e, monsterPos, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, wc.BaseDamage);
-
-                                    proj.Refresh();
-                                }
-                                else
-                                {
-                                    Entity meleeEntity = entityFactory.CreateMeleeEntity(e, wc);
-                                    meleeEntity.Refresh();
-                                }
-                            }
-                        }
                     }
                 }
             }

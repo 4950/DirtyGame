@@ -131,9 +131,12 @@ namespace DirtyGame.game.Core.Systems
                 DirectionComponent direction = e.GetComponent<DirectionComponent>();
                 MovementComponent movement = e.GetComponent<MovementComponent>();
                 SpriteComponent sprite = e.GetComponent<SpriteComponent>();
+                StatsComponent s = e.GetComponent<StatsComponent>();
 
                 if (previousDirection != currentDirection)//direction state changed
                 {
+                    float MoveSpeed = 5 * (s.MoveSpeed / 100);
+
                     movement.Vertical = 0;
                     movement.Horizontal = 0;
                     AnimationComponent animationComponent = e.GetComponent<AnimationComponent>();
@@ -147,7 +150,7 @@ namespace DirtyGame.game.Core.Systems
                     switch (currentDirection)
                     {
                         case MoveDirection.Up:
-                            movement.Vertical = -5;
+                            movement.Vertical = -MoveSpeed;
                             direction.Heading = "Up";
                             if (!e.HasComponent<AnimationComponent>())
                             {
@@ -158,7 +161,7 @@ namespace DirtyGame.game.Core.Systems
                             }
                             break;
                         case MoveDirection.Down:
-                            movement.Vertical = 5;
+                            movement.Vertical = MoveSpeed;
                             direction.Heading = "Down";
                             if (!e.HasComponent<AnimationComponent>())
                             {
@@ -169,7 +172,7 @@ namespace DirtyGame.game.Core.Systems
                             }
                             break;
                         case MoveDirection.Left:
-                            movement.Horizontal = -5;
+                            movement.Horizontal = -MoveSpeed;
                             direction.Heading = "Left";
                             if (!e.HasComponent<AnimationComponent>())
                             {
@@ -180,7 +183,7 @@ namespace DirtyGame.game.Core.Systems
                             }
                             break;
                         case MoveDirection.Right:
-                            movement.Horizontal = 5;
+                            movement.Horizontal = MoveSpeed;
                             direction.Heading = "Right";
                             if (!e.HasComponent<AnimationComponent>())
                             {
@@ -205,46 +208,8 @@ namespace DirtyGame.game.Core.Systems
                     prevMS = ms;
                 if (ms.RightButton == ButtonState.Pressed && prevMS.RightButton == ButtonState.Released)//right mouse down
                 {
-                    Entity curWeapon = game.player.GetComponent<InventoryComponent>().CurrentWeapon;
+                    game.weaponSystem.FireWeapon(e.GetComponent<InventoryComponent>().CurrentWeapon, e, new Vector2(ms.X, ms.Y) + renderer.ActiveCamera.Position);
 
-                    if (curWeapon != null)
-                    {
-                        WeaponComponent wc = curWeapon.GetComponent<WeaponComponent>();
-
-                        if ((wc.Ammo > 0 || wc.MaxAmmo == -1) && wc.LastFire <= 0)
-                        {
-                            if (wc.Ammo > 0)
-                                wc.Ammo--;
-                            wc.LastFire = wc.Cooldown;
-
-                            if (wc.Type == WeaponComponent.WeaponType.Ranged)
-                            {
-                                //projectile
-                                Vector2 m = new Vector2(ms.X, ms.Y) + renderer.ActiveCamera.Position;
-                                Vector2 dir = (m - spatial.Center);
-                                dir.Normalize();
-
-                                if (wc.Name == "Scattershot")
-                                {
-                                    for (float f = -.5f; f <= .5f; f += .25f)
-                                    {
-                                        Entity proj = entityFactory.CreateProjectile(e, spatial.Center, Vector2.Transform(dir, Matrix.CreateRotationZ(f)), wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, wc.BaseDamage);
-                                        proj.Refresh();
-                                    }
-                                }
-                                else
-                                {
-                                    Entity proj = entityFactory.CreateProjectile(e, spatial.Center, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, wc.BaseDamage);
-                                    proj.Refresh();
-                                }
-                            }
-                            else if(wc.Type == WeaponComponent.WeaponType.Melee)
-                            {
-                                Entity meleeEntity = entityFactory.CreateMeleeEntity(e, wc);
-                                meleeEntity.Refresh();
-                            }
-                        }
-                    }
                 }
             }
         }

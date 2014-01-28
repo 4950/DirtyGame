@@ -61,6 +61,7 @@ namespace DirtyGame
         public InputManager inputManager;
         public InputContext baseContext;
         public Entity player;
+        public WeaponSystem weaponSystem;
         public EntityRef gameEntity;
 
         private void Exit(Keys key)
@@ -94,7 +95,8 @@ namespace DirtyGame
             world.AddSystem(aiSystem);
             world.AddSystem(new SpriteRenderSystem(renderer));
             world.AddSystem(new PlayerControlSystem(entityFactory, renderer, this));
-            world.AddSystem(new WeaponSystem());
+            weaponSystem = new WeaponSystem(this);
+            world.AddSystem(weaponSystem);
             world.AddSystem(new CameraUpdateSystem(renderer));
             world.AddSystem(new MapBoundarySystem(renderer));
             world.AddSystem(new SpawnerSystem(entityFactory));

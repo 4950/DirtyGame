@@ -192,6 +192,11 @@ namespace DirtyGame.game.Core
             SpriteComponent sprite = new SpriteComponent();
             sprite.RenderLayer = RenderLayer.BACKGROUND;
 
+            //stats component
+            StatsComponent s = new StatsComponent();
+            s.BaseDamage = 100;
+            s.BaseMoveSpeed = 100;
+
                         
             //Direction Component
             DirectionComponent direction = new DirectionComponent();
@@ -210,14 +215,15 @@ namespace DirtyGame.game.Core
             
 
             HealthComponent hc = new HealthComponent();
-            hc.MaxHealth = 200;
-            hc.CurrentHealth = 200;
+            hc.MaxHealth = 100;
+            hc.CurrentHealth = 100;
 
             e.AddComponent(new MeleeComponent());
 
             e.AddComponent(spatial);
             e.AddComponent(sprite);
             e.AddComponent(hc);
+            e.AddComponent(s);
             e.AddComponent(ic);
             e.AddComponent(spellComponent);
          
@@ -282,6 +288,11 @@ namespace DirtyGame.game.Core
             DirectionComponent direction = new DirectionComponent();
             direction.Heading = "Down";
 
+            //stats component
+            StatsComponent s = new StatsComponent();
+            s.BaseDamage = 100;
+            s.BaseMoveSpeed = 100;
+
             //Create the Sprite for the new entity
             //  Sprite monsterSprite = sprite;
             SpriteComponent monsterSprite = new SpriteComponent();
@@ -304,6 +315,7 @@ namespace DirtyGame.game.Core
 
             //Add the new components to the entity
             monster.AddComponent(m);
+            monster.AddComponent(s);
             monster.AddComponent(mc);
             monster.AddComponent(spatial);
             monster.AddComponent(monsterSprite);

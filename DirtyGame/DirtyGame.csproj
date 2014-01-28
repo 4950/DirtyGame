@@ -48,6 +48,7 @@
     <Compile Include="game\Core\Components\InventoryComponent.cs" />
     <Compile Include="game\Core\Components\Movement\SeparationComponent.cs" />
     <Compile Include="game\Core\Components\ProjectileComponent.cs" />
+    <Compile Include="game\Core\Components\StatsComponent.cs" />
     <Compile Include="game\Core\Components\Unit\UnitComponent.cs" />
     <Compile Include="game\Core\GameStates\BuyState.cs" />
     <Compile Include="game\Core\Systems\Monster\SeparationSystem.cs" />
@@ -68,7 +69,7 @@
     <Compile Include="game\Core\Components\Render\AnimationComponent.cs" />
     <Compile Include="game\Core\Components\Render\SpriteComponent.cs" />
     <Compile Include="game\Core\Components\Movement\SpatialComponent.cs" />
-    <Compile Include="game\Core\Components\SpawnerComponent.cs" />
+    <Compile Include="game\Core\Components\SpawnerCompnent.cs" />
     <Compile Include="game\Core\Components\TimeComponent.cs" />
     <Compile Include="game\Core\Components\WeaponComponent.cs" />
     <Compile Include="game\Core\EntityFactory.cs" />
