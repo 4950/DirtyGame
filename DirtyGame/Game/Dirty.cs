@@ -108,6 +108,7 @@ namespace DirtyGame
             world.AddSystem(new PhysicsSystem(physics, renderer));
             world.AddSystem(new AnimationSystem(this));
             world.AddSystem(new MovementSystem(aiSystem));
+            world.AddSystem(new AOESystem(this));
             world.AddSystem(new SeparationSystem());
             world.AddSystem(new PropertySystem());
             map = new Map(graphics.GraphicsDevice, entityFactory);
@@ -134,9 +135,13 @@ namespace DirtyGame
             SpriteSheet playerSpriteSheet =  new SpriteSheet(resourceManager.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
             SpriteSheet monsterSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("monsterSheet_JUNK"), "Content\\MonsterAnimation.xml");
             SpriteSheet meleeSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("SwordMeleeSpriteSheet"), "Content\\MeleeAnimation.xml");
+            SpriteSheet flamesSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("Flames"), "Content\\Flames.xml");
+            SpriteSheet flametowerSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("Flametower"), "Content\\Flametower.xml");
             resourceManager.AddResource<SpriteSheet>(playerSpriteSheet, "playerSheet");
             resourceManager.AddResource<SpriteSheet>(monsterSpriteSheet, "monsterSheet_JUNK");
             resourceManager.AddResource<SpriteSheet>(meleeSpriteSheet, "SwordMeleeSpriteSheet");
+            resourceManager.AddResource<SpriteSheet>(flamesSpriteSheet, "Flames");
+            resourceManager.AddResource<SpriteSheet>(flametowerSpriteSheet, "Flametower");
             
             player = entityFactory.CreatePlayerEntity(playerSpriteSheet);
             player.Name = "Player";
@@ -156,6 +161,9 @@ namespace DirtyGame
             e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e);
             e = entityFactory.CreateRangedWeaponEntity("Sniper", "bow", "bow", 600, 100, 30, "arrow", 10, 4f, 100, 10);
+            e.Refresh();
+            player.GetComponent<InventoryComponent>().addWeapon(e);
+            e = entityFactory.CreateRangedWeaponEntity("FlametowerWeapon", "bow", "bow", 150, 5, 30, "arrow", 0, 3f, 100, 10);
             e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e);
 

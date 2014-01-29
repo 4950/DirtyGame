@@ -46,7 +46,7 @@ namespace DirtyGame.game.Systems
                 //Getting components for this entity
                 AnimationComponent animation = e.GetComponent<AnimationComponent>();
                 SpriteComponent sprite = e.GetComponent<SpriteComponent>();
-                DirectionComponent direction = e.GetComponent<DirectionComponent>();
+                //DirectionComponent direction = e.GetComponent<DirectionComponent>();
                 SpatialComponent sp = e.GetComponent<SpatialComponent>();
 
                 if (animation == null) //This is a weird bug when adding and removing the animation component. It might have to do with priorities of the systems

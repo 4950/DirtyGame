@@ -71,6 +71,13 @@ namespace DirtyGame.game.Core.Systems
             meleeData.weapon = monsterMelee;
             meleeData.Health += (int)(meleeData.Health * (CurrentLevel / 5f));
 
+            Entity flametowerWeapon = game.entityFactory.CreateRangedWeaponEntity("FlametowerWeapon", "bow", "bow", 150, 5, 30, "arrow", -1, 3f, 100, 10);
+            flametowerWeapon.Refresh();
+            MonsterData flameData = MonsterData.BasicMonster;
+            flameData.Type = "Flametower";
+            flameData.weapon = flametowerWeapon;
+            flameData.Health = 100;
+
             int numRanged = 2 + 2 * CurrentLevel;
             int numMelee = 2 + 2 * CurrentLevel;
 
@@ -95,6 +102,9 @@ namespace DirtyGame.game.Core.Systems
             e.Refresh();
             spawners.Add(e);
             e = game.entityFactory.CreateSpawner(300, 640, game.resourceManager.GetResource<SpriteSheet>("monsterSheet_JUNK"), new Rectangle(0, 0, 46, 46), meleeData, numMelee / 2, new TimeSpan(0, 0, 0, 0, 500));
+            e.Refresh();
+            spawners.Add(e);
+            e = game.entityFactory.CreateSpawner(500, 640, game.resourceManager.GetResource<SpriteSheet>("Flametower"), new Rectangle(0, 0, 46, 46), flameData, 1, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
             spawners.Add(e);
 

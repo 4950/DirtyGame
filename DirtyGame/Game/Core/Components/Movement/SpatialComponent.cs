@@ -30,6 +30,29 @@ namespace DirtyGame.game.Core.Components
                 Bounds = new Rectangle((int)value.X, (int)value.Y, Bounds.Width, Bounds.Height);
             }
         }
+        public Vector2 Size
+        {
+            get
+            {
+                return new Vector2((int)Bounds.Width, (int)Bounds.Height);
+            }
+            set
+            {
+                Bounds = new Rectangle(Bounds.X, Bounds.Y, (int)value.X, (int)value.Y);
+            }
+        }
+        /// <summary>
+        /// Origin of the spatial. (0, 0) is top left corner, (1, 1) is bottom right.
+        /// </summary>
+        public Vector2 Origin { get; set; }
+
+
+        public float Rotation { get; set; }
+
+        /// <summary>
+        /// Rotates the spatial by specified Radians/sec
+        /// </summary>
+        public float ConstantRotation { get; set; }
 
         public bool isMoving
         {

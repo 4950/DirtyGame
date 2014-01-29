@@ -237,6 +237,38 @@ namespace DirtyGame.game.Core
             e.GetComponent<SpatialComponent>().Width = 20;
             return e;
         }
+        public Entity CreateAOEField(Entity owner, Vector2 origin, Vector2 size, String sprite, float damage)
+        {
+            Entity proj = entityMgr.CreateEntity();
+
+            SpatialComponent spatial = new SpatialComponent();
+            spatial.Position = new Vector2(origin.X, origin.Y);
+            spatial.Width = (int)size.X;
+            spatial.Height = (int)size.Y;
+            spatial.ConstantRotation = 2.094f;
+
+            AnimationComponent animation = new AnimationComponent();
+            animation.CurrentAnimation = "Flames";
+
+            SpriteComponent sc = new SpriteComponent();
+            sc.SpriteSheet = resourceMgr.GetResource<SpriteSheet>("Flames");
+            sc.Scale = .5f;
+            sc.origin = new Vector2(.5f, 1);
+            //sc.Angle = 3.14f/2;
+
+            AOEComponent ac = new AOEComponent();
+            ac.Damage = damage;
+            ac.TickInterval = .5f;
+            ac.Ticks = 6;
+
+            proj.AddComponent(spatial);
+            proj.AddComponent(animation);
+            proj.AddComponent(sc);
+            proj.AddComponent(ac);
+            proj.AddComponent(new PhysicsComponent());
+
+            return proj;
+        }
         public Entity CreateProjectile(Entity owner, Vector2 origin, Vector2 direction, String sprite, float range, float speed, float damage)
         {
             Entity proj = entityMgr.CreateEntity();
@@ -301,6 +333,9 @@ namespace DirtyGame.game.Core
             monsterSprite.Scale = scale;
             monsterSprite.SrcRect = monsterSprite.SpriteSheet.Animation["Idle" + direction.Heading][0];
 
+            AnimationComponent ac = new AnimationComponent();
+            ac.CurrentAnimation = "IdleDown";
+
             //create movement component
             MovementComponent mc = new MovementComponent();
 
@@ -317,6 +352,7 @@ namespace DirtyGame.game.Core
             monster.AddComponent(m);
             monster.AddComponent(s);
             monster.AddComponent(mc);
+            monster.AddComponent(ac);
             monster.AddComponent(spatial);
             monster.AddComponent(monsterSprite);
             monster.AddComponent(timeComponent);
@@ -350,6 +386,7 @@ namespace DirtyGame.game.Core
             ic.addWeapon(CloneEntity(data.weapon));
             
             monster.AddComponent(ic);
+            monster.AddComponent(new PropertyComponent<String>("MonsterType", data.Type));
 
             return monster;
         }

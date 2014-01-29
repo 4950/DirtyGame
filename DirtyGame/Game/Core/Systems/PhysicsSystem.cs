@@ -59,7 +59,11 @@ namespace DirtyGame.game.Core.Systems
                     SpatialComponent spatial = e.GetComponent<SpatialComponent>();
                     //body position seems to be the bottm right corner, while spatial position is top left
                     spatial.Position = ConvertUnits.ToDisplayUnits(bodyDictionary[e.Id].Position) - new Vector2(spatial.Width, spatial.Height);
-
+                    if (spatial.ConstantRotation > 0)
+                    {
+                        spatial.Rotation += spatial.ConstantRotation * dt;
+                        bodyDictionary[e.Id].Rotation = spatial.Rotation;
+                    }
 
                     if (PhysicsDebug)
                     {
@@ -125,6 +129,7 @@ namespace DirtyGame.game.Core.Systems
 
 
                 Body = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(spatial.Width), ConvertUnits.ToSimUnits(spatial.Height), 1f, ConvertUnits.ToSimUnits(spatial.Position));
+                Body.Rotation = spatial.Rotation;
 
             }
 
