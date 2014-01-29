@@ -295,8 +295,8 @@ namespace DirtyGame.game.Core
             sc.sprite = resourceMgr.GetResource<Texture2D>(sprite);
             sc.SrcRect = sc.sprite.Bounds;
             sc.Angle = (float)Math.Atan2(direction.X, -direction.Y);
-            sc.origin = new Vector2(.5f, 1);
-            sc.AnchorPoint = new Vector2(.5f, 0);
+            sc.origin = new Vector2(.5f, 0);
+            //sc.AnchorPoint = new Vector2(0, .25f);
 
             MovementComponent mc = new MovementComponent();
             Vector2 vel = direction * speed;
