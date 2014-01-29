@@ -28,6 +28,6 @@ namespace DirtyGame.game.Core.Components
         /// <summary>
         /// This bool is true only for frames in which damage will be applied
         /// </summary>
-        public bool DoDamage = true;
+        public List<Entity> HitList = new List<Entity>();
     }
 }

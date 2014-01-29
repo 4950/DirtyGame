@@ -57,8 +57,9 @@ namespace DirtyGame.game.Core.Systems
                 if (e.HasComponent<SpatialComponent>())
                 {
                     SpatialComponent spatial = e.GetComponent<SpatialComponent>();
+                    PhysicsComponent pc = e.GetComponent<PhysicsComponent>();
                     //body position is (.5f, .5f), while spatial position is (0, 0)
-                    spatial.Position = ConvertUnits.ToDisplayUnits(bodyDictionary[e.Id].Position) - new Vector2(spatial.Width/2, spatial.Height/2);
+                    spatial.Position = ConvertUnits.ToDisplayUnits(bodyDictionary[e.Id].Position) - spatial.Size * pc.Origin;
                     if (spatial.ConstantRotation > 0)
                     {
                         spatial.Rotation += spatial.ConstantRotation * dt;
@@ -141,28 +142,32 @@ namespace DirtyGame.game.Core.Systems
                 SpatialComponent spatial = e.GetComponent<SpatialComponent>();
                 PhysicsComponent p = e.GetComponent<PhysicsComponent>();
 
-                if (p.Origin == new Vector2(0, 1))
-                {
+                //body position is (.5f, .5f), while spatial position is (0, 0)
+
+                //if (p.Origin == new Vector2(0, 1))
+                //{
+                    Vector2 oMod = p.Origin - new Vector2(.5f, .5f);
+                    Vector2 size = new Vector2(ConvertUnits.ToSimUnits(spatial.Width), ConvertUnits.ToSimUnits(spatial.Height));
                     Body = BodyFactory.CreateBody(physicsWorld);
                     Vector2[] v = new Vector2[4];
-                    v[0] = new Vector2(0, 0);
-                    v[1] = new Vector2(0, ConvertUnits.ToSimUnits(spatial.Height));
-                    v[2] = new Vector2(ConvertUnits.ToSimUnits(spatial.Width), ConvertUnits.ToSimUnits(spatial.Height));
-                    v[3] = new Vector2(ConvertUnits.ToSimUnits(spatial.Width), 0);
+                    v[0] = new Vector2(0, 0) - size * p.Origin;//top left
+                    v[1] = new Vector2(0, size.Y) - size * p.Origin;//bottom left
+                    v[2] = new Vector2(size.X, size.Y) - size * p.Origin;//bottom right
+                    v[3] = new Vector2(size.X, 0) - size * p.Origin;//top right
                     PolygonShape ps = new PolygonShape(new Vertices(v.ToArray()), 1f);
 
                     Body.CreateFixture(ps);
-                    Body.Position = ConvertUnits.ToSimUnits(spatial.Position);
+                    Body.Position = ConvertUnits.ToSimUnits(spatial.Position - spatial.Size * p.Origin);
 
                     Body.Rotation = spatial.Rotation;
-                }
-                else
-                {
-                    //Body.CreateFixture(Shape.
-                    Body = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(spatial.Width), ConvertUnits.ToSimUnits(spatial.Height), 1f, ConvertUnits.ToSimUnits(spatial.Position));
+                //}
+                //else
+                //{
+                //    //Body.CreateFixture(Shape.
+                //    Body = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(spatial.Width), ConvertUnits.ToSimUnits(spatial.Height), 1f, ConvertUnits.ToSimUnits(spatial.Position + spatial.Size/2));
 
-                    Body.Rotation = spatial.Rotation;
-                }
+                //    Body.Rotation = spatial.Rotation;
+                //}
             }
 
             if (e.HasComponent<BorderComponent>())
@@ -252,8 +257,9 @@ namespace DirtyGame.game.Core.Systems
                     AOEComponent ac = aoe.GetComponent<AOEComponent>();
                     if (ac.Owner.entity != hit && hit.HasComponent<PlayerComponent>())//player hit
                     {
-                        if (ac.DoDamage)
+                        if (!ac.HitList.Contains(hit))
                         {
+                            ac.HitList.Add(hit);
                             HealthComponent hc = hit.GetComponent<HealthComponent>();
                             hc.CurrentHealth -= ac.Damage;
                         }
@@ -331,7 +337,19 @@ namespace DirtyGame.game.Core.Systems
                     body.CollidesWith = Category.Cat1 | Category.Cat3; //Monster AOE only collides with player and monsters
                 }
             }
-
+            else if (e.HasComponent<ProjectileComponent>())//Projectiles
+            {
+                if (e.GetComponent<ProjectileComponent>().owner.Id == playerId)//player projectile
+                {
+                    body.CollisionCategories = Category.Cat2;
+                    body.CollidesWith = Category.Cat3;
+                }
+                else
+                {
+                    body.CollisionCategories = Category.Cat4;
+                    body.CollidesWith = Category.Cat1;
+                }
+            }
 
 
             else if (e.HasComponent<MeleeComponent>())
