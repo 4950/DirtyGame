@@ -218,7 +218,7 @@ namespace DirtyGame.game.Core
             hc.MaxHealth = 100;
             hc.CurrentHealth = 100;
 
-            e.AddComponent(new MeleeComponent());
+            //e.AddComponent(new MeleeComponent());
 
             e.AddComponent(spatial);
             e.AddComponent(sprite);
@@ -247,6 +247,9 @@ namespace DirtyGame.game.Core
             spatial.Height = (int)size.Y;
             spatial.ConstantRotation = 2.094f;
 
+            PhysicsComponent pc = new PhysicsComponent();
+            
+
             AnimationComponent animation = new AnimationComponent();
             animation.CurrentAnimation = "Flames";
 
@@ -260,10 +263,12 @@ namespace DirtyGame.game.Core
             ac.Damage = damage;
             ac.TickInterval = .5f;
             ac.Ticks = 6;
+            ac.Owner = owner.reference;
 
             proj.AddComponent(spatial);
             proj.AddComponent(animation);
             proj.AddComponent(sc);
+            proj.AddComponent(pc);
             proj.AddComponent(ac);
             proj.AddComponent(new PhysicsComponent());
 

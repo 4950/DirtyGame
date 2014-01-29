@@ -28,12 +28,13 @@ namespace DirtyGame.game.Core.Systems
             foreach (Entity e in entities.ToList())
             {
                 AOEComponent ac = e.GetComponent<AOEComponent>();
-
+                ac.DoDamage = false;
                 if (ac.Ticks > 0)
                 {
                     ac.Timer += dt;
                     if (ac.Timer >= ac.TickInterval)
                     {
+                        ac.DoDamage = true;
                         ac.Ticks--;
                         ac.Timer = 0;
                     }

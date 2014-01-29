@@ -24,5 +24,10 @@ namespace DirtyGame.game.Core.Components
         /// Time elapse since last tick(counts up)
         /// </summary>
         public float Timer;
+        public EntityRef Owner;
+        /// <summary>
+        /// This bool is true only for frames in which damage will be applied
+        /// </summary>
+        public bool DoDamage = true;
     }
 }

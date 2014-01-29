@@ -154,6 +154,7 @@ namespace DirtyGame.game.Core.Systems
             }
 
             Body.OnCollision += BodyOnCollision;
+            
 
             CollisionCategory(e, Body);
 
@@ -164,11 +165,14 @@ namespace DirtyGame.game.Core.Systems
 
         private bool BodyOnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
         {
+            bool Collide = true;
 
             if (entityDictionary.ContainsKey(fixtureA.Body.BodyId) && entityDictionary.ContainsKey(fixtureB.Body.BodyId))
             {
                 Entity A = entityDictionary[fixtureA.Body.BodyId];
                 Entity B = entityDictionary[fixtureB.Body.BodyId];
+
+
                 if (A.HasComponent<ProjectileComponent>() || B.HasComponent<ProjectileComponent>())//Projectiles
                 {
                     Entity proj = A.HasComponent<ProjectileComponent>() ? A : B;
@@ -181,7 +185,7 @@ namespace DirtyGame.game.Core.Systems
                         {
                             hit.GetComponent<HealthComponent>().CurrentHealth -= proj.GetComponent<ProjectileComponent>().damage;
                             hitBody.Body.ApplyLinearImpulse(proj.GetComponent<ProjectileComponent>().direction * 10);
-                            World.DestroyEntity(proj); 
+                            World.DestroyEntity(proj);
                         }
                         else if (hit.HasComponent<BorderComponent>())//hit map bounds, remove
                         {
@@ -207,6 +211,23 @@ namespace DirtyGame.game.Core.Systems
                         }
                     }
 
+                }
+                else if (A.HasComponent<AOEComponent>() || B.HasComponent<AOEComponent>())//aoe
+                {
+                    Entity aoe = A.HasComponent<AOEComponent>() ? A : B;
+                    Entity hit = aoe == A ? B : A;
+
+                    AOEComponent ac = aoe.GetComponent<AOEComponent>();
+                    if (ac.Owner.entity != hit && hit.HasComponent<PlayerComponent>())//player hit
+                    {
+                        if (ac.DoDamage)
+                        {
+                            HealthComponent hc = hit.GetComponent<HealthComponent>();
+                            hc.CurrentHealth -= ac.Damage;
+                        }
+                    }
+
+                    Collide = false;
                 }
                 else if (A.HasComponent<PlayerComponent>() || B.HasComponent<PlayerComponent>())
                 {
@@ -234,7 +255,7 @@ namespace DirtyGame.game.Core.Systems
                     }
                 }
             }
-            return true;
+            return Collide;
         }
 
         public override void OnEntityRemoved(Entity e)
@@ -253,37 +274,33 @@ namespace DirtyGame.game.Core.Systems
         }
 
 
-        //Cat 1 = Player, Cat2= Player Weapon, Cat3 = Monster, Cat4 = Monster Weapon
+        //Cat 1 = Player, Cat 2= Player Weapon, Cat 3 = Monster, Cat4 = Monster Weapon
         private void CollisionCategory(Entity e, Body body)
         {
-            if (e.HasComponent<PlayerComponent>())
+            if (e.HasComponent<PlayerComponent>())//is player
             {
-                if (e.HasComponent<WeaponComponent>())
-                {
-                    body.CollisionCategories = Category.Cat2;
-                    body.CollidesWith = Category.Cat3; //Weapon only collides with Monster (Can Change to collide with Monster Weapon too)
-                }
-                else
-                {
-                    body.CollisionCategories = Category.Cat1;
-                    body.CollidesWith = Category.All; //Player can collide with Monster weapon too
-                }
-
+                body.CollisionCategories = Category.Cat1;
+                body.CollidesWith = Category.Cat3 | Category.Cat4; //Player collides with monsters and monster weapons
             }
-
-            else if (e.HasComponent<MonsterComponent>())
+            else if (e.HasComponent<MonsterComponent>())//is monster
             {
-                if (e.HasComponent<WeaponComponent>())
+                body.CollisionCategories = Category.Cat3;
+                body.CollidesWith = Category.Cat1 | Category.Cat2;//Monster collides with player and player weapons
+            }
+            else if (e.HasComponent<AOEComponent>())//AOE Damage
+            {
+                if (e.GetComponent<AOEComponent>().Owner.entity.Id == playerId)//player aoe
+                {
+
+                }
+                else//monster aoe
                 {
                     body.CollisionCategories = Category.Cat4;
-                    body.CollidesWith = Category.Cat1;
-                }
-                else
-                {
-                    body.CollisionCategories = Category.Cat3;
-                    body.CollidesWith = Category.Cat1 | Category.Cat2;
+                    //body.CollidesWith = Category.None; //Monster AOE only collides with player
                 }
             }
+
+
 
             else if (e.HasComponent<MeleeComponent>())
             {
