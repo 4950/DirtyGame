@@ -247,19 +247,21 @@ namespace DirtyGame.game.Core
             spatial.Position = new Vector2(origin.X, origin.Y);
             spatial.Width = (int)size.X;
             spatial.Height = (int)size.Y;
+            spatial.Rotation = -1.571f;
             spatial.ConstantRotation = ConstantRotation;
 
             AnimationComponent animation = new AnimationComponent();
             animation.CurrentAnimation = "Idle";
 
             PhysicsComponent pc = new PhysicsComponent();
-            pc.Origin = new Vector2(0, 1);
+            pc.Origin = new Vector2(0, 0);
 
             SpriteComponent sc = new SpriteComponent();
             sc.SpriteSheet = resourceMgr.GetResource<SpriteSheet>(spritesheet);
             sc.Scale = .5f;
-            sc.origin = new Vector2(.5f, 1);
-            //sc.Angle = 3.14f/2;
+            sc.origin = new Vector2(.5f, 2);
+            //sc.AnchorPoint = new Vector2(0, 1);
+            sc.Angle = 1.571f;
 
             AOEComponent ac = new AOEComponent();
             ac.Damage = damage;

@@ -58,7 +58,7 @@ namespace DirtyGame.game.Systems
                 //Adding to the time since last draw
                 animation.TimeElapsed += dt;
                 //Saving the time between frames
-                double timeBetweenFrames = 1.0f / sprite.SpriteSheet.Animation[animation.CurrentAnimation].Length;
+                double timeBetweenFrames = sprite.SpriteSheet.Time[animation.CurrentAnimation] / sprite.SpriteSheet.Animation[animation.CurrentAnimation].Length;
                 //Check to see if enough time has passed to render the next frame
                 if (animation.TimeElapsed > timeBetweenFrames)
                 {

@@ -46,7 +46,7 @@ namespace DirtyGame.game.Systems
                 SpriteComponent sprite = e.GetComponent<SpriteComponent>();
 
                 //calcualte position of sprite using anchorpoint
-                Vector2 size = new Vector2(sprite.SrcRect.Width, sprite.SrcRect.Height);
+                Vector2 size = new Vector2(sprite.SrcRect.Width, sprite.SrcRect.Height) * sprite.Scale;
                 Vector2 pos = spatial.Position - size * sprite.AnchorPoint;
 
                 // create RenderInstance

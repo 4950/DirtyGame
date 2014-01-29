@@ -21,6 +21,7 @@ namespace DirtyGame.game.SGraphics
         private Dictionary<string, Vector2> sOffsets = new Dictionary<string, Vector2>();
         //Stores the information if the animation is finite
         private Dictionary<string, bool> sFinite = new Dictionary<string, bool>();
+        private Dictionary<string, float> sTimes = new Dictionary<string, float>();
         #endregion
 
         #region Properties
@@ -33,6 +34,13 @@ namespace DirtyGame.game.SGraphics
             set
             {
                 sAnimations = value;
+            }
+        }
+        public Dictionary<string, float> Time
+        {
+            get
+            {
+                return sTimes;
             }
         }
 
@@ -67,7 +75,7 @@ namespace DirtyGame.game.SGraphics
             spriteSheetTexture = texture;
             //Saving the XML file location if needed later
             xmlFileLocation = xmlFile;
-    //        if (xmlFile == "") return; //Always have a xml file
+            //        if (xmlFile == "") return; //Always have a xml file
 
             //Load in the XML file of animations
             XmlReaderSettings xmlSettings = new XmlReaderSettings();
@@ -92,6 +100,7 @@ namespace DirtyGame.game.SGraphics
                 int width;
                 int height;
                 int frameCount = 0;
+                float time = 1;
                 bool finite;
 
                 //Switching between the type of animation XML definitions
@@ -116,9 +125,10 @@ namespace DirtyGame.game.SGraphics
                         height = Convert.ToInt32(animationReader.GetAttribute("height"));
                         //finite
                         finite = Convert.ToBoolean(animationReader.GetAttribute("finite"));
-
+                        if (animationReader.GetAttribute("time") != null)
+                            time = float.Parse(animationReader.GetAttribute("time"));
                         //Adding the animation to the dictionaries
-                        AddAnimationDefault(numberOfFrames, yPosition, xStartFrame, animationName, width, height, new Vector2(xOffset, yOffset), finite);
+                        AddAnimationDefault(numberOfFrames, yPosition, xStartFrame, animationName, width, height, new Vector2(xOffset, yOffset), finite, time);
 
                         break;
 
@@ -133,6 +143,8 @@ namespace DirtyGame.game.SGraphics
                         numberOfFrames = Convert.ToInt32(animationReader.GetAttribute("numberOfFrames"));
                         //finite
                         finite = Convert.ToBoolean(animationReader.GetAttribute("finite"));
+                        if (animationReader.GetAttribute("time") != null)
+                            time = float.Parse(animationReader.GetAttribute("time"));
 
                         //Temporary Rectangle array
                         Rectangle[] tempRectangles = new Rectangle[numberOfFrames];
@@ -151,7 +163,7 @@ namespace DirtyGame.game.SGraphics
 
                             //Adding the animation to the dictionaries
                             tempRectangles[frameCount] = new Rectangle(xPosition, yPosition, width, height);
-                            
+
                             //Incrementing the frame count
                             frameCount++;
                         }
@@ -165,6 +177,7 @@ namespace DirtyGame.game.SGraphics
                         sOffsets.Add(animationName, new Vector2(xOffset, yOffset));
                         //Saving if the animation is finite
                         sFinite.Add(animationName, finite);
+                        sTimes.Add(animationName, time);
 
                         break;
                 }
@@ -177,7 +190,7 @@ namespace DirtyGame.game.SGraphics
 
         #region Methods
         //Adding a specified animation to the sprite component, default
-        private void AddAnimationDefault(int numFrames, int yPosition, int xStartFrame, string animationName, int frameWidth, int frameHeight, Vector2 frameOffset, bool finite)
+        private void AddAnimationDefault(int numFrames, int yPosition, int xStartFrame, string animationName, int frameWidth, int frameHeight, Vector2 frameOffset, bool finite, float time)
         {
             //Stores the rectangles for the individual frames of an animation
             Rectangle[] tempRectangles = new Rectangle[numFrames];
@@ -192,6 +205,7 @@ namespace DirtyGame.game.SGraphics
             sOffsets.Add(animationName, frameOffset);
             //Saving if the animation is finite
             sFinite.Add(animationName, finite);
+            sTimes.Add(animationName, time);
         }
 
         #endregion
