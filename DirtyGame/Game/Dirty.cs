@@ -137,11 +137,13 @@ namespace DirtyGame
             SpriteSheet meleeSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("SwordMeleeSpriteSheet"), "Content\\MeleeAnimation.xml");
             SpriteSheet flamesSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("Flames"), "Content\\Flames.xml");
             SpriteSheet flametowerSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("Flametower"), "Content\\Flametower.xml");
+            SpriteSheet flameTrailSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("FlameTrail"), "Content\\FlameTrail.xml");
             resourceManager.AddResource<SpriteSheet>(playerSpriteSheet, "playerSheet");
             resourceManager.AddResource<SpriteSheet>(monsterSpriteSheet, "monsterSheet_JUNK");
             resourceManager.AddResource<SpriteSheet>(meleeSpriteSheet, "SwordMeleeSpriteSheet");
             resourceManager.AddResource<SpriteSheet>(flamesSpriteSheet, "Flames");
             resourceManager.AddResource<SpriteSheet>(flametowerSpriteSheet, "Flametower");
+            resourceManager.AddResource<SpriteSheet>(flameTrailSpriteSheet, "FlameTrail");
             
             player = entityFactory.CreatePlayerEntity(playerSpriteSheet);
             player.Name = "Player";

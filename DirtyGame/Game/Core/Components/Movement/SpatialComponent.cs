@@ -19,6 +19,9 @@ namespace DirtyGame.game.Core.Components
 
         #region Properties
 
+        /// <summary>
+        /// Position of the top-left corner
+        /// </summary>
         public Vector2 Position
         {
             get
@@ -30,6 +33,9 @@ namespace DirtyGame.game.Core.Components
                 Bounds = new Rectangle((int)value.X, (int)value.Y, Bounds.Width, Bounds.Height);
             }
         }
+        /// <summary>
+        /// Size of the spatial
+        /// </summary>
         public Vector2 Size
         {
             get
@@ -41,12 +47,11 @@ namespace DirtyGame.game.Core.Components
                 Bounds = new Rectangle(Bounds.X, Bounds.Y, (int)value.X, (int)value.Y);
             }
         }
+        
+
         /// <summary>
-        /// Origin of the spatial. (0, 0) is top left corner, (1, 1) is bottom right.
+        /// Rotation in Radians
         /// </summary>
-        public Vector2 Origin { get; set; }
-
-
         public float Rotation { get; set; }
 
         /// <summary>

@@ -45,12 +45,15 @@ namespace DirtyGame.game.Systems
                 SpatialComponent spatial = e.GetComponent<SpatialComponent>();
                 SpriteComponent sprite = e.GetComponent<SpriteComponent>();
 
+                //calcualte position of sprite using anchorpoint
+                Vector2 pos = spatial.Position - new Vector2(sprite.SrcRect.Width, sprite.SrcRect.Height) * sprite.AnchorPoint;
+
                 // create RenderInstance
                 RenderInstance instance = new RenderInstance();
                 if(sprite.SpriteSheet != null)
-                    instance.DrawCall = new BatchDrawSprite(sprite.SpriteSheet.SpriteSheetTexture, spatial.Position, sprite.SrcRect, Color.White, spatial.Rotation, sprite.Scale, new Vector2(sprite.SrcRect.Width * sprite.origin.X, sprite.SrcRect.Height * sprite.origin.Y));//new BatchDrawSprite(sprite.SpriteSheet.SpriteSheetTexture, spatial.Position, sprite.SrcRect, Color.White);
+                    instance.DrawCall = new BatchDrawSprite(sprite.SpriteSheet.SpriteSheetTexture, pos, sprite.SrcRect, Color.White, spatial.Rotation + sprite.Angle, sprite.Scale, sprite.origin);//new BatchDrawSprite(sprite.SpriteSheet.SpriteSheetTexture, spatial.Position, sprite.SrcRect, Color.White);
                 else if(sprite.sprite != null)
-                    instance.DrawCall = new BatchDrawSprite(sprite.sprite, spatial.Position, sprite.SrcRect, Color.White, sprite.Angle, sprite.Scale, new Vector2(sprite.SrcRect.X + sprite.SrcRect.Width * sprite.origin.X, sprite.SrcRect.Y + sprite.SrcRect.Height * sprite.origin.Y));
+                    instance.DrawCall = new BatchDrawSprite(sprite.sprite, pos, sprite.SrcRect, Color.White, spatial.Rotation + sprite.Angle, sprite.Scale, sprite.origin);
                 instance.SortKey.SetRenderLayer(sprite.RenderLayer);
 
                 renderGroup.AddInstance(instance);

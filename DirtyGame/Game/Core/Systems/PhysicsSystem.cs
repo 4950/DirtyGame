@@ -57,8 +57,8 @@ namespace DirtyGame.game.Core.Systems
                 if (e.HasComponent<SpatialComponent>())
                 {
                     SpatialComponent spatial = e.GetComponent<SpatialComponent>();
-                    //body position seems to be the bottm right corner, while spatial position is top left
-                    spatial.Position = ConvertUnits.ToDisplayUnits(bodyDictionary[e.Id].Position) - new Vector2(spatial.Width, spatial.Height);
+                    //body position is (.5f, .5f), while spatial position is (0, 0)
+                    spatial.Position = ConvertUnits.ToDisplayUnits(bodyDictionary[e.Id].Position) - new Vector2(spatial.Width/2, spatial.Height/2);
                     if (spatial.ConstantRotation > 0)
                     {
                         spatial.Rotation += spatial.ConstantRotation * dt;
@@ -67,6 +67,21 @@ namespace DirtyGame.game.Core.Systems
 
                     if (PhysicsDebug)
                     {
+                        //spatial box
+                        RenderInstance instance = new RenderInstance();
+                        instance.DrawCall = new BatchDrawLine(spatial.Position, new Vector2(spatial.Position.X + spatial.Width, spatial.Position.Y), Color.Blue);
+                        renderGroup.AddInstance(instance);
+                        instance = new RenderInstance();
+                        instance.DrawCall = new BatchDrawLine(new Vector2(spatial.Position.X + spatial.Width, spatial.Position.Y), new Vector2(spatial.Position.X + spatial.Width, spatial.Position.Y + spatial.Height), Color.Blue);
+                        renderGroup.AddInstance(instance);
+                        instance = new RenderInstance();
+                        instance.DrawCall = new BatchDrawLine(new Vector2(spatial.Position.X, spatial.Position.Y + spatial.Height), new Vector2(spatial.Position.X + spatial.Width, spatial.Position.Y + spatial.Height), Color.Blue);
+                        renderGroup.AddInstance(instance);
+                        instance = new RenderInstance();
+                        instance.DrawCall = new BatchDrawLine(new Vector2(spatial.Position.X, spatial.Position.Y + spatial.Height), spatial.Position, Color.Blue);
+                        renderGroup.AddInstance(instance);
+
+                        //physics box
                         foreach (Fixture f in bodyDictionary[e.Id].FixtureList)
                         {
                             Transform t;
@@ -76,7 +91,7 @@ namespace DirtyGame.game.Core.Systems
 
                             if (aabb.Vertices.Count > 1)
                             {
-                                RenderInstance instance = new RenderInstance();
+                                instance = new RenderInstance();
                                 instance.DrawCall = new BatchDrawLine(ConvertUnits.ToDisplayUnits(aabb.Vertices[0]), ConvertUnits.ToDisplayUnits(aabb.Vertices[aabb.Vertices.Count - 1]), Color.Red);
                                 //instance.SortKey.SetRenderLayer(sprite.RenderLayer);
 
@@ -84,7 +99,7 @@ namespace DirtyGame.game.Core.Systems
                             }
                             for (int i = 1; i < aabb.Vertices.Count; i++)
                             {
-                                RenderInstance instance = new RenderInstance();
+                                instance = new RenderInstance();
                                 instance.DrawCall = new BatchDrawLine(ConvertUnits.ToDisplayUnits(aabb.Vertices[i - 1]), ConvertUnits.ToDisplayUnits(aabb.Vertices[i]), Color.Red);
                                 //instance.SortKey.SetRenderLayer(sprite.RenderLayer);
 
@@ -124,13 +139,30 @@ namespace DirtyGame.game.Core.Systems
             if (e.HasComponent<SpatialComponent>())
             {
                 SpatialComponent spatial = e.GetComponent<SpatialComponent>();
+                PhysicsComponent p = e.GetComponent<PhysicsComponent>();
 
+                if (p.Origin == new Vector2(0, 1))
+                {
+                    Body = BodyFactory.CreateBody(physicsWorld);
+                    Vector2[] v = new Vector2[4];
+                    v[0] = new Vector2(0, 0);
+                    v[1] = new Vector2(0, ConvertUnits.ToSimUnits(spatial.Height));
+                    v[2] = new Vector2(ConvertUnits.ToSimUnits(spatial.Width), ConvertUnits.ToSimUnits(spatial.Height));
+                    v[3] = new Vector2(ConvertUnits.ToSimUnits(spatial.Width), 0);
+                    PolygonShape ps = new PolygonShape(new Vertices(v.ToArray()), 1f);
 
+                    Body.CreateFixture(ps);
+                    Body.Position = ConvertUnits.ToSimUnits(spatial.Position);
 
+                    Body.Rotation = spatial.Rotation;
+                }
+                else
+                {
+                    //Body.CreateFixture(Shape.
+                    Body = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(spatial.Width), ConvertUnits.ToSimUnits(spatial.Height), 1f, ConvertUnits.ToSimUnits(spatial.Position));
 
-                Body = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(spatial.Width), ConvertUnits.ToSimUnits(spatial.Height), 1f, ConvertUnits.ToSimUnits(spatial.Position));
-                Body.Rotation = spatial.Rotation;
-
+                    Body.Rotation = spatial.Rotation;
+                }
             }
 
             if (e.HasComponent<BorderComponent>())
@@ -274,18 +306,18 @@ namespace DirtyGame.game.Core.Systems
         }
 
 
-        //Cat 1 = Player, Cat 2= Player Weapon, Cat 3 = Monster, Cat4 = Monster Weapon
+        //Cat 1 = Player, Cat 2= Player Weapon, Cat 3 = Monster, Cat4 = Monster Weapon, Cat5 = AOE
         private void CollisionCategory(Entity e, Body body)
         {
             if (e.HasComponent<PlayerComponent>())//is player
             {
                 body.CollisionCategories = Category.Cat1;
-                body.CollidesWith = Category.Cat3 | Category.Cat4; //Player collides with monsters and monster weapons
+                body.CollidesWith = Category.Cat3 | Category.Cat4 | Category.Cat5; //Player collides with monsters and monster weapons
             }
             else if (e.HasComponent<MonsterComponent>())//is monster
             {
                 body.CollisionCategories = Category.Cat3;
-                body.CollidesWith = Category.Cat1 | Category.Cat2;//Monster collides with player and player weapons
+                body.CollidesWith = Category.Cat1 | Category.Cat2 | Category.Cat5;//Monster collides with player and player weapons
             }
             else if (e.HasComponent<AOEComponent>())//AOE Damage
             {
@@ -295,8 +327,8 @@ namespace DirtyGame.game.Core.Systems
                 }
                 else//monster aoe
                 {
-                    body.CollisionCategories = Category.Cat4;
-                    //body.CollidesWith = Category.None; //Monster AOE only collides with player
+                    body.CollisionCategories = Category.Cat5;
+                    body.CollidesWith = Category.Cat1 | Category.Cat3; //Monster AOE only collides with player and monsters
                 }
             }
 
