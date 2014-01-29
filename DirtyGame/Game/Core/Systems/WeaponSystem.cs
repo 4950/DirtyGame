@@ -66,6 +66,11 @@ namespace DirtyGame.game.Core.Systems
                             proj.Refresh();
                         }
                     }
+                    else if (wc.Name == "FlametowerWeapon")
+                    {
+                        Entity proj = game.entityFactory.CreateAOEField(Owner, spatial.Center, new Vector2(wc.Range, 25), wc.ProjectileSprite, Damage, 6, .5f, 2.094f);
+                        proj.Refresh();
+                    }
                     else
                     {
                         Entity proj = game.entityFactory.CreateProjectile(Owner, spatial.Center, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, Damage);

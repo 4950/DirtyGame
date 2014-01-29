@@ -56,6 +56,12 @@ namespace DirtyGame.game.Core.Systems
             game.baseContext.RegisterHandler(Keys.D, move, idle);
             game.baseContext.RegisterHandler(Keys.W, move, idle);
             game.baseContext.RegisterHandler(Keys.S, move, idle);
+
+            for (int i = 1; i < 9; i++)
+            {
+                Keys k = (Keys)Enum.Parse(typeof(Keys), "D" + i);
+                game.baseContext.RegisterHandler(k, changeWeapon, null);
+            }
         }
         private void move(Keys key)
         {
@@ -107,18 +113,34 @@ namespace DirtyGame.game.Core.Systems
         {
             InventoryComponent ic = game.player.GetComponent<InventoryComponent>();
             var weapons = ic.WeaponList;
-            if (ic.CurrentWeapon == null)
+
+            if (key == Keys.Tab)
             {
-                if (weapons.Count > 0)
-                    ic.setCurrentWeapon(weapons[0]);
+                if (ic.CurrentWeapon == null)
+                {
+                    if (weapons.Count > 0)
+                        ic.setCurrentWeapon(weapons[0]);
+                }
+                else
+                {
+                    int i = weapons.IndexOf(ic.CurrentWeapon);
+                    i++;
+                    if (i >= weapons.Count)
+                        i = 0;
+                    ic.setCurrentWeapon(weapons[i]);
+                }
             }
             else
             {
-                int i = weapons.IndexOf(ic.CurrentWeapon);
-                i++;
-                if (i >= weapons.Count)
-                    i = 0;
-                ic.setCurrentWeapon(weapons[i]);
+                String k = key.ToString();
+                int i = 0;
+                if (int.TryParse(k[1].ToString(), out i))
+                {
+                    if (i <= weapons.Count)
+                    {
+                        ic.setCurrentWeapon(weapons[i - 1]);
+                    }
+                }
             }
         }
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)

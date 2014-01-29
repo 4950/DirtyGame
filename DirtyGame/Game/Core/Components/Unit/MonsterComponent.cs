@@ -13,6 +13,7 @@ namespace EntityFramework
     {
         public int Health;
         public float scale;
+        public String Type;
         //public WeaponComponent.WeaponType 
         [XmlIgnoreAttribute]
         public Entity weapon;
@@ -22,6 +23,7 @@ namespace EntityFramework
             this.Health = health;
             this.scale = scale;
             this.weapon = null;
+            this.Type = "";
         }
 
         public static MonsterData BasicMonster

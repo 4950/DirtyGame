@@ -57,12 +57,13 @@ namespace DirtyGame.game.Core.Systems
                 if (e.HasComponent<HealthComponent>() && i < mPBs.Count)
                 {
                     HealthComponent hc = e.GetComponent<HealthComponent>();
+                    SpatialComponent sc = e.GetComponent<SpatialComponent>();
 
                     ProgressBar pb = mPBs[i];
                     pb.Maximum = hc.MaxHealth;
                     pb.Value = (int)hc.CurrentHealth;
 
-                    Vector2 pos = e.GetComponent<SpatialComponent>().Position;
+                    Vector2 pos = sc.Position + new Vector2(sc.Width/2 - pb.Size.X/2, -20);
                     pos = Vector2.Transform(pos, renderer.ActiveCamera.Transform);
                     if (pos.X >= 0 && pos.Y >= 0 && pos.X <= renderer.ActiveCamera.size.X && pos.Y <= renderer.ActiveCamera.size.Y)
                     {

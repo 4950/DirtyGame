@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root id="FlameTrail">
+  <animationDefault name="IdleDown" 
+             yPosition="0" 
+             xStartFrame="0" 
+             xOffset="0" 
+             yOffset="0"
+             numberOfFrames="16" 
+             width="32" 
+             height="32"
+             finite="false">
+  </animationDefault>
+</root>

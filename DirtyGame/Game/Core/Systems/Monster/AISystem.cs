@@ -67,8 +67,14 @@ namespace DirtyGame.game.Core.Systems.Monster
         {
 
             double[] vel = new double[2];
+            String type = m.GetComponent<PropertyComponent<String>>("MonsterType").value;
 
-            if (m.HasComponent<InventoryComponent>())//has weapon
+
+            if (type == "Flametower")
+            {
+                //don't move
+            }
+            else if (m.HasComponent<InventoryComponent>())//has weapon
             {
                 Entity weapon = m.GetComponent<InventoryComponent>().CurrentWeapon;
                 WeaponComponent wc = weapon.GetComponent<WeaponComponent>();

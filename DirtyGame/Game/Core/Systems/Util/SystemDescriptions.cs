@@ -18,7 +18,7 @@ namespace DirtyGame.game.Core.Systems.Util
             new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(PhysicsComponent) }), 1);
 
         public static SystemParams AnimationSystem =
-            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(SpriteComponent), typeof(AnimationComponent), typeof(DirectionComponent) }), 1);
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(SpriteComponent), typeof(AnimationComponent) }), 1);
 
         public static SystemParams PlayerControlSystem =
             new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(PlayerComponent), typeof (SpatialComponent), typeof(DirectionComponent)}), 1);
@@ -52,6 +52,9 @@ namespace DirtyGame.game.Core.Systems.Util
 
         public static SystemParams WeaponSystem =
            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(WeaponComponent) }), 1);
+
+        public static SystemParams AOESystem =
+           new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(AOEComponent) }), 1);
 
         public static SystemParams PropertySystem =
            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(PropertyComponent) }), 5);

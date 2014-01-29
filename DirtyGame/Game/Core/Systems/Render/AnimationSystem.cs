@@ -46,7 +46,7 @@ namespace DirtyGame.game.Systems
                 //Getting components for this entity
                 AnimationComponent animation = e.GetComponent<AnimationComponent>();
                 SpriteComponent sprite = e.GetComponent<SpriteComponent>();
-                DirectionComponent direction = e.GetComponent<DirectionComponent>();
+                //DirectionComponent direction = e.GetComponent<DirectionComponent>();
                 SpatialComponent sp = e.GetComponent<SpatialComponent>();
 
                 if (animation == null) //This is a weird bug when adding and removing the animation component. It might have to do with priorities of the systems
@@ -58,7 +58,7 @@ namespace DirtyGame.game.Systems
                 //Adding to the time since last draw
                 animation.TimeElapsed += dt;
                 //Saving the time between frames
-                double timeBetweenFrames = 1.0f / sprite.SpriteSheet.Animation[animation.CurrentAnimation].Length;
+                double timeBetweenFrames = sprite.SpriteSheet.Time[animation.CurrentAnimation] / sprite.SpriteSheet.Animation[animation.CurrentAnimation].Length;
                 //Check to see if enough time has passed to render the next frame
                 if (animation.TimeElapsed > timeBetweenFrames)
                 {

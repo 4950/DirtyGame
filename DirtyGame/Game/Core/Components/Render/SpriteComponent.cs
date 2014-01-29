@@ -43,10 +43,18 @@ namespace DirtyGame.game.Core.Components.Render
         }
 
         public float Scale { get; set; }
+        /// <summary>
+        /// Angle in Radians. Sums with Spatial Rotation
+        /// </summary>
         public float Angle { get; set; }
+        /// <summary>
+        /// Defines what part of the texture anchors to position. (0, 0) is top left corner, (1, 1) is bottom right.
+        /// </summary>
+        public Vector2 AnchorPoint { get; set; }
+
 
         /// <summary>
-        /// Draw origin of the sprite. (0, 0) is top left corner, (1, 1) is bottom right.
+        /// Origin for rotation. (0, 0) is top left corner, (1, 1) is bottom right.
         /// </summary>
         public Vector2 origin { get; set; }
 

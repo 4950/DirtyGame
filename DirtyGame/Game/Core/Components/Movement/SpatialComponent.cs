@@ -19,6 +19,9 @@ namespace DirtyGame.game.Core.Components
 
         #region Properties
 
+        /// <summary>
+        /// Position of the top-left corner
+        /// </summary>
         public Vector2 Position
         {
             get
@@ -30,6 +33,31 @@ namespace DirtyGame.game.Core.Components
                 Bounds = new Rectangle((int)value.X, (int)value.Y, Bounds.Width, Bounds.Height);
             }
         }
+        /// <summary>
+        /// Size of the spatial
+        /// </summary>
+        public Vector2 Size
+        {
+            get
+            {
+                return new Vector2((int)Bounds.Width, (int)Bounds.Height);
+            }
+            set
+            {
+                Bounds = new Rectangle(Bounds.X, Bounds.Y, (int)value.X, (int)value.Y);
+            }
+        }
+        
+
+        /// <summary>
+        /// Rotation in Radians
+        /// </summary>
+        public float Rotation { get; set; }
+
+        /// <summary>
+        /// Rotates the spatial by specified Radians/sec
+        /// </summary>
+        public float ConstantRotation { get; set; }
 
         public bool isMoving
         {
