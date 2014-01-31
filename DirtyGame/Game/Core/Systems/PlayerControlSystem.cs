@@ -154,14 +154,28 @@ namespace DirtyGame.game.Core.Systems
                 MovementComponent movement = e.GetComponent<MovementComponent>();
                 SpriteComponent sprite = e.GetComponent<SpriteComponent>();
                 StatsComponent s = e.GetComponent<StatsComponent>();
+                AnimationComponent animationComponent = e.GetComponent<AnimationComponent>();
+                AttackingComponent attacking = e.GetComponent<AttackingComponent>();
 
-                if (previousDirection != currentDirection)//direction state changed
+                if (attacking.isAttacking)
+                {
+                    int junk = 0;
+                    //do nothing
+                    //this might have to change to forcing the player to be idle, which means that the player velocity is going need to be set to 0 and idle anim
+                    movement.Velocity = new Vector2(0.0f, 0.0f);
+                    movement.Vertical = 0.0f;
+                    movement.Horizontal = 0.0f;
+
+                    //animationComponent.
+                }
+
+                else if (previousDirection != currentDirection)//direction state changed
                 {
                     float MoveSpeed = 5 * (s.MoveSpeed / 100);
 
                     movement.Vertical = 0;
                     movement.Horizontal = 0;
-                    AnimationComponent animationComponent = e.GetComponent<AnimationComponent>();
+                    
                     if ((animationComponent != null))
                     {
                         e.RemoveComponent(e.GetComponent<AnimationComponent>());
@@ -230,8 +244,17 @@ namespace DirtyGame.game.Core.Systems
                     prevMS = ms;
                 if (ms.RightButton == ButtonState.Pressed && prevMS.RightButton == ButtonState.Released)//right mouse down
                 {
-                    game.weaponSystem.FireWeapon(e.GetComponent<InventoryComponent>().CurrentWeapon, e, new Vector2(ms.X, ms.Y) + renderer.ActiveCamera.Position);
+                    Entity currentWeaponEntity = e.GetComponent<InventoryComponent>().CurrentWeapon;
 
+                    //Change the Attacking Component of the player to be true when the weapon is a sword
+                    //if (currentWeaponEntity.HasComponent<WeaponComponent>() && currentWeaponEntity.GetComponent<WeaponComponent>().Portrait.Equals("sword"))
+                    if (currentWeaponEntity.GetComponent<WeaponComponent>().Portrait.Equals("sword"))
+                    {
+                        e.GetComponent<AttackingComponent>().isAttacking = true;
+                    }
+
+                    //game.weaponSystem.FireWeapon(e.GetComponent<InventoryComponent>().CurrentWeapon, e, new Vector2(ms.X, ms.Y) + renderer.ActiveCamera.Position);
+                    game.weaponSystem.FireWeapon(currentWeaponEntity, e, new Vector2(ms.X, ms.Y) + renderer.ActiveCamera.Position);
                 }
             }
         }

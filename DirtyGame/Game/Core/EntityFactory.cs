@@ -128,7 +128,7 @@ namespace DirtyGame.game.Core
             SpatialComponent spatial = new SpatialComponent();
             float xOffset = 0.0f;
             float yOffset = 0.0f;
-            switch (direction.Heading)
+            switch (direction.Heading)   //TODO - Here is where I need to change the melee entity offset
             {
                 case "Up":
                     xOffset = 0.0f;
@@ -219,6 +219,10 @@ namespace DirtyGame.game.Core
             HealthComponent hc = new HealthComponent();
             hc.MaxHealth = 100;
             hc.CurrentHealth = 100;
+
+            AttackingComponent attackingComponent = new AttackingComponent();
+            attackingComponent.isAttacking = false;
+            e.AddComponent(attackingComponent);
 
             //e.AddComponent(new MeleeComponent());
 

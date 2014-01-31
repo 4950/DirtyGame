@@ -85,6 +85,23 @@ namespace DirtyGame.game.Systems
                             }
                             else
                             {
+
+                                //Telling the player that the sword animnation is done
+                            //    if (e.HasComponent<PlayerComponent>())
+                            //    {
+                                    //e.GetComponent<AttackingComponent>().isAttacking = false;
+                            //    }
+
+                                if (e.HasComponent<MeleeComponent>()) //Needs to be changed for both PLAYER & MONSTERS
+                                {
+                                    MeleeComponent meleeComp = e.GetComponent<MeleeComponent>();
+                                    if (meleeComp.Owner.HasComponent<PlayerComponent>())
+                                    {
+                                        meleeComp.Owner.GetComponent<AttackingComponent>().isAttacking = false;
+                                    }
+                              //      e.GetComponent<MeleeComponent>().Owner.GetComponent<AttackingComponent>().isAttacking = false;
+                                }
+
                                 animation.StartedFiniteAnimation = false;
                                 animation.FinishedFiniteAnimation = true;
                                 //Removing the player's melee entity from the world when the animation is finished

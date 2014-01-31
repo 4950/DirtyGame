@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="game\Core\Components\AOEComponent.cs" />
     <Compile Include="game\Core\Components\BorderComponent.cs" />
+    <Compile Include="game\Core\Components\AttackingComponent.cs" />
     <Compile Include="game\Core\Components\NameComponent.cs" />
     <Compile Include="game\Core\Components\MeleeComponent.cs" />
     <Compile Include="game\Core\Components\PropertyComponent.cs" />
