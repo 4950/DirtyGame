@@ -147,7 +147,7 @@ namespace DirtyGame.game.Core.Systems
             //if (gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value % 4 == 0)
             //    SetupBoss();
             //else
-                SetupNextRound();
+            SetupNextRound();
         }
         private void BuyPhase()
         {
@@ -179,14 +179,7 @@ namespace DirtyGame.game.Core.Systems
                     AdvanceLevel();
                 }
             }
-            else if (e.HasComponent<PlayerComponent>())
-            {
-                game.GameWon = false;
 
-                Event gamestate = new Event();
-                gamestate.name = "GameStateGameOver";
-                EventManager.Instance.TriggerEvent(gamestate);
-            }
         }
 
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
@@ -242,8 +235,21 @@ namespace DirtyGame.game.Core.Systems
                     HealthComponent hc = e.GetComponent<HealthComponent>();
                     if (hc.CurrentHealth <= 0)//dead
                     {
-                        World.DestroyEntity(e);
-                        i--;
+                        if (e.HasComponent<PlayerComponent>())//player died
+                        {
+
+                            game.GameWon = false;
+
+                            Event gamestate = new Event();
+                            gamestate.name = "GameStateGameOver";
+                            EventManager.Instance.TriggerEvent(gamestate);
+
+                        }
+                        else
+                        {
+                            World.DestroyEntity(e);
+                            i--;
+                        }
                     }
 
                 }
