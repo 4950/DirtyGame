@@ -131,14 +131,14 @@ namespace DirtyGame.game.Core
             switch (direction.Heading)   //TODO - Here is where I need to change the melee entity offset
             {
                 case "Up":
-                    xOffset = 0.0f;
+                    xOffset = 30.0f;
                     yOffset = -20.0f;
                     spatial.Height = 20;
                     spatial.Width = 40;
                     break;
 
                 case "Down":
-                    xOffset = 0.0f;
+                    xOffset = 30.0f;
                     yOffset = 50.0f;
                     spatial.Height = 20;
                     spatial.Width = 40;
@@ -146,14 +146,14 @@ namespace DirtyGame.game.Core
 
                 case "Right":
                     xOffset = 40.0f;
-                    yOffset = 0.0f;
+                    yOffset = 30.0f;
                     spatial.Height = 40;
                     spatial.Width = 20;
                     break;
 
                 case "Left":
-                    xOffset = -15.0f;
-                    yOffset = 0.0f;
+                    xOffset = -5.0f;
+                    yOffset = 30.0f;
                     spatial.Height = 40;
                     spatial.Width = 20;
                     break;

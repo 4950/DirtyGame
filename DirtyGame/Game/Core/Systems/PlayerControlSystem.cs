@@ -175,8 +175,8 @@ namespace DirtyGame.game.Core.Systems
 
                     movement.Vertical = 0;
                     movement.Horizontal = 0;
-                    
-                    if ((animationComponent != null))
+
+                    if ((animationComponent != null)) //Do not remeber why I added this code - JP, 1/31/14
                     {
                         e.RemoveComponent(e.GetComponent<AnimationComponent>());
                         e.Refresh();
