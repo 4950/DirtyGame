@@ -21,18 +21,13 @@ namespace Dirtygame.game.Util
         MonsterDamageTaken,
         PlayerDamageTaken
     }
-    public class CaptureSession
-    {
-        internal int sessionID;
-        internal Guid Guid;
-        internal Guid systemID;
-    }
     public class GameplayDataCaptureSystem : Singleton<GameplayDataCaptureSystem>
     {
+        private static string databaseFileName = "sessions.sqlite";
         private DataContext db;
 
         [Table(Name="Sessions")]
-        class Session
+        private class Session
         {
             [Column(IsPrimaryKey = true, IsDbGenerated = true)]
             public int Id { get; set; }
@@ -44,7 +39,7 @@ namespace Dirtygame.game.Util
         }
 
         [Table(Name = "Events")]
-        class Event
+        private class Event
         {
             [Column(IsPrimaryKey = true, IsDbGenerated = true)]
             public int Id { get; set; }
@@ -63,12 +58,20 @@ namespace Dirtygame.game.Util
 
             public static string CreateCommand = "CREATE TABLE IF NOT EXISTS Events ( Id INTEGER PRIMARY KEY, SessionId INTEGER, Time INTEGER, Type TEXT, Data TEXT )";
         }
+        private class CaptureSession
+        {
+            internal Table<Event> sessionTable;
+
+            internal int sessionID;
+            internal Guid Guid;
+            internal Guid systemID;
+        }
 
         public GameplayDataCaptureSystem()
         {
-            if(!File.Exists("test.sqlite"))
-                SQLiteConnection.CreateFile("test.sqlite");
-            var connection = new SQLiteConnection("DbLinqProvider=Sqlite;Data Source=test.sqlite;");
+            if(!File.Exists(databaseFileName))
+                SQLiteConnection.CreateFile(databaseFileName);
+            var connection = new SQLiteConnection("DbLinqProvider=Sqlite;Data Source="+databaseFileName+";");
             
             db = new DataContext(connection);
             db.ExecuteCommand(Session.CreateCommand);
@@ -101,6 +104,7 @@ namespace Dirtygame.game.Util
 
             db.SubmitChanges();
             s.sessionID = ts.Id;
+            s.sessionTable = db.GetTable<Event>();
 
             return s.Guid;
         }
@@ -112,26 +116,21 @@ namespace Dirtygame.game.Util
             if (defaultSession != null)
                 LogEvent(type, Data, defaultSession.Guid);
         }
+        /// <summary>
+        /// Writes all session data to disk
+        /// </summary>
+        public void FlushSessions()
+        {
+            db.SubmitChanges();
+        }
         public void LogEvent(CaptureEventType type, string Data, Guid SessionId)
         {
             if (sessions.ContainsKey(SessionId))
             {
                 CaptureSession s = sessions[SessionId];
 
-                Table<Event> table = db.GetTable<Event>();
-
                 Event ts = new Event { SessionId = s.sessionID, Time = DateTime.Now, Type = type.ToString(), Data = Data};
-                table.InsertOnSubmit(ts);
-
-                db.SubmitChanges();
-
-                /*
-                CaptureEvent e = new CaptureEvent();
-                e.data = Data;
-                e.type = type;
-                e.timestamp = DateTime.Now;
-
-                s.events.Add(e);*/
+                s.sessionTable.InsertOnSubmit(ts);
             }
         }
         private Guid GetSystemID()

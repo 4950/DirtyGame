@@ -218,7 +218,7 @@ namespace DirtyGame
 
         protected override void UnloadContent()
         {
-           
+            GameplayDataCaptureSystem.Instance.FlushSessions();
         }
         public bool GameWon
         {
