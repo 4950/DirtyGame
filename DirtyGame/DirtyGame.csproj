@@ -116,6 +116,7 @@
     <Compile Include="game\SGraphics\SortKey.cs" />
     <Compile Include="game\Core\Systems\Render\SpriteRenderSystem.cs" />
     <Compile Include="game\SGraphics\SpriteSheet.cs" />
+    <Compile Include="game\Util\GameplayDataCaptureSystem.cs" />
     <Compile Include="game\Util\Logger.cs" />
     <Compile Include="game\Util\Singleton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

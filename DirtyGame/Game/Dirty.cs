@@ -22,7 +22,7 @@ using DirtyGame.game.Core.GameStates;
 using CoreUI;
 using CoreUI.DrawEngines;
 using DirtyGame.game.Input;
-
+using Dirtygame.game.Util;
 using CoreUI;
 using CoreUI.DrawEngines;
 using DirtyGame.game.Input;
@@ -70,6 +70,7 @@ namespace DirtyGame
         }
         public Dirty()
         {
+            GameplayDataCaptureSystem.Instance.CreateSession(true);
 
             inputManager = InputManager.Instance;
             baseContext = new InputContext();
@@ -193,6 +194,8 @@ namespace DirtyGame
         }
         public void LoadMap(string mapname)
         {
+            GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MapSelected, mapname);
+
             map.LoadMap(mapname, graphics.GraphicsDevice, Content);
             renderer.ActiveMap = map;
 
