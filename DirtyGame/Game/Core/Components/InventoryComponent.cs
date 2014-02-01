@@ -20,10 +20,11 @@ namespace DirtyGame.game.Core.Components
         }
         [XmlIgnoreAttribute]
         public List<Entity> WeaponList { get { return weapons; } }
-        public void addWeapon(Entity weapon)
+        public void addWeapon(Entity weapon, Entity owner)
         {
             if (weapon.HasComponent<WeaponComponent>())
             {
+                weapon.GetComponent<WeaponComponent>().Owner = owner;
                 weapons.Add(weapon);
                 if (weapons.Count == 1)
                     currentWeapon = weapon;

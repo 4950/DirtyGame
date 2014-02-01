@@ -14,7 +14,7 @@ namespace DirtyGame.game.Core.Components
         public Vector2 direction;
         [XmlIgnoreAttribute]
         public Entity owner;
-        public float damage;
+        public Entity weapon;
         public float range;
     }
 }
