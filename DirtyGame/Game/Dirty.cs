@@ -106,7 +106,7 @@ namespace DirtyGame
             //world.AddSystem(new MonsterSystem(aiSystem));
             gLogicSystem = new GameLogicSystem(this);
                      
-            world.AddSystem(new PhysicsSystem(physics, renderer));
+            world.AddSystem(new PhysicsSystem(physics, renderer, this));
             world.AddSystem(new AnimationSystem(this));
             world.AddSystem(new MovementSystem(aiSystem));
             world.AddSystem(new AOESystem(this));
@@ -153,22 +153,22 @@ namespace DirtyGame
             //weapons
             e = entityFactory.CreateMeleeWeaponEntity("Basic Sword", "sword", 50, 25, 50, 1f, 100, 2, meleeSpriteSheet);
             e.Refresh();
-            player.GetComponent<InventoryComponent>().addWeapon(e);
+            player.GetComponent<InventoryComponent>().addWeapon(e, player);
             e = entityFactory.CreateRangedWeaponEntity("Doomsbow", "bow", "bow", 400, 25, 10, "arrow", -1, 1f, 100, 0);
             e.Refresh();
-            player.GetComponent<InventoryComponent>().addWeapon(e);
+            player.GetComponent<InventoryComponent>().addWeapon(e, player);
             e = entityFactory.CreateRangedWeaponEntity("Spear", "spear", "spear", 200, 35, 5, "spear", 5, 2f, 150, 10);
             e.Refresh();
-            player.GetComponent<InventoryComponent>().addWeapon(e);
+            player.GetComponent<InventoryComponent>().addWeapon(e, player);
             e = entityFactory.CreateRangedWeaponEntity("Scattershot", "bow", "bow", 400, 25, 10, "arrow", 10, 1f, 100, 10);
             e.Refresh();
-            player.GetComponent<InventoryComponent>().addWeapon(e);
+            player.GetComponent<InventoryComponent>().addWeapon(e, player);
             e = entityFactory.CreateRangedWeaponEntity("Sniper", "bow", "bow", 600, 100, 30, "arrow", 10, 4f, 100, 10);
             e.Refresh();
-            player.GetComponent<InventoryComponent>().addWeapon(e);
+            player.GetComponent<InventoryComponent>().addWeapon(e, player);
             e = entityFactory.CreateRangedWeaponEntity("FlametowerWeapon", "bow", "bow", 150, 5, 30, "arrow", 0, 3f, 100, 10);
             e.Refresh();
-            player.GetComponent<InventoryComponent>().addWeapon(e);
+            player.GetComponent<InventoryComponent>().addWeapon(e, player);
 
             /*Entity monsterWeapon = entityFactory.CreateRangedWeaponEntity("Monsterbow", "bow", "bow", 400, 20, 10, "arrow", -1, 3f);
             monsterWeapon.Refresh();

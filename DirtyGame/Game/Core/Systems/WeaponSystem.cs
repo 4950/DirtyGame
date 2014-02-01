@@ -9,6 +9,7 @@ using EntityFramework.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using DirtyGame.game.SGraphics;
+using Dirtygame.game.Util;
 
 namespace DirtyGame.game.Core.Systems
 {
@@ -30,6 +31,19 @@ namespace DirtyGame.game.Core.Systems
         {
             // do nothing
         }
+        public void DealDamage(Entity Weapon, Entity Target)
+        {
+            WeaponComponent wc = Weapon.GetComponent<WeaponComponent>();
+            HealthComponent hc = Target.GetComponent<HealthComponent>();
+            StatsComponent s = wc.Owner.GetComponent<StatsComponent>();
+
+            int Damage = (int)Math.Floor(wc.BaseDamage * (s.Damage / 100.0f));
+
+            hc.CurrentHealth -= Damage;
+
+            CaptureEventType t = Target.HasComponent<PlayerComponent>() ? CaptureEventType.PlayerDamageTaken : CaptureEventType.MonsterDamageTaken;
+            GameplayDataCaptureSystem.Instance.LogEvent(t, Damage.ToString());
+        }
         public void FireWeapon(Entity Weapon, Entity Owner, Vector2 Target)
         {
             if (Weapon == null || Owner == null)
@@ -37,9 +51,9 @@ namespace DirtyGame.game.Core.Systems
 
             WeaponComponent wc = Weapon.GetComponent<WeaponComponent>();
             SpatialComponent spatial = Owner.GetComponent<SpatialComponent>();
-            StatsComponent s = Owner.GetComponent<StatsComponent>();
+            
 
-            if (wc == null || spatial == null || s == null)
+            if (wc == null || spatial == null)
                 return;
 
             if ((wc.Ammo > 0 || wc.MaxAmmo == -1) && wc.LastFire <= 0)
@@ -48,7 +62,7 @@ namespace DirtyGame.game.Core.Systems
                     wc.Ammo--;
                 wc.LastFire = wc.Cooldown;
 
-                int Damage = (int)Math.Floor(wc.BaseDamage * (s.Damage / 100.0f));
+                
 
                 if (wc.Type == WeaponComponent.WeaponType.Ranged)
                 {
@@ -62,24 +76,24 @@ namespace DirtyGame.game.Core.Systems
                         for (float f = -.5f; f <= .5f; f += .25f)
                         {
                             
-                            Entity proj = game.entityFactory.CreateProjectile(Owner, spatial.Center, Vector2.Transform(dir, Matrix.CreateRotationZ(f)), wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, Damage);
+                            Entity proj = game.entityFactory.CreateProjectile(Owner, spatial.Center, Vector2.Transform(dir, Matrix.CreateRotationZ(f)), wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, Weapon);
                             proj.Refresh();
                         }
                     }
                     else if (wc.Name == "FlametowerWeapon")
                     {
-                        Entity proj = game.entityFactory.CreateAOEField(Owner, spatial.Center, new Vector2(wc.Range, 25), wc.ProjectileSprite, Damage, 6, .5f, 2.094f);
+                        Entity proj = game.entityFactory.CreateAOEField(Owner, spatial.Center, new Vector2(wc.Range, 25), wc.ProjectileSprite, 6, .5f, 2.094f, Weapon);
                         proj.Refresh();
                     }
                     else
                     {
-                        Entity proj = game.entityFactory.CreateProjectile(Owner, spatial.Center, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, Damage);
+                        Entity proj = game.entityFactory.CreateProjectile(Owner, spatial.Center, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, Weapon);
                         proj.Refresh();
                     }
                 }
                 else if (wc.Type == WeaponComponent.WeaponType.Melee)
                 {
-                    Entity meleeEntity = game.entityFactory.CreateMeleeEntity(Owner, wc);
+                    Entity meleeEntity = game.entityFactory.CreateMeleeEntity(Owner, Weapon);
                     meleeEntity.Refresh();
                 }
             }

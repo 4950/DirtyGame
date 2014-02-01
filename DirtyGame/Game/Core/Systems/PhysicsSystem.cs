@@ -29,11 +29,13 @@ namespace DirtyGame.game.Core.Systems
         private Renderer renderer;
         private bool PhysicsDebug = true;
         uint playerId;
+        private Dirty game;
 
-        public PhysicsSystem(Physics physics, Renderer renderer)
+        public PhysicsSystem(Physics physics, Renderer renderer, Dirty game)
             : base(SystemDescriptions.PhysicsSystem.Aspect, SystemDescriptions.PhysicsSystem.Priority)
         {
             this.physics = physics;
+            this.game = game;
             physicsWorld = physics.World;
             entityDictionary = new Dictionary<int, Entity>();
             bodyDictionary = new Dictionary<uint, Body>();
@@ -220,7 +222,8 @@ namespace DirtyGame.game.Core.Systems
                     {
                         if (hit.HasComponent<HealthComponent>())//valid hit, do dmg
                         {
-                            hit.GetComponent<HealthComponent>().CurrentHealth -= proj.GetComponent<ProjectileComponent>().damage;
+                            game.weaponSystem.DealDamage(proj.GetComponent<ProjectileComponent>().weapon, hit);
+                            //hit.GetComponent<HealthComponent>().CurrentHealth -= proj.GetComponent<ProjectileComponent>().damage;
                             hitBody.Body.ApplyLinearImpulse(proj.GetComponent<ProjectileComponent>().direction * 10);
                             World.DestroyEntity(proj);
                         }
@@ -243,7 +246,8 @@ namespace DirtyGame.game.Core.Systems
                             if (!mc.targetsHit.Contains(hit))//have not already hit target
                             {
                                 mc.targetsHit.Add(hit);
-                                hit.GetComponent<HealthComponent>().CurrentHealth -= mc.Damage;
+
+                                game.weaponSystem.DealDamage(mc.Weapon, hit);
                             }
                         }
                     }
@@ -260,8 +264,8 @@ namespace DirtyGame.game.Core.Systems
                         if (!ac.HitList.Contains(hit))
                         {
                             ac.HitList.Add(hit);
-                            HealthComponent hc = hit.GetComponent<HealthComponent>();
-                            hc.CurrentHealth -= ac.Damage;
+
+                            game.weaponSystem.DealDamage(ac.Weapon.entity, hit);
                         }
                     }
 

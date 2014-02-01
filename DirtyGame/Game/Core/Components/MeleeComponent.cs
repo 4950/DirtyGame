@@ -30,7 +30,7 @@ namespace DirtyGame.game.Core.Components
                 meleeEntity = value;
             }
         }
-        public float Damage { get; set; }
+        public Entity Weapon { get; set; }
         [XmlIgnoreAttribute]
         public List<Entity> targetsHit = new List<Entity>();
     }

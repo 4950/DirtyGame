@@ -9,10 +9,6 @@ namespace DirtyGame.game.Core.Components
     public class AOEComponent : Component
     {
         /// <summary>
-        /// Damage is applied to enemies in range each tick
-        /// </summary>
-        public float Damage;
-        /// <summary>
         /// Interval between ticks in seconds
         /// </summary>
         public float TickInterval;
@@ -25,6 +21,7 @@ namespace DirtyGame.game.Core.Components
         /// </summary>
         public float Timer;
         public EntityRef Owner;
+        public EntityRef Weapon;
         /// <summary>
         /// This bool is true only for frames in which damage will be applied
         /// </summary>

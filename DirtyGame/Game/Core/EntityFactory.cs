@@ -105,8 +105,10 @@ namespace DirtyGame.game.Core
 
             return proj;
         }
-        public Entity CreateMeleeEntity(Entity owner, WeaponComponent wc)
+        public Entity CreateMeleeEntity(Entity owner, Entity weapon)
         {
+            WeaponComponent wc = weapon.GetComponent<WeaponComponent>();
+
             Entity meleeEntity = entityMgr.CreateEntity();
 
             //TODO: Need to put in the parts of the melee entity
@@ -168,7 +170,7 @@ namespace DirtyGame.game.Core
             sprite.SpriteSheet = wc.MeleeSheet;
 
             MeleeComponent mc = new MeleeComponent();
-            mc.Damage = wc.BaseDamage;
+            mc.Weapon = weapon;
             mc.Owner = owner;
 
             //Adding the components to the melee entity
@@ -239,7 +241,7 @@ namespace DirtyGame.game.Core
             e.GetComponent<SpatialComponent>().Width = 20;
             return e;
         }
-        public Entity CreateAOEField(Entity owner, Vector2 origin, Vector2 size, String spritesheet, float damage, int ticks, float tickInterval, float ConstantRotation)
+        public Entity CreateAOEField(Entity owner, Vector2 origin, Vector2 size, String spritesheet, int ticks, float tickInterval, float ConstantRotation, Entity Weapon)
         {
             Entity proj = entityMgr.CreateEntity();
 
@@ -264,9 +266,9 @@ namespace DirtyGame.game.Core
             sc.Angle = 1.571f;
 
             AOEComponent ac = new AOEComponent();
-            ac.Damage = damage;
             ac.TickInterval = tickInterval;
             ac.Ticks = ticks;
+            ac.Weapon = Weapon.reference;
             ac.Owner = owner.reference;
 
             proj.AddComponent(spatial);
@@ -277,7 +279,7 @@ namespace DirtyGame.game.Core
 
             return proj;
         }
-        public Entity CreateProjectile(Entity owner, Vector2 origin, Vector2 direction, String sprite, float range, float speed, float damage)
+        public Entity CreateProjectile(Entity owner, Vector2 origin, Vector2 direction, String sprite, float range, float speed, Entity weapon)
         {
             Entity proj = entityMgr.CreateEntity();
 
@@ -286,7 +288,7 @@ namespace DirtyGame.game.Core
             pc.origin = origin;
             pc.range = range;
             pc.owner = owner;
-            pc.damage = damage;
+            pc.weapon = weapon;
 
             SpatialComponent spatial = new SpatialComponent();
             spatial.Position = new Vector2(origin.X, origin.Y);
@@ -392,7 +394,7 @@ namespace DirtyGame.game.Core
             hc.CurrentHealth = hc.MaxHealth = data.Health;
 
             InventoryComponent ic = new InventoryComponent();
-            ic.addWeapon(CloneEntity(data.weapon));
+            ic.addWeapon(CloneEntity(data.weapon), monster);
             
             monster.AddComponent(ic);
             monster.AddComponent(new PropertyComponent<String>("MonsterType", data.Type));

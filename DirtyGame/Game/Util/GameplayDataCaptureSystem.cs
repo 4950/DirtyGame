@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
+using System.Data.SQLite;
+//using System.Data.Linq;
+using System.Data.Linq.Mapping;
+using DbLinq.Sqlite;
+using DbLinq.Data.Linq;
+using System.IO;
+using System.ComponentModel;
 
 namespace Dirtygame.game.Util
 {
@@ -14,22 +21,59 @@ namespace Dirtygame.game.Util
         MonsterDamageTaken,
         PlayerDamageTaken
     }
-    public struct CaptureEvent
-    {
-        public CaptureEventType type;
-        public DateTime timestamp;
-        public String data;
-    }
     public class CaptureSession
     {
-        internal List<CaptureEvent> events = new List<CaptureEvent>();
-
-        internal Guid id;
+        internal int sessionID;
+        internal Guid Guid;
         internal Guid systemID;
     }
-    public partial class GameplayDataCaptureSystem : Singleton<GameplayDataCaptureSystem>
+    public class GameplayDataCaptureSystem : Singleton<GameplayDataCaptureSystem>
     {
+        private DataContext db;
 
+        [Table(Name="Sessions")]
+        class Session
+        {
+            [Column(IsPrimaryKey = true, IsDbGenerated = true)]
+            public int Id { get; set; }
+
+            [Column]
+            public string Guid { get; set; }
+
+            public static string CreateCommand = "CREATE TABLE IF NOT EXISTS Sessions ( Id INTEGER PRIMARY KEY, Guid TEXT )";
+        }
+
+        [Table(Name = "Events")]
+        class Event
+        {
+            [Column(IsPrimaryKey = true, IsDbGenerated = true)]
+            public int Id { get; set; }
+
+            [Column]
+            public int SessionId { get; set; }
+
+            [Column]
+            public DateTime Time { get; set; }
+
+            [Column]
+            public string Type { get; set; }
+
+            [Column]
+            public string Data { get; set; }
+
+            public static string CreateCommand = "CREATE TABLE IF NOT EXISTS Events ( Id INTEGER PRIMARY KEY, SessionId INTEGER, Time INTEGER, Type TEXT, Data TEXT )";
+        }
+
+        public GameplayDataCaptureSystem()
+        {
+            if(!File.Exists("test.sqlite"))
+                SQLiteConnection.CreateFile("test.sqlite");
+            var connection = new SQLiteConnection("DbLinqProvider=Sqlite;Data Source=test.sqlite;");
+            
+            db = new DataContext(connection);
+            db.ExecuteCommand(Session.CreateCommand);
+            db.ExecuteCommand(Event.CreateCommand);
+        }
 
         private Dictionary<Guid, CaptureSession> sessions = new Dictionary<Guid, CaptureSession>();
         private CaptureSession defaultSession;
@@ -42,14 +86,23 @@ namespace Dirtygame.game.Util
         {
             CaptureSession s = new CaptureSession();
             s.systemID = GetSystemID();
-            s.id = new Guid();
+            s.Guid = new Guid();
 
-            sessions.Add(s.id, s);
+            sessions.Add(s.Guid, s);
 
             if (Default)
                 defaultSession = s;
 
-            return s.id;
+            
+            Table<Session> table = db.GetTable<Session>();
+
+            Session ts = new Session{ Guid = s.Guid.ToString() };
+            table.InsertOnSubmit(ts);
+
+            db.SubmitChanges();
+            s.sessionID = ts.Id;
+
+            return s.Guid;
         }
         /// <summary>
         /// Logs an event to the default session
@@ -57,7 +110,7 @@ namespace Dirtygame.game.Util
         public void LogEvent(CaptureEventType type, string Data)
         {
             if (defaultSession != null)
-                LogEvent(type, Data, defaultSession.id);
+                LogEvent(type, Data, defaultSession.Guid);
         }
         public void LogEvent(CaptureEventType type, string Data, Guid SessionId)
         {
@@ -65,12 +118,20 @@ namespace Dirtygame.game.Util
             {
                 CaptureSession s = sessions[SessionId];
 
+                Table<Event> table = db.GetTable<Event>();
+
+                Event ts = new Event { SessionId = s.sessionID, Time = DateTime.Now, Type = type.ToString(), Data = Data};
+                table.InsertOnSubmit(ts);
+
+                db.SubmitChanges();
+
+                /*
                 CaptureEvent e = new CaptureEvent();
                 e.data = Data;
                 e.type = type;
                 e.timestamp = DateTime.Now;
 
-                s.events.Add(e);
+                s.events.Add(e);*/
             }
         }
         private Guid GetSystemID()
