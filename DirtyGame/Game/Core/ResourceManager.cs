@@ -4,16 +4,21 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
 using DirtyGame.game.SGraphics;
+using DirtyGame.game.Util;
 
 namespace DirtyGame.game.Core
 {
-    public class ResourceManager
+    public class ResourceManager : Singleton<ResourceManager>
     {
         private ContentManager content;
         private Dictionary<Type, Dictionary<string, object>> resources;
 
+        public ResourceManager()
+        {
+        }
         public ResourceManager(ContentManager content)
         {
+            instance = this;
             this.content = content;
             content.RootDirectory = "Content";
             resources = new Dictionary<Type, Dictionary<string, object>>();

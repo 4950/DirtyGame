@@ -35,12 +35,16 @@ namespace DirtyGame.game.Core.Systems
         {
             WeaponComponent wc = Weapon.GetComponent<WeaponComponent>();
             HealthComponent hc = Target.GetComponent<HealthComponent>();
-            StatsComponent s = wc.Owner.GetComponent<StatsComponent>();
+            StatsComponent os = wc.Owner.GetComponent<StatsComponent>();
+            StatsComponent ts = Target.GetComponent<StatsComponent>();
 
-            if (wc == null || hc == null || s == null)
+            if (wc == null || hc == null || os == null || ts == null)
                 return;
 
-            int Damage = (int)Math.Floor(wc.BaseDamage * (s.Damage / 100.0f));
+            if (ts.RangedImmune && wc.Type == WeaponComponent.WeaponType.Ranged)
+                return;
+
+            int Damage = (int)Math.Floor(wc.BaseDamage * (os.Damage / 100.0f));
 
             hc.CurrentHealth -= Damage;
 

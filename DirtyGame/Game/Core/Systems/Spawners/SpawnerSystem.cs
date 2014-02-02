@@ -9,17 +9,20 @@ using EntityFramework.Managers;
 using DirtyGame.game.Core.Components.Render;
 using DirtyGame.game.Core.Systems.Util;
 using DirtyGame.game.Core;
+using DirtyGame;
 
 namespace EntityFramework.Systems
 {
     class SpawnerSystem : EntitySystem
     {
         public EntityFactory entityFactory;
+        private Dirty game;
         public TimeSpan totalTime = new TimeSpan(0, 0, 0, 0, 0);
 
-        public SpawnerSystem(EntityFactory eF)
+        public SpawnerSystem(EntityFactory eF, Dirty game)
             : base(SystemDescriptions.SpawnerSystem.Aspect, SystemDescriptions.SpawnerSystem.Priority)
         {
+            this.game = game;
             this.entityFactory = eF;
         }
 
@@ -56,7 +59,16 @@ namespace EntityFramework.Systems
                         Entity monster = null;
                         // if (spawner.data.weapon != null)
                         //{
-                        monster = entityFactory.CreateBasicMonster(pos, e.GetComponent<SpawnerComponent>().sprite.SpriteSheet.spriteName, e.GetComponent<SpawnerComponent>().sprite.SpriteSheet.xmlFileLocation, spawner.data);
+                        //monster = entityFactory.CreateBasicMonster(pos, e.GetComponent<SpawnerComponent>().sprite.SpriteSheet.spriteName, e.GetComponent<SpawnerComponent>().sprite.SpriteSheet.xmlFileLocation, spawner.data);
+                        monster = entityFactory.CloneEntity(game.world.EntityMgr.GetEntityByName(spawner.MonsterType));
+
+                        InventoryComponent ic = new InventoryComponent();
+                        Entity weapon = entityFactory.CloneEntity(game.world.EntityMgr.GetEntityByName(spawner.MonsterWeapon));
+                        weapon.Refresh();
+                        ic.addWeapon(weapon, monster);
+                        monster.AddComponent(ic);
+
+                        monster.GetComponent<SpatialComponent>().Position = pos;
                         // }
                         //else
                         //    monster = entityFactory.CreateBasicMonster(pos, e.GetComponent<SpawnerComponent>().sprite.SpriteSheet, data);

@@ -30,6 +30,8 @@ using DirtyGame.game.Input;
 using DirtyGame.game.Core.Components;
 using FarseerPhysics.Dynamics;
 using DirtyGame.game.Core.Systems.Movement;
+using DirtyGame.game.Core.Components.Render;
+using DirtyGame.game.Core.Components.Movement;
 
 
 
@@ -73,6 +75,13 @@ namespace DirtyGame
         /// </summary>
         private void SaveTestEntites()
         {
+            //Entity monsterWeapon = world.EntityMgr.GetEntityByName("FlametowerWeapon");
+            //MonsterData meleeData = MonsterData.RangedMonster;
+            //meleeData.weapon = monsterWeapon;
+            //meleeData.Health += (int)(meleeData.Health * (1 / 5f));
+            //Entity monster = entityFactory.CreateBasicMonster(new Vector2(), "Flametower", "Content\\Flametower.xml", meleeData);
+            //monster.Name = "Flametower";
+
             //Entity e = entityFactory.CreateMeleeWeaponEntity("Basic Sword", "sword", 50, 25, 50, 1f, 100, 2, "SwordMeleeSpriteSheet", "Content\\MeleeAnimation.xml");
             //e.Name = "BasicSword";
             //e.Refresh();
@@ -138,7 +147,7 @@ namespace DirtyGame
             world.AddSystem(weaponSystem);
             world.AddSystem(new CameraUpdateSystem(renderer));
             world.AddSystem(new MapBoundarySystem(renderer));
-            world.AddSystem(new SpawnerSystem(entityFactory));
+            world.AddSystem(new SpawnerSystem(entityFactory, this));
             world.AddSystem(new HUDSystem(renderer, UIEngine));
             world.AddSystem(new ProjectileSystem(this));
             gLogicSystem = new GameLogicSystem(this);
@@ -155,9 +164,20 @@ namespace DirtyGame
 
             //add component types to list
             Component.ComponentTypes.Add(typeof(PropertyComponent<int>));
+            Component.ComponentTypes.Add(typeof(PropertyComponent<string>));
             Component.ComponentTypes.Add(typeof(WeaponComponent));
-
-            SaveTestEntites();
+            Component.ComponentTypes.Add(typeof(MonsterComponent));
+            Component.ComponentTypes.Add(typeof(StatsComponent));
+            Component.ComponentTypes.Add(typeof(MovementComponent));
+            Component.ComponentTypes.Add(typeof(AnimationComponent));
+            Component.ComponentTypes.Add(typeof(SpatialComponent));
+            Component.ComponentTypes.Add(typeof(SpriteComponent));
+            Component.ComponentTypes.Add(typeof(TimeComponent));
+            Component.ComponentTypes.Add(typeof(HealthComponent));
+            Component.ComponentTypes.Add(typeof(PhysicsComponent));
+            Component.ComponentTypes.Add(typeof(DirectionComponent));
+            Component.ComponentTypes.Add(typeof(SeparationComponent));
+            Component.ComponentTypes.Add(typeof(InventoryComponent));
 
             //load serialized entities
             world.EntityMgr.DeserializeEntities(App.Path + "Main.xml");
@@ -165,6 +185,7 @@ namespace DirtyGame
             gameEntity = world.EntityMgr.GetEntityByName("Game").reference;
             world.AddSystem(gLogicSystem);
 
+            //SaveTestEntites();
 
             player = entityFactory.CreatePlayerEntity();
             player.Name = "Player";
@@ -172,14 +193,19 @@ namespace DirtyGame
 
             //weapons
             e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("BasicSword"));
+            e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e, player);
             e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("Doomsbow"));
+            e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e, player);
             e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("Spear"));
+            e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e, player);
             e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("Scattershot"));
+            e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e, player);
             e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("Sniper"));
+            e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e, player);
 
             gLogicSystem.SetupNextRound();

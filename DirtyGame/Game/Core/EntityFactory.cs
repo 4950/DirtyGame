@@ -31,7 +31,7 @@ namespace DirtyGame.game.Core
             {
                 ret.AddComponent((Component)c.Clone());
             }
-            ret.Refresh();
+            //ret.Refresh();
             return ret;
         }
         public Entity CreateRangedWeaponEntity(String name, String sprite, String portrait, float range, float baseDamage, float projSpeed, String projectileSprite, int ammo, float cooldown, float price, float ammoprice)
@@ -373,7 +373,9 @@ namespace DirtyGame.game.Core
             hc.CurrentHealth = hc.MaxHealth = data.Health;
 
             InventoryComponent ic = new InventoryComponent();
-            ic.addWeapon(CloneEntity(data.weapon), monster);
+            Entity weapon = CloneEntity(data.weapon);
+            weapon.Refresh();
+            ic.addWeapon(weapon, monster);
             
             monster.AddComponent(ic);
             monster.AddComponent(new PropertyComponent<String>("MonsterType", data.Type));
@@ -399,7 +401,7 @@ namespace DirtyGame.game.Core
             return wall;
         }
 
-        public Entity CreateSpawner(int xPos, int yPos, string spriteName, string spriteXml, Rectangle rectangle, MonsterData data, int numMobs, TimeSpan timePerSpawn)
+        public Entity CreateSpawner(int xPos, int yPos, Rectangle rectangle, String MonsterType, String MonsterWeapon, int numMobs, TimeSpan timePerSpawn)
         {
             Entity spawner = entityMgr.CreateEntity();
 
@@ -407,18 +409,12 @@ namespace DirtyGame.game.Core
             SpatialComponent spatial = new SpatialComponent();
             spatial.Position = new Vector2(xPos, yPos);
 
-            //Create the Sprite for the new entity
-            SpriteComponent sprite = new SpriteComponent();
-            sprite.setSpritesheet(spriteName, spriteXml, resourceMgr);
-            //sprite.SpriteSheet = texture;
-            sprite.SrcRect = rectangle;
-
             SpawnerComponent spawnerCmp = new SpawnerComponent();
             spawnerCmp.numMobs = numMobs;
             spawnerCmp.timeOfLastSpawn = new TimeSpan(0, 0, 0, 0, 0);
             spawnerCmp.timePerSpawn = timePerSpawn;
-            spawnerCmp.sprite = sprite;
-            spawnerCmp.data = data;
+            spawnerCmp.MonsterType = MonsterType;
+            spawnerCmp.MonsterWeapon = MonsterWeapon;
 
             //Add the new components to the entity
             spawner.AddComponent(spatial);

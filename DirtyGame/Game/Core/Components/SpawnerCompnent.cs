@@ -13,8 +13,7 @@ namespace DirtyGame.game.Core.Components
         public TimeSpan timePerSpawn;
         public int numMobs;
         public TimeSpan timeOfLastSpawn;
-        [XmlIgnoreAttribute]
-        public SpriteComponent sprite;
-        public MonsterData data;
+        public String MonsterType;
+        public String MonsterWeapon;
     }
 }

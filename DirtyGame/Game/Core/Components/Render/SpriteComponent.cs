@@ -30,7 +30,13 @@ namespace DirtyGame.game.Core.Components.Render
             Scale = 1;
         }
         #endregion
-
+        public override void DidDeserialize()
+        {
+            if (xmlName != null && xmlName != "")
+                setSpritesheet(spriteName, xmlName, ResourceManager.Instance);
+            else
+                setSprite(spriteName, ResourceManager.Instance);
+        }
         public void setSprite(string spriteName, ResourceManager res)
         {
             this.spriteName = spriteName;

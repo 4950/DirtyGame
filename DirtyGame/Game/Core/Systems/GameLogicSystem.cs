@@ -60,22 +60,6 @@ namespace DirtyGame.game.Core.Systems
             roundLabel.Visibility = CoreUI.Visibility.Visible;
             roundLblTime = 3f;
 
-            Entity monsterWeapon = game.world.EntityMgr.GetEntityByName("Monsterbow");
-            MonsterData rangedData = MonsterData.RangedMonster;
-            rangedData.weapon = monsterWeapon;
-            rangedData.Health += (int)(rangedData.Health * (CurrentLevel / 5f));
-
-            Entity monsterMelee = game.world.EntityMgr.GetEntityByName("Monstersword");
-            MonsterData meleeData = MonsterData.BasicMonster;
-            meleeData.weapon = monsterMelee;
-            meleeData.Health += (int)(meleeData.Health * (CurrentLevel / 5f));
-
-            Entity flametowerWeapon = game.world.EntityMgr.GetEntityByName("FlametowerWeapon");
-            MonsterData flameData = MonsterData.BasicMonster;
-            flameData.Type = "Flametower";
-            flameData.weapon = flametowerWeapon;
-            flameData.Health = 100;
-
             int numRanged = 2 + 2 * CurrentLevel;
             int numMelee = 2 + 2 * CurrentLevel;
 
@@ -90,19 +74,19 @@ namespace DirtyGame.game.Core.Systems
                     break;
             }
 
-            Entity e = game.entityFactory.CreateSpawner(100, 100, "playerSheet", "Content\\PlayerAnimation.xml", new Rectangle(0, 0, 46, 46), rangedData, numRanged / 2, new TimeSpan(0, 0, 0, 0, 1000));
+            Entity e = game.entityFactory.CreateSpawner(100, 100, new Rectangle(0, 0, 46, 46), "RangedMonster", "Monsterbow", numRanged / 2, new TimeSpan(0, 0, 0, 0, 1000));
             e.Refresh();
             spawners.Add(e);
-            e = game.entityFactory.CreateSpawner(300, 100, "monsterSheet_JUNK", "Content\\MonsterAnimation.xml", new Rectangle(0, 0, 46, 46), meleeData, numMelee / 2, new TimeSpan(0, 0, 0, 0, 2000));
+            e = game.entityFactory.CreateSpawner(300, 100, new Rectangle(0, 0, 46, 46), "MeleeMonster", "Monstersword", numMelee / 2, new TimeSpan(0, 0, 0, 0, 2000));
             e.Refresh();
             spawners.Add(e);
-            e = game.entityFactory.CreateSpawner(100, 300, "playerSheet", "Content\\PlayerAnimation.xml", new Rectangle(0, 0, 46, 46), rangedData, numRanged / 2, new TimeSpan(0, 0, 0, 0, 3000));
+            e = game.entityFactory.CreateSpawner(100, 300, new Rectangle(0, 0, 46, 46), "RangedMonster", "Monsterbow", numRanged / 2, new TimeSpan(0, 0, 0, 0, 3000));
             e.Refresh();
             spawners.Add(e);
-            e = game.entityFactory.CreateSpawner(300, 640, "monsterSheet_JUNK", "Content\\MonsterAnimation.xml", new Rectangle(0, 0, 46, 46), meleeData, numMelee / 2, new TimeSpan(0, 0, 0, 0, 500));
+            e = game.entityFactory.CreateSpawner(300, 640, new Rectangle(0, 0, 46, 46), "MeleeMonster", "Monstersword", numMelee / 2, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
             spawners.Add(e);
-            e = game.entityFactory.CreateSpawner(300, 640, "Flametower", "Content\\Flametower.xml", new Rectangle(0, 0, 46, 46), flameData, 1, new TimeSpan(0, 0, 0, 0, 500));
+            e = game.entityFactory.CreateSpawner(300, 640, new Rectangle(0, 0, 46, 46), "Flametower", "FlametowerWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
             spawners.Add(e);
 

@@ -1,5 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?> 
 <root>
+
+
+
+	<!-- Weapon Section -->
 	<Entity guid="9c52d524-96aa-4d2a-8c28-44ccdceb6dfb" name="Monsterbow">
 		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="WeaponComponent">
 			<Name>WeaponComponent</Name>
@@ -144,6 +148,338 @@
 			<AmmoPrice>10</AmmoPrice>
 			<MaxAmmo>10</MaxAmmo>
 			<Ammo>10</Ammo>
+		</Component>
+	</Entity>
+	
+	
+	
+	<!-- Monster Section -->
+	<Entity guid="7e1b023f-fcbc-411c-8faa-05218f6fdd03" name="MeleeMonster" data="true">
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="MonsterComponent">
+			<Name>MonsterComponent</Name>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="StatsComponent">
+			<Name>StatsComponent</Name>
+			<BaseMoveSpeed>100</BaseMoveSpeed>
+			<BaseDamage>100</BaseDamage>
+			<RangedImmune>false</RangedImmune>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="MovementComponent">
+			<Name>MovementComponent</Name>
+			<Velocity>
+				<X>0</X>
+				<Y>0</Y>
+			</Velocity>
+			<Vertical>0</Vertical>
+			<Horizontal>0</Horizontal>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="AnimationComponent">
+			<Name>AnimationComponent</Name>
+			<CurrentAnimation>IdleDown</CurrentAnimation>
+			<TimeElapsed>0</TimeElapsed>
+			<CurrentFrame>0</CurrentFrame>
+			<StartedFiniteAnimation>false</StartedFiniteAnimation>
+			<FinishedFiniteAnimation>true</FinishedFiniteAnimation>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="SpatialComponent">
+			<Name>SpatialComponent</Name>
+			<Position>
+				<X>0</X>
+				<Y>0</Y>
+			</Position>
+			<Size>
+				<X>25</X>
+				<Y>25</Y>
+			</Size>
+			<Rotation>0</Rotation>
+			<ConstantRotation>0</ConstantRotation>
+			<isMoving>false</isMoving>
+			<Bounds>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>25</Width>
+				<Height>25</Height>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+			</Bounds>
+			<Height>25</Height>
+			<Width>25</Width>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="SpriteComponent">
+			<Name>SpriteComponent</Name>
+			<RenderLayer>INVALIDE</RenderLayer>
+			<spriteName>monsterSheet_JUNK</spriteName>
+			<xmlName>Content\MonsterAnimation.xml</xmlName>
+			<SrcRect>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>50</Width>
+				<Height>50</Height>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+			</SrcRect>
+			<Scale>1</Scale>
+			<Angle>0</Angle>
+			<AnchorPoint>
+				<X>0.25</X>
+				<Y>0.25</Y>
+			</AnchorPoint>
+			<origin>
+				<X>0</X>
+				<Y>0</Y>
+			</origin>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="TimeComponent">
+			<Name>TimeComponent</Name>
+			<timeOfLastDraw />
+			<timeBetweenDraw />
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="HealthComponent">
+			<Name>HealthComponent</Name>
+			<MaxHealth>240</MaxHealth>
+			<CurrentHealth>240</CurrentHealth>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="PhysicsComponent">
+			<Name>PhysicsComponent</Name>
+			<Origin>
+				<X>0.5</X>
+				<Y>0.5</Y>
+			</Origin>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="DirectionComponent">
+			<Name>DirectionComponent</Name>
+			<Heading>Down</Heading>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="SeparationComponent">
+			<Name>SeparationComponent</Name>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="PropertyComponentOfString">
+			<Name>MonsterType</Name>
+			<IsModified>true</IsModified>
+			<value />
+		</Component>
+	</Entity>
+	
+	<Entity guid="26602af5-90d5-42b6-aaf8-c178dbdacb7c" name="RangedMonster" data="true">
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="MonsterComponent">
+			<Name>MonsterComponent</Name>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="StatsComponent">
+			<Name>StatsComponent</Name>
+			<BaseMoveSpeed>100</BaseMoveSpeed>
+			<BaseDamage>100</BaseDamage>
+			<RangedImmune>false</RangedImmune>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="MovementComponent">
+			<Name>MovementComponent</Name>
+			<Velocity>
+				<X>0</X>
+				<Y>0</Y>
+			</Velocity>
+			<Vertical>0</Vertical>
+			<Horizontal>0</Horizontal>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="AnimationComponent">
+			<Name>AnimationComponent</Name>
+			<CurrentAnimation>IdleDown</CurrentAnimation>
+			<TimeElapsed>0</TimeElapsed>
+			<CurrentFrame>0</CurrentFrame>
+			<StartedFiniteAnimation>false</StartedFiniteAnimation>
+			<FinishedFiniteAnimation>true</FinishedFiniteAnimation>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="SpatialComponent">
+			<Name>SpatialComponent</Name>
+			<Position>
+				<X>0</X>
+				<Y>0</Y>
+			</Position>
+			<Size>
+				<X>25</X>
+				<Y>25</Y>
+			</Size>
+			<Rotation>0</Rotation>
+			<ConstantRotation>0</ConstantRotation>
+			<isMoving>false</isMoving>
+			<Bounds>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>25</Width>
+				<Height>25</Height>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+			</Bounds>
+			<Height>25</Height>
+			<Width>25</Width>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="SpriteComponent">
+			<Name>SpriteComponent</Name>
+			<RenderLayer>INVALIDE</RenderLayer>
+			<spriteName>playerSheet</spriteName>
+			<xmlName>Content\PlayerAnimation.xml</xmlName>
+			<SrcRect>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>50</Width>
+				<Height>50</Height>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+			</SrcRect>
+			<Scale>1</Scale>
+			<Angle>0</Angle>
+			<AnchorPoint>
+				<X>0.25</X>
+				<Y>0.25</Y>
+			</AnchorPoint>
+			<origin>
+				<X>0</X>
+				<Y>0</Y>
+			</origin>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="TimeComponent">
+			<Name>TimeComponent</Name>
+			<timeOfLastDraw />
+			<timeBetweenDraw />
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="HealthComponent">
+			<Name>HealthComponent</Name>
+			<MaxHealth>120</MaxHealth>
+			<CurrentHealth>120</CurrentHealth>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="PhysicsComponent">
+			<Name>PhysicsComponent</Name>
+			<Origin>
+				<X>0.5</X>
+				<Y>0.5</Y>
+			</Origin>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="DirectionComponent">
+			<Name>DirectionComponent</Name>
+			<Heading>Down</Heading>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="SeparationComponent">
+			<Name>SeparationComponent</Name>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="PropertyComponentOfString">
+			<Name>MonsterType</Name>
+			<IsModified>true</IsModified>
+			<value />
+		</Component>
+	</Entity>
+	<Entity guid="80d5da8d-66cc-433e-ba56-18abecd11338" name="Flametower" data="true">
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="MonsterComponent">
+			<Name>MonsterComponent</Name>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="StatsComponent">
+			<Name>StatsComponent</Name>
+			<BaseMoveSpeed>100</BaseMoveSpeed>
+			<BaseDamage>100</BaseDamage>
+			<RangedImmune>true</RangedImmune>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="MovementComponent">
+			<Name>MovementComponent</Name>
+			<Velocity>
+				<X>0</X>
+				<Y>0</Y>
+			</Velocity>
+			<Vertical>0</Vertical>
+			<Horizontal>0</Horizontal>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="AnimationComponent">
+			<Name>AnimationComponent</Name>
+			<CurrentAnimation>IdleDown</CurrentAnimation>
+			<TimeElapsed>0</TimeElapsed>
+			<CurrentFrame>0</CurrentFrame>
+			<StartedFiniteAnimation>false</StartedFiniteAnimation>
+			<FinishedFiniteAnimation>true</FinishedFiniteAnimation>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="SpatialComponent">
+			<Name>SpatialComponent</Name>
+			<Position>
+				<X>0</X>
+				<Y>0</Y>
+			</Position>
+			<Size>
+				<X>59</X>
+				<Y>59</Y>
+			</Size>
+			<Rotation>0</Rotation>
+			<ConstantRotation>0</ConstantRotation>
+			<isMoving>false</isMoving>
+			<Bounds>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>59</Width>
+				<Height>59</Height>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+			</Bounds>
+			<Height>59</Height>
+			<Width>59</Width>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="SpriteComponent">
+			<Name>SpriteComponent</Name>
+			<RenderLayer>INVALIDE</RenderLayer>
+			<spriteName>Flametower</spriteName>
+			<xmlName>Content\Flametower.xml</xmlName>
+			<SrcRect>
+				<X>0</X>
+				<Y>0</Y>
+				<Width>118</Width>
+				<Height>118</Height>
+				<Location>
+					<X>0</X>
+					<Y>0</Y>
+				</Location>
+			</SrcRect>
+			<Scale>1</Scale>
+			<Angle>0</Angle>
+			<AnchorPoint>
+				<X>0.25</X>
+				<Y>0.25</Y>
+			</AnchorPoint>
+			<origin>
+				<X>0</X>
+				<Y>0</Y>
+			</origin>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="TimeComponent">
+			<Name>TimeComponent</Name>
+			<timeOfLastDraw />
+			<timeBetweenDraw />
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="HealthComponent">
+			<Name>HealthComponent</Name>
+			<MaxHealth>120</MaxHealth>
+			<CurrentHealth>120</CurrentHealth>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="PhysicsComponent">
+			<Name>PhysicsComponent</Name>
+			<Origin>
+				<X>0.5</X>
+				<Y>0.5</Y>
+			</Origin>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="DirectionComponent">
+			<Name>DirectionComponent</Name>
+			<Heading>Down</Heading>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="SeparationComponent">
+			<Name>SeparationComponent</Name>
+		</Component>
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="PropertyComponentOfString">
+			<Name>MonsterType</Name>
+			<IsModified>true</IsModified>
+			<value>Flametower</value>
 		</Component>
 	</Entity>
 </root>
