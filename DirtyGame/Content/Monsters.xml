@@ -55,4 +55,95 @@
 			<Ammo>-1</Ammo>
 		</Component>
 	</Entity>
+	<Entity guid="6d3f30e8-ddee-46e9-b5d7-6302eb5f35b8" name="BasicSword">
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="WeaponComponent">
+			<Name>WeaponComponent</Name>
+			<WeaponName>Basic Sword</WeaponName>
+			<Portrait>sword</Portrait>
+			<BaseDamage>25</BaseDamage>
+			<Range>50</Range>
+			<Type>Melee</Type>
+			<ProjectileSprite>SwordMeleeSpriteSheet</ProjectileSprite>
+			<SpriteXml>Content\MeleeAnimation.xml</SpriteXml>
+			<ProjectileSpeed>0</ProjectileSpeed>
+			<Cooldown>1</Cooldown>
+			<LastFire>0</LastFire>
+			<Price>100</Price>
+			<AmmoPrice>2</AmmoPrice>
+			<MaxAmmo>50</MaxAmmo>
+			<Ammo>50</Ammo>
+		</Component>
+	</Entity>
+	<Entity guid="0764619a-2dac-4eb9-9e8d-e0b03ffe3a15" name="Doomsbow">
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="WeaponComponent">
+			<Name>WeaponComponent</Name>
+			<WeaponName>Doomsbow</WeaponName>
+			<Portrait>bow</Portrait>
+			<BaseDamage>25</BaseDamage>
+			<Range>400</Range>
+			<Type>Ranged</Type>
+			<ProjectileSprite>arrow</ProjectileSprite>
+			<ProjectileSpeed>10</ProjectileSpeed>
+			<Cooldown>1</Cooldown>
+			<LastFire>0</LastFire>
+			<Price>100</Price>
+			<AmmoPrice>0</AmmoPrice>
+			<MaxAmmo>-1</MaxAmmo>
+			<Ammo>-1</Ammo>
+		</Component>
+	</Entity>
+	<Entity guid="f6d3e02f-0628-4740-9e22-f8c739c35ae0" name="Spear">
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="WeaponComponent">
+			<Name>WeaponComponent</Name>
+			<WeaponName>Spear</WeaponName>
+			<Portrait>spear</Portrait>
+			<BaseDamage>35</BaseDamage>
+			<Range>200</Range>
+			<Type>Ranged</Type>
+			<ProjectileSprite>spear</ProjectileSprite>
+			<ProjectileSpeed>5</ProjectileSpeed>
+			<Cooldown>2</Cooldown>
+			<LastFire>0</LastFire>
+			<Price>150</Price>
+			<AmmoPrice>10</AmmoPrice>
+			<MaxAmmo>5</MaxAmmo>
+			<Ammo>5</Ammo>
+		</Component>
+	</Entity>
+	<Entity guid="027acd88-e7db-4b81-9120-a2549f63872d" name="Scattershot">
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="WeaponComponent">
+			<Name>WeaponComponent</Name>
+			<WeaponName>Scattershot</WeaponName>
+			<Portrait>bow</Portrait>
+			<BaseDamage>25</BaseDamage>
+			<Range>400</Range>
+			<Type>Ranged</Type>
+			<ProjectileSprite>arrow</ProjectileSprite>
+			<ProjectileSpeed>10</ProjectileSpeed>
+			<Cooldown>1</Cooldown>
+			<LastFire>0</LastFire>
+			<Price>100</Price>
+			<AmmoPrice>10</AmmoPrice>
+			<MaxAmmo>10</MaxAmmo>
+			<Ammo>10</Ammo>
+		</Component>
+	</Entity>
+	<Entity guid="4c3b2ae9-a06f-4cf7-9d95-82368553aab2" name="Sniper">
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="WeaponComponent">
+			<Name>WeaponComponent</Name>
+			<WeaponName>Sniper</WeaponName>
+			<Portrait>bow</Portrait>
+			<BaseDamage>100</BaseDamage>
+			<Range>600</Range>
+			<Type>Ranged</Type>
+			<ProjectileSprite>arrow</ProjectileSprite>
+			<ProjectileSpeed>30</ProjectileSpeed>
+			<Cooldown>4</Cooldown>
+			<LastFire>0</LastFire>
+			<Price>100</Price>
+			<AmmoPrice>10</AmmoPrice>
+			<MaxAmmo>10</MaxAmmo>
+			<Ammo>10</Ammo>
+		</Component>
+	</Entity>
 </root>

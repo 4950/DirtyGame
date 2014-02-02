@@ -73,6 +73,21 @@ namespace DirtyGame
         /// </summary>
         private void SaveTestEntites()
         {
+            //Entity e = entityFactory.CreateMeleeWeaponEntity("Basic Sword", "sword", 50, 25, 50, 1f, 100, 2, "SwordMeleeSpriteSheet", "Content\\MeleeAnimation.xml");
+            //e.Name = "BasicSword";
+            //e.Refresh();
+            //e = entityFactory.CreateRangedWeaponEntity("Doomsbow", "bow", "bow", 400, 25, 10, "arrow", -1, 1f, 100, 0);
+            //e.Name = "Doomsbow";
+            //e.Refresh();
+            //e = entityFactory.CreateRangedWeaponEntity("Spear", "spear", "spear", 200, 35, 5, "spear", 5, 2f, 150, 10);
+            //e.Name = "Spear";
+            //e.Refresh();
+            //e = entityFactory.CreateRangedWeaponEntity("Scattershot", "bow", "bow", 400, 25, 10, "arrow", 10, 1f, 100, 10);
+            //e.Name = "Scattershot";
+            //e.Refresh();
+            //e = entityFactory.CreateRangedWeaponEntity("Sniper", "bow", "bow", 600, 100, 30, "arrow", 10, 4f, 100, 10);
+            //e.Name = "Sniper";
+            //e.Refresh();
             //Entity flametowerWeapon = entityFactory.CreateRangedWeaponEntity("FlametowerWeapon", "bow", "bow", 150, 5, 30, "Flames", -1, 3f, 100, 10);
             //flametowerWeapon.Name = "FlametowerWeapon";
             //flametowerWeapon.Refresh();
@@ -126,7 +141,6 @@ namespace DirtyGame
             world.AddSystem(new SpawnerSystem(entityFactory));
             world.AddSystem(new HUDSystem(renderer, UIEngine));
             world.AddSystem(new ProjectileSystem(this));
-            //world.AddSystem(new MonsterSystem(aiSystem));
             gLogicSystem = new GameLogicSystem(this);
 
             world.AddSystem(new PhysicsSystem(physics, renderer, this));
@@ -142,81 +156,31 @@ namespace DirtyGame
             //add component types to list
             Component.ComponentTypes.Add(typeof(PropertyComponent<int>));
             Component.ComponentTypes.Add(typeof(WeaponComponent));
-            //game entity
 
-            /*e = entityFactory.CreateBasicEntity();
-            e.Name = "Game";
-            e.AddComponent(new PropertyComponent<int>("GameScore", 0));
-            e.AddComponent(new PropertyComponent<int>("GameCash", 0));
-            e.AddComponent(new PropertyComponent<int>("GameRound", 1));
-            e.AddComponent(new PropertyComponent<int>("GameKills", 0));
-            e.Refresh();
-            gameEntity = e.reference;*/
+            SaveTestEntites();
 
-
-
+            //load serialized entities
             world.EntityMgr.DeserializeEntities(App.Path + "Main.xml");
             world.EntityMgr.DeserializeEntities(App.Path + "Monsters.xml");
             gameEntity = world.EntityMgr.GetEntityByName("Game").reference;
             world.AddSystem(gLogicSystem);
 
-            SaveTestEntites();
 
-            SpriteSheet playerSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("playerSheet"), "playerSheet", "Content\\PlayerAnimation.xml");
-            SpriteSheet monsterSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("monsterSheet_JUNK"), "monsterSheet_JUNK", "Content\\MonsterAnimation.xml");
-            SpriteSheet meleeSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("SwordMeleeSpriteSheet"), "SwordMeleeSpriteSheet", "Content\\MeleeAnimation.xml");
-            SpriteSheet flamesSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("Flames"), "Flames", "Content\\Flames.xml");
-            SpriteSheet flametowerSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("Flametower"), "Flametower", "Content\\Flametower.xml");
-            SpriteSheet flameTrailSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("FlameTrail"), "FlameTrail", "Content\\FlameTrail.xml");
-            resourceManager.AddResource<SpriteSheet>(playerSpriteSheet, "playerSheet");
-            resourceManager.AddResource<SpriteSheet>(monsterSpriteSheet, "monsterSheet_JUNK");
-            resourceManager.AddResource<SpriteSheet>(meleeSpriteSheet, "SwordMeleeSpriteSheet");
-            resourceManager.AddResource<SpriteSheet>(flamesSpriteSheet, "Flames");
-            resourceManager.AddResource<SpriteSheet>(flametowerSpriteSheet, "Flametower");
-            resourceManager.AddResource<SpriteSheet>(flameTrailSpriteSheet, "FlameTrail");
-
-            player = entityFactory.CreatePlayerEntity(playerSpriteSheet);
+            player = entityFactory.CreatePlayerEntity();
             player.Name = "Player";
             player.Refresh();
 
             //weapons
-            e = entityFactory.CreateMeleeWeaponEntity("Basic Sword", "sword", 50, 25, 50, 1f, 100, 2, "SwordMeleeSpriteSheet", "Content\\MeleeAnimation.xml");
-            e.Refresh();
+            e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("BasicSword"));
             player.GetComponent<InventoryComponent>().addWeapon(e, player);
-            e = entityFactory.CreateRangedWeaponEntity("Doomsbow", "bow", "bow", 400, 25, 10, "arrow", -1, 1f, 100, 0);
-            e.Refresh();
+            e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("Doomsbow"));
             player.GetComponent<InventoryComponent>().addWeapon(e, player);
-            e = entityFactory.CreateRangedWeaponEntity("Spear", "spear", "spear", 200, 35, 5, "spear", 5, 2f, 150, 10);
-            e.Refresh();
+            e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("Spear"));
             player.GetComponent<InventoryComponent>().addWeapon(e, player);
-            e = entityFactory.CreateRangedWeaponEntity("Scattershot", "bow", "bow", 400, 25, 10, "arrow", 10, 1f, 100, 10);
-            e.Refresh();
+            e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("Scattershot"));
             player.GetComponent<InventoryComponent>().addWeapon(e, player);
-            e = entityFactory.CreateRangedWeaponEntity("Sniper", "bow", "bow", 600, 100, 30, "arrow", 10, 4f, 100, 10);
-            e.Refresh();
+            e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("Sniper"));
             player.GetComponent<InventoryComponent>().addWeapon(e, player);
-            e = entityFactory.CreateRangedWeaponEntity("FlametowerWeapon", "bow", "bow", 150, 5, 30, "arrow", 0, 3f, 100, 10);
-            e.Refresh();
-            player.GetComponent<InventoryComponent>().addWeapon(e, player);
-
-            /*Entity monsterWeapon = entityFactory.CreateRangedWeaponEntity("Monsterbow", "bow", "bow", 400, 20, 10, "arrow", -1, 3f);
-            monsterWeapon.Refresh();
-            MonsterData rangedData = MonsterData.RangedMonster;
-            rangedData.weapon = monsterWeapon;
-
-            Entity monsterMelee = entityFactory.CreateMeleeWeaponEntity("Monstersword", "sword", 50, 15, -1, 2f, meleeSpriteSheet);
-            monsterMelee.Refresh();
-            MonsterData meleeData = MonsterData.BasicMonster;
-            meleeData.weapon = monsterMelee;
-
-            e = entityFactory.CreateSpawner(100, 100, playerSpriteSheet, new Rectangle(0, 0, 46, 46), rangedData, 1, new TimeSpan(0, 0, 0, 0, 1000));
-            e.Refresh();
-            e = entityFactory.CreateSpawner(300, 100, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), meleeData, 1, new TimeSpan(0, 0, 0, 0, 2000));
-            e.Refresh();
-            e = entityFactory.CreateSpawner(100, 300, playerSpriteSheet, new Rectangle(0, 0, 46, 46), rangedData, 1, new TimeSpan(0, 0, 0, 0, 3000));
-            e.Refresh();
-            e = entityFactory.CreateSpawner(300, 300, monsterSpriteSheet, new Rectangle(0, 0, 46, 46), meleeData, 1, new TimeSpan(0, 0, 0, 0, 500));
-            e.Refresh();*/
 
             gLogicSystem.SetupNextRound();
 

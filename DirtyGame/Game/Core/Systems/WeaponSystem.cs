@@ -37,6 +37,9 @@ namespace DirtyGame.game.Core.Systems
             HealthComponent hc = Target.GetComponent<HealthComponent>();
             StatsComponent s = wc.Owner.GetComponent<StatsComponent>();
 
+            if (wc == null || hc == null || s == null)
+                return;
+
             int Damage = (int)Math.Floor(wc.BaseDamage * (s.Damage / 100.0f));
 
             hc.CurrentHealth -= Damage;

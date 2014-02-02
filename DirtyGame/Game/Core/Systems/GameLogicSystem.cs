@@ -90,19 +90,19 @@ namespace DirtyGame.game.Core.Systems
                     break;
             }
 
-            Entity e = game.entityFactory.CreateSpawner(100, 100, game.resourceManager.GetResource<SpriteSheet>("playerSheet"), new Rectangle(0, 0, 46, 46), rangedData, numRanged / 2, new TimeSpan(0, 0, 0, 0, 1000));
+            Entity e = game.entityFactory.CreateSpawner(100, 100, "playerSheet", "Content\\PlayerAnimation.xml", new Rectangle(0, 0, 46, 46), rangedData, numRanged / 2, new TimeSpan(0, 0, 0, 0, 1000));
             e.Refresh();
             spawners.Add(e);
-            e = game.entityFactory.CreateSpawner(300, 100, game.resourceManager.GetResource<SpriteSheet>("monsterSheet_JUNK"), new Rectangle(0, 0, 46, 46), meleeData, numMelee / 2, new TimeSpan(0, 0, 0, 0, 2000));
+            e = game.entityFactory.CreateSpawner(300, 100, "monsterSheet_JUNK", "Content\\MonsterAnimation.xml", new Rectangle(0, 0, 46, 46), meleeData, numMelee / 2, new TimeSpan(0, 0, 0, 0, 2000));
             e.Refresh();
             spawners.Add(e);
-            e = game.entityFactory.CreateSpawner(100, 300, game.resourceManager.GetResource<SpriteSheet>("playerSheet"), new Rectangle(0, 0, 46, 46), rangedData, numRanged / 2, new TimeSpan(0, 0, 0, 0, 3000));
+            e = game.entityFactory.CreateSpawner(100, 300, "playerSheet", "Content\\PlayerAnimation.xml", new Rectangle(0, 0, 46, 46), rangedData, numRanged / 2, new TimeSpan(0, 0, 0, 0, 3000));
             e.Refresh();
             spawners.Add(e);
-            e = game.entityFactory.CreateSpawner(300, 640, game.resourceManager.GetResource<SpriteSheet>("monsterSheet_JUNK"), new Rectangle(0, 0, 46, 46), meleeData, numMelee / 2, new TimeSpan(0, 0, 0, 0, 500));
+            e = game.entityFactory.CreateSpawner(300, 640, "monsterSheet_JUNK", "Content\\MonsterAnimation.xml", new Rectangle(0, 0, 46, 46), meleeData, numMelee / 2, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
             spawners.Add(e);
-            e = game.entityFactory.CreateSpawner(300, 640, game.resourceManager.GetResource<SpriteSheet>("Flametower"), new Rectangle(0, 0, 46, 46), flameData, 1, new TimeSpan(0, 0, 0, 0, 500));
+            e = game.entityFactory.CreateSpawner(300, 640, "Flametower", "Content\\Flametower.xml", new Rectangle(0, 0, 46, 46), flameData, 1, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
             spawners.Add(e);
 

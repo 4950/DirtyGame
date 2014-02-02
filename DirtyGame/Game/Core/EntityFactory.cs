@@ -161,7 +161,7 @@ namespace DirtyGame.game.Core
             return meleeEntity;
         }
 
-        public Entity CreatePlayerEntity(SpriteSheet spriteSheet)
+        public Entity CreatePlayerEntity()
         {
             Entity e = entityMgr.CreateEntity();
             SpatialComponent spatial = new SpatialComponent();
@@ -399,7 +399,7 @@ namespace DirtyGame.game.Core
             return wall;
         }
 
-        public Entity CreateSpawner(int xPos, int yPos, SpriteSheet texture, Rectangle rectangle, MonsterData data, int numMobs, TimeSpan timePerSpawn)
+        public Entity CreateSpawner(int xPos, int yPos, string spriteName, string spriteXml, Rectangle rectangle, MonsterData data, int numMobs, TimeSpan timePerSpawn)
         {
             Entity spawner = entityMgr.CreateEntity();
 
@@ -409,7 +409,7 @@ namespace DirtyGame.game.Core
 
             //Create the Sprite for the new entity
             SpriteComponent sprite = new SpriteComponent();
-            sprite.setSpritesheet(texture.spriteName, texture.xmlFileLocation, resourceMgr);
+            sprite.setSpritesheet(spriteName, spriteXml, resourceMgr);
             //sprite.SpriteSheet = texture;
             sprite.SrcRect = rectangle;
 
