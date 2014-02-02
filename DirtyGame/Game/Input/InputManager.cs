@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using Dirtygame.game.Util;
+using DirtyGame.game.Util;
 using Microsoft.Xna.Framework.Input;
 
 namespace DirtyGame.game.Input

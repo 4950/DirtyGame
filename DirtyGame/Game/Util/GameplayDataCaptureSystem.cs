@@ -11,7 +11,7 @@ using DbLinq.Data.Linq;
 using System.IO;
 using System.ComponentModel;
 
-namespace Dirtygame.game.Util
+namespace DirtyGame.game.Util
 {
     public enum CaptureEventType
     {
@@ -19,7 +19,10 @@ namespace Dirtygame.game.Util
         PlayerWeaponFired,
         PlayerHitWithWeapon,
         MonsterDamageTaken,
-        PlayerDamageTaken
+        PlayerDamageTaken,
+        MonsterKilled,
+        RoundEnded,
+        RoundHealth
     }
     public class GameplayDataCaptureSystem : Singleton<GameplayDataCaptureSystem>
     {

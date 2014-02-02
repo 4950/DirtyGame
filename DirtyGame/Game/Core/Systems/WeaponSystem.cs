@@ -9,7 +9,7 @@ using EntityFramework.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using DirtyGame.game.SGraphics;
-using Dirtygame.game.Util;
+using DirtyGame.game.Util;
 
 namespace DirtyGame.game.Core.Systems
 {

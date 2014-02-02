@@ -22,7 +22,7 @@ using DirtyGame.game.Core.GameStates;
 using CoreUI;
 using CoreUI.DrawEngines;
 using DirtyGame.game.Input;
-using Dirtygame.game.Util;
+using DirtyGame.game.Util;
 using CoreUI;
 using CoreUI.DrawEngines;
 using DirtyGame.game.Input;

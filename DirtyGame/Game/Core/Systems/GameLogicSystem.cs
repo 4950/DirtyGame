@@ -13,6 +13,7 @@ using EntityFramework;
 using DirtyGame.game.SGraphics;
 using CoreUI.Elements;
 using CoreUI.DrawEngines;
+using DirtyGame.game.Util;
 
 namespace DirtyGame.game.Core.Systems
 {
@@ -47,7 +48,7 @@ namespace DirtyGame.game.Core.Systems
             monstersdefeated = 0;
 
             //restore player health
-            game.player.GetComponent<HealthComponent>().CurrentHealth = game.player.GetComponent<HealthComponent>().MaxHealth;
+            //game.player.GetComponent<HealthComponent>().CurrentHealth = game.player.GetComponent<HealthComponent>().MaxHealth;
         }
         public void SetupNextRound()
         {
@@ -164,6 +165,8 @@ namespace DirtyGame.game.Core.Systems
                     monstersdefeated++;
                     gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += 50;
                     gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").value += 10;
+
+                    GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MonsterKilled, e.GetComponent<MonsterComponent>().data.Type);
                 }
                 if (--monstersalive == 0)
                 {
@@ -175,6 +178,8 @@ namespace DirtyGame.game.Core.Systems
                     EventManager.Instance.TriggerEvent(gamestate);*/
 
 
+                    GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundEnded, gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value.ToString());
+                    GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundHealth, game.player.GetComponent<HealthComponent>().CurrentHealth.ToString());
                     //next game round
                     AdvanceLevel();
                 }

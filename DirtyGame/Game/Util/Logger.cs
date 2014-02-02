@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Dirtygame.game.Util
+namespace DirtyGame.game.Util
 {
     class Logger
     {
