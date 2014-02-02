@@ -31,33 +31,8 @@ namespace DirtyGame.game.Core
             {
                 ret.AddComponent((Component)c.Clone());
             }
-            ret.Refresh();
+            //ret.Refresh();
             return ret;
-        }
-        public Entity CreateTestEntity()
-        {
-            return CreateTestEntity(new SpriteSheet(resourceMgr.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml"), new Vector2(0.0f, 0.0f), "Down");
-        }
-
-        public Entity CreateTestEntity(SpriteSheet spriteSheet, Vector2 entityPosition, string animationName)
-        {
-            Entity e = entityMgr.CreateEntity();
-            SpatialComponent spatial = new SpatialComponent();
-            spatial.Position = entityPosition;
-
-            SpriteComponent sprite = new SpriteComponent();
-            sprite.RenderLayer = RenderLayer.BACKGROUND;
-            sprite.SpriteSheet = spriteSheet;
-
-            //Creating an Animation component
-            AnimationComponent animation = new AnimationComponent();
-            //Changing the animation with the string property
-            animation.CurrentAnimation = animationName;
-            
-            e.AddComponent(spatial);
-            e.AddComponent(sprite);
-            e.AddComponent(animation);
-            return e;
         }
         public Entity CreateRangedWeaponEntity(String name, String sprite, String portrait, float range, float baseDamage, float projSpeed, String projectileSprite, int ammo, float cooldown, float price, float ammoprice)
         {
@@ -66,7 +41,7 @@ namespace DirtyGame.game.Core
 
             WeaponComponent wc = new WeaponComponent();
             wc.BaseDamage = baseDamage;
-            wc.Name = name;
+            wc.WeaponName = name;
             wc.Type = WeaponComponent.WeaponType.Ranged;
             wc.Range = range;
             wc.Portrait = portrait;
@@ -85,19 +60,20 @@ namespace DirtyGame.game.Core
         {
             return entityMgr.CreateEntity();
         }
-        public Entity CreateMeleeWeaponEntity(String name, String portrait, float range, float baseDamage, int ammo, float cooldown, float price, float ammoprice, SpriteSheet meleeSprite)
+        public Entity CreateMeleeWeaponEntity(String name, String portrait, float range, float baseDamage, int ammo, float cooldown, float price, float ammoprice, string spriteName, string spriteXml)
         {
             Entity proj = entityMgr.CreateEntity();
 
             WeaponComponent wc = new WeaponComponent();
             wc.BaseDamage = baseDamage;
-            wc.Name = name;
+            wc.WeaponName = name;
             wc.Type = WeaponComponent.WeaponType.Melee;
             wc.Range = range;
             wc.Portrait = portrait;
             wc.Ammo = wc.MaxAmmo = ammo;
             wc.Cooldown = cooldown;
-            wc.MeleeSheet = meleeSprite;
+            wc.ProjectileSprite = spriteName;
+            wc.SpriteXml = spriteXml;
             wc.Price = price;
             wc.AmmoPrice = ammoprice;
 
@@ -167,7 +143,8 @@ namespace DirtyGame.game.Core
          //   animation.CurrentAnimation = "Attack" + "Right";   //Need to change this for all the directions
 
             SpriteComponent sprite = new SpriteComponent();
-            sprite.SpriteSheet = wc.MeleeSheet;
+            sprite.setSpritesheet(wc.ProjectileSprite, wc.SpriteXml, resourceMgr);
+            //sprite.SpriteSheet = wc.MeleeSheet;
 
             MeleeComponent mc = new MeleeComponent();
             mc.Weapon = weapon;
@@ -184,7 +161,7 @@ namespace DirtyGame.game.Core
             return meleeEntity;
         }
 
-        public Entity CreatePlayerEntity(SpriteSheet spriteSheet)
+        public Entity CreatePlayerEntity()
         {
             Entity e = entityMgr.CreateEntity();
             SpatialComponent spatial = new SpatialComponent();
@@ -206,8 +183,9 @@ namespace DirtyGame.game.Core
             DirectionComponent direction = new DirectionComponent();
             direction.Heading = "Down";
 
-            sprite.SpriteSheet = spriteSheet;// new SpriteSheet(resourceMgr.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
-            sprite.SrcRect = sprite.SpriteSheet.Animation["Idle" + direction.Heading][0];
+            sprite.setSpritesheet("playerSheet", "Content\\PlayerAnimation.xml", resourceMgr);
+            //sprite.SpriteSheet = spriteSheet;// new SpriteSheet(resourceMgr.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
+            //sprite.SrcRect = sprite.SpriteSheet.Animation["Idle" + direction.Heading][0];
 
             //sprite.SpriteSheet = new SpriteSheet(resourceMgr.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
             //Creating an Animation component
@@ -241,7 +219,7 @@ namespace DirtyGame.game.Core
             e.GetComponent<SpatialComponent>().Width = 20;
             return e;
         }
-        public Entity CreateAOEField(Entity owner, Vector2 origin, Vector2 size, String spritesheet, int ticks, float tickInterval, float ConstantRotation, Entity Weapon)
+        public Entity CreateAOEField(Entity owner, Vector2 origin, Vector2 size, String spritesheet, string xmlName, int ticks, float tickInterval, float ConstantRotation, Entity Weapon)
         {
             Entity proj = entityMgr.CreateEntity();
 
@@ -259,7 +237,8 @@ namespace DirtyGame.game.Core
             pc.Origin = new Vector2(0, 0);
 
             SpriteComponent sc = new SpriteComponent();
-            sc.SpriteSheet = resourceMgr.GetResource<SpriteSheet>(spritesheet);
+            sc.setSpritesheet(spritesheet, xmlName, resourceMgr);
+            //sc.SpriteSheet = resourceMgr.GetResource<SpriteSheet>(spritesheet);
             sc.Scale = .5f;
             sc.origin = new Vector2(.5f, 2);
             //sc.AnchorPoint = new Vector2(0, 1);
@@ -296,8 +275,7 @@ namespace DirtyGame.game.Core
             spatial.Height = 2;
 
             SpriteComponent sc = new SpriteComponent();
-            sc.sprite = resourceMgr.GetResource<Texture2D>(sprite);
-            sc.SrcRect = sc.sprite.Bounds;
+            sc.setSprite(sprite, resourceMgr);
             sc.Angle = (float)Math.Atan2(direction.X, -direction.Y);
             sc.origin = new Vector2(.5f, 0);
             //sc.AnchorPoint = new Vector2(0, .25f);
@@ -315,7 +293,7 @@ namespace DirtyGame.game.Core
 
             return proj;
         }
-        private Entity CreateMonsterBase(Vector2 pos, SpriteSheet spriteSheet, float scale)
+        private Entity CreateMonsterBase(Vector2 pos, string spriteName, string xmlName, float scale)
         {
             Entity monster = entityMgr.CreateEntity();
 
@@ -339,10 +317,11 @@ namespace DirtyGame.game.Core
             //Create the Sprite for the new entity
             //  Sprite monsterSprite = sprite;
             SpriteComponent monsterSprite = new SpriteComponent();
-            monsterSprite.SpriteSheet = spriteSheet;
+            monsterSprite.setSpritesheet(spriteName, xmlName, resourceMgr);
+            //monsterSprite.SpriteSheet = spriteSheet;
             monsterSprite.AnchorPoint = new Vector2(.25f, .25f);
             monsterSprite.Scale = scale;
-            monsterSprite.SrcRect = monsterSprite.SpriteSheet.Animation["Idle" + direction.Heading][0];
+            //monsterSprite.SrcRect = monsterSprite.SpriteSheet.Animation["Idle" + direction.Heading][0];
 
             AnimationComponent ac = new AnimationComponent();
             ac.CurrentAnimation = "IdleDown";
@@ -386,15 +365,17 @@ namespace DirtyGame.game.Core
         /// <param name="spriteSheet"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public Entity CreateBasicMonster(Vector2 pos, SpriteSheet spriteSheet, MonsterData data)
+        public Entity CreateBasicMonster(Vector2 pos, string spriteName, string xmlName, MonsterData data)
         {
-            Entity monster = CreateMonsterBase(pos, spriteSheet, data.scale);
+            Entity monster = CreateMonsterBase(pos, spriteName, xmlName, data.scale);
 
             HealthComponent hc = monster.GetComponent<HealthComponent>();
             hc.CurrentHealth = hc.MaxHealth = data.Health;
 
             InventoryComponent ic = new InventoryComponent();
-            ic.addWeapon(CloneEntity(data.weapon), monster);
+            Entity weapon = CloneEntity(data.weapon);
+            weapon.Refresh();
+            ic.addWeapon(weapon, monster);
             
             monster.AddComponent(ic);
             monster.AddComponent(new PropertyComponent<String>("MonsterType", data.Type));
@@ -420,7 +401,7 @@ namespace DirtyGame.game.Core
             return wall;
         }
 
-        public Entity CreateSpawner(int xPos, int yPos, SpriteSheet texture, Rectangle rectangle, MonsterData data, int numMobs, TimeSpan timePerSpawn)
+        public Entity CreateSpawner(int xPos, int yPos, Rectangle rectangle, String MonsterType, String MonsterWeapon, int numMobs, TimeSpan timePerSpawn)
         {
             Entity spawner = entityMgr.CreateEntity();
 
@@ -428,17 +409,12 @@ namespace DirtyGame.game.Core
             SpatialComponent spatial = new SpatialComponent();
             spatial.Position = new Vector2(xPos, yPos);
 
-            //Create the Sprite for the new entity
-            SpriteComponent sprite = new SpriteComponent();
-            sprite.SpriteSheet = texture;
-            sprite.SrcRect = rectangle;
-
             SpawnerComponent spawnerCmp = new SpawnerComponent();
             spawnerCmp.numMobs = numMobs;
             spawnerCmp.timeOfLastSpawn = new TimeSpan(0, 0, 0, 0, 0);
             spawnerCmp.timePerSpawn = timePerSpawn;
-            spawnerCmp.sprite = sprite;
-            spawnerCmp.data = data;
+            spawnerCmp.MonsterType = MonsterType;
+            spawnerCmp.MonsterWeapon = MonsterWeapon;
 
             //Add the new components to the entity
             spawner.AddComponent(spatial);

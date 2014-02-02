@@ -60,25 +60,6 @@ namespace DirtyGame.game.Core.Systems
             roundLabel.Visibility = CoreUI.Visibility.Visible;
             roundLblTime = 3f;
 
-            Entity monsterWeapon = game.entityFactory.CreateRangedWeaponEntity("Monsterbow", "bow", "bow", 400, 20 + 20 * (CurrentLevel / 5f), 10, "arrow", -1, 3f, 100, 0);
-            monsterWeapon.Refresh();
-            MonsterData rangedData = MonsterData.RangedMonster;
-            rangedData.weapon = monsterWeapon;
-            rangedData.Health += (int)(rangedData.Health * (CurrentLevel / 5f));
-
-            Entity monsterMelee = game.entityFactory.CreateMeleeWeaponEntity("Monstersword", "sword", 50, 15 + 15 * (CurrentLevel / 5f), -1, 2f, 100, 0, game.resourceManager.GetResource<SpriteSheet>("SwordMeleeSpriteSheet"));
-            monsterMelee.Refresh();
-            MonsterData meleeData = MonsterData.BasicMonster;
-            meleeData.weapon = monsterMelee;
-            meleeData.Health += (int)(meleeData.Health * (CurrentLevel / 5f));
-
-            Entity flametowerWeapon = game.entityFactory.CreateRangedWeaponEntity("FlametowerWeapon", "bow", "bow", 150, 5, 30, "Flames", -1, 3f, 100, 10);
-            flametowerWeapon.Refresh();
-            MonsterData flameData = MonsterData.BasicMonster;
-            flameData.Type = "Flametower";
-            flameData.weapon = flametowerWeapon;
-            flameData.Health = 100;
-
             int numRanged = 2 + 2 * CurrentLevel;
             int numMelee = 2 + 2 * CurrentLevel;
 
@@ -93,19 +74,19 @@ namespace DirtyGame.game.Core.Systems
                     break;
             }
 
-            Entity e = game.entityFactory.CreateSpawner(100, 100, game.resourceManager.GetResource<SpriteSheet>("playerSheet"), new Rectangle(0, 0, 46, 46), rangedData, numRanged / 2, new TimeSpan(0, 0, 0, 0, 1000));
+            Entity e = game.entityFactory.CreateSpawner(100, 100, new Rectangle(0, 0, 46, 46), "RangedMonster", "Monsterbow", numRanged / 2, new TimeSpan(0, 0, 0, 0, 1000));
             e.Refresh();
             spawners.Add(e);
-            e = game.entityFactory.CreateSpawner(300, 100, game.resourceManager.GetResource<SpriteSheet>("monsterSheet_JUNK"), new Rectangle(0, 0, 46, 46), meleeData, numMelee / 2, new TimeSpan(0, 0, 0, 0, 2000));
+            e = game.entityFactory.CreateSpawner(300, 100, new Rectangle(0, 0, 46, 46), "MeleeMonster", "Monstersword", numMelee / 2, new TimeSpan(0, 0, 0, 0, 2000));
             e.Refresh();
             spawners.Add(e);
-            e = game.entityFactory.CreateSpawner(100, 300, game.resourceManager.GetResource<SpriteSheet>("playerSheet"), new Rectangle(0, 0, 46, 46), rangedData, numRanged / 2, new TimeSpan(0, 0, 0, 0, 3000));
+            e = game.entityFactory.CreateSpawner(100, 300, new Rectangle(0, 0, 46, 46), "RangedMonster", "Monsterbow", numRanged / 2, new TimeSpan(0, 0, 0, 0, 3000));
             e.Refresh();
             spawners.Add(e);
-            e = game.entityFactory.CreateSpawner(300, 640, game.resourceManager.GetResource<SpriteSheet>("monsterSheet_JUNK"), new Rectangle(0, 0, 46, 46), meleeData, numMelee / 2, new TimeSpan(0, 0, 0, 0, 500));
+            e = game.entityFactory.CreateSpawner(300, 640, new Rectangle(0, 0, 46, 46), "MeleeMonster", "Monstersword", numMelee / 2, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
             spawners.Add(e);
-            e = game.entityFactory.CreateSpawner(300, 640, game.resourceManager.GetResource<SpriteSheet>("Flametower"), new Rectangle(0, 0, 46, 46), flameData, 1, new TimeSpan(0, 0, 0, 0, 500));
+            e = game.entityFactory.CreateSpawner(300, 640, new Rectangle(0, 0, 46, 46), "Flametower", "FlametowerWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
             spawners.Add(e);
 
@@ -117,7 +98,7 @@ namespace DirtyGame.game.Core.Systems
         }
         private void SetupBoss()
         {
-            resetRound();
+            /*resetRound();
 
             int CurrentLevel = gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value;
 
@@ -140,7 +121,7 @@ namespace DirtyGame.game.Core.Systems
 
             Entity e = game.entityFactory.CreateSpawner(100, 100, game.resourceManager.GetResource<SpriteSheet>("playerSheet"), new Rectangle(0, 0, 46, 46), rangedData, 1, new TimeSpan(0, 0, 0, 0, 1000));
             e.Refresh();
-            spawners.Add(e);
+            spawners.Add(e);*/
         }
         private void AdvanceLevel()
         {

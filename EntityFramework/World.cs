@@ -10,7 +10,7 @@ namespace EntityFramework
     public class World
     {
         private EntityManager entityMgr;
-        private SystemManager systemMgr;  
+        private SystemManager systemMgr;
 
         public EntityManager EntityMgr
         {
@@ -19,7 +19,7 @@ namespace EntityFramework
                 return entityMgr;
             }
         }
-       
+
         public World()
         {
             entityMgr = new EntityManager(this);
@@ -62,14 +62,15 @@ namespace EntityFramework
 
         public void Refresh(Entity e)
         {
-            CheckSystems(e, systemMgr.Systems);
+            if (!e.DataEntity)
+                CheckSystems(e, systemMgr.Systems);
         }
 
         public void Update(float dt)
         {
             foreach (EntitySystem system in systemMgr.Systems)
-            {           
-                system.Update(dt);                                    
+            {
+                system.Update(dt);
             }
         }
 
@@ -79,6 +80,6 @@ namespace EntityFramework
             {
                 system.Check(e);
             }
-        }               
+        }
     }
 }

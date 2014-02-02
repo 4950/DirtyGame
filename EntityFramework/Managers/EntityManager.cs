@@ -106,6 +106,8 @@ namespace EntityFramework.Managers
                     writer.WriteAttributeString("guid", e.GUID.ToString());
                     if (e.Name != null)
                         writer.WriteAttributeString("name", e.Name);
+                    if(e.DataEntity)
+                        writer.WriteAttributeString("data", "true");
 
                     Dictionary<int, Component> d = entityComponents[key];
                     foreach (Component c in d.Values)
@@ -147,10 +149,13 @@ namespace EntityFramework.Managers
                     //read attributes first
                     Guid guid = Guid.Parse(read.GetAttribute("guid"));
                     String name = read.GetAttribute("name");
+                    String data = read.GetAttribute("data");
                     Entity e = new Entity(this, guid);
                     entities.Add(e.Id, e);
                     if (name != null)
                         e.Name = name;
+                    if (data == "true")
+                        e.DataEntity = true;
 
                     read.ReadStartElement();//<Entity>
 
@@ -158,6 +163,7 @@ namespace EntityFramework.Managers
                     while (read.IsStartElement())//<Component>
                     {
                         Component c = (Component)xs.Deserialize(read);
+                        c.DidDeserialize();
                         e.AddComponent(c);
                     }
 

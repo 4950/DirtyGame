@@ -177,7 +177,7 @@ namespace DirtyGame.game.Core.GameStates
                 weaponImg.ClearImage();
                 weaponImg.LoadImage(curWeapon.entity.GetComponent<WeaponComponent>().Portrait);
 
-                weaponName.Text = wc.Name;
+                weaponName.Text = wc.WeaponName;
                 weaponDamage.Text = "Damage: " + wc.BaseDamage;
 
                 if (wc.MaxAmmo == -1)

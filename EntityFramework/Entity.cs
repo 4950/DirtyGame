@@ -56,6 +56,10 @@ namespace EntityFramework
                 return entityManager.GetSystemBitVector(Id);
             }
         }
+        /// <summary>
+        /// Data entities are not visible to systems
+        /// </summary>
+        public bool DataEntity { get; set; }
         public Guid GUID
         {
             get { return guid; }
@@ -74,7 +78,7 @@ namespace EntityFramework
         public uint Id
         {
             get;
-            private set;
+            set;
         }
         public EntityRef reference
         {

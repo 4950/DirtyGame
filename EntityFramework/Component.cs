@@ -26,6 +26,10 @@ namespace EntityFramework
                 ComponentTypes.Add(this.GetType());
         }
 
+        public virtual void DidDeserialize()
+        {
+        }
+
         public int Id
         {
             get
