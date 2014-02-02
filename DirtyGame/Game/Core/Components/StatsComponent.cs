@@ -13,6 +13,7 @@ namespace DirtyGame.game.Core.Components
         //Base Stats
         public int BaseMoveSpeed { get; set; }
         public int BaseDamage { get; set; }
+        public bool RangedImmune { get; set; }
 
         //Calculated Stats
         public int MoveSpeed

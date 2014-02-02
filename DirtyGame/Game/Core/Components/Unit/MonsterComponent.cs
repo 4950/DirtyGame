@@ -46,6 +46,7 @@ namespace EntityFramework
     }
     public class MonsterComponent : UnitComponent
     {
+        [XmlIgnoreAttribute]
         public MonsterData data { get; set; }
         //public string monsterType;
     }

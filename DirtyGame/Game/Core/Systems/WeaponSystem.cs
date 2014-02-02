@@ -71,7 +71,7 @@ namespace DirtyGame.game.Core.Systems
                     Vector2 dir = (Target - spatial.Center);
                     dir.Normalize();
 
-                    if (wc.Name == "Scattershot")
+                    if (wc.WeaponName == "Scattershot")
                     {
                         for (float f = -.5f; f <= .5f; f += .25f)
                         {
@@ -80,9 +80,9 @@ namespace DirtyGame.game.Core.Systems
                             proj.Refresh();
                         }
                     }
-                    else if (wc.Name == "FlametowerWeapon")
+                    else if (wc.WeaponName == "FlametowerWeapon")
                     {
-                        Entity proj = game.entityFactory.CreateAOEField(Owner, spatial.Center, new Vector2(wc.Range, 25), wc.ProjectileSprite, 6, .5f, 2.094f, Weapon);
+                        Entity proj = game.entityFactory.CreateAOEField(Owner, spatial.Center, new Vector2(wc.Range, 25), wc.ProjectileSprite, "Content\\Flames.xml", 6, .5f, 2.094f, Weapon);
                         proj.Refresh();
                     }
                     else

@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<root>
+	<Entity guid="9c52d524-96aa-4d2a-8c28-44ccdceb6dfb" name="Monsterbow">
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="WeaponComponent">
+			<Name>WeaponComponent</Name>
+			<WeaponName>Monsterbow</WeaponName>
+			<Portrait>bow</Portrait>
+			<BaseDamage>24</BaseDamage>
+			<Range>400</Range>
+			<Type>Ranged</Type>
+			<ProjectileSprite>arrow</ProjectileSprite>
+			<ProjectileSpeed>10</ProjectileSpeed>
+			<Cooldown>3</Cooldown>
+			<LastFire>0</LastFire>
+			<Price>100</Price>
+			<AmmoPrice>0</AmmoPrice>
+			<MaxAmmo>-1</MaxAmmo>
+			<Ammo>-1</Ammo>
+		</Component>
+	</Entity>
+	<Entity guid="c5f567ec-3bf6-4d7a-895f-c9be5f0304a0" name="FlametowerWeapon">
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="WeaponComponent">
+			<Name>WeaponComponent</Name>
+			<WeaponName>FlametowerWeapon</WeaponName>
+			<Portrait>bow</Portrait>
+			<BaseDamage>5</BaseDamage>
+			<Range>150</Range>
+			<Type>Ranged</Type>
+			<ProjectileSprite>Flames</ProjectileSprite>
+			<ProjectileSpeed>30</ProjectileSpeed>
+			<Cooldown>3</Cooldown>
+			<LastFire>0</LastFire>
+			<Price>100</Price>
+			<AmmoPrice>10</AmmoPrice>
+			<MaxAmmo>-1</MaxAmmo>
+			<Ammo>-1</Ammo>
+		</Component>
+	</Entity>
+	<Entity guid="13e78013-72d2-4816-8aef-a9f19ff6fb99" name="Monstersword">
+		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="WeaponComponent">
+			<Name>WeaponComponent</Name>
+			<WeaponName>Monstersword</WeaponName>
+			<Portrait>sword</Portrait>
+			<BaseDamage>18</BaseDamage>
+			<Range>50</Range>
+			<Type>Melee</Type>
+			<ProjectileSprite>SwordMeleeSpriteSheet</ProjectileSprite>
+			<SpriteXml>Content\MeleeAnimation.xml</SpriteXml>
+			<ProjectileSpeed>0</ProjectileSpeed>
+			<Cooldown>2</Cooldown>
+			<LastFire>0</LastFire>
+			<Price>100</Price>
+			<AmmoPrice>0</AmmoPrice>
+			<MaxAmmo>-1</MaxAmmo>
+			<Ammo>-1</Ammo>
+		</Component>
+	</Entity>
+</root>

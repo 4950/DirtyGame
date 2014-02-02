@@ -74,7 +74,7 @@ namespace EntityFramework
         public uint Id
         {
             get;
-            private set;
+            set;
         }
         public EntityRef reference
         {

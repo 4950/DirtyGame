@@ -26,12 +26,13 @@ namespace DirtyGame.game.Core.Components
         #endregion
 
         #region Properties
-        public String Name { get; set; }
+        public String WeaponName { get; set; }
         public String Portrait { get; set; }
         public float BaseDamage { get; set; }
         public float Range { get; set; }
         public WeaponType Type { get; set; }
         public String ProjectileSprite { get; set; }
+        public String SpriteXml { get; set; }
         public float ProjectileSpeed { get; set; }
         public float Cooldown { get; set; }
         public float LastFire { get; set; }
@@ -43,8 +44,6 @@ namespace DirtyGame.game.Core.Components
         /// </summary>
         public int MaxAmmo { get; set; }
         public int Ammo { get; set; }
-        [XmlIgnoreAttribute]
-        public SpriteSheet MeleeSheet;
         #endregion
 
         #region Functions

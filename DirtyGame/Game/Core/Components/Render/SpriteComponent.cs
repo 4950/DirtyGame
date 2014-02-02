@@ -17,7 +17,9 @@ namespace DirtyGame.game.Core.Components.Render
         [XmlIgnoreAttribute]
         private SpriteSheet spriteSheet;
         [XmlIgnoreAttribute]
-        public Texture2D sprite;
+        private Texture2D sprite;
+        public string spriteName;
+        public string xmlName;
         
         #endregion
 
@@ -29,6 +31,27 @@ namespace DirtyGame.game.Core.Components.Render
         }
         #endregion
 
+        public void setSprite(string spriteName, ResourceManager res)
+        {
+            this.spriteName = spriteName;
+            sprite = res.GetResource<Texture2D>(spriteName);
+            SrcRect = sprite.Bounds;
+        }
+        public void setSpritesheet(string spriteName, string xmlName, ResourceManager res)
+        {
+            this.spriteName = spriteName;
+            this.xmlName = xmlName;
+            spriteSheet = res.GetResource<SpriteSheet>(spriteName);
+            if (spriteSheet == null)
+            {
+                spriteSheet = new SpriteSheet(res.GetResource<Texture2D>(spriteName), spriteName, xmlName);
+                res.AddResource<SpriteSheet>(spriteSheet, spriteName);
+            }
+            if (spriteSheet.Animation.ContainsKey("IdleDown"))
+                SrcRect = SpriteSheet.Animation["IdleDown"][0];
+            else if (spriteSheet.Animation.Count > 0)
+                srcRect = spriteSheet.Animation.Values.ElementAt(0)[0];
+        }
         #region Properties
         public Rectangle SrcRect
         {
@@ -59,15 +82,19 @@ namespace DirtyGame.game.Core.Components.Render
         public Vector2 origin { get; set; }
 
         [XmlIgnoreAttribute]
+        public Texture2D Sprite
+        {
+            get
+            {
+                return sprite;
+            }
+        }
+        [XmlIgnoreAttribute]
         public SpriteSheet SpriteSheet
         {
             get
             {
                 return spriteSheet;
-            }
-            set
-            {
-                spriteSheet = value;
             }
         }
         #endregion

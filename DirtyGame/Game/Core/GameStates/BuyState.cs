@@ -186,7 +186,7 @@ namespace DirtyGame.game.Core.GameStates
 
                 if (wc.MaxAmmo != -1)
                 {
-                    string txt = wc.Name + " Ammo   " + wc.Ammo + "/" + wc.MaxAmmo + "   $" + wc.AmmoPrice + "ea";
+                    string txt = wc.WeaponName + " Ammo   " + wc.Ammo + "/" + wc.MaxAmmo + "   $" + wc.AmmoPrice + "ea";
                     BuyList.AddItem(txt);
                     saleList.Add(wc);
                 }

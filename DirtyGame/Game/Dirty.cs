@@ -43,7 +43,7 @@ namespace DirtyGame
     public class Dirty : Game
     {
 
-        
+
 
         private Map map;
         public Physics physics;
@@ -68,6 +68,29 @@ namespace DirtyGame
         {
             Exit();
         }
+        /// <summary>
+        /// This is to be used for generating xml from entites for testing purposes
+        /// </summary>
+        private void SaveTestEntites()
+        {
+            //Entity flametowerWeapon = entityFactory.CreateRangedWeaponEntity("FlametowerWeapon", "bow", "bow", 150, 5, 30, "Flames", -1, 3f, 100, 10);
+            //flametowerWeapon.Name = "FlametowerWeapon";
+            //flametowerWeapon.Refresh();
+            //Entity monsterMelee = entityFactory.CreateMeleeWeaponEntity("Monstersword", "sword", 50, 15 + 15 * (1 / 5f), -1, 2f, 100, 0, "SwordMeleeSpriteSheet", "Content\\MeleeAnimation.xml");
+            //monsterMelee.Name = "Monstersword";
+            //monsterMelee.Refresh();
+            //Entity monsterWeapon = world.EntityMgr.GetEntityByName("Monsterbow"); /*entityFactory.CreateRangedWeaponEntity("Monsterbow", "bow", "bow", 400, 20 + 20 * (1 / 5f), 10, "arrow", -1, 3f, 100, 0);
+            //monsterWeapon.Name = "Monsterbow";
+            //monsterWeapon.Refresh();*/
+            //MonsterData rangedData = MonsterData.RangedMonster;
+            //rangedData.weapon = monsterWeapon;
+            //rangedData.Health += (int)(rangedData.Health * (1 / 5f));
+
+            //Entity e = entityFactory.CreateBasicMonster(new Vector2(), "playerSheet", "Content\\PlayerAnimation.xml", rangedData);
+            //e.Refresh();
+
+            world.EntityMgr.SerializeEntities(App.Path + "test.xml");
+        }
         public Dirty()
         {
             GameplayDataCaptureSystem.Instance.CreateSession(true);
@@ -76,7 +99,7 @@ namespace DirtyGame
             baseContext = new InputContext();
             inputManager.AddInputContext(baseContext);
             baseContext.RegisterHandler(Keys.Escape, Exit, null);
-            
+
             graphics = new GraphicsDeviceManager(this);
 
             resourceManager = new ResourceManager(Content);
@@ -84,8 +107,8 @@ namespace DirtyGame
             UIDraw = new MonoGameDrawEngine(graphics.GraphicsDevice, Content);
             UIEngine = new CoreUIEngine(UIDraw, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
             SpriteFont defaultFont = resourceManager.GetResource<SpriteFont>("default");
-            UIDraw.setDefaultFont(defaultFont);      
-            resourceManager = new ResourceManager(Content);                       
+            UIDraw.setDefaultFont(defaultFont);
+            resourceManager = new ResourceManager(Content);
             renderer = new Renderer(graphics, new Camera(new Vector2(800, 600)));
             world = new EntityFramework.World();
             physics = new Physics(world.EntityMgr);
@@ -105,7 +128,7 @@ namespace DirtyGame
             world.AddSystem(new ProjectileSystem(this));
             //world.AddSystem(new MonsterSystem(aiSystem));
             gLogicSystem = new GameLogicSystem(this);
-                     
+
             world.AddSystem(new PhysicsSystem(physics, renderer, this));
             world.AddSystem(new AnimationSystem(this));
             world.AddSystem(new MovementSystem(aiSystem));
@@ -118,8 +141,9 @@ namespace DirtyGame
 
             //add component types to list
             Component.ComponentTypes.Add(typeof(PropertyComponent<int>));
+            Component.ComponentTypes.Add(typeof(WeaponComponent));
             //game entity
-            
+
             /*e = entityFactory.CreateBasicEntity();
             e.Name = "Game";
             e.AddComponent(new PropertyComponent<int>("GameScore", 0));
@@ -128,30 +152,35 @@ namespace DirtyGame
             e.AddComponent(new PropertyComponent<int>("GameKills", 0));
             e.Refresh();
             gameEntity = e.reference;*/
+
+
+
             world.EntityMgr.DeserializeEntities(App.Path + "Main.xml");
+            world.EntityMgr.DeserializeEntities(App.Path + "Monsters.xml");
             gameEntity = world.EntityMgr.GetEntityByName("Game").reference;
             world.AddSystem(gLogicSystem);
-            
 
-            SpriteSheet playerSpriteSheet =  new SpriteSheet(resourceManager.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
-            SpriteSheet monsterSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("monsterSheet_JUNK"), "Content\\MonsterAnimation.xml");
-            SpriteSheet meleeSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("SwordMeleeSpriteSheet"), "Content\\MeleeAnimation.xml");
-            SpriteSheet flamesSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("Flames"), "Content\\Flames.xml");
-            SpriteSheet flametowerSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("Flametower"), "Content\\Flametower.xml");
-            SpriteSheet flameTrailSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("FlameTrail"), "Content\\FlameTrail.xml");
+            SaveTestEntites();
+
+            SpriteSheet playerSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("playerSheet"), "playerSheet", "Content\\PlayerAnimation.xml");
+            SpriteSheet monsterSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("monsterSheet_JUNK"), "monsterSheet_JUNK", "Content\\MonsterAnimation.xml");
+            SpriteSheet meleeSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("SwordMeleeSpriteSheet"), "SwordMeleeSpriteSheet", "Content\\MeleeAnimation.xml");
+            SpriteSheet flamesSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("Flames"), "Flames", "Content\\Flames.xml");
+            SpriteSheet flametowerSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("Flametower"), "Flametower", "Content\\Flametower.xml");
+            SpriteSheet flameTrailSpriteSheet = new SpriteSheet(resourceManager.GetResource<Texture2D>("FlameTrail"), "FlameTrail", "Content\\FlameTrail.xml");
             resourceManager.AddResource<SpriteSheet>(playerSpriteSheet, "playerSheet");
             resourceManager.AddResource<SpriteSheet>(monsterSpriteSheet, "monsterSheet_JUNK");
             resourceManager.AddResource<SpriteSheet>(meleeSpriteSheet, "SwordMeleeSpriteSheet");
             resourceManager.AddResource<SpriteSheet>(flamesSpriteSheet, "Flames");
             resourceManager.AddResource<SpriteSheet>(flametowerSpriteSheet, "Flametower");
             resourceManager.AddResource<SpriteSheet>(flameTrailSpriteSheet, "FlameTrail");
-            
+
             player = entityFactory.CreatePlayerEntity(playerSpriteSheet);
             player.Name = "Player";
             player.Refresh();
 
             //weapons
-            e = entityFactory.CreateMeleeWeaponEntity("Basic Sword", "sword", 50, 25, 50, 1f, 100, 2, meleeSpriteSheet);
+            e = entityFactory.CreateMeleeWeaponEntity("Basic Sword", "sword", 50, 25, 50, 1f, 100, 2, "SwordMeleeSpriteSheet", "Content\\MeleeAnimation.xml");
             e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e, player);
             e = entityFactory.CreateRangedWeaponEntity("Doomsbow", "bow", "bow", 400, 25, 10, "arrow", -1, 1f, 100, 0);
@@ -190,7 +219,7 @@ namespace DirtyGame
             e.Refresh();*/
 
             gLogicSystem.SetupNextRound();
-            
+
         }
         public void LoadMap(string mapname)
         {
@@ -202,7 +231,7 @@ namespace DirtyGame
             //Need to be moved
             Entity wall = entityFactory.CreateWallEntity(new Vector2(0f, 0f), new Vector2(0f, renderer.ActiveMap.getPixelHeight()),
                             new Vector2(renderer.ActiveMap.getPixelWidth(), 0f), new Vector2(renderer.ActiveMap.getPixelWidth(), renderer.ActiveMap.getPixelHeight()));
-             wall.Refresh();
+            wall.Refresh();
         }
         protected override void LoadContent()
         {
@@ -212,8 +241,8 @@ namespace DirtyGame
             //Need to be moved
             //Entity wall = entityFactory.CreateWallEntity(new Vector2(0f, 0f), new Vector2(0f, renderer.ActiveMap.getPixelHeight()),
             //                new Vector2(renderer.ActiveMap.getPixelWidth(), 0f), new Vector2(renderer.ActiveMap.getPixelWidth(), renderer.ActiveMap.getPixelHeight()));
-           // wall.Refresh();
-            
+            // wall.Refresh();
+
         }
 
         protected override void UnloadContent()

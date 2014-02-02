@@ -14,7 +14,8 @@ namespace DirtyGame.game.SGraphics
         //The sprite sheet of the sprite
         private Texture2D spriteSheetTexture;
         //The location of the xml file that contains the animation information
-        private string xmlFileLocation;
+        public string xmlFileLocation;
+        public string spriteName;
         //Stores the different animations of the sprite with a string tag
         private Dictionary<string, Rectangle[]> sAnimations = new Dictionary<string, Rectangle[]>();
         //Stores the sprite offsets for each of the animations
@@ -69,8 +70,9 @@ namespace DirtyGame.game.SGraphics
 
         #region Constructors
         //Need an animation XML file
-        public SpriteSheet(Texture2D texture, string xmlFile)
+        public SpriteSheet(Texture2D texture, string spriteName, string xmlFile)
         {
+            this.spriteName = spriteName;
             //Saving pointer to the sprite sheet texture
             spriteSheetTexture = texture;
             //Saving the XML file location if needed later
