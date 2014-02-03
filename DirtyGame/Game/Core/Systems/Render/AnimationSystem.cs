@@ -86,19 +86,19 @@ namespace DirtyGame.game.Systems
                             else
                             {
 
-                                //Telling the player that the sword animnation is done
-                            //    if (e.HasComponent<PlayerComponent>())
-                            //    {
-                                    //e.GetComponent<AttackingComponent>().isAttacking = false;
-                            //    }
-
+                                //Telling the parent of the Melee Component is done
                                 if (e.HasComponent<MeleeComponent>()) //Needs to be changed for both PLAYER & MONSTERS
                                 {
                                     MeleeComponent meleeComp = e.GetComponent<MeleeComponent>();
-                                    if (meleeComp.Owner.HasComponent<PlayerComponent>())
+                                   // if (meleeComp.Owner.HasComponent<PlayerComponent>())
+                                   // {
+                                   //     meleeComp.Owner.GetComponent<AttackingComponent>().isAttacking = false;
+                                   // }
+                                    if (meleeComp.Owner.HasComponent<AttackingComponent>())
                                     {
                                         meleeComp.Owner.GetComponent<AttackingComponent>().isAttacking = false;
                                     }
+
                               //      e.GetComponent<MeleeComponent>().Owner.GetComponent<AttackingComponent>().isAttacking = false;
                                 }
 
