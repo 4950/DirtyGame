@@ -279,6 +279,42 @@ namespace DirtyGame.game.Core
 
             return proj;
         }
+        public Entity CreateExplosion(Entity owner, Vector2 origin, Vector2 size, String spritesheet, int ticks, float tickInterval, Entity Weapon)
+        {
+            Entity proj = entityMgr.CreateEntity();
+
+            SpatialComponent spatial = new SpatialComponent();
+            spatial.Position = new Vector2(origin.X, origin.Y);
+            spatial.Width = (int)size.X;
+            spatial.Height = (int)size.Y;
+
+            AnimationComponent animation = new AnimationComponent();
+            animation.CurrentAnimation = "Idle";
+
+            PhysicsComponent pc = new PhysicsComponent();
+            pc.Origin = new Vector2(0, 0);
+
+            SpriteComponent sc = new SpriteComponent();
+            sc.SpriteSheet = resourceMgr.GetResource<SpriteSheet>(spritesheet);
+            sc.Scale = .5f;
+            sc.origin = new Vector2(.5f, 2);
+            //sc.AnchorPoint = new Vector2(0, 1);
+            //sc.Angle = 1.571f;
+
+            AOEComponent ac = new AOEComponent();
+            ac.TickInterval = tickInterval;
+            ac.Ticks = ticks;
+            ac.Weapon = Weapon.reference;
+            ac.Owner = owner.reference;
+
+            proj.AddComponent(spatial);
+            proj.AddComponent(animation);
+            proj.AddComponent(sc);
+            proj.AddComponent(ac);
+            proj.AddComponent(pc);
+
+            return proj;
+        }
         public Entity CreateProjectile(Entity owner, Vector2 origin, Vector2 direction, String sprite, float range, float speed, Entity weapon)
         {
             Entity proj = entityMgr.CreateEntity();

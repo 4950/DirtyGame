@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using DirtyGame.game.SGraphics;
 using Dirtygame.game.Util;
+using DirtyGame.game.Core.Events;
 
 namespace DirtyGame.game.Core.Systems
 {
@@ -21,6 +22,8 @@ namespace DirtyGame.game.Core.Systems
             : base(SystemDescriptions.WeaponSystem.Aspect, SystemDescriptions.WeaponSystem.Priority)
         {
             this.game = game;
+
+            EventManager.Instance.AddListener("Detonate", CreateExplosionCallback);
         }
         public override void OnEntityAdded(Entity e)
         {
@@ -85,6 +88,19 @@ namespace DirtyGame.game.Core.Systems
                         Entity proj = game.entityFactory.CreateAOEField(Owner, spatial.Center, new Vector2(wc.Range, 25), wc.ProjectileSprite, 6, .5f, 2.094f, Weapon);
                         proj.Refresh();
                     }
+                    else if (wc.Name == "GrenadeLauncher")
+                    {
+                        //Entity proj = game.entityFactory.CreateProjectile(Owner, spatial.Center, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, Weapon);
+                        Vector2 explosionCenter = new Vector2(spatial.Center.X - wc.Range/2, spatial.Center.Y - wc.Range/2);
+                        //Entity proj = game.entityFactory.CreateExplosion(Owner, explosionCenter, new Vector2(wc.Range, wc.Range), wc.ProjectileSprite, 2, .5f, Weapon);
+                        //proj.Refresh();
+                        DetonateEvent detEvt = new DetonateEvent();
+                        detEvt.center = explosionCenter;
+                        detEvt.Owner = new EntityRef(Owner);
+                        detEvt.Weapon = new EntityRef(Weapon);
+                        detEvt.name = "Detonate";
+                        EventManager.Instance.TriggerEvent(detEvt);
+                    }
                     else
                     {
                         Entity proj = game.entityFactory.CreateProjectile(Owner, spatial.Center, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, Weapon);
@@ -97,6 +113,14 @@ namespace DirtyGame.game.Core.Systems
                     meleeEntity.Refresh();
                 }
             }
+        }
+
+        public void CreateExplosionCallback(Event e)
+        {
+            DetonateEvent detEvt = (DetonateEvent)e;
+            WeaponComponent wc = detEvt.Weapon.entity.GetComponent<WeaponComponent>();
+            Entity proj = game.entityFactory.CreateExplosion(detEvt.Owner.entity, detEvt.center, new Vector2(wc.Range, wc.Range), wc.ProjectileSprite, 2, .5f, detEvt.Weapon.entity);
+            proj.Refresh();
         }
 
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)

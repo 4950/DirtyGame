@@ -169,6 +169,9 @@ namespace DirtyGame
             e = entityFactory.CreateRangedWeaponEntity("FlametowerWeapon", "bow", "bow", 150, 5, 30, "arrow", 0, 3f, 100, 10);
             e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e, player);
+            e = entityFactory.CreateRangedWeaponEntity("GrenadeLauncher", "spear", "spear", 300, 50, 3, "Flames", -1, 2f, 100, 0);
+            e.Refresh();
+            player.GetComponent<InventoryComponent>().addWeapon(e, player);
 
             /*Entity monsterWeapon = entityFactory.CreateRangedWeaponEntity("Monsterbow", "bow", "bow", 400, 20, 10, "arrow", -1, 3f);
             monsterWeapon.Refresh();
