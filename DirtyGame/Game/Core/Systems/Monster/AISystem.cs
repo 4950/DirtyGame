@@ -1,4 +1,5 @@
 ﻿using DirtyGame.game.Core.Components;
+using DirtyGame.game.Core.Components.Render;
 using DirtyGame.game.Core.Systems.Util;
 using EntityFramework;
 using EntityFramework.Systems;
@@ -42,7 +43,10 @@ namespace DirtyGame.game.Core.Systems.Monster
                     {
                         double dist = getDistance(monsterPos.X, monsterPos.Y, playerPos.X, playerPos.Y);
 
-                        game.weaponSystem.FireWeapon(weapon, e, playerPos);
+                        if (!e.HasComponent<SnipComponent>())
+                        {
+                            game.weaponSystem.FireWeapon(weapon, e, playerPos);
+                        }
 
                     }
                 }
@@ -59,7 +63,74 @@ namespace DirtyGame.game.Core.Systems.Monster
             // do nothing
         }
 
+        public Vector2 snipMovement(Entity e)
+        {
+            SpatialComponent spatial = e.GetComponent<SpatialComponent>();
+            SnipComponent snip = e.GetComponent<SnipComponent>();
+            Boolean playerFound = false;
+            double[] vel = new double[2];
 
+            List<Entity> entities = game.physics.Query(spatial.Center, 750, 750);
+            foreach (Entity entity in entities)
+            {
+                if(entity.HasComponent<PlayerComponent>()) //Player within range
+                {
+                    playerFound = true;
+                    Vector2 Target = new Vector2(entity.GetComponent<SpatialComponent>().Position.X, entity.GetComponent<SpatialComponent>().Position.Y);
+                    Vector2 dir = (Target - spatial.Center);
+                    double dist = getDistance(Target.X, Target.Y, spatial.Center.X, spatial.Center.Y);
+
+                    if (snip.LaserPres == true)
+                    {
+                        game.world.EntityMgr.GetEntity(snip.Laser).GetComponent<SpriteComponent>().Scale = (float)dist / (float)snip.Range;
+                    }
+
+                    if (snip.LaserPres == false && snip.IsRunning == false)
+                    {
+                        snip.LaserPres = true;
+                        Entity laser = game.entityFactory.CreateLaserEntity("laser", "sniplaser", spatial.Center, new Vector2(-dir.X, dir.Y), (float)dist / (float)snip.Range);
+                        laser.Refresh();
+                        snip.Laser = laser.Id;
+                    }
+                    
+
+                    else if(dist <= snip.FleeDistance) //Snip Run
+                    {
+                        snip.IsRunning = true;
+                        if (snip.LaserPres == true)
+                        {
+                            game.world.DestroyEntity(game.world.EntityMgr.GetEntity(snip.Laser));
+                            snip.LaserPres = false;
+                        }
+
+                        vel = getChaseVector(-dir.X, dir.Y, spatial.Center.X, spatial.Center.Y);
+                        
+
+                        
+                    }
+
+                    else if (dist > snip.FleeDistance) //Snip Camp
+                    {
+                        snip.IsRunning = false;
+                        vel[0] = 0;
+                        vel[1] = 0;
+                    }
+
+                }
+
+            }
+
+            if (playerFound == false && snip.LaserPres == true)
+            {
+                game.world.DestroyEntity(game.world.EntityMgr.GetEntity(snip.Laser));
+                snip.LaserPres = false;
+            }
+
+
+            
+            setDirection(vel , e);
+            return new Vector2((float)vel[0], (float)vel[1]);
+        }
 
         //Make monsters of different types rush towards each other.
         // If no monster of another type is nearby... wander.
@@ -74,6 +145,7 @@ namespace DirtyGame.game.Core.Systems.Monster
             {
                 //don't move
             }
+            
             else if (m.HasComponent<InventoryComponent>())//has weapon
             {
                 Entity weapon = m.GetComponent<InventoryComponent>().CurrentWeapon;
@@ -137,7 +209,18 @@ namespace DirtyGame.game.Core.Systems.Monster
         {
             DirectionComponent direction = m.GetComponent<DirectionComponent>();
 
-            if (Math.Abs(vel[0]) > Math.Abs(vel[1]))
+            if (vel[0] == 0 && vel[1] == 0)
+            {
+                direction.Heading = "Down";
+                m.GetComponent<MovementComponent>().Vertical = 0;
+                m.GetComponent<MovementComponent>().Horizontal = 0;
+                AnimationComponent animation = new AnimationComponent();
+                animation.CurrentAnimation = "Idle" + direction.Heading;
+                m.AddComponent(animation);
+                m.Refresh();
+            }
+
+            else if (Math.Abs(vel[0]) > Math.Abs(vel[1]))
             {
                 if (vel[0] > 0)
                 {

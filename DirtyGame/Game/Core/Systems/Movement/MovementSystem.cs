@@ -44,8 +44,18 @@ namespace EntityFramework.Systems
                     //Console.WriteLine("found one");
                     if (e.GetComponent<TimeComponent>().timeOfLastDraw + t <= totalTime)
                     {
+
+
                         e.GetComponent<TimeComponent>().timeOfLastDraw = totalTime;
-                        Vector2 moveVector = aiSystem.calculateMoveVector(entities, e);
+                        Vector2 moveVector = new Vector2(0, 0);
+                        if (e.HasComponent<SnipComponent>())
+                        {
+                            moveVector = aiSystem.snipMovement(e);
+                        }
+                        else
+                        {
+                            moveVector = aiSystem.calculateMoveVector(entities, e);
+                        }
                         //float f = (float) (moveVector[0] * 10.0 * (s.MoveSpeed / 100));
                         e.GetComponent<MovementComponent>().Horizontal = moveVector.X;
                         e.GetComponent<MovementComponent>().Vertical = moveVector.Y;

@@ -11,5 +11,6 @@ namespace EntityFramework
     {
         public TimeSpan timeOfLastDraw;
         public TimeSpan timeBetweenDraw;
+        public TimeSpan TimeLocked;
     }
 }

@@ -56,7 +56,14 @@ namespace EntityFramework.Systems
                         Entity monster = null;
                         // if (spawner.data.weapon != null)
                         //{
-                        monster = entityFactory.CreateBasicMonster(pos, e.GetComponent<SpawnerComponent>().sprite.SpriteSheet, spawner.data);
+                        if (spawner.data.Type.Equals("monstersnip"))
+                        {
+                            monster = entityFactory.CreateSnipMonster(pos, e.GetComponent<SpawnerComponent>().sprite.SpriteSheet, spawner.data);
+                        }
+                        else
+                        {
+                            monster = entityFactory.CreateBasicMonster(pos, e.GetComponent<SpawnerComponent>().sprite.SpriteSheet, spawner.data);
+                        }
                         // }
                         //else
                         //    monster = entityFactory.CreateBasicMonster(pos, e.GetComponent<SpawnerComponent>().sprite.SpriteSheet, data);

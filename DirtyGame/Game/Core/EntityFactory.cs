@@ -85,6 +85,36 @@ namespace DirtyGame.game.Core
         {
             return entityMgr.CreateEntity();
         }
+
+        public Entity CreateLaserEntity(String name, String sprite, Vector2 origin, Vector2 direction, float scale)
+        {
+            Entity laser = entityMgr.CreateEntity();
+
+            SpatialComponent spatial = new SpatialComponent();
+            spatial.Position = new Vector2(origin.X, origin.Y);
+            spatial.Width = 6;
+            spatial.Height = 400;
+
+            SpriteComponent sc = new SpriteComponent();
+            sc.sprite = resourceMgr.GetResource<Texture2D>(sprite);
+            sc.SrcRect = sc.sprite.Bounds;
+            sc.Angle = (float)Math.Atan2(direction.X, direction.Y);
+            sc.origin = new Vector2(.5f, 0);
+            sc.Scale = scale;
+            //sc.AnchorPoint = new Vector2(0, .25f);
+
+
+
+            TimeComponent tc = new TimeComponent();
+            
+
+            laser.AddComponent(spatial);
+            laser.AddComponent(sc);
+            laser.AddComponent(tc);
+
+            return laser;
+        }
+
         public Entity CreateMeleeWeaponEntity(String name, String portrait, float range, float baseDamage, int ammo, float cooldown, float price, float ammoprice, SpriteSheet meleeSprite)
         {
             Entity proj = entityMgr.CreateEntity();
@@ -105,6 +135,7 @@ namespace DirtyGame.game.Core
 
             return proj;
         }
+
         public Entity CreateMeleeEntity(Entity owner, Entity weapon)
         {
             WeaponComponent wc = weapon.GetComponent<WeaponComponent>();
@@ -298,7 +329,7 @@ namespace DirtyGame.game.Core
             SpriteComponent sc = new SpriteComponent();
             sc.sprite = resourceMgr.GetResource<Texture2D>(sprite);
             sc.SrcRect = sc.sprite.Bounds;
-            sc.Angle = (float)Math.Atan2(direction.X, -direction.Y);
+            sc.Angle = (float)Math.Atan2(direction.X, direction.Y);
             sc.origin = new Vector2(.5f, 0);
             //sc.AnchorPoint = new Vector2(0, .25f);
 
@@ -401,6 +432,24 @@ namespace DirtyGame.game.Core
 
             return monster;
         }
+
+        public Entity CreateSnipMonster(Vector2 pos, SpriteSheet spriteSheet, MonsterData data)
+        {
+            Entity monster = CreateMonsterBase(pos, spriteSheet, data.scale);
+
+            HealthComponent hc = monster.GetComponent<HealthComponent>();
+            hc.CurrentHealth = hc.MaxHealth = data.Health;
+
+            InventoryComponent ic = new InventoryComponent();
+            ic.addWeapon(CloneEntity(data.weapon), monster);
+
+            monster.AddComponent(new SnipComponent());
+            monster.AddComponent(ic);
+            monster.AddComponent(new PropertyComponent<String>("MonsterType", data.Type));
+
+            return monster;
+        }
+
         /*public Entity CreateRangedMonster(Vector2 pos, SpriteSheet spriteSheet, MonsterData data)
         {
             Entity monster = CreateBasicMonster(pos, spriteSheet, data);

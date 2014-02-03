@@ -2,12 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework;
-using EntityFramework;
-using FarseerPhysics.Dynamics;
-using FarseerPhysics.Factories;
 using FarseerPhysics;
-using DirtyGame.game.Core.Systems;
+using FarseerPhysics.Dynamics;
+using EntityFramework.Systems;
+using FarseerPhysics.Factories;
+using DirtyGame.game.Core.Components.Movement;
+using EntityFramework;
+using DirtyGame.game.Core.Systems.Util;
+using DirtyGame.game.Core.Components;
+using Microsoft.Xna.Framework;
+using DirtyGame.game.SGraphics;
+using DirtyGame.game.SGraphics.Commands;
+using DirtyGame.game.SGraphics.Commands.DrawCalls;
+using FarseerPhysics.Common;
+using FarseerPhysics.Collision.Shapes;
+using FarseerPhysics.Collision;
 
 namespace DirtyGame.game.Core
 {
@@ -47,12 +56,15 @@ namespace DirtyGame.game.Core
 
                 fixtures = physicsWorld.QueryAABB(ref Box);
 
+
                 foreach (Fixture f in fixtures)
                 {
-
-                    if (!entity.Contains(entityManager.GetEntity(BodyIdToEntityId[f.Body.BodyId])))
+                    if (BodyIdToEntityId.ContainsKey(f.Body.BodyId) == true)
                     {
-                        entity.Add(entityManager.GetEntity(BodyIdToEntityId[f.Body.BodyId]));
+                        if (!entity.Contains(entityManager.GetEntity(BodyIdToEntityId[f.Body.BodyId])))
+                        {
+                            entity.Add(entityManager.GetEntity(BodyIdToEntityId[f.Body.BodyId]));
+                        }
                     }
                 }
 
@@ -70,9 +82,12 @@ namespace DirtyGame.game.Core
 
             foreach (Fixture f in fixtures)
             {
-                if (!entity.Contains(entityManager.GetEntity(BodyIdToEntityId[f.Body.BodyId])))
+                if (BodyIdToEntityId.ContainsKey(f.Body.BodyId) == true)
                 {
-                    entity.Add(entityManager.GetEntity(BodyIdToEntityId[f.Body.BodyId]));
+                    if (!entity.Contains(entityManager.GetEntity(BodyIdToEntityId[f.Body.BodyId])))
+                    {
+                        entity.Add(entityManager.GetEntity(BodyIdToEntityId[f.Body.BodyId]));
+                    }
                 }
             }
 
