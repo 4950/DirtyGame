@@ -1,123 +1,266 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root id="Monster">
-  <animationDefault name="WalkDown" 
-             yPosition="0" 
-             xStartFrame="0" 
-             xOffset="0" 
-             yOffset="0"
-             numberOfFrames="12" 
-             width="50" 
-             height="50"
-             finite="false">
+  <!--SpellCast-->
+  <animationDefault name="SpellCastUp"
+                    yPosition="0"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="7"
+                    width="64"
+                    height="64"
+                    finite="true">
   </animationDefault>
-  <animationDefault name="IdleDown" 
-             yPosition="0" 
-             xStartFrame="0"
-             xOffset="0"
-             yOffset="0"
-             numberOfFrames="1" 
-             width="50" 
-             height="50"
-             finite="false">
+  <animationDefault name="SpellCastLeft"
+                    yPosition="64"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="7"
+                    width="64"
+                    height="64"
+                    finite="true">
   </animationDefault>
+  <animationDefault name="SpellCastDown"
+                    yPosition="128"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="7"
+                    width="64"
+                    height="64"
+                    finite="true">
+  </animationDefault>
+  <animationDefault name="SpellCastRight"
+                    yPosition="192"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="7"
+                    width="64"
+                    height="64"
+                    finite="true">
+  </animationDefault>
+
+  <!--Thrust-->
+  <animationDefault name="ThrustUp"
+                    yPosition="256"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="8"
+                    width="64"
+                    height="64"
+                    finite="true">
+  </animationDefault>
+  <animationDefault name="ThrustLeft"
+                    yPosition="320"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="8"
+                    width="64"
+                    height="64"
+                    finite="true">
+  </animationDefault>
+  <animationDefault name="ThrustDown"
+                    yPosition="384"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="8"
+                    width="64"
+                    height="64"
+                    finite="true">
+  </animationDefault>
+  <animationDefault name="ThrustRight"
+                    yPosition="448"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="8"
+                    width="64"
+                    height="64"
+                    finite="true">
+  </animationDefault>
+
+  <!--Walking-->
   <animationDefault name="WalkUp"
-             yPosition="50"
-             xStartFrame="0"
-             xOffset="0"
-             yOffset="0"
-             numberOfFrames="12"
-             width="50"
-             height="50"
-             finite="false">
+                    yPosition="512"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="9"
+                    width="64"
+                    height="64"
+                    finite="false">
   </animationDefault>
-  <animationDefault name="IdleUp"
-             yPosition="50"
-             xStartFrame="0"
-             xOffset="0"
-             yOffset="0"
-             numberOfFrames="1"
-             width="50"
-             height="50"
-             finite="false">
+  <animationDefault name="WalkLeft"
+                    yPosition="576"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="9"
+                    width="64"
+                    height="64"
+                    finite="false">
   </animationDefault>
-  <animationDefault name="WalkLeft" 
-             yPosition="100"
-             xStartFrame="0"
-             xOffset="0"
-             yOffset="0" 
-             numberOfFrames="8" 
-             width="50"
-             height="50"
-             finite="false">
-  </animationDefault>
-  <animationDefault name="IdleLeft"
-             yPosition="100"
-             xStartFrame="0"
-             xOffset="0"
-             yOffset="0" 
-             numberOfFrames="1"
-             width="50" 
-             height="50"
-             finite="false">
+  <animationDefault name="WalkDown"
+                    yPosition="640"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="9"
+                    width="64"
+                    height="64"
+                    finite="false">
   </animationDefault>
   <animationDefault name="WalkRight"
-             yPosition="100"
-             xStartFrame="8"
-             xOffset="0"
-             yOffset="0" 
-             numberOfFrames="8"
-             width="50"
-             height="50"
-             finite="false">
+                    yPosition="704"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="9"
+                    width="64"
+                    height="64"
+                    finite="false">
   </animationDefault>
-  <animationDefault name="IdleRight" 
-             yPosition="100" 
-             xStartFrame="8"
-             xOffset="0"
-             yOffset="0" 
-             numberOfFrames="1"
-             width="50" 
-             height="50"
-             finite="false">
+
+  <!--Idle-->
+  <animationDefault name="IdleUp"
+                    yPosition="512"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="1"
+                    width="64"
+                    height="64"
+                    finite="false">
   </animationDefault>
-  <animationDefault name="AttackDown"
-             yPosition="150"
-             xStartFrame="0"
-             xOffset="0"
-             yOffset="0"
-             numberOfFrames="9"
-             width="70"
-             height="80"
-             finite="true">
+  <animationDefault name="IdleLeft"
+                    yPosition="576"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="1"
+                    width="64"
+                    height="64"
+                    finite="false">
   </animationDefault>
+  <animationDefault name="IdleDown"
+                    yPosition="640"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="1"
+                    width="64"
+                    height="64"
+                    finite="false">
+  </animationDefault>
+  <animationDefault name="IdleRight"
+                    yPosition="704"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="1"
+                    width="64"
+                    height="64"
+                    finite="false">
+  </animationDefault>
+
+  <!--Slash-->
   <animationDefault name="AttackUp"
-             yPosition="230"
-             xStartFrame="0"
-             xOffset="-13"
-             yOffset="-27"
-             numberOfFrames="9"
-             width="70"
-             height="80"
-             finite="true">
+                    yPosition="768"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="6"
+                    width="64"
+                    height="64"
+                    finite="true">
   </animationDefault>
   <animationDefault name="AttackLeft"
-             yPosition="310"
-             xStartFrame="0"
-             xOffset="-30"
-             yOffset="-5"
-             numberOfFrames="9"
-             width="70"
-             height="70"
-             finite="true">
+                    yPosition="832"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="6"
+                    width="64"
+                    height="64"
+                    finite="true">
+  </animationDefault>
+  <animationDefault name="AttackDown"
+                    yPosition="896"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="6"
+                    width="64"
+                    height="64"
+                    finite="true">
   </animationDefault>
   <animationDefault name="AttackRight"
-             yPosition="380"
-             xStartFrame="0"
-             xOffset="+15"
-             yOffset="-5"
-             numberOfFrames="9"
-             width="70"
-             height="70"
-             finite="true">
+                    yPosition="960"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="6"
+                    width="64"
+                    height="64"
+                    finite="true">
+  </animationDefault>
+
+  <!--Shoot-->
+  <animationDefault name="ShootUp"
+                    yPosition="1024"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="13"
+                    width="64"
+                    height="64"
+                    finite="true">
+  </animationDefault>
+  <animationDefault name="ShootLeft"
+                    yPosition="1088"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="13"
+                    width="64"
+                    height="64"
+                    finite="true">
+  </animationDefault>
+  <animationDefault name="ShootDown"
+                    yPosition="1152"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="13"
+                    width="64"
+                    height="64"
+                    finite="true">
+  </animationDefault>
+  <animationDefault name="ShootRight"
+                    yPosition="1216"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="13"
+                    width="64"
+                    height="64"
+                    finite="true">
+  </animationDefault>
+
+  <!--Hurt-->
+  <animationDefault name="Hurt"
+                    yPosition="1280"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="6"
+                    width="64"
+                    height="64"
+                    finite="true">
   </animationDefault>
 </root>
