@@ -41,8 +41,17 @@ namespace DirtyGame.game.Core.Systems.Monster
                     if (wc.Type != WeaponComponent.WeaponType.AOE)
                     {
                         double dist = getDistance(monsterPos.X, monsterPos.Y, playerPos.X, playerPos.Y);
-
-                        game.weaponSystem.FireWeapon(weapon, e, playerPos);
+                        if (wc.WeaponName == "bomb")
+                        {
+                            if (dist < wc.Range)
+                            {
+                                game.weaponSystem.FireWeapon(weapon, e, playerPos);
+                            }
+                        }
+                        else
+                        {
+                            game.weaponSystem.FireWeapon(weapon, e, playerPos);
+                        }
 
                     }
                 }
