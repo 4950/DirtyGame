@@ -90,7 +90,9 @@ namespace DirtyGame.game.Core.Systems
                     }
                     else if (wc.Name == "GrenadeLauncher")
                     {
-                        //Entity proj = game.entityFactory.CreateProjectile(Owner, spatial.Center, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, Weapon);
+                        Entity grenade = game.entityFactory.CreateGrenade(Owner, spatial.Center, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, 5.0f, 5.0f, Weapon);
+                        grenade.Refresh();
+               /*         //Entity proj = game.entityFactory.CreateProjectile(Owner, spatial.Center, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, Weapon);
                         Vector2 explosionCenter = new Vector2(spatial.Center.X - wc.Range/2, spatial.Center.Y - wc.Range/2);
                         //Entity proj = game.entityFactory.CreateExplosion(Owner, explosionCenter, new Vector2(wc.Range, wc.Range), wc.ProjectileSprite, 2, .5f, Weapon);
                         //proj.Refresh();
@@ -100,6 +102,7 @@ namespace DirtyGame.game.Core.Systems
                         detEvt.Weapon = new EntityRef(Weapon);
                         detEvt.name = "Detonate";
                         EventManager.Instance.TriggerEvent(detEvt);
+                */
                     }
                     else
                     {

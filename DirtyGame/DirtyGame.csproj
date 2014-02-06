@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="game\Core\Components\AOEComponent.cs" />
     <Compile Include="game\Core\Components\BorderComponent.cs" />
+    <Compile Include="game\Core\Components\GrenadeComponent.cs" />
     <Compile Include="game\Core\Components\NameComponent.cs" />
     <Compile Include="game\Core\Components\MeleeComponent.cs" />
     <Compile Include="game\Core\Components\PropertyComponent.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="game\Core\Events\DetonateEvent.cs" />
     <Compile Include="game\Core\GameStates\BuyState.cs" />
     <Compile Include="game\Core\Systems\AOESystem.cs" />
+    <Compile Include="game\Core\Systems\GrenadeSystem.cs" />
     <Compile Include="game\Core\Systems\Monster\SeparationSystem.cs" />
     <Compile Include="game\Core\Systems\ProjectileSystem.cs" />
     <Compile Include="game\Core\Systems\PropertySystem.cs" />

@@ -103,6 +103,7 @@ namespace DirtyGame
             world.AddSystem(new SpawnerSystem(entityFactory));
             world.AddSystem(new HUDSystem(renderer, UIEngine));
             world.AddSystem(new ProjectileSystem(this));
+            world.AddSystem(new GrenadeSystem(this));
             //world.AddSystem(new MonsterSystem(aiSystem));
             gLogicSystem = new GameLogicSystem(this);
                      
@@ -169,7 +170,7 @@ namespace DirtyGame
             e = entityFactory.CreateRangedWeaponEntity("FlametowerWeapon", "bow", "bow", 150, 5, 30, "arrow", 0, 3f, 100, 10);
             e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e, player);
-            e = entityFactory.CreateRangedWeaponEntity("GrenadeLauncher", "spear", "spear", 300, 50, 3, "Flames", -1, 2f, 100, 0);
+            e = entityFactory.CreateRangedWeaponEntity("GrenadeLauncher", "spear", "spear", 200, 50, 3, "spear", -1, 2f, 100, 0);
             e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e, player);
 
