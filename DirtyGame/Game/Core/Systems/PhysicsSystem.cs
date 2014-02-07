@@ -211,6 +211,10 @@ namespace DirtyGame.game.Core.Systems
                 Entity A = entityDictionary[fixtureA.Body.BodyId];
                 Entity B = entityDictionary[fixtureB.Body.BodyId];
 
+                if (A.HasComponent<GrenadeComponent>() || B.HasComponent<GrenadeComponent>())
+                {
+                    Collide = false;
+                }
 
                 if (A.HasComponent<ProjectileComponent>() || B.HasComponent<ProjectileComponent>())//Projectiles
                 {
