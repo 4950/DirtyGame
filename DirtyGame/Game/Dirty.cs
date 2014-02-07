@@ -207,6 +207,9 @@ namespace DirtyGame
             e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("Sniper"));
             e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e, player);
+            e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("GrenadeLauncher"));
+            e.Refresh();
+            player.GetComponent<InventoryComponent>().addWeapon(e, player);
 
             gLogicSystem.SetupNextRound();
 

@@ -170,6 +170,24 @@
 			<Ammo>10</Ammo>
 		</Component>
 	</Entity>
+    <Entity guid="9c52d524-96aa-4d2a-8c28-44ccdceb6dfc" name="GrenadeLauncher">
+        <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="WeaponComponent">
+            <Name>WeaponComponent</Name>
+            <WeaponName>GrenadeLauncher</WeaponName>
+            <Portrait>bow</Portrait>
+            <BaseDamage>24</BaseDamage>
+            <Range>400</Range>
+            <Type>Ranged</Type>
+            <ProjectileSprite>arrow</ProjectileSprite>
+            <ProjectileSpeed>10</ProjectileSpeed>
+            <Cooldown>3</Cooldown>
+            <LastFire>0</LastFire>
+            <Price>100</Price>
+            <AmmoPrice>0</AmmoPrice>
+            <MaxAmmo>-1</MaxAmmo>
+            <Ammo>-1</Ammo>
+        </Component>
+    </Entity>
 	
 	
 	
