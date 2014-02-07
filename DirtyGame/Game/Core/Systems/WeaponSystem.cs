@@ -58,7 +58,7 @@ namespace DirtyGame.game.Core.Systems
 
             WeaponComponent wc = Weapon.GetComponent<WeaponComponent>();
             SpatialComponent spatial = Owner.GetComponent<SpatialComponent>();
-            
+
 
             if (wc == null || spatial == null)
                 return;
@@ -69,9 +69,13 @@ namespace DirtyGame.game.Core.Systems
                     wc.Ammo--;
                 wc.LastFire = wc.Cooldown;
 
-                
 
-                if (wc.Type == WeaponComponent.WeaponType.Ranged)
+                if (wc.WeaponName == "BomberWeapon")
+                {
+                    Entity proj = game.entityFactory.CreateAOEField(Owner, spatial.Center, new Vector2(128, 128), wc.ProjectileSprite, wc.SpriteXml, 1, 1, 0, Weapon);
+                    proj.Refresh();
+                }
+                else if (wc.Type == WeaponComponent.WeaponType.Ranged)
                 {
                     //projectile
                     //Vector2 m = new Vector2(ms.X, ms.Y) + renderer.ActiveCamera.Position;
@@ -82,14 +86,14 @@ namespace DirtyGame.game.Core.Systems
                     {
                         for (float f = -.5f; f <= .5f; f += .25f)
                         {
-                            
+
                             Entity proj = game.entityFactory.CreateProjectile(Owner, spatial.Center, Vector2.Transform(dir, Matrix.CreateRotationZ(f)), wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, Weapon);
                             proj.Refresh();
                         }
                     }
                     else if (wc.WeaponName == "FlametowerWeapon")
                     {
-                        Entity proj = game.entityFactory.CreateAOEField(Owner, spatial.Center, new Vector2(wc.Range, 25), wc.ProjectileSprite, "Content\\Flames.xml", 6, .5f, 2.094f, Weapon);
+                        Entity proj = game.entityFactory.CreateAOEField(Owner, spatial.Center, new Vector2(wc.Range, 25), wc.ProjectileSprite, wc.SpriteXml, 6, .5f, 2.094f, Weapon);
                         proj.Refresh();
                     }
                     else

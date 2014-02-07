@@ -268,6 +268,15 @@ namespace DirtyGame.game.Core.Systems
                             game.weaponSystem.DealDamage(ac.Weapon.entity, hit);
                         }
                     }
+                    else if (ac.Weapon.entity.GetComponent<WeaponComponent>().WeaponName == "BomberWeapon")
+                    {
+                        if (!ac.HitList.Contains(hit))
+                        {
+                            ac.HitList.Add(hit);
+
+                            game.weaponSystem.DealDamage(ac.Weapon.entity, hit);
+                        }
+                    }
 
                     Collide = false;
                 }

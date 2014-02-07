@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root id="BombExplosion">
+  <animationDefault name="Idle" 
+             yPosition="0" 
+             xStartFrame="0" 
+             xOffset="0" 
+             yOffset="0"
+		         time="1"
+             numberOfFrames="48" 
+             width="128" 
+             height="128"
+             finite="true">
+  </animationDefault>
+</root>

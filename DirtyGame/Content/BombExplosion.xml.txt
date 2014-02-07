@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root id="Flames">
+  <animationDefault name="Idle" 
+             yPosition="0" 
+             xStartFrame="0" 
+             xOffset="0" 
+             yOffset="0"
+		time="10"
+             numberOfFrames="48" 
+             width="256" 
+             height="256"
+             finite="false">
+  </animationDefault>
+</root>

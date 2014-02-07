@@ -199,7 +199,7 @@ namespace DirtyGame.game.SGraphics
             //Looping through all the frames of the animation
             for (int i = 0; i < numFrames; i++)
             {
-                tempRectangles[i] = new Rectangle((i + xStartFrame) * frameWidth, yPosition, frameWidth, frameHeight);
+                tempRectangles[i] = new Rectangle((i + xStartFrame) * frameWidth, yPosition, frameWidth, frameHeight);  
             }
             //Saving the animation to the animation Dictionary
             sAnimations.Add(animationName, tempRectangles);
