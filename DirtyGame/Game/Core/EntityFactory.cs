@@ -309,6 +309,7 @@ namespace DirtyGame.game.Core
 
             return proj;
         }
+
         private Entity CreateMonsterBase(Vector2 pos, string spriteName, string xmlName, float scale)
         {
             Entity monster = entityMgr.CreateEntity();
