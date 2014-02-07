@@ -10,6 +10,7 @@ using EntityFramework.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using DirtyGame.game.Core.Components.Movement;
+using DirtyGame.game.Core.GameStates;
 
 namespace DirtyGame.game.Core
 {
@@ -436,6 +437,28 @@ namespace DirtyGame.game.Core
             spawner.AddComponent(spatial);
             spawner.AddComponent(spawnerCmp);
             return spawner;
+        }
+
+        public Entity CreateSpawner(Spawner s)
+        {
+            Entity e = entityMgr.CreateEntity();
+
+            //Create the Spatial for the new entity
+            SpatialComponent spatial = new SpatialComponent();
+            spatial.Position = new Vector2(s.XPosition, s.YPosition);
+
+            SpawnerComponent spawnerCmp = new SpawnerComponent();
+            spawnerCmp.numMobs = s.NumberOfMonsters;
+            spawnerCmp.timeOfLastSpawn = new TimeSpan(0, 0, 0, 0, 0);
+            spawnerCmp.timePerSpawn = s.TimePerSpawn;
+            spawnerCmp.MonsterType = s.MonsterType;
+            spawnerCmp.MonsterWeapon = s.MonsterWeapon;
+
+            //Add the new components to the entity
+            e.AddComponent(spatial);
+            e.AddComponent(spawnerCmp);
+
+            return e;
         }
     }
 }

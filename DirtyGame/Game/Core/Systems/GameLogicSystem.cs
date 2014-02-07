@@ -14,6 +14,8 @@ using DirtyGame.game.SGraphics;
 using CoreUI.Elements;
 using CoreUI.DrawEngines;
 using DirtyGame.game.Util;
+using System.Xml;
+using DirtyGame.game.Core.GameStates;
 
 namespace DirtyGame.game.Core.Systems
 {
@@ -30,6 +32,9 @@ namespace DirtyGame.game.Core.Systems
         private bool cheatEndRound = false;
 
         private List<Entity> spawners = new List<Entity>();
+
+        //Dictionary that contains a set of scenario objects
+        private Dictionary<string, Scenario> scenarios = new Dictionary<string, Scenario>();
 
         public override void OnEntityAdded(Entity e)
         {
@@ -140,6 +145,92 @@ namespace DirtyGame.game.Core.Systems
             buy.name = "GameStateBuy";
             EventManager.Instance.TriggerEvent(buy);
         }
+
+        //Decoding the XML code for the scenarios.
+        public void decodeScenariosXML(string xmlFile)
+        {
+            //Setting up the XML reader
+            XmlReaderSettings xmlSettings = new XmlReaderSettings();
+            xmlSettings.IgnoreWhitespace = true;
+            xmlSettings.IgnoreComments = true;
+            XmlReader scenarioReader = XmlReader.Create(xmlFile, xmlSettings);
+
+            //Reads to the start of the XML file
+            scenarioReader.ReadToFollowing("root");
+
+            //Parse the XML for the Scenarios
+            while (scenarioReader.ReadToFollowing("scenario"))
+            {
+                //Temporary Variables
+                //Scenario name
+                string scenarioName;
+                //Difficulty Score
+                float difficultyScore;
+                //Map name
+                string mapName;
+                //Location
+                int xPosition;
+                int yPosition;
+                //? ? ? ? ?
+                Rectangle spawnerRectangle;
+                //Monster Type
+                string monsterType;
+                //Monster Weapon
+                string monsterWeapon;
+                //Number of Monsters
+                int numberOfMonsters;
+                //TimeSpan for Monsters to Spawn
+                TimeSpan timePerSpawn;
+                //List of Spawners
+                List<Spawner> spawners = new List<Spawner>();
+
+                scenarioName = scenarioReader.GetAttribute("name");
+                difficultyScore = (float) Convert.ToDouble(scenarioReader.GetAttribute("difficultyScore"));
+                mapName = scenarioReader.GetAttribute("map");
+                        
+                //Looping through the spawners for the scenario
+                while (scenarioReader.ReadToFollowing("spawner"))
+                {
+                    xPosition = Convert.ToInt32(scenarioReader.GetAttribute("xPosition"));
+                    yPosition = Convert.ToInt32(scenarioReader.GetAttribute("yPosition"));
+                    spawnerRectangle = new Rectangle(Convert.ToInt32(scenarioReader.GetAttribute("rectangleValue1")),
+                                                     Convert.ToInt32(scenarioReader.GetAttribute("rectangleValue2")),
+                                                     Convert.ToInt32(scenarioReader.GetAttribute("rectangleValue3")),
+                                                     Convert.ToInt32(scenarioReader.GetAttribute("rectangleValue4")));
+                    monsterType = scenarioReader.GetAttribute("monsterType");
+                    monsterWeapon = scenarioReader.GetAttribute("monsterWeapon");
+                    numberOfMonsters = Convert.ToInt32(scenarioReader.GetAttribute("numberOfMonsters"));
+                    timePerSpawn = new TimeSpan(Convert.ToInt32(scenarioReader.GetAttribute("timeSpanDays")),
+                                                Convert.ToInt32(scenarioReader.GetAttribute("timeSpanHours")),
+                                                Convert.ToInt32(scenarioReader.GetAttribute("timeSpanMinutes")),
+                                                Convert.ToInt32(scenarioReader.GetAttribute("timeSpanSeconds")),
+                                                Convert.ToInt32(scenarioReader.GetAttribute("timeSpanMilliseconds")));
+
+                    spawners.Add(new Spawner(xPosition, yPosition, spawnerRectangle, monsterType, monsterWeapon, 
+                                             numberOfMonsters, timePerSpawn));
+                }
+
+                scenarios.Add(scenarioName, new Scenario(scenarioName, difficultyScore, mapName, spawners));
+
+               // scenarioReader.Read();
+            }
+        }
+
+        public void setupScenario(string scenarioName)
+        {
+            Scenario tempScenario = scenarios[scenarioName];
+            Entity e;
+
+            //resetRound();
+
+            foreach (Spawner s in tempScenario.Spawners)
+            {
+                e = game.entityFactory.CreateSpawner(s);
+                e.Refresh();
+                spawners.Add(e);
+            }
+        }
+
         public override void OnEntityRemoved(Entity e)
         {
             if (e.HasComponent<MonsterComponent>())

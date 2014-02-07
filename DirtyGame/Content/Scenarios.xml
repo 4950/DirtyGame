@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root id="Scenarios">
+  <scenario name="scenario1"
+            difficultyScore="0.50"
+            map="cave">
+    <spawner xPosition="300"
+             yPosition="100"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="MeleeMonster"
+             monsterWeapon="Monstersword"
+             numberOfMonsters="1"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000">
+    </spawner>
+    <spawner xPosition="300"
+             yPosition="100"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="MeleeMonster"
+             monsterWeapon="Monstersword"
+             numberOfMonsters="1"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000">
+    </spawner>
+  </scenario>
+  <scenario name="scenario2"
+            difficultyScore="0.50"
+            map="forest">
+    <spawner xPosition="300"
+             yPosition="100"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="MeleeMonster"
+             monsterWeapon="Monstersword"
+             numberOfMonsters="1"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000">
+    </spawner>
+    <spawner xPosition="300"
+             yPosition="100"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="MeleeMonster"
+             monsterWeapon="Monstersword"
+             numberOfMonsters="1"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000">
+    </spawner>
+  </scenario>
+</root>
