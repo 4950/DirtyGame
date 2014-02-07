@@ -41,7 +41,7 @@ namespace DirtyGame.game.Core.Systems.Monster
                     if (wc.Type != WeaponComponent.WeaponType.AOE)
                     {
                         double dist = getDistance(monsterPos.X, monsterPos.Y, playerPos.X, playerPos.Y);
-                        if (wc.WeaponName == "bomb")
+                        if (wc.WeaponName == "BomberWeapon")
                         {
                             if (dist < wc.Range)
                             {
@@ -78,7 +78,6 @@ namespace DirtyGame.game.Core.Systems.Monster
             double[] vel = new double[2];
             String type = m.GetComponent<PropertyComponent<String>>("MonsterType").value;
 
-
             if (type == "Flametower")
             {
                 //don't move
@@ -114,7 +113,7 @@ namespace DirtyGame.game.Core.Systems.Monster
 
             setDirection(vel, m);
 
-            return new Vector2((float)vel[0], (float)vel[1]) * (m.GetComponent<StatsComponent>().MoveSpeed / 100.0f);
+            return new Vector2((float)vel[0], (float)vel[1]) * 5 * (m.GetComponent<StatsComponent>().MoveSpeed / 100.0f);
         }
         private double[] seekPlayer(IEnumerable<Entity> entities, Entity m, int minrange, int maxrange, bool seek)
         {

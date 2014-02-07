@@ -36,7 +36,7 @@ namespace DirtyGame.game.Core
         }
         public Entity CreateRangedWeaponEntity(String name, String sprite, String portrait, float range, float baseDamage, float projSpeed, String projectileSprite, int ammo, float cooldown, float price, float ammoprice)
         {
-            
+
             Entity proj = entityMgr.CreateEntity();
 
             WeaponComponent wc = new WeaponComponent();
@@ -140,7 +140,7 @@ namespace DirtyGame.game.Core
 
             AnimationComponent animation = new AnimationComponent();
             animation.CurrentAnimation = "Attack" + direction.Heading;
-         //   animation.CurrentAnimation = "Attack" + "Right";   //Need to change this for all the directions
+            //   animation.CurrentAnimation = "Attack" + "Right";   //Need to change this for all the directions
 
             SpriteComponent sprite = new SpriteComponent();
             sprite.setSpritesheet(wc.ProjectileSprite, wc.SpriteXml, resourceMgr);
@@ -178,7 +178,7 @@ namespace DirtyGame.game.Core
             s.BaseDamage = 100;
             s.BaseMoveSpeed = 100;
 
-                        
+
             //Direction Component
             DirectionComponent direction = new DirectionComponent();
             direction.Heading = "Down";
@@ -191,10 +191,10 @@ namespace DirtyGame.game.Core
             //Creating an Animation component
             AnimationComponent animation = new AnimationComponent();
             //Changing the animation with the string property
-        //  animation.CurrentAnimation = "Down";
+            //  animation.CurrentAnimation = "Down";
 
             SpellComponent spellComponent = new SpellComponent(); //Includes the melee stuff
-            
+
 
             HealthComponent hc = new HealthComponent();
             hc.MaxHealth = 100;
@@ -208,11 +208,11 @@ namespace DirtyGame.game.Core
             e.AddComponent(s);
             e.AddComponent(ic);
             e.AddComponent(spellComponent);
-         
+
             e.AddComponent(new PhysicsComponent());
             PlayerComponent controllable = new PlayerComponent();
             e.AddComponent(controllable);
-         //   e.AddComponent(animation);
+            //   e.AddComponent(animation);
             e.AddComponent(direction);
             e.AddComponent(new MovementComponent());
             e.GetComponent<SpatialComponent>().Height = 20;
@@ -224,25 +224,38 @@ namespace DirtyGame.game.Core
             Entity proj = entityMgr.CreateEntity();
 
             SpatialComponent spatial = new SpatialComponent();
-            spatial.Position = new Vector2(origin.X, origin.Y);
             spatial.Width = (int)size.X;
             spatial.Height = (int)size.Y;
-            spatial.Rotation = -1.571f;
+            spatial.Position = origin + spatial.Size / 2;
+
             spatial.ConstantRotation = ConstantRotation;
 
             AnimationComponent animation = new AnimationComponent();
             animation.CurrentAnimation = "Idle";
 
             PhysicsComponent pc = new PhysicsComponent();
-            pc.Origin = new Vector2(0, 0);
+            
 
             SpriteComponent sc = new SpriteComponent();
             sc.setSpritesheet(spritesheet, xmlName, resourceMgr);
-            //sc.SpriteSheet = resourceMgr.GetResource<SpriteSheet>(spritesheet);
-            sc.Scale = .5f;
-            sc.origin = new Vector2(.5f, 2);
-            //sc.AnchorPoint = new Vector2(0, 1);
-            sc.Angle = 1.571f;
+            //sc.origin = new Vector2(.25f, .25f);
+            //sc.AnchorPoint = new Vector2(.5f, .5f);
+
+
+            if (Weapon.GetComponent<WeaponComponent>().WeaponName == "FlametowerWeapon")
+            {
+                spatial.Position = origin;
+                spatial.Rotation = -1.571f;
+
+                pc.Origin = new Vector2(0, 0);
+
+                //sc.SpriteSheet = resourceMgr.GetResource<SpriteSheet>(spritesheet);
+                sc.Scale = .5f;
+                sc.origin = new Vector2(.5f, 2);
+                //sc.AnchorPoint = new Vector2(0, 1);
+                sc.Angle = 1.571f;
+            }
+
 
             AOEComponent ac = new AOEComponent();
             ac.TickInterval = tickInterval;
@@ -275,7 +288,10 @@ namespace DirtyGame.game.Core
             spatial.Height = 2;
 
             SpriteComponent sc = new SpriteComponent();
-            sc.setSprite(sprite, resourceMgr);
+            if (sc.xmlName != null && sc.xmlName != "")
+                sc.setSpritesheet(sc.spriteName, sc.xmlName, resourceMgr);
+            else
+                sc.setSprite(sprite, resourceMgr);
             sc.Angle = (float)Math.Atan2(direction.X, -direction.Y);
             sc.origin = new Vector2(.5f, 0);
             //sc.AnchorPoint = new Vector2(0, .25f);
@@ -351,7 +367,7 @@ namespace DirtyGame.game.Core
 
             monster.AddComponent(new PhysicsComponent());
             monster.AddComponent(direction);
-       //     monster.AddComponent(new AnimationComponent());
+            //     monster.AddComponent(new AnimationComponent());
             monster.AddComponent(new SeparationComponent());
             monster.GetComponent<SpatialComponent>().Height = (int)(monsterSprite.SrcRect.Height * monsterSprite.Scale / 2);
             monster.GetComponent<SpatialComponent>().Width = (int)(monsterSprite.SrcRect.Width * monsterSprite.Scale / 2);
@@ -376,7 +392,7 @@ namespace DirtyGame.game.Core
             Entity weapon = CloneEntity(data.weapon);
             weapon.Refresh();
             ic.addWeapon(weapon, monster);
-            
+
             monster.AddComponent(ic);
             monster.AddComponent(new PropertyComponent<String>("MonsterType", data.Type));
 

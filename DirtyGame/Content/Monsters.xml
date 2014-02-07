@@ -31,6 +31,7 @@
 			<Range>150</Range>
 			<Type>Ranged</Type>
 			<ProjectileSprite>Flames</ProjectileSprite>
+      <SpriteXml>Content\Flames.xml</SpriteXml>
 			<ProjectileSpeed>30</ProjectileSpeed>
 			<Cooldown>3</Cooldown>
 			<LastFire>0</LastFire>
@@ -43,12 +44,13 @@
   <Entity guid="564b9cb9-d2f7-464a-b3e1-2de30ea55899" name="BomberWeapon">
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="WeaponComponent">
       <Name>WeaponComponent</Name>
-      <WeaponName>bomb</WeaponName>
+      <WeaponName>BomberWeapon</WeaponName>
       <Portrait>bow</Portrait>
       <BaseDamage>30</BaseDamage>
-      <Range>150</Range>
-      <Type>Ranged</Type>
-      <ProjectileSprite>Flames</ProjectileSprite>
+      <Range>64</Range>
+      <Type>Melee</Type>
+      <ProjectileSprite>BombExplosion</ProjectileSprite>
+      <SpriteXml>Content\BombExplosion.xml</SpriteXml>
       <ProjectileSpeed>3</ProjectileSpeed>
       <Cooldown>2</Cooldown>
       <LastFire>0</LastFire>
@@ -178,7 +180,7 @@
 		</Component>
 		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="StatsComponent">
 			<Name>StatsComponent</Name>
-			<BaseMoveSpeed>100</BaseMoveSpeed>
+			<BaseMoveSpeed>13</BaseMoveSpeed>
 			<BaseDamage>100</BaseDamage>
 			<RangedImmune>false</RangedImmune>
 		</Component>
@@ -287,8 +289,8 @@
     </Component>
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="StatsComponent">
       <Name>StatsComponent</Name>
-      <BaseMoveSpeed>100</BaseMoveSpeed>
-      <BaseDamage>30</BaseDamage>
+      <BaseMoveSpeed>80</BaseMoveSpeed>
+      <BaseDamage>100</BaseDamage>
       <RangedImmune>false</RangedImmune>
     </Component>
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="MovementComponent">
@@ -338,7 +340,7 @@
       <Name>SpriteComponent</Name>
       <RenderLayer>INVALIDE</RenderLayer>
       <spriteName>SuicideBomber</spriteName>
-      <xmlName>Content\SuicideBomber.xml</xmlName>
+      <xmlName>Content\PlayerAnimation.xml</xmlName>
       <SrcRect>
         <X>0</X>
         <Y>0</Y>
@@ -387,7 +389,7 @@
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="PropertyComponentOfString">
       <Name>MonsterType</Name>
       <IsModified>true</IsModified>
-      <value />
+      <value>SuicideBomber</value>
     </Component>
   </Entity>
 	<Entity guid="26602af5-90d5-42b6-aaf8-c178dbdacb7c" name="RangedMonster" data="true">
@@ -396,7 +398,7 @@
 		</Component>
 		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="StatsComponent">
 			<Name>StatsComponent</Name>
-			<BaseMoveSpeed>100</BaseMoveSpeed>
+			<BaseMoveSpeed>13</BaseMoveSpeed>
 			<BaseDamage>100</BaseDamage>
 			<RangedImmune>false</RangedImmune>
 		</Component>
@@ -505,7 +507,7 @@
 		</Component>
 		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="StatsComponent">
 			<Name>StatsComponent</Name>
-			<BaseMoveSpeed>100</BaseMoveSpeed>
+			<BaseMoveSpeed>0</BaseMoveSpeed>
 			<BaseDamage>100</BaseDamage>
 			<RangedImmune>true</RangedImmune>
 		</Component>
