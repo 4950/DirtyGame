@@ -187,12 +187,12 @@
     <property name="Collision" value="1"/>
    </properties>
   </tile>
+  <tile id="1124">
+		<properties>
+			<property name="Collision" value="1"/>
+		</properties>
+	</tile>
   <tile id="1284">
-   <properties>
-    <property name="Collision" value="1"/>
-   </properties>
-  </tile>
-  <tile id="1286">
    <properties>
     <property name="Collision" value="1"/>
    </properties>
