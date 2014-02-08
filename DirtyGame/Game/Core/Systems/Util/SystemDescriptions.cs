@@ -56,6 +56,9 @@ namespace DirtyGame.game.Core.Systems.Util
         public static SystemParams AOESystem =
            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(AOEComponent) }), 1);
 
+        public static SystemParams GrenadeSystem =
+           new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(GrenadeComponent) }), 1);
+
         public static SystemParams PropertySystem =
            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(PropertyComponent) }), 5);
     }
