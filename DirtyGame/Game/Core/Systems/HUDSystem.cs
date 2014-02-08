@@ -31,7 +31,7 @@ namespace DirtyGame.game.Core.Systems
         }
         public override void OnEntityAdded(EntityFramework.Entity e)
         {
-            if (e.HasComponent<HealthComponent>())
+            if (e.HasComponent<StatsComponent>())
             {
                 ProgressBar pb = new ProgressBar();
                 pb.Size = new System.Drawing.Point(50, 5);
@@ -43,7 +43,7 @@ namespace DirtyGame.game.Core.Systems
 
         public override void OnEntityRemoved(EntityFramework.Entity e)
         {
-            if (e.HasComponent<HealthComponent>())
+            if (e.HasComponent<StatsComponent>())
             {
                 pbDisplay.RemoveElement(mPBs[mPBs.Count - 1]);
                 mPBs.RemoveAt(mPBs.Count - 1);
@@ -54,9 +54,9 @@ namespace DirtyGame.game.Core.Systems
             int i = 0;
             foreach (Entity e in entities)
             {
-                if (e.HasComponent<HealthComponent>() && i < mPBs.Count)
+                if (e.HasComponent<StatsComponent>() && i < mPBs.Count)
                 {
-                    HealthComponent hc = e.GetComponent<HealthComponent>();
+                    StatsComponent hc = e.GetComponent<StatsComponent>();
                     SpatialComponent sc = e.GetComponent<SpatialComponent>();
 
                     ProgressBar pb = mPBs[i];

@@ -68,7 +68,6 @@
     <Compile Include="game\Core\Components\MeleeComponent.cs" />
     <Compile Include="game\Core\Components\PropertyComponent.cs" />
     <Compile Include="game\Core\Components\SpellComponent.cs" />
-    <Compile Include="game\Core\Components\HealthComponent.cs" />
     <Compile Include="game\Core\Components\InventoryComponent.cs" />
     <Compile Include="game\Core\Components\Movement\SeparationComponent.cs" />
     <Compile Include="game\Core\Components\ProjectileComponent.cs" />
@@ -76,6 +75,8 @@
     <Compile Include="game\Core\Components\Unit\UnitComponent.cs" />
     <Compile Include="game\Core\Events\DetonateEvent.cs" />
     <Compile Include="game\Core\GameStates\BuyState.cs" />
+    <Compile Include="game\Core\GameStates\Scenario.cs" />
+    <Compile Include="game\Core\GameStates\Spawner.cs" />
     <Compile Include="game\Core\Systems\AOESystem.cs" />
     <Compile Include="game\Core\Systems\GrenadeSystem.cs" />
     <Compile Include="game\Core\Systems\Monster\SeparationSystem.cs" />
@@ -237,6 +238,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\BombExplosion.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Scenarios.xml">
+      <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Flames.png">

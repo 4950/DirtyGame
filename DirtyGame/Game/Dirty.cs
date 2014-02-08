@@ -174,7 +174,6 @@ namespace DirtyGame
             Component.ComponentTypes.Add(typeof(SpatialComponent));
             Component.ComponentTypes.Add(typeof(SpriteComponent));
             Component.ComponentTypes.Add(typeof(TimeComponent));
-            Component.ComponentTypes.Add(typeof(HealthComponent));
             Component.ComponentTypes.Add(typeof(PhysicsComponent));
             Component.ComponentTypes.Add(typeof(DirectionComponent));
             Component.ComponentTypes.Add(typeof(SeparationComponent));
@@ -209,7 +208,16 @@ namespace DirtyGame
             e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e, player);
 
-            gLogicSystem.SetupNextRound();
+            //TODO: need to switch over from the rounds system to the scenario system. Have the game select a different scenario each time.
+
+     //       gLogicSystem.SetupNextRound();
+
+            //Loading in the different scenarios from the Scenarios.XML
+            gLogicSystem.decodeScenariosXML("Content\\Scenarios.xml");
+
+            //Setting up a scenario
+            //TODO: Needs to change to be a selection
+            gLogicSystem.setupScenario("scenario1");
 
         }
         public void LoadMap(string mapname)

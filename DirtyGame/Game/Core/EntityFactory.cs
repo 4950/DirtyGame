@@ -10,6 +10,7 @@ using EntityFramework.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using DirtyGame.game.Core.Components.Movement;
+using DirtyGame.game.Core.GameStates;
 
 namespace DirtyGame.game.Core
 {
@@ -177,6 +178,9 @@ namespace DirtyGame.game.Core
             StatsComponent s = new StatsComponent();
             s.BaseDamage = 100;
             s.BaseMoveSpeed = 100;
+            s.BaseHealth = 100;
+            s.HealthScale = 1;
+            s.CurrentHealth = s.MaxHealth;
 
 
             //Direction Component
@@ -194,17 +198,13 @@ namespace DirtyGame.game.Core
             //  animation.CurrentAnimation = "Down";
 
             SpellComponent spellComponent = new SpellComponent(); //Includes the melee stuff
-
-
-            HealthComponent hc = new HealthComponent();
-            hc.MaxHealth = 100;
-            hc.CurrentHealth = 100;
+           
 
             //e.AddComponent(new MeleeComponent());
 
             e.AddComponent(spatial);
             e.AddComponent(sprite);
-            e.AddComponent(hc);
+
             e.AddComponent(s);
             e.AddComponent(ic);
             e.AddComponent(spellComponent);
@@ -350,104 +350,6 @@ namespace DirtyGame.game.Core
             return grenade;
         }
 
-        private Entity CreateMonsterBase(Vector2 pos, string spriteName, string xmlName, float scale)
-        {
-            Entity monster = entityMgr.CreateEntity();
-
-            //Create the MonsterComponent for the new entity
-            MonsterComponent m = new MonsterComponent();
-            //m.data = data;
-
-            //Create the Spatial for the new entity
-            SpatialComponent spatial = new SpatialComponent();
-            spatial.Position = pos;
-
-            //Direction Component
-            DirectionComponent direction = new DirectionComponent();
-            direction.Heading = "Down";
-
-            //stats component
-            StatsComponent s = new StatsComponent();
-            s.BaseDamage = 100;
-            s.BaseMoveSpeed = 100;
-
-            //Create the Sprite for the new entity
-            //  Sprite monsterSprite = sprite;
-            SpriteComponent monsterSprite = new SpriteComponent();
-            monsterSprite.setSpritesheet(spriteName, xmlName, resourceMgr);
-            //monsterSprite.SpriteSheet = spriteSheet;
-            monsterSprite.AnchorPoint = new Vector2(.25f, .25f);
-            monsterSprite.Scale = scale;
-            //monsterSprite.SrcRect = monsterSprite.SpriteSheet.Animation["Idle" + direction.Heading][0];
-
-            AnimationComponent ac = new AnimationComponent();
-            ac.CurrentAnimation = "IdleDown";
-
-            //create movement component
-            MovementComponent mc = new MovementComponent();
-
-            HealthComponent hc = new HealthComponent();
-
-            //Create the TimeComponent for the new entity
-            TimeComponent timeComponent = new TimeComponent();
-            timeComponent.timeOfLastDraw = new TimeSpan(0, 0, 0, 0, 0);
-
-            //Create AIMovementComponent for the new entity
-            MovementComponent movementComponent = new MovementComponent();
-
-            //Add the new components to the entity
-            monster.AddComponent(m);
-            monster.AddComponent(s);
-            monster.AddComponent(mc);
-            monster.AddComponent(ac);
-            monster.AddComponent(spatial);
-            monster.AddComponent(monsterSprite);
-            monster.AddComponent(timeComponent);
-            monster.AddComponent(movementComponent);
-            monster.AddComponent(hc);
-
-            monster.AddComponent(new PhysicsComponent());
-            monster.AddComponent(direction);
-            //     monster.AddComponent(new AnimationComponent());
-            monster.AddComponent(new SeparationComponent());
-            monster.GetComponent<SpatialComponent>().Height = (int)(monsterSprite.SrcRect.Height * monsterSprite.Scale / 2);
-            monster.GetComponent<SpatialComponent>().Width = (int)(monsterSprite.SrcRect.Width * monsterSprite.Scale / 2);
-
-            return monster;
-        }
-        /// <summary>
-        /// Constructs a basic monster using MonsterData. Weapon is cloned
-        /// </summary>
-        /// <param name="pos"></param>
-        /// <param name="spriteSheet"></param>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public Entity CreateBasicMonster(Vector2 pos, string spriteName, string xmlName, MonsterData data)
-        {
-            Entity monster = CreateMonsterBase(pos, spriteName, xmlName, data.scale);
-
-            HealthComponent hc = monster.GetComponent<HealthComponent>();
-            hc.CurrentHealth = hc.MaxHealth = data.Health;
-
-            InventoryComponent ic = new InventoryComponent();
-            Entity weapon = CloneEntity(data.weapon);
-            weapon.Refresh();
-            ic.addWeapon(weapon, monster);
-
-            monster.AddComponent(ic);
-            monster.AddComponent(new PropertyComponent<String>("MonsterType", data.Type));
-
-            return monster;
-        }
-        /*public Entity CreateRangedMonster(Vector2 pos, SpriteSheet spriteSheet, MonsterData data)
-        {
-            Entity monster = CreateBasicMonster(pos, spriteSheet, data);
-
-            
-
-            return monster;
-        }*/
-
         public Entity CreateWallEntity(Vector2 topLeft, Vector2 bottomLeft, Vector2 topRight, Vector2 bottomRight)
         {
             Entity wall = entityMgr.CreateEntity();
@@ -472,11 +374,35 @@ namespace DirtyGame.game.Core
             spawnerCmp.timePerSpawn = timePerSpawn;
             spawnerCmp.MonsterType = MonsterType;
             spawnerCmp.MonsterWeapon = MonsterWeapon;
+            //TODO Spawner Component needs a modifier
 
             //Add the new components to the entity
             spawner.AddComponent(spatial);
             spawner.AddComponent(spawnerCmp);
             return spawner;
+        }
+
+        public Entity CreateSpawner(Spawner s)
+        {
+            Entity e = entityMgr.CreateEntity();
+
+            //Create the Spatial for the new entity
+            SpatialComponent spatial = new SpatialComponent();
+            spatial.Position = new Vector2(s.XPosition, s.YPosition);
+
+            SpawnerComponent spawnerCmp = new SpawnerComponent();
+            spawnerCmp.numMobs = s.NumberOfMonsters;
+            spawnerCmp.timeOfLastSpawn = new TimeSpan(0, 0, 0, 0, 0);
+            spawnerCmp.timePerSpawn = s.TimePerSpawn;
+            spawnerCmp.MonsterType = s.MonsterType;
+            spawnerCmp.MonsterWeapon = s.MonsterWeapon;
+            //TODO Spawner Component needs a modifier
+
+            //Add the new components to the entity
+            e.AddComponent(spatial);
+            e.AddComponent(spawnerCmp);
+
+            return e;
         }
     }
 }

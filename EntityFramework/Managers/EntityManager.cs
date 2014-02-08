@@ -147,7 +147,8 @@ namespace EntityFramework.Managers
                 while (read.IsStartElement())
                 {
                     //read attributes first
-                    Guid guid = Guid.Parse(read.GetAttribute("guid"));
+                    string gid = read.GetAttribute("guid");
+                    Guid guid = gid == null ? Guid.NewGuid() : Guid.Parse(gid);
                     String name = read.GetAttribute("name");
                     String data = read.GetAttribute("data");
                     Entity e = new Entity(this, guid);

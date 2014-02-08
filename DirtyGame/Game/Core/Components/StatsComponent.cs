@@ -13,9 +13,23 @@ namespace DirtyGame.game.Core.Components
         //Base Stats
         public int BaseMoveSpeed { get; set; }
         public int BaseDamage { get; set; }
+        public int BaseHealth { get; set; }
+
+        //Stat Scale
+        public float HealthScale { get; set; }
+
+        //Other stats
         public bool RangedImmune { get; set; }
+        public float CurrentHealth;
 
         //Calculated Stats
+        public int MaxHealth
+        {
+            get
+            {
+                return (int)(BaseHealth * HealthScale);
+            }
+        }
         public int MoveSpeed
         {
             get
