@@ -94,8 +94,8 @@
 			<LastFire>0</LastFire>
 			<Price>100</Price>
 			<AmmoPrice>2</AmmoPrice>
-			<MaxAmmo>50</MaxAmmo>
-			<Ammo>50</Ammo>
+			<MaxAmmo>-1</MaxAmmo>
+			<Ammo>-1</Ammo>
 		</Component>
 	</Entity>
 	<Entity guid="0764619a-2dac-4eb9-9e8d-e0b03ffe3a15" name="Doomsbow">
@@ -130,8 +130,8 @@
 			<LastFire>0</LastFire>
 			<Price>150</Price>
 			<AmmoPrice>10</AmmoPrice>
-			<MaxAmmo>5</MaxAmmo>
-			<Ammo>5</Ammo>
+			<MaxAmmo>-1</MaxAmmo>
+			<Ammo>-1</Ammo>
 		</Component>
 	</Entity>
 	<Entity guid="027acd88-e7db-4b81-9120-a2549f63872d" name="Scattershot">
@@ -148,8 +148,8 @@
 			<LastFire>0</LastFire>
 			<Price>100</Price>
 			<AmmoPrice>10</AmmoPrice>
-			<MaxAmmo>10</MaxAmmo>
-			<Ammo>10</Ammo>
+			<MaxAmmo>-1</MaxAmmo>
+			<Ammo>-1</Ammo>
 		</Component>
 	</Entity>
 	<Entity guid="4c3b2ae9-a06f-4cf7-9d95-82368553aab2" name="Sniper">
@@ -166,8 +166,8 @@
 			<LastFire>0</LastFire>
 			<Price>100</Price>
 			<AmmoPrice>10</AmmoPrice>
-			<MaxAmmo>10</MaxAmmo>
-			<Ammo>10</Ammo>
+			<MaxAmmo>-1</MaxAmmo>
+			<Ammo>-1</Ammo>
 		</Component>
 	</Entity>
     <Entity guid="9c52d524-96aa-4d2a-8c28-44ccdceb6dfc" name="GrenadeLauncher">
@@ -178,7 +178,7 @@
             <BaseDamage>20</BaseDamage>
             <Range>250</Range>
             <Type>Ranged</Type>
-            <ProjectileSprite>arrow</ProjectileSprite>
+            <ProjectileSprite>grenade</ProjectileSprite>
             <SpriteXml>Content\BombExplosion.xml</SpriteXml>
             <ProjectileSpeed>7</ProjectileSpeed>
             <Cooldown>7</Cooldown>
@@ -576,7 +576,7 @@
 		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="SpriteComponent">
 			<Name>SpriteComponent</Name>
 			<RenderLayer>INVALIDE</RenderLayer>
-			<spriteName>playerSheet</spriteName>
+			<spriteName>grendeir</spriteName>
 			<xmlName>Content\PlayerAnimation.xml</xmlName>
 			<SrcRect>
 				<X>0</X>
