@@ -158,9 +158,16 @@ namespace DirtyGame.game.Core.Systems
             //Reads to the start of the XML file
             scenarioReader.ReadToFollowing("root");
 
+            //TESTING
+            //int scenarioCount = 0;
+            //int spawnerCount = 0;
+
             //Parse the XML for the Scenarios
-            while (scenarioReader.ReadToFollowing("scenario"))
+            while (scenarioReader.Read()) //(scenarioReader.ReadToFollowing("scenario"))
             {
+
+                //scenarioCount++;
+
                 //Temporary Variables
                 //Scenario name
                 string scenarioName;
@@ -187,10 +194,21 @@ namespace DirtyGame.game.Core.Systems
                 scenarioName = scenarioReader.GetAttribute("name");
                 difficultyScore = (float) Convert.ToDouble(scenarioReader.GetAttribute("difficultyScore"));
                 mapName = scenarioReader.GetAttribute("map");
+
+                //Break out of the loop when done parsing the XML
+                if (scenarioName == null || mapName == null)
+                {
+                    break;
+                }
+
+                scenarioReader.ReadToDescendant("spawner");
                         
                 //Looping through the spawners for the scenario
-                while (scenarioReader.ReadToFollowing("spawner"))
+                do
                 {
+
+                    //spawnerCount++;
+
                     xPosition = Convert.ToInt32(scenarioReader.GetAttribute("xPosition"));
                     yPosition = Convert.ToInt32(scenarioReader.GetAttribute("yPosition"));
                     spawnerRectangle = new Rectangle(Convert.ToInt32(scenarioReader.GetAttribute("rectangleValue1")),
@@ -206,13 +224,13 @@ namespace DirtyGame.game.Core.Systems
                                                 Convert.ToInt32(scenarioReader.GetAttribute("timeSpanSeconds")),
                                                 Convert.ToInt32(scenarioReader.GetAttribute("timeSpanMilliseconds")));
 
-                    spawners.Add(new Spawner(xPosition, yPosition, spawnerRectangle, monsterType, monsterWeapon, 
+                    spawners.Add(new Spawner(xPosition, yPosition, spawnerRectangle, monsterType, monsterWeapon,
                                              numberOfMonsters, timePerSpawn));
-                }
+                } while (scenarioReader.ReadToNextSibling("spawner"));
 
                 scenarios.Add(scenarioName, new Scenario(scenarioName, difficultyScore, mapName, spawners));
 
-               // scenarioReader.Read();
+                //spawnerCount = 0;
             }
         }
 
