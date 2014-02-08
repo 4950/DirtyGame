@@ -173,7 +173,6 @@ namespace DirtyGame
             Component.ComponentTypes.Add(typeof(SpatialComponent));
             Component.ComponentTypes.Add(typeof(SpriteComponent));
             Component.ComponentTypes.Add(typeof(TimeComponent));
-            Component.ComponentTypes.Add(typeof(HealthComponent));
             Component.ComponentTypes.Add(typeof(PhysicsComponent));
             Component.ComponentTypes.Add(typeof(DirectionComponent));
             Component.ComponentTypes.Add(typeof(SeparationComponent));

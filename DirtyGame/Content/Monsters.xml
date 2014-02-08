@@ -4,7 +4,7 @@
 
 
 	<!-- Weapon Section -->
-	<Entity guid="9c52d524-96aa-4d2a-8c28-44ccdceb6dfb" name="Monsterbow">
+	<Entity name="Monsterbow">
 		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="WeaponComponent">
 			<Name>WeaponComponent</Name>
 			<WeaponName>Monsterbow</WeaponName>
@@ -22,7 +22,7 @@
 			<Ammo>-1</Ammo>
 		</Component>
 	</Entity>
-	<Entity guid="c5f567ec-3bf6-4d7a-895f-c9be5f0304a0" name="FlametowerWeapon">
+	<Entity name="FlametowerWeapon">
 		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="WeaponComponent">
 			<Name>WeaponComponent</Name>
 			<WeaponName>FlametowerWeapon</WeaponName>
@@ -41,7 +41,7 @@
 			<Ammo>-1</Ammo>
 		</Component>
 	</Entity>
-  <Entity guid="564b9cb9-d2f7-464a-b3e1-2de30ea55899" name="BomberWeapon">
+  <Entity name="BomberWeapon">
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="WeaponComponent">
       <Name>WeaponComponent</Name>
       <WeaponName>BomberWeapon</WeaponName>
@@ -60,7 +60,7 @@
       <Ammo>-1</Ammo>
     </Component>
   </Entity>
-	<Entity guid="13e78013-72d2-4816-8aef-a9f19ff6fb99" name="Monstersword">
+	<Entity name="Monstersword">
 		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="WeaponComponent">
 			<Name>WeaponComponent</Name>
 			<WeaponName>Monstersword</WeaponName>
@@ -79,7 +79,7 @@
 			<Ammo>-1</Ammo>
 		</Component>
 	</Entity>
-	<Entity guid="6d3f30e8-ddee-46e9-b5d7-6302eb5f35b8" name="BasicSword">
+	<Entity name="BasicSword">
 		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="WeaponComponent">
 			<Name>WeaponComponent</Name>
 			<WeaponName>Basic Sword</WeaponName>
@@ -98,7 +98,7 @@
 			<Ammo>50</Ammo>
 		</Component>
 	</Entity>
-	<Entity guid="0764619a-2dac-4eb9-9e8d-e0b03ffe3a15" name="Doomsbow">
+	<Entity name="Doomsbow">
 		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="WeaponComponent">
 			<Name>WeaponComponent</Name>
 			<WeaponName>Doomsbow</WeaponName>
@@ -116,7 +116,7 @@
 			<Ammo>-1</Ammo>
 		</Component>
 	</Entity>
-	<Entity guid="f6d3e02f-0628-4740-9e22-f8c739c35ae0" name="Spear">
+	<Entity name="Spear">
 		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="WeaponComponent">
 			<Name>WeaponComponent</Name>
 			<WeaponName>Spear</WeaponName>
@@ -134,7 +134,7 @@
 			<Ammo>5</Ammo>
 		</Component>
 	</Entity>
-	<Entity guid="027acd88-e7db-4b81-9120-a2549f63872d" name="Scattershot">
+	<Entity name="Scattershot">
 		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="WeaponComponent">
 			<Name>WeaponComponent</Name>
 			<WeaponName>Scattershot</WeaponName>
@@ -152,7 +152,7 @@
 			<Ammo>10</Ammo>
 		</Component>
 	</Entity>
-	<Entity guid="4c3b2ae9-a06f-4cf7-9d95-82368553aab2" name="Sniper">
+	<Entity name="Sniper">
 		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="WeaponComponent">
 			<Name>WeaponComponent</Name>
 			<WeaponName>Sniper</WeaponName>
@@ -174,7 +174,7 @@
 	
 	
 	<!-- Monster Section -->
-	<Entity guid="7e1b023f-fcbc-411c-8faa-05218f6fdd03" name="MeleeMonster" data="true">
+	<Entity name="MeleeMonster" data="true">
 		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="MonsterComponent">
 			<Name>MonsterComponent</Name>
 		</Component>
@@ -183,6 +183,9 @@
 			<BaseMoveSpeed>13</BaseMoveSpeed>
 			<BaseDamage>100</BaseDamage>
 			<RangedImmune>false</RangedImmune>
+      <BaseHealth>240</BaseHealth>
+      <HealthScale>1</HealthScale>
+      <CurrentHealth>240</CurrentHealth>
 		</Component>
 		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="MovementComponent">
 			<Name>MovementComponent</Name>
@@ -258,11 +261,6 @@
 			<timeOfLastDraw />
 			<timeBetweenDraw />
 		</Component>
-		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="HealthComponent">
-			<Name>HealthComponent</Name>
-			<MaxHealth>240</MaxHealth>
-			<CurrentHealth>240</CurrentHealth>
-		</Component>
 		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="PhysicsComponent">
 			<Name>PhysicsComponent</Name>
 			<Origin>
@@ -283,7 +281,7 @@
 			<value />
 		</Component>
 	</Entity>
-  <Entity guid="d1db261b-861f-4e1b-b419-65698dcc5ad2" name="SuicideBomber" data="true">
+  <Entity name="SuicideBomber" data="true">
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="MonsterComponent">
       <Name>MonsterComponent</Name>
     </Component>
@@ -292,6 +290,9 @@
       <BaseMoveSpeed>80</BaseMoveSpeed>
       <BaseDamage>100</BaseDamage>
       <RangedImmune>false</RangedImmune>
+      <BaseHealth>30</BaseHealth>
+      <HealthScale>1</HealthScale>
+      <CurrentHealth>30</CurrentHealth>
     </Component>
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="MovementComponent">
       <Name>MovementComponent</Name>
@@ -367,11 +368,6 @@
       <timeOfLastDraw />
       <timeBetweenDraw />
     </Component>
-    <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="HealthComponent">
-      <Name>HealthComponent</Name>
-      <MaxHealth>30</MaxHealth>
-      <CurrentHealth>30</CurrentHealth>
-    </Component>
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="PhysicsComponent">
       <Name>PhysicsComponent</Name>
       <Origin>
@@ -392,7 +388,7 @@
       <value>SuicideBomber</value>
     </Component>
   </Entity>
-	<Entity guid="26602af5-90d5-42b6-aaf8-c178dbdacb7c" name="RangedMonster" data="true">
+	<Entity name="RangedMonster" data="true">
 		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="MonsterComponent">
 			<Name>MonsterComponent</Name>
 		</Component>
@@ -401,6 +397,9 @@
 			<BaseMoveSpeed>13</BaseMoveSpeed>
 			<BaseDamage>100</BaseDamage>
 			<RangedImmune>false</RangedImmune>
+      <BaseHealth>120</BaseHealth>
+      <HealthScale>1</HealthScale>
+      <CurrentHealth>120</CurrentHealth>
 		</Component>
 		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="MovementComponent">
 			<Name>MovementComponent</Name>
@@ -476,11 +475,6 @@
 			<timeOfLastDraw />
 			<timeBetweenDraw />
 		</Component>
-		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="HealthComponent">
-			<Name>HealthComponent</Name>
-			<MaxHealth>120</MaxHealth>
-			<CurrentHealth>120</CurrentHealth>
-		</Component>
 		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="PhysicsComponent">
 			<Name>PhysicsComponent</Name>
 			<Origin>
@@ -501,7 +495,7 @@
 			<value />
 		</Component>
 	</Entity>
-	<Entity guid="80d5da8d-66cc-433e-ba56-18abecd11338" name="Flametower" data="true">
+	<Entity name="Flametower" data="true">
 		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="MonsterComponent">
 			<Name>MonsterComponent</Name>
 		</Component>
@@ -510,6 +504,9 @@
 			<BaseMoveSpeed>0</BaseMoveSpeed>
 			<BaseDamage>100</BaseDamage>
 			<RangedImmune>true</RangedImmune>
+      <BaseHealth>100</BaseHealth>
+      <HealthScale>1</HealthScale>
+      <CurrentHealth>100</CurrentHealth>
 		</Component>
 		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="MovementComponent">
 			<Name>MovementComponent</Name>
@@ -584,11 +581,6 @@
 			<Name>TimeComponent</Name>
 			<timeOfLastDraw />
 			<timeBetweenDraw />
-		</Component>
-		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="HealthComponent">
-			<Name>HealthComponent</Name>
-			<MaxHealth>120</MaxHealth>
-			<CurrentHealth>120</CurrentHealth>
 		</Component>
 		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="PhysicsComponent">
 			<Name>PhysicsComponent</Name>

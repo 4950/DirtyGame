@@ -10,6 +10,7 @@ using DirtyGame.game.Core.Components.Render;
 using DirtyGame.game.Core.Systems.Util;
 using DirtyGame.game.Core;
 using DirtyGame;
+using DirtyGame.game.Util;
 
 namespace EntityFramework.Systems
 {
@@ -46,6 +47,8 @@ namespace EntityFramework.Systems
 
                     if (((spawner.timeOfLastSpawn + spawner.timePerSpawn) <= totalTime) && (spawner.numMobs != 0))
                     {
+                        GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MonsterSpawned, spawner.MonsterWeapon);
+
                         //Reset spawner timeOfLstSpawn
                         //int seconds = (int) Math.Floor(dt);
                         //int milliseconds = (int) Math.Floor((dt - seconds) * 1000);
