@@ -432,6 +432,7 @@ namespace DirtyGame.game.Core
             spawnerCmp.timePerSpawn = timePerSpawn;
             spawnerCmp.MonsterType = MonsterType;
             spawnerCmp.MonsterWeapon = MonsterWeapon;
+            //TODO Spawner Component needs a modifier
 
             //Add the new components to the entity
             spawner.AddComponent(spatial);
@@ -453,6 +454,7 @@ namespace DirtyGame.game.Core
             spawnerCmp.timePerSpawn = s.TimePerSpawn;
             spawnerCmp.MonsterType = s.MonsterType;
             spawnerCmp.MonsterWeapon = s.MonsterWeapon;
+            //TODO Spawner Component needs a modifier
 
             //Add the new components to the entity
             e.AddComponent(spatial);

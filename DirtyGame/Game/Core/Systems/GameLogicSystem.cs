@@ -188,6 +188,8 @@ namespace DirtyGame.game.Core.Systems
                 int numberOfMonsters;
                 //TimeSpan for Monsters to Spawn
                 TimeSpan timePerSpawn;
+                //Modifier for the spawner
+                string modifier;
                 //List of Spawners
                 List<Spawner> spawners = new List<Spawner>();
 
@@ -223,9 +225,10 @@ namespace DirtyGame.game.Core.Systems
                                                 Convert.ToInt32(scenarioReader.GetAttribute("timeSpanMinutes")),
                                                 Convert.ToInt32(scenarioReader.GetAttribute("timeSpanSeconds")),
                                                 Convert.ToInt32(scenarioReader.GetAttribute("timeSpanMilliseconds")));
+                    modifier = scenarioReader.GetAttribute("modifier");
 
                     spawners.Add(new Spawner(xPosition, yPosition, spawnerRectangle, monsterType, monsterWeapon,
-                                             numberOfMonsters, timePerSpawn));
+                                             numberOfMonsters, timePerSpawn, modifier));
                 } while (scenarioReader.ReadToNextSibling("spawner"));
 
                 scenarios.Add(scenarioName, new Scenario(scenarioName, difficultyScore, mapName, spawners));

@@ -16,7 +16,8 @@
              timeSpanHours="0"
              timeSpanMinutes="0"
              timeSpanSeconds="0"
-             timeSpanMilliseconds="1000">
+             timeSpanMilliseconds="1000"
+             modifier="healthUp">
     </spawner>
     <spawner xPosition="300"
              yPosition="100"
@@ -31,7 +32,8 @@
              timeSpanHours="0"
              timeSpanMinutes="0"
              timeSpanSeconds="0"
-             timeSpanMilliseconds="1000">
+             timeSpanMilliseconds="1000"
+             modifier="healthUp">
     </spawner>
   </scenario>
   <scenario name="scenario2"
@@ -50,7 +52,8 @@
              timeSpanHours="0"
              timeSpanMinutes="0"
              timeSpanSeconds="0"
-             timeSpanMilliseconds="1000">
+             timeSpanMilliseconds="1000"
+             modifier="healthUp">
     </spawner>
     <spawner xPosition="300"
              yPosition="100"
@@ -65,7 +68,8 @@
              timeSpanHours="0"
              timeSpanMinutes="0"
              timeSpanSeconds="0"
-             timeSpanMilliseconds="1000">
+             timeSpanMilliseconds="1000"
+             modifier="healthUp">
     </spawner>
   </scenario>
 </root>

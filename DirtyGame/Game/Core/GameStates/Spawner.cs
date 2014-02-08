@@ -23,6 +23,8 @@ namespace DirtyGame.game.Core.GameStates
         private int numberOfMonsters;
         //TimeSpan for Monsters to Spawn
         private TimeSpan timePerSpawn;
+        //Modifier
+        private string modifier;
 
         #region Properties
         public int XPosition
@@ -102,12 +104,23 @@ namespace DirtyGame.game.Core.GameStates
                 timePerSpawn = value;
             }
         }
+        public string Modifier
+        {
+            get
+            {
+                return modifier;
+            }
+            set
+            {
+                modifier = value;
+            }
+        }
         #endregion
 
         public Spawner()
         {
         }
-        public Spawner(int xPos, int yPos, Rectangle spawnerRec, string mType, string mWeapon, int numMonsters, TimeSpan tPerSpawn)
+        public Spawner(int xPos, int yPos, Rectangle spawnerRec, string mType, string mWeapon, int numMonsters, TimeSpan tPerSpawn, string mod)
         {
             this.xPosition = xPos;
             this.yPosition = yPos;
@@ -116,6 +129,7 @@ namespace DirtyGame.game.Core.GameStates
             this.monsterWeapon = mWeapon;
             this.numberOfMonsters = numMonsters;
             this.timePerSpawn = tPerSpawn;
+            this.modifier = mod;
         }
     }
 }
