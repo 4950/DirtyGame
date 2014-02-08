@@ -176,10 +176,11 @@
             <WeaponName>GrenadeLauncher</WeaponName>
             <Portrait>bow</Portrait>
             <BaseDamage>24</BaseDamage>
-            <Range>400</Range>
+            <Range>200</Range>
             <Type>Ranged</Type>
             <ProjectileSprite>arrow</ProjectileSprite>
-            <ProjectileSpeed>10</ProjectileSpeed>
+            <SpriteXml>Content\BombExplosion.xml</SpriteXml>
+            <ProjectileSpeed>7</ProjectileSpeed>
             <Cooldown>3</Cooldown>
             <LastFire>0</LastFire>
             <Price>100</Price>

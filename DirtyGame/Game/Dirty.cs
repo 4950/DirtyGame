@@ -150,6 +150,7 @@ namespace DirtyGame
             world.AddSystem(new SpawnerSystem(entityFactory, this));
             world.AddSystem(new HUDSystem(renderer, UIEngine));
             world.AddSystem(new ProjectileSystem(this));
+            world.AddSystem(new GrenadeSystem(this));
             gLogicSystem = new GameLogicSystem(this);
 
             world.AddSystem(new PhysicsSystem(physics, renderer, this));

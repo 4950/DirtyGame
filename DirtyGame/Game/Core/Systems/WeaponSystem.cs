@@ -98,7 +98,7 @@ namespace DirtyGame.game.Core.Systems
                         Entity proj = game.entityFactory.CreateAOEField(Owner, spatial.Center, new Vector2(wc.Range, 25), wc.ProjectileSprite, wc.SpriteXml, 6, .5f, 2.094f, Weapon);
                         proj.Refresh();
                     }
-                    else if (wc.Name == "GrenadeLauncher")
+                    else if (wc.WeaponName == "GrenadeLauncher")
                     {
                         Entity grenade = game.entityFactory.CreateGrenade(Owner, spatial.Center, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, 5.0f, 5.0f, Weapon);
                         grenade.Refresh();
@@ -121,7 +121,7 @@ namespace DirtyGame.game.Core.Systems
         {
             DetonateEvent detEvt = (DetonateEvent)e;
             WeaponComponent wc = detEvt.Weapon.entity.GetComponent<WeaponComponent>();
-            Entity proj = game.entityFactory.CreateExplosion(detEvt.Owner.entity, detEvt.center, new Vector2(wc.Range, wc.Range), wc.ProjectileSprite, 2, .5f, detEvt.Weapon.entity);
+            Entity proj = game.entityFactory.CreateAOEField(detEvt.Owner.entity, detEvt.center, new Vector2(128, 128), "BombExplosion", wc.SpriteXml, 1, 1, 0, detEvt.Weapon.entity);
             proj.Refresh();
         }
 

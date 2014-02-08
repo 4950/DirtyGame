@@ -37,7 +37,6 @@ namespace DirtyGame.game.Core.Systems
                 if (e.HasComponent<GrenadeComponent>())
                 {
                     GrenadeComponent gc = e.GetComponent<GrenadeComponent>();
-
                     if (Vector2.Distance(gc.origin, e.GetComponent<SpatialComponent>().Position) > gc.range)
                     {
                         if (e.HasComponent<MovementComponent>())

@@ -310,6 +310,46 @@ namespace DirtyGame.game.Core
             return proj;
         }
 
+        public Entity CreateGrenade(Entity owner, Vector2 origin, Vector2 direction, String sprite, float range, float speed, float fuseTime, float blastRadius, Entity weapon)
+        {
+            Entity grenade = entityMgr.CreateEntity();
+
+            GrenadeComponent gc = new GrenadeComponent();
+            gc.direction = direction;
+            gc.origin = origin;
+            gc.range = range;
+            gc.owner = owner;
+            gc.weapon = weapon;
+            gc.fuseTime = fuseTime;
+            gc.blastRadius = blastRadius;
+
+            SpatialComponent spatial = new SpatialComponent();
+            spatial.Position = new Vector2(origin.X, origin.Y);
+            spatial.Width = 2;
+            spatial.Height = 2;
+
+            SpriteComponent sc = new SpriteComponent();
+            if (sc.xmlName != null && sc.xmlName != "")
+                sc.setSpritesheet(sc.spriteName, sc.xmlName, resourceMgr);
+            else
+                sc.setSprite(sprite, resourceMgr);
+            sc.Angle = (float)Math.Atan2(direction.X, -direction.Y);
+            sc.origin = new Vector2(.5f, 0);
+            //sc.AnchorPoint = new Vector2(0, .25f);
+
+            MovementComponent mc = new MovementComponent();
+            Vector2 vel = direction * speed;
+            mc.Vertical = vel.Y;
+            mc.Horizontal = vel.X;
+
+            grenade.AddComponent(gc);
+            grenade.AddComponent(spatial);
+            grenade.AddComponent(mc);
+            grenade.AddComponent(sc);
+            grenade.AddComponent(new PhysicsComponent());
+            return grenade;
+        }
+
         private Entity CreateMonsterBase(Vector2 pos, string spriteName, string xmlName, float scale)
         {
             Entity monster = entityMgr.CreateEntity();
