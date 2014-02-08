@@ -17,6 +17,6 @@ namespace DirtyGame.game.Core.Components
         public Entity weapon;
         public float range;
         public float fuseTime;
-        public float blastRadius;
+        public Vector2 explosionSize;
     }
 }

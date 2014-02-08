@@ -310,7 +310,7 @@ namespace DirtyGame.game.Core
             return proj;
         }
 
-        public Entity CreateGrenade(Entity owner, Vector2 origin, Vector2 direction, String sprite, float range, float speed, float fuseTime, float blastRadius, Entity weapon)
+        public Entity CreateGrenade(Entity owner, Vector2 origin, Vector2 direction, String sprite, float range, float speed, float fuseTime, Vector2 explosionSize, Entity weapon)
         {
             Entity grenade = entityMgr.CreateEntity();
 
@@ -321,7 +321,7 @@ namespace DirtyGame.game.Core
             gc.owner = owner;
             gc.weapon = weapon;
             gc.fuseTime = fuseTime;
-            gc.blastRadius = blastRadius;
+            gc.explosionSize = explosionSize;
 
             SpatialComponent spatial = new SpatialComponent();
             spatial.Position = new Vector2(origin.X, origin.Y);

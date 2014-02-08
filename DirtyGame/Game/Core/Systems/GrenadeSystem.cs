@@ -48,11 +48,12 @@ namespace DirtyGame.game.Core.Systems
                             }
                             else
                             {
-                                gc.fuseTime -= 0.1f;
+                                gc.fuseTime -= dt;
                                 if (gc.fuseTime <= 0)
                                 {
                                     DetonateEvent detEvt = new DetonateEvent();
                                     detEvt.center = e.GetComponent<SpatialComponent>().Center;
+                                    detEvt.size = gc.explosionSize;
                                     detEvt.Owner = new EntityRef(gc.owner);
                                     detEvt.Weapon = new EntityRef(gc.weapon);
                                     detEvt.name = "Detonate";

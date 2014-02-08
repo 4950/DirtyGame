@@ -12,6 +12,8 @@ namespace DirtyGame.game.Core.Events
     {
         public Vector2 center { get; set; }
 
+        public Vector2 size { get; set; }
+
         public EntityRef Weapon { get; set; }
 
         public EntityRef Owner { get; set; }
