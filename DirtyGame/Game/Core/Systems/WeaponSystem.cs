@@ -125,6 +125,8 @@ namespace DirtyGame.game.Core.Systems
         {
             DetonateEvent detEvt = (DetonateEvent)e;
             WeaponComponent wc = detEvt.Weapon.entity.GetComponent<WeaponComponent>();
+            if (detEvt.Owner.entity == null)
+                return;
             Entity proj = game.entityFactory.CreateAOEField(detEvt.Owner.entity, detEvt.center, detEvt.size, "BombExplosion", wc.SpriteXml, 1, 1, 0, detEvt.Weapon.entity);
             proj.Refresh();
         }
