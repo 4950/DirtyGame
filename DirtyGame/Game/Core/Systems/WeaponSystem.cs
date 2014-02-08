@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using DirtyGame.game.SGraphics;
 using DirtyGame.game.Util;
+using DirtyGame.game.Core.Events;
 
 namespace DirtyGame.game.Core.Systems
 {
@@ -21,6 +22,7 @@ namespace DirtyGame.game.Core.Systems
             : base(SystemDescriptions.WeaponSystem.Aspect, SystemDescriptions.WeaponSystem.Priority)
         {
             this.game = game;
+            EventManager.Instance.AddListener("Detonate", CreateExplosionCallback);
         }
         public override void OnEntityAdded(Entity e)
         {
@@ -100,6 +102,11 @@ namespace DirtyGame.game.Core.Systems
                         Entity proj = game.entityFactory.CreateAOEField(Owner, spatial.Center, new Vector2(wc.Range, 25), wc.ProjectileSprite, wc.SpriteXml, 6, .5f, 2.094f, Weapon);
                         proj.Refresh();
                     }
+                    else if (wc.WeaponName == "GrenadeLauncher")
+                    {
+                        Entity grenade = game.entityFactory.CreateGrenade(Owner, spatial.Center, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, 2.0f, new Vector2(128, 128), Weapon);
+                        grenade.Refresh();
+                    }
                     else
                     {
                         Entity proj = game.entityFactory.CreateProjectile(Owner, spatial.Center, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, Weapon);
@@ -112,6 +119,14 @@ namespace DirtyGame.game.Core.Systems
                     meleeEntity.Refresh();
                 }
             }
+        }
+
+        public void CreateExplosionCallback(Event e)
+        {
+            DetonateEvent detEvt = (DetonateEvent)e;
+            WeaponComponent wc = detEvt.Weapon.entity.GetComponent<WeaponComponent>();
+            Entity proj = game.entityFactory.CreateAOEField(detEvt.Owner.entity, detEvt.center, detEvt.size, "BombExplosion", wc.SpriteXml, 1, 1, 0, detEvt.Weapon.entity);
+            proj.Refresh();
         }
 
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)

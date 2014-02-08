@@ -212,6 +212,11 @@ namespace DirtyGame.game.Core.Systems
                 Entity A = entityDictionary[fixtureA.Body.BodyId];
                 Entity B = entityDictionary[fixtureB.Body.BodyId];
 
+                if (A.HasComponent<GrenadeComponent>() || B.HasComponent<GrenadeComponent>())
+                {
+                    Collide = false;
+                }
+
 
                 if (A.HasComponent<ProjectileComponent>() || B.HasComponent<ProjectileComponent>())//Projectiles
                 {
@@ -247,6 +252,7 @@ namespace DirtyGame.game.Core.Systems
                     MeleeComponent mc = melee.GetComponent<MeleeComponent>();
                     if (mc.Owner != hit)//don't hit owner (later this needs to be don't hit team to turn off friendly fire)
                     {
+
                         if (hit.HasComponent<StatsComponent>())//valid hit, do dmg
                         {
                             if (!mc.targetsHit.Contains(hit))//have not already hit target
