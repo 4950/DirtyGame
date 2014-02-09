@@ -48,7 +48,7 @@ namespace DirtyGame.game.Core.Systems
             monstersdefeated = 0;
 
             //restore player health
-            game.player.GetComponent<HealthComponent>().CurrentHealth = game.player.GetComponent<HealthComponent>().MaxHealth;
+            game.player.GetComponent<StatsComponent>().CurrentHealth = game.player.GetComponent<StatsComponent>().MaxHealth;
         }
         public void SetupNextRound()
         {
@@ -163,7 +163,7 @@ namespace DirtyGame.game.Core.Systems
 
 
                     GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundEnded, gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value.ToString());
-                    GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundHealth, game.player.GetComponent<HealthComponent>().CurrentHealth.ToString());
+                    GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundHealth, game.player.GetComponent<StatsComponent>().CurrentHealth.ToString());
                     //next game round
                     AdvanceLevel();
                 }
@@ -221,7 +221,7 @@ namespace DirtyGame.game.Core.Systems
                 {
                     Entity e = entities.ElementAt(i);
 
-                    HealthComponent hc = e.GetComponent<HealthComponent>();
+                    StatsComponent hc = e.GetComponent<StatsComponent>();
                     if (hc.CurrentHealth <= 0)//dead
                     {
                         if (e.HasComponent<PlayerComponent>())//player died

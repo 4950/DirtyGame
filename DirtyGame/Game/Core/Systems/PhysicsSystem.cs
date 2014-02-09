@@ -223,7 +223,7 @@ namespace DirtyGame.game.Core.Systems
 
                     if (hit != pc.owner)
                     {
-                        if (hit.HasComponent<HealthComponent>())//valid hit, do dmg
+                        if (hit.HasComponent<StatsComponent>())//valid hit, do dmg
                         {
                             if (pc.owner.HasComponent<PlayerComponent>())
                                 GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerWeaponFirstHit, pc.weapon.GetComponent<WeaponComponent>().WeaponName);
@@ -247,7 +247,7 @@ namespace DirtyGame.game.Core.Systems
                     MeleeComponent mc = melee.GetComponent<MeleeComponent>();
                     if (mc.Owner != hit)//don't hit owner (later this needs to be don't hit team to turn off friendly fire)
                     {
-                        if (hit.HasComponent<HealthComponent>())//valid hit, do dmg
+                        if (hit.HasComponent<StatsComponent>())//valid hit, do dmg
                         {
                             if (!mc.targetsHit.Contains(hit))//have not already hit target
                             {

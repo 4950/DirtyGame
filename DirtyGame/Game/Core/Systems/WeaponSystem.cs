@@ -34,7 +34,7 @@ namespace DirtyGame.game.Core.Systems
         public void DealDamage(Entity Weapon, Entity Target)
         {
             WeaponComponent wc = Weapon.GetComponent<WeaponComponent>();
-            HealthComponent hc = Target.GetComponent<HealthComponent>();
+            StatsComponent hc = Target.GetComponent<StatsComponent>();
             StatsComponent os = wc.Owner.GetComponent<StatsComponent>();
             StatsComponent ts = Target.GetComponent<StatsComponent>();
 
