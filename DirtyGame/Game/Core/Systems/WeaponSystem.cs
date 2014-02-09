@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Input;
 using DirtyGame.game.SGraphics;
 using DirtyGame.game.Util;
 using DirtyGame.game.Core.Events;
+using DirtyGame.game.Core.Components.Render;
 
 namespace DirtyGame.game.Core.Systems
 {
@@ -90,9 +91,10 @@ namespace DirtyGame.game.Core.Systems
 
                     if (wc.WeaponName == "Scattershot")
                     {
+                        SetShootAnimation(Owner, "Shoot");
+
                         for (float f = -.5f; f <= .5f; f += .25f)
                         {
-
                             Entity proj = game.entityFactory.CreateProjectile(Owner, spatial.Center, Vector2.Transform(dir, Matrix.CreateRotationZ(f)), wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, Weapon);
                             proj.Refresh();
                         }
@@ -109,15 +111,33 @@ namespace DirtyGame.game.Core.Systems
                     }
                     else
                     {
+                        SetShootAnimation(Owner, "Shoot");
                         Entity proj = game.entityFactory.CreateProjectile(Owner, spatial.Center, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, Weapon);
                         proj.Refresh();
                     }
                 }
                 else if (wc.Type == WeaponComponent.WeaponType.Melee)
                 {
+                    SetShootAnimation(Owner, "Attack");
                     Entity meleeEntity = game.entityFactory.CreateMeleeEntity(Owner, Weapon);
                     meleeEntity.Refresh();
                 }
+            }
+        }
+
+        private static void SetShootAnimation(Entity Owner, string attack)
+        {
+            if (!Owner.HasComponent<AnimationComponent>())
+            {
+                AnimationComponent animation = new AnimationComponent();
+                animation.CurrentAnimation = attack + Owner.GetComponent<DirectionComponent>().Heading;
+                Owner.AddComponent(animation);
+                Owner.Refresh();
+            }
+            else
+            {
+                AnimationComponent ac = Owner.GetComponent<AnimationComponent>();
+                ac.CurrentAnimation = "Shoot" + Owner.GetComponent<DirectionComponent>().Heading;
             }
         }
 

@@ -466,8 +466,8 @@
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="SpriteComponent">
       <Name>SpriteComponent</Name>
       <RenderLayer>INVALIDE</RenderLayer>
-      <spriteName>playerSheet</spriteName>
-      <xmlName>Content\PlayerAnimation.xml</xmlName>
+      <spriteName>archer</spriteName>
+      <xmlName>Content\MonsterAnimation.xml</xmlName>
       <SrcRect>
         <X>0</X>
         <Y>0</Y>
