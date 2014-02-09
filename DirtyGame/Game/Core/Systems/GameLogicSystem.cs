@@ -66,7 +66,7 @@ namespace DirtyGame.game.Core.Systems
             roundLblTime = 3f;
 
             int numRanged = 2 + 2 * CurrentLevel;
-            int numMelee = 0;// 2 + 2 * CurrentLevel;
+            int numMelee = 2 + 2 * CurrentLevel;
 
             switch (CurrentLevel)
             {
