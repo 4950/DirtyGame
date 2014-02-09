@@ -92,7 +92,7 @@ namespace DirtyGame.game.Util
         {
             CaptureSession s = new CaptureSession();
             s.systemID = GetSystemID();
-            s.Guid = new Guid();
+            s.Guid = Guid.NewGuid();
 
             sessions.Add(s.Guid, s);
 
