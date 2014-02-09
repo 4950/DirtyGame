@@ -9,9 +9,14 @@ namespace DirtyGame.game.Core.Components
 {
     public class SpatialComponent : Component
     {
+
+        
+        private float defaultRotationCons;
+
         #region Constructors
         public SpatialComponent()
         {
+            defaultRotationCons = 0;
             Position = new Vector2(0, 0);
             Bounds = new Rectangle();
         }
@@ -47,7 +52,19 @@ namespace DirtyGame.game.Core.Components
                 Bounds = new Rectangle(Bounds.X, Bounds.Y, (int)value.X, (int)value.Y);
             }
         }
-        
+
+
+        public float DefaultRotationCons
+        {
+            get
+            {
+                return defaultRotationCons;
+            }
+            set
+            {
+                defaultRotationCons = value;
+            }
+        }
 
         /// <summary>
         /// Rotation in Radians

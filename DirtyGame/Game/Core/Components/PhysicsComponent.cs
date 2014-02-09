@@ -11,11 +11,15 @@ namespace DirtyGame.game.Core.Components
 {
     public class PhysicsComponent : Component
     {
+
+        
+
         #region Constructors
         public PhysicsComponent()
         {
             Origin = new Vector2(.5f, .5f);
         }
+
         #endregion
 
         #region Properties

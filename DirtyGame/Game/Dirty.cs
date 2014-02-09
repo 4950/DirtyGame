@@ -178,6 +178,7 @@ namespace DirtyGame
             Component.ComponentTypes.Add(typeof(DirectionComponent));
             Component.ComponentTypes.Add(typeof(SeparationComponent));
             Component.ComponentTypes.Add(typeof(InventoryComponent));
+            Component.ComponentTypes.Add(typeof(SnipComponent));
 
             //load serialized entities
             world.EntityMgr.DeserializeEntities(App.Path + "Main.xml");

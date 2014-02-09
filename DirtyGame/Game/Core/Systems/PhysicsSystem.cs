@@ -17,6 +17,7 @@ using DirtyGame.game.SGraphics.Commands.DrawCalls;
 using FarseerPhysics.Common;
 using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.Collision;
+using DirtyGame.game.Core.Components.Render;
 
 namespace DirtyGame.game.Core.Systems
 {
@@ -62,11 +63,31 @@ namespace DirtyGame.game.Core.Systems
                     PhysicsComponent pc = e.GetComponent<PhysicsComponent>();
                     //body position is (.5f, .5f), while spatial position is (0, 0)
                     spatial.Position = ConvertUnits.ToDisplayUnits(bodyDictionary[e.Id].Position) - spatial.Size * pc.Origin;
-                    if (spatial.ConstantRotation > 0)
+                    if (spatial.ConstantRotation > 0 && !e.HasComponent<LaserComponent>())
                     {
                         spatial.Rotation += spatial.ConstantRotation * dt;
                         bodyDictionary[e.Id].Rotation = spatial.Rotation;
                     }
+
+                    
+
+                    if (e.HasComponent<LaserComponent>())
+                    {
+                        
+                        
+                        bodyDictionary[e.Id].Rotation += spatial.ConstantRotation * dt;
+                        spatial.Rotation += spatial.ConstantRotation * dt;
+
+                        if (e.GetComponent<LaserComponent>().Reset == true)
+                        {
+                            e.GetComponent<LaserComponent>().Reset = false;
+                            spatial.Rotation = 5;
+                            bodyDictionary[e.Id].Rotation = e.GetComponent<SpriteComponent>().Angle + 5;
+                            
+                        }
+
+                    }
+
 
                     if (PhysicsDebug)
                     {
@@ -160,7 +181,7 @@ namespace DirtyGame.game.Core.Systems
 
                     Body.CreateFixture(ps);
                     Body.Position = ConvertUnits.ToSimUnits(spatial.Position - spatial.Size * p.Origin);
-
+                    
                     Body.Rotation = spatial.Rotation;
                 //}
                 //else
@@ -171,6 +192,14 @@ namespace DirtyGame.game.Core.Systems
                 //    Body.Rotation = spatial.Rotation;
                 //}
             }
+
+            if (e.HasComponent<LaserComponent>())
+            {
+
+                Body.Rotation = e.GetComponent<SpriteComponent>().Angle;
+                
+            }
+
 
             if (e.HasComponent<BorderComponent>())
             {
@@ -202,10 +231,13 @@ namespace DirtyGame.game.Core.Systems
             bodyDictionary.Add(e.Id, Body);
         }
 
+
+        
+
         private bool BodyOnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
         {
             bool Collide = true;
-
+            
             if (entityDictionary.ContainsKey(fixtureA.Body.BodyId) && entityDictionary.ContainsKey(fixtureB.Body.BodyId))
             {
                 Entity A = entityDictionary[fixtureA.Body.BodyId];
@@ -280,6 +312,22 @@ namespace DirtyGame.game.Core.Systems
 
                     Collide = false;
                 }
+
+                else if (A.HasComponent<LaserComponent>() || B.HasComponent<LaserComponent>())
+                {
+                    Entity laser = A.HasComponent<LaserComponent>() ? A : B;
+                    Entity player = laser == A ? B : A;
+                    
+                    if(player.HasComponent<PlayerComponent>())
+                    {
+                        laser.GetComponent<LaserComponent>().LockedOn = true;
+                        laser.GetComponent<LaserComponent>().PlayerPres = true;
+                       
+                    }
+
+                    Collide = false;
+                }
+
                 else if (A.HasComponent<PlayerComponent>() || B.HasComponent<PlayerComponent>())
                 {
                     Entity player = A.HasComponent<PlayerComponent>() ? A : B;
@@ -304,6 +352,7 @@ namespace DirtyGame.game.Core.Systems
                         playerBody.Body.ApplyLinearImpulse(a * 5);
                         hitBody.Body.ApplyLinearImpulse(b * 5);
                     }
+
                 }
             }
             return Collide;
@@ -337,6 +386,11 @@ namespace DirtyGame.game.Core.Systems
             {
                 body.CollisionCategories = Category.Cat3;
                 body.CollidesWith = Category.Cat1 | Category.Cat2 | Category.Cat5;//Monster collides with player and player weapons
+            }
+            else if (e.HasComponent<LaserComponent>())//is monster
+            {
+                body.CollisionCategories = Category.Cat4;
+                body.CollidesWith = Category.Cat1; //Player
             }
             else if (e.HasComponent<AOEComponent>())//AOE Damage
             {
