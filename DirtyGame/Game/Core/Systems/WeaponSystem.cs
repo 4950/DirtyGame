@@ -69,6 +69,10 @@ namespace DirtyGame.game.Core.Systems
                     wc.Ammo--;
                 wc.LastFire = wc.Cooldown;
 
+                if (Owner.HasComponent<PlayerComponent>())
+                    GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerWeaponFired, wc.WeaponName);
+                else
+                    GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MonsterWeaponFired, wc.WeaponName);
 
                 if (wc.WeaponName == "BomberWeapon")
                 {

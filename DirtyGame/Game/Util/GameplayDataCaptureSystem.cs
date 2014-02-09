@@ -17,12 +17,15 @@ namespace DirtyGame.game.Util
     {
         MapSelected,
         PlayerWeaponFired,
-        PlayerHitWithWeapon,
+        MonsterWeaponFired,
         MonsterDamageTaken,
         PlayerDamageTaken,
+        PlayerWeaponFirstHit,
         MonsterKilled,
         RoundEnded,
-        RoundHealth
+        RoundHealth,
+        PlayerDiedWithScore,
+        MonsterSpawned
     }
     public class GameplayDataCaptureSystem : Singleton<GameplayDataCaptureSystem>
     {

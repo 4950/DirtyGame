@@ -17,6 +17,7 @@ using DirtyGame.game.SGraphics.Commands.DrawCalls;
 using FarseerPhysics.Common;
 using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.Collision;
+using DirtyGame.game.Util;
 
 namespace DirtyGame.game.Core.Systems
 {
@@ -218,10 +219,15 @@ namespace DirtyGame.game.Core.Systems
                     Entity hit = proj == A ? B : A;
                     Fixture hitBody = proj == A ? fixtureB : fixtureA;
 
-                    if (hit != proj.GetComponent<ProjectileComponent>().owner)
+                    ProjectileComponent pc = proj.GetComponent<ProjectileComponent>();
+
+                    if (hit != pc.owner)
                     {
                         if (hit.HasComponent<HealthComponent>())//valid hit, do dmg
                         {
+                            if (pc.owner.HasComponent<PlayerComponent>())
+                                GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerWeaponFirstHit, pc.weapon.GetComponent<WeaponComponent>().WeaponName);
+
                             game.weaponSystem.DealDamage(proj.GetComponent<ProjectileComponent>().weapon, hit);
                             //hit.GetComponent<HealthComponent>().CurrentHealth -= proj.GetComponent<ProjectileComponent>().damage;
                             hitBody.Body.ApplyLinearImpulse(proj.GetComponent<ProjectileComponent>().direction * 10);
@@ -245,6 +251,9 @@ namespace DirtyGame.game.Core.Systems
                         {
                             if (!mc.targetsHit.Contains(hit))//have not already hit target
                             {
+                                if (mc.Owner.HasComponent<PlayerComponent>() && mc.targetsHit.Count == 0)
+                                    GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerWeaponFirstHit, mc.Weapon.GetComponent<WeaponComponent>().WeaponName);
+
                                 mc.targetsHit.Add(hit);
 
                                 game.weaponSystem.DealDamage(mc.Weapon, hit);
@@ -259,6 +268,10 @@ namespace DirtyGame.game.Core.Systems
                     Entity hit = aoe == A ? B : A;
 
                     AOEComponent ac = aoe.GetComponent<AOEComponent>();
+
+                    if (ac.Owner.entity != null && ac.Owner.entity.HasComponent<PlayerComponent>() && ac.HitList.Count == 0)
+                        GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerWeaponFirstHit, ac.Weapon.entity.GetComponent<WeaponComponent>().WeaponName);
+
                     if (ac.Owner.entity != hit && hit.HasComponent<PlayerComponent>())//player hit
                     {
                         if (!ac.HitList.Contains(hit))
