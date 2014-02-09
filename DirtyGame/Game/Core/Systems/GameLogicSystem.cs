@@ -66,7 +66,7 @@ namespace DirtyGame.game.Core.Systems
             roundLblTime = 3f;
 
             int numRanged = 2 + 2 * CurrentLevel;
-            int numMelee = 2 + 2 * CurrentLevel;
+            int numMelee = 0;// 2 + 2 * CurrentLevel;
 
             switch (CurrentLevel)
             {
@@ -79,13 +79,13 @@ namespace DirtyGame.game.Core.Systems
                     break;
             }
 
-            Entity e = game.entityFactory.CreateSpawner(100, 100, new Rectangle(0, 0, 46, 46), "RangedMonster", "Monsterbow", numRanged / 2, new TimeSpan(0, 0, 0, 0, 1000));
+            Entity e = game.entityFactory.CreateSpawner(200, 200, new Rectangle(0, 0, 46, 46), "RangedMonster", "Monsterbow", numRanged / 2, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
             spawners.Add(e);
-            e = game.entityFactory.CreateSpawner(300, 100, new Rectangle(0, 0, 46, 46), "MeleeMonster", "Monstersword", numMelee / 2, new TimeSpan(0, 0, 0, 0, 2000));
+            e = game.entityFactory.CreateSpawner(300, 100, new Rectangle(0, 0, 46, 46), "MeleeMonster", "Monstersword", numMelee / 2, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
             spawners.Add(e);
-            e = game.entityFactory.CreateSpawner(100, 300, new Rectangle(0, 0, 46, 46), "RangedMonster", "Monsterbow", numRanged / 2, new TimeSpan(0, 0, 0, 0, 3000));
+            e = game.entityFactory.CreateSpawner(100, 300, new Rectangle(0, 0, 46, 46), "RangedMonster", "Monsterbow", numRanged / 2, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
             spawners.Add(e);
             e = game.entityFactory.CreateSpawner(300, 640, new Rectangle(0, 0, 46, 46), "MeleeMonster", "Monstersword", numMelee / 2, new TimeSpan(0, 0, 0, 0, 500));
