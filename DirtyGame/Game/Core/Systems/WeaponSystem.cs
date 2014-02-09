@@ -82,6 +82,15 @@ namespace DirtyGame.game.Core.Systems
                     Entity proj = game.entityFactory.CreateAOEField(Owner, spatial.Center, new Vector2(128, 128), wc.ProjectileSprite, wc.SpriteXml, 1, 1, 0, Weapon);
                     proj.Refresh();
                 }
+                else if (wc.WeaponName == "LandmineWeapon")
+                {
+                    Vector2 dir = (Target - spatial.Center);
+                    dir.Normalize();
+
+                    SetShootAnimation(Owner, "Shoot");
+                    Entity proj = game.entityFactory.CreateProjectile(Owner, spatial.Center, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, Weapon);
+                    proj.Refresh();
+                }
                 else if (wc.Type == WeaponComponent.WeaponType.Ranged)
                 {
                     //projectile

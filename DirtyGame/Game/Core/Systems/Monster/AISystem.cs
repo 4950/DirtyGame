@@ -86,7 +86,13 @@ namespace DirtyGame.game.Core.Systems.Monster
             {
                 Entity weapon = m.GetComponent<InventoryComponent>().CurrentWeapon;
                 WeaponComponent wc = weapon.GetComponent<WeaponComponent>();
-
+                if (wc.Type == WeaponComponent.WeaponType.Landmine)
+                {
+                    vel = seekPlayer(entities, m, 0, 200, false);//if player is close, run
+                   
+                    if (vel[0] == vel[1] && vel[0] == 0)//player not in sight or in range, wander
+                        vel = randDir();
+                }
                 if (wc.Type == WeaponComponent.WeaponType.Ranged)
                 {
                     vel = seekPlayer(entities, m, 0, 200, false);//if player is close, run

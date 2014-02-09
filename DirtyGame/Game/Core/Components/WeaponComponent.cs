@@ -16,7 +16,8 @@ namespace DirtyGame.game.Core.Components
         {
             Ranged,
             Melee,
-            AOE
+            AOE,
+            Landmine
         }
         #region Constructors
         public WeaponComponent()
