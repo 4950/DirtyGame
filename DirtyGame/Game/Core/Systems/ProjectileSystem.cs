@@ -36,7 +36,7 @@ namespace DirtyGame.game.Core.Systems
                 if (e.HasComponent<ProjectileComponent>())
                 {
                     ProjectileComponent pc = e.GetComponent<ProjectileComponent>();
-
+                    
                     if (Vector2.Distance(pc.origin, e.GetComponent<SpatialComponent>().Position) > pc.range)
                     {
                         game.world.DestroyEntity(e);

@@ -49,10 +49,12 @@ namespace DirtyGame.game.Core
 
                 foreach (Fixture f in fixtures)
                 {
-
-                    if (!entity.Contains(entityManager.GetEntity(BodyIdToEntityId[f.Body.BodyId])))
+                    if(BodyIdToEntityId.ContainsKey(f.Body.BodyId))
                     {
-                        entity.Add(entityManager.GetEntity(BodyIdToEntityId[f.Body.BodyId]));
+                        if (!entity.Contains(entityManager.GetEntity(BodyIdToEntityId[f.Body.BodyId])))
+                        {
+                            entity.Add(entityManager.GetEntity(BodyIdToEntityId[f.Body.BodyId]));
+                        }
                     }
                 }
 
@@ -70,9 +72,12 @@ namespace DirtyGame.game.Core
 
             foreach (Fixture f in fixtures)
             {
-                if (!entity.Contains(entityManager.GetEntity(BodyIdToEntityId[f.Body.BodyId])))
+                if (BodyIdToEntityId.ContainsKey(f.Body.BodyId))
                 {
-                    entity.Add(entityManager.GetEntity(BodyIdToEntityId[f.Body.BodyId]));
+                    if (!entity.Contains(entityManager.GetEntity(BodyIdToEntityId[f.Body.BodyId])))
+                    {
+                        entity.Add(entityManager.GetEntity(BodyIdToEntityId[f.Body.BodyId]));
+                    }
                 }
             }
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,275 +18,304 @@ using FarseerPhysics.Common;
 using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.Collision;
 using DirtyGame.game.Util;
+using DirtyGame.game.Core.Components.Render;
 
 namespace DirtyGame.game.Core.Systems
 {
     class PhysicsSystem : EntitySystem
     {
-        public Dictionary<int, Entity> entityDictionary;
-        public Dictionary<uint, Body> bodyDictionary;
-        private Physics physics;
-        private FarseerPhysics.Dynamics.World physicsWorld;
-        private Renderer renderer;
-        private bool PhysicsDebug = true;
-        uint playerId;
-        private Dirty game;
 
-        public PhysicsSystem(Physics physics, Renderer renderer, Dirty game)
-            : base(SystemDescriptions.PhysicsSystem.Aspect, SystemDescriptions.PhysicsSystem.Priority)
-        {
-            this.physics = physics;
-            this.game = game;
-            physicsWorld = physics.World;
-            entityDictionary = new Dictionary<int, Entity>();
-            bodyDictionary = new Dictionary<uint, Body>();
+    public Dictionary<int, Entity> entityDictionary;
+    public Dictionary<uint, Body> bodyDictionary;
+    private Physics physics;
+    private FarseerPhysics.Dynamics.World physicsWorld;
+    private Renderer renderer;
+    private bool PhysicsDebug = true;
+    uint playerId;
+    private Dirty game;
 
-            ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
+	public PhysicsSystem(Physics physics, Renderer renderer, Dirty game)
+				: base(SystemDescriptions.PhysicsSystem.Aspect, SystemDescriptions.PhysicsSystem.Priority)
+			{
+				this.physics = physics;
+				this.game = game;
+				physicsWorld = physics.World;
+				entityDictionary = new Dictionary<int, Entity>();
+				bodyDictionary = new Dictionary<uint, Body>();
 
-            this.renderer = renderer;
-        }
+				ConvertUnits.SetDisplayUnitToSimUnitRatio(64f);
 
+				this.renderer = renderer;
+			}
 
-        public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
-        {
-            RenderGroup renderGroup = null;
-            if (PhysicsDebug)
-            {
-                renderGroup = new RenderGroup();
-                renderGroup.AddCommand(new BeginBatchDraw(renderer.ActiveCamera.Transform));
-            }
-            foreach (Entity e in entities)
-            {
-                if (e.HasComponent<SpatialComponent>())
-                {
-                    SpatialComponent spatial = e.GetComponent<SpatialComponent>();
-                    PhysicsComponent pc = e.GetComponent<PhysicsComponent>();
-                    //body position is (.5f, .5f), while spatial position is (0, 0)
-                    spatial.Position = ConvertUnits.ToDisplayUnits(bodyDictionary[e.Id].Position) - spatial.Size * pc.Origin;
-                    if (spatial.ConstantRotation > 0)
-                    {
-                        spatial.Rotation += spatial.ConstantRotation * dt;
-                        bodyDictionary[e.Id].Rotation = spatial.Rotation;
-                    }
+	public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
+			{
+				RenderGroup renderGroup = null;
+				if (PhysicsDebug)
+				{
+					renderGroup = new RenderGroup();
+					renderGroup.AddCommand(new BeginBatchDraw(renderer.ActiveCamera.Transform));
+				}
+				foreach (Entity e in entities)
+				{
+					if (e.HasComponent<SpatialComponent>())
+					{
+						SpatialComponent spatial = e.GetComponent<SpatialComponent>();
+						PhysicsComponent pc = e.GetComponent<PhysicsComponent>();
+						//body position is (.5f, .5f), while spatial position is (0, 0)
+						spatial.Position = ConvertUnits.ToDisplayUnits(bodyDictionary[e.Id].Position) - spatial.Size * pc.Origin;
+						if (spatial.ConstantRotation > 0 && !e.HasComponent<LaserComponent>())
+						{
+							spatial.Rotation += spatial.ConstantRotation * dt;
+							bodyDictionary[e.Id].Rotation = spatial.Rotation;
+						}
 
-                    if (PhysicsDebug)
-                    {
-                        //spatial box
-                        RenderInstance instance = new RenderInstance();
-                        instance.DrawCall = new BatchDrawLine(spatial.Position, new Vector2(spatial.Position.X + spatial.Width, spatial.Position.Y), Color.Blue);
-                        renderGroup.AddInstance(instance);
-                        instance = new RenderInstance();
-                        instance.DrawCall = new BatchDrawLine(new Vector2(spatial.Position.X + spatial.Width, spatial.Position.Y), new Vector2(spatial.Position.X + spatial.Width, spatial.Position.Y + spatial.Height), Color.Blue);
-                        renderGroup.AddInstance(instance);
-                        instance = new RenderInstance();
-                        instance.DrawCall = new BatchDrawLine(new Vector2(spatial.Position.X, spatial.Position.Y + spatial.Height), new Vector2(spatial.Position.X + spatial.Width, spatial.Position.Y + spatial.Height), Color.Blue);
-                        renderGroup.AddInstance(instance);
-                        instance = new RenderInstance();
-                        instance.DrawCall = new BatchDrawLine(new Vector2(spatial.Position.X, spatial.Position.Y + spatial.Height), spatial.Position, Color.Blue);
-                        renderGroup.AddInstance(instance);
+						
 
-                        //physics box
-                        foreach (Fixture f in bodyDictionary[e.Id].FixtureList)
-                        {
-                            Transform t;
-                            f.Body.GetTransform(out t);
-                            AABB aabb;
-                            f.Shape.ComputeAABB(out aabb, ref t, 0);
+						if (e.HasComponent<LaserComponent>())
+						{
+							
+							
+							bodyDictionary[e.Id].Rotation += spatial.ConstantRotation * dt;
+							spatial.Rotation += spatial.ConstantRotation * dt;
 
-                            if (aabb.Vertices.Count > 1)
-                            {
-                                instance = new RenderInstance();
-                                instance.DrawCall = new BatchDrawLine(ConvertUnits.ToDisplayUnits(aabb.Vertices[0]), ConvertUnits.ToDisplayUnits(aabb.Vertices[aabb.Vertices.Count - 1]), Color.Red);
-                                //instance.SortKey.SetRenderLayer(sprite.RenderLayer);
+							if (e.GetComponent<LaserComponent>().Reset == true)
+							{
+								e.GetComponent<LaserComponent>().Reset = false;
+								spatial.Rotation = 5;
+								bodyDictionary[e.Id].Rotation = e.GetComponent<SpriteComponent>().Angle + 5;
+								
+							}
 
-                                renderGroup.AddInstance(instance);
-                            }
-                            for (int i = 1; i < aabb.Vertices.Count; i++)
-                            {
-                                instance = new RenderInstance();
-                                instance.DrawCall = new BatchDrawLine(ConvertUnits.ToDisplayUnits(aabb.Vertices[i - 1]), ConvertUnits.ToDisplayUnits(aabb.Vertices[i]), Color.Red);
-                                //instance.SortKey.SetRenderLayer(sprite.RenderLayer);
-
-                                renderGroup.AddInstance(instance);
-                            }
-                        }
-                    }
-
-                }
-
-                if (e.HasComponent<MovementComponent>()) //Some could be static
-                {
-
-                    MovementComponent movement = e.GetComponent<MovementComponent>();
-                    bodyDictionary[e.Id].LinearVelocity = movement.Velocity;
-
-                }
+						}
 
 
+						if (PhysicsDebug)
+						{
+							//spatial box
+							RenderInstance instance = new RenderInstance();
+							instance.DrawCall = new BatchDrawLine(spatial.Position, new Vector2(spatial.Position.X + spatial.Width, spatial.Position.Y), Color.Blue);
+							renderGroup.AddInstance(instance);
+							instance = new RenderInstance();
+							instance.DrawCall = new BatchDrawLine(new Vector2(spatial.Position.X + spatial.Width, spatial.Position.Y), new Vector2(spatial.Position.X + spatial.Width, spatial.Position.Y + spatial.Height), Color.Blue);
+							renderGroup.AddInstance(instance);
+							instance = new RenderInstance();
+							instance.DrawCall = new BatchDrawLine(new Vector2(spatial.Position.X, spatial.Position.Y + spatial.Height), new Vector2(spatial.Position.X + spatial.Width, spatial.Position.Y + spatial.Height), Color.Blue);
+							renderGroup.AddInstance(instance);
+							instance = new RenderInstance();
+							instance.DrawCall = new BatchDrawLine(new Vector2(spatial.Position.X, spatial.Position.Y + spatial.Height), spatial.Position, Color.Blue);
+							renderGroup.AddInstance(instance);
 
-            }
+							//physics box
+							foreach (Fixture f in bodyDictionary[e.Id].FixtureList)
+							{
+								Transform t;
+								f.Body.GetTransform(out t);
+								AABB aabb;
+								f.Shape.ComputeAABB(out aabb, ref t, 0);
 
-            if (PhysicsDebug)
-                renderer.Submit(renderGroup);
-        }
+								if (aabb.Vertices.Count > 1)
+								{
+									instance = new RenderInstance();
+									instance.DrawCall = new BatchDrawLine(ConvertUnits.ToDisplayUnits(aabb.Vertices[0]), ConvertUnits.ToDisplayUnits(aabb.Vertices[aabb.Vertices.Count - 1]), Color.Red);
+									//instance.SortKey.SetRenderLayer(sprite.RenderLayer);
 
-        public override void OnEntityAdded(Entity e)
-        {
+									renderGroup.AddInstance(instance);
+								}
+								for (int i = 1; i < aabb.Vertices.Count; i++)
+								{
+									instance = new RenderInstance();
+									instance.DrawCall = new BatchDrawLine(ConvertUnits.ToDisplayUnits(aabb.Vertices[i - 1]), ConvertUnits.ToDisplayUnits(aabb.Vertices[i]), Color.Red);
+									//instance.SortKey.SetRenderLayer(sprite.RenderLayer);
 
-            Body Body = new Body(physicsWorld);
+									renderGroup.AddInstance(instance);
+								}
+							}
+						}
 
-            if (e.HasComponent<PlayerComponent>())
-            {
-                playerId = e.Id;
-            }
+					}
 
-            if (e.HasComponent<SpatialComponent>())
-            {
-                SpatialComponent spatial = e.GetComponent<SpatialComponent>();
-                PhysicsComponent p = e.GetComponent<PhysicsComponent>();
+					if (e.HasComponent<MovementComponent>()) //Some could be static
+					{
 
-                //body position is (.5f, .5f), while spatial position is (0, 0)
+						MovementComponent movement = e.GetComponent<MovementComponent>();
+						bodyDictionary[e.Id].LinearVelocity = movement.Velocity;
 
-                //if (p.Origin == new Vector2(0, 1))
-                //{
-                    Vector2 oMod = p.Origin - new Vector2(.5f, .5f);
-                    Vector2 size = new Vector2(ConvertUnits.ToSimUnits(spatial.Width), ConvertUnits.ToSimUnits(spatial.Height));
-                    Body = BodyFactory.CreateBody(physicsWorld);
-                    Vector2[] v = new Vector2[4];
-                    v[0] = new Vector2(0, 0) - size * p.Origin;//top left
-                    v[1] = new Vector2(0, size.Y) - size * p.Origin;//bottom left
-                    v[2] = new Vector2(size.X, size.Y) - size * p.Origin;//bottom right
-                    v[3] = new Vector2(size.X, 0) - size * p.Origin;//top right
-                    PolygonShape ps = new PolygonShape(new Vertices(v.ToArray()), 1f);
-
-                    Body.CreateFixture(ps);
-                    Body.Position = ConvertUnits.ToSimUnits(spatial.Position - spatial.Size * p.Origin);
-
-                    Body.Rotation = spatial.Rotation;
-                //}
-                //else
-                //{
-                //    //Body.CreateFixture(Shape.
-                //    Body = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(spatial.Width), ConvertUnits.ToSimUnits(spatial.Height), 1f, ConvertUnits.ToSimUnits(spatial.Position + spatial.Size/2));
-
-                //    Body.Rotation = spatial.Rotation;
-                //}
-            }
-
-            if (e.HasComponent<BorderComponent>())
-            {
-                BorderComponent border = e.GetComponent<BorderComponent>();
-                Vertices borders = new Vertices(4);
-                borders.Add(ConvertUnits.ToSimUnits(border.TopLeft));
-                borders.Add(ConvertUnits.ToSimUnits(border.TopRight));
-                borders.Add(ConvertUnits.ToSimUnits(border.BottomRight));
-                borders.Add(ConvertUnits.ToSimUnits(border.BottomLeft));
-
-                Body = BodyFactory.CreateLoopShape(physicsWorld, borders);
-                Body.CollisionCategories = Category.All;
-                Body.CollidesWith = Category.All;
-            }
-
-            if (e.HasComponent<MovementComponent>())
-            {
-                Body.BodyType = BodyType.Dynamic;
-                Body.Restitution = 0.3f;
-            }
-
-            Body.OnCollision += BodyOnCollision;
-            
-
-            CollisionCategory(e, Body);
-
-            entityDictionary.Add(Body.BodyId, e);
-            physics.AddEntityId(Body.BodyId, e.Id);
-            bodyDictionary.Add(e.Id, Body);
-        }
-
-        private bool BodyOnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
-        {
-            bool Collide = true;
-
-            if (entityDictionary.ContainsKey(fixtureA.Body.BodyId) && entityDictionary.ContainsKey(fixtureB.Body.BodyId))
-            {
-                Entity A = entityDictionary[fixtureA.Body.BodyId];
-                Entity B = entityDictionary[fixtureB.Body.BodyId];
-
-                if (A.HasComponent<GrenadeComponent>() || B.HasComponent<GrenadeComponent>())
-                {
-                    Collide = false;
-                }
+					}
 
 
-                if (A.HasComponent<ProjectileComponent>() || B.HasComponent<ProjectileComponent>())//Projectiles
-                {
-                    Entity proj = A.HasComponent<ProjectileComponent>() ? A : B;
-                    Entity hit = proj == A ? B : A;
-                    Fixture hitBody = proj == A ? fixtureB : fixtureA;
 
-                    ProjectileComponent pc = proj.GetComponent<ProjectileComponent>();
+				}
 
-                    if (hit != pc.owner)
-                    {
-                        if (hit.HasComponent<StatsComponent>())//valid hit, do dmg
-                        {
-                            if (pc.owner.HasComponent<PlayerComponent>())
-                                GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerWeaponFirstHit, pc.weapon.GetComponent<WeaponComponent>().WeaponName);
+				if (PhysicsDebug)
+					renderer.Submit(renderGroup);
+			}
 
-                            game.weaponSystem.DealDamage(proj.GetComponent<ProjectileComponent>().weapon, hit);
-                            //hit.GetComponent<HealthComponent>().CurrentHealth -= proj.GetComponent<ProjectileComponent>().damage;
-                            hitBody.Body.ApplyLinearImpulse(proj.GetComponent<ProjectileComponent>().direction * 10);
-                            World.DestroyEntity(proj);
-                        }
-                        else if (hit.HasComponent<BorderComponent>())//hit map bounds, remove
-                        {
-                            World.DestroyEntity(proj);
-                        }
-                    }
-                }
-                else if (A.HasComponent<MeleeComponent>() || B.HasComponent<MeleeComponent>())//Melee
-                {
-                    Entity melee = A.HasComponent<MeleeComponent>() ? A : B;
-                    Entity hit = melee == A ? B : A;
+	public override void OnEntityAdded(Entity e)
+			{
 
-                    MeleeComponent mc = melee.GetComponent<MeleeComponent>();
-                    if (mc.Owner != hit)//don't hit owner (later this needs to be don't hit team to turn off friendly fire)
-                    {
+				Body Body = new Body(physicsWorld);
 
-                        if (hit.HasComponent<StatsComponent>())//valid hit, do dmg
-                        {
-                            if (!mc.targetsHit.Contains(hit))//have not already hit target
-                            {
-                                if (mc.Owner.HasComponent<PlayerComponent>() && mc.targetsHit.Count == 0)
-                                    GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerWeaponFirstHit, mc.Weapon.GetComponent<WeaponComponent>().WeaponName);
+				if (e.HasComponent<PlayerComponent>())
+				{
+					playerId = e.Id;
+				}
 
-                                mc.targetsHit.Add(hit);
+				if (e.HasComponent<SpatialComponent>())
+				{
+					SpatialComponent spatial = e.GetComponent<SpatialComponent>();
+					PhysicsComponent p = e.GetComponent<PhysicsComponent>();
 
-                                game.weaponSystem.DealDamage(mc.Weapon, hit);
-                            }
-                        }
-                    }
+					//body position is (.5f, .5f), while spatial position is (0, 0)
 
-                }
-                else if (A.HasComponent<AOEComponent>() || B.HasComponent<AOEComponent>())//aoe
-                {
-                    Entity aoe = A.HasComponent<AOEComponent>() ? A : B;
-                    Entity hit = aoe == A ? B : A;
+					//if (p.Origin == new Vector2(0, 1))
+					//{
+						Vector2 oMod = p.Origin - new Vector2(.5f, .5f);
+						Vector2 size = new Vector2(ConvertUnits.ToSimUnits(spatial.Width), ConvertUnits.ToSimUnits(spatial.Height));
+						Body = BodyFactory.CreateBody(physicsWorld);
+						Vector2[] v = new Vector2[4];
+						v[0] = new Vector2(0, 0) - size * p.Origin;//top left
+						v[1] = new Vector2(0, size.Y) - size * p.Origin;//bottom left
+						v[2] = new Vector2(size.X, size.Y) - size * p.Origin;//bottom right
+						v[3] = new Vector2(size.X, 0) - size * p.Origin;//top right
+						PolygonShape ps = new PolygonShape(new Vertices(v.ToArray()), 1f);
 
-                    AOEComponent ac = aoe.GetComponent<AOEComponent>();
+						Body.CreateFixture(ps);
+						Body.Position = ConvertUnits.ToSimUnits(spatial.Position - spatial.Size * p.Origin);
+						
+						Body.Rotation = spatial.Rotation;
+					//}
+					//else
+					//{
+					//    //Body.CreateFixture(Shape.
+					//    Body = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(spatial.Width), ConvertUnits.ToSimUnits(spatial.Height), 1f, ConvertUnits.ToSimUnits(spatial.Position + spatial.Size/2));
 
-                    if (ac.Owner.entity != null && ac.Owner.entity.HasComponent<PlayerComponent>() && ac.HitList.Count == 0)
-                        GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerWeaponFirstHit, ac.Weapon.entity.GetComponent<WeaponComponent>().WeaponName);
+					//    Body.Rotation = spatial.Rotation;
+					//}
+				}
 
-                    if (ac.Owner.entity != hit && hit.HasComponent<PlayerComponent>())//player hit
-                    {
-                        if (!ac.HitList.Contains(hit))
-                        {
-                            ac.HitList.Add(hit);
+				if (e.HasComponent<LaserComponent>())
+				{
 
-                            game.weaponSystem.DealDamage(ac.Weapon.entity, hit);
-                        }
-                    }
+					Body.Rotation = e.GetComponent<SpriteComponent>().Angle;
+					
+				}
+
+
+				if (e.HasComponent<BorderComponent>())
+				{
+					BorderComponent border = e.GetComponent<BorderComponent>();
+					Vertices borders = new Vertices(4);
+					borders.Add(ConvertUnits.ToSimUnits(border.TopLeft));
+					borders.Add(ConvertUnits.ToSimUnits(border.TopRight));
+					borders.Add(ConvertUnits.ToSimUnits(border.BottomRight));
+					borders.Add(ConvertUnits.ToSimUnits(border.BottomLeft));
+
+					Body = BodyFactory.CreateLoopShape(physicsWorld, borders);
+					Body.CollisionCategories = Category.All;
+					Body.CollidesWith = Category.All;
+				}
+
+				if (e.HasComponent<MovementComponent>())
+				{
+					Body.BodyType = BodyType.Dynamic;
+					Body.Restitution = 0.3f;
+				}
+
+				Body.OnCollision += BodyOnCollision;
+				
+
+				CollisionCategory(e, Body);
+
+				entityDictionary.Add(Body.BodyId, e);
+				physics.AddEntityId(Body.BodyId, e.Id);
+				bodyDictionary.Add(e.Id, Body);
+			}
+			
+	private bool BodyOnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
+			{
+				bool Collide = true;
+
+				if (entityDictionary.ContainsKey(fixtureA.Body.BodyId) && entityDictionary.ContainsKey(fixtureB.Body.BodyId))
+				{
+					Entity A = entityDictionary[fixtureA.Body.BodyId];
+					Entity B = entityDictionary[fixtureB.Body.BodyId];
+
+					if (A.HasComponent<GrenadeComponent>() || B.HasComponent<GrenadeComponent>())
+					{
+						Collide = false;
+					}
+
+
+					if (A.HasComponent<ProjectileComponent>() || B.HasComponent<ProjectileComponent>())//Projectiles
+					{
+						Entity proj = A.HasComponent<ProjectileComponent>() ? A : B;
+						Entity hit = proj == A ? B : A;
+						Fixture hitBody = proj == A ? fixtureB : fixtureA;
+
+						ProjectileComponent pc = proj.GetComponent<ProjectileComponent>();
+
+						if (hit != pc.owner)
+						{
+							if (hit.HasComponent<StatsComponent>())//valid hit, do dmg
+							{
+								if (pc.owner.HasComponent<PlayerComponent>())
+									GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerWeaponFirstHit, pc.weapon.GetComponent<WeaponComponent>().WeaponName);
+
+								game.weaponSystem.DealDamage(proj.GetComponent<ProjectileComponent>().weapon, hit);
+								//hit.GetComponent<HealthComponent>().CurrentHealth -= proj.GetComponent<ProjectileComponent>().damage;
+								hitBody.Body.ApplyLinearImpulse(proj.GetComponent<ProjectileComponent>().direction * 10);
+								World.DestroyEntity(proj);
+							}
+							else if (hit.HasComponent<BorderComponent>())//hit map bounds, remove
+							{
+								World.DestroyEntity(proj);
+							}
+						}
+					}
+					else if (A.HasComponent<MeleeComponent>() || B.HasComponent<MeleeComponent>())//Melee
+					{
+						Entity melee = A.HasComponent<MeleeComponent>() ? A : B;
+						Entity hit = melee == A ? B : A;
+
+						MeleeComponent mc = melee.GetComponent<MeleeComponent>();
+						if (mc.Owner != hit)//don't hit owner (later this needs to be don't hit team to turn off friendly fire)
+						{
+
+							if (hit.HasComponent<StatsComponent>())//valid hit, do dmg
+							{
+								if (!mc.targetsHit.Contains(hit))//have not already hit target
+								{
+									if (mc.Owner.HasComponent<PlayerComponent>() && mc.targetsHit.Count == 0)
+										GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerWeaponFirstHit, mc.Weapon.GetComponent<WeaponComponent>().WeaponName);
+
+									mc.targetsHit.Add(hit);
+
+									game.weaponSystem.DealDamage(mc.Weapon, hit);
+								}
+							}
+						}
+
+					}
+					else if (A.HasComponent<AOEComponent>() || B.HasComponent<AOEComponent>())//aoe
+					{
+						Entity aoe = A.HasComponent<AOEComponent>() ? A : B;
+						Entity hit = aoe == A ? B : A;
+
+						AOEComponent ac = aoe.GetComponent<AOEComponent>();
+
+						if (ac.Owner.entity != null && ac.Owner.entity.HasComponent<PlayerComponent>() && ac.HitList.Count == 0)
+							GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerWeaponFirstHit, ac.Weapon.entity.GetComponent<WeaponComponent>().WeaponName);
+
+						if (ac.Owner.entity != hit && hit.HasComponent<PlayerComponent>())//player hit
+						{
+							if (!ac.HitList.Contains(hit))
+							{
+								ac.HitList.Add(hit);
+
+								game.weaponSystem.DealDamage(ac.Weapon.entity, hit);
+							}
+						}
                     else if (ac.Weapon.entity.GetComponent<WeaponComponent>().WeaponName == "BomberWeapon")
                     {
                         if (!ac.HitList.Contains(hit))
@@ -298,7 +327,23 @@ namespace DirtyGame.game.Core.Systems
                     }
 
                     Collide = false;
+					}
+
+                else if (A.HasComponent<LaserComponent>() || B.HasComponent<LaserComponent>())
+                {
+                    Entity laser = A.HasComponent<LaserComponent>() ? A : B;
+                    Entity player = laser == A ? B : A;
+                    
+                    if(player.HasComponent<PlayerComponent>())
+                    {
+                        laser.GetComponent<LaserComponent>().LockedOn = true;
+                        laser.GetComponent<LaserComponent>().PlayerPres = true;
+                       
+                    }
+
+                    Collide = false;
                 }
+
                 else if (A.HasComponent<PlayerComponent>() || B.HasComponent<PlayerComponent>())
                 {
                     Entity player = A.HasComponent<PlayerComponent>() ? A : B;
@@ -323,6 +368,7 @@ namespace DirtyGame.game.Core.Systems
                         playerBody.Body.ApplyLinearImpulse(a * 5);
                         hitBody.Body.ApplyLinearImpulse(b * 5);
                     }
+
                 }
             }
             return Collide;
@@ -356,6 +402,11 @@ namespace DirtyGame.game.Core.Systems
             {
                 body.CollisionCategories = Category.Cat3;
                 body.CollidesWith = Category.Cat1 | Category.Cat2 | Category.Cat5;//Monster collides with player and player weapons
+            }
+            else if (e.HasComponent<LaserComponent>())//is monster
+            {
+                body.CollisionCategories = Category.Cat4;
+                body.CollidesWith = Category.Cat1; //Player
             }
             else if (e.HasComponent<AOEComponent>())//AOE Damage
             {

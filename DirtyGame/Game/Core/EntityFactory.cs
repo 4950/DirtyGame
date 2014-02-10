@@ -27,10 +27,16 @@ namespace DirtyGame.game.Core
         public Entity CloneEntity(Entity m)
         {
             Entity ret = entityMgr.CreateEntity();
-
-            foreach (Component c in m.Components)
+            if (m != null)
             {
-                ret.AddComponent((Component)c.Clone());
+                foreach (Component c in m.Components)
+                {
+                    ret.AddComponent((Component)c.Clone());
+                }
+            }
+            else
+            {
+                Console.WriteLine("cakes");
             }
             //ret.Refresh();
             return ret;
@@ -57,6 +63,45 @@ namespace DirtyGame.game.Core
 
             return proj;
         }
+
+        public Entity CreateLaserEntity(String name, String sprite, Vector2 origin, Vector2 direction, float range)
+        {
+
+            Entity proj = entityMgr.CreateEntity();
+
+            SpatialComponent spatial = new SpatialComponent();
+            spatial.Position = new Vector2(origin.X, origin.Y);
+            spatial.Width = 2;
+            spatial.Height = 400;
+            spatial.DefaultRotationCons = 1f;
+            spatial.ConstantRotation = 1f;
+
+            SpriteComponent sc = new SpriteComponent();
+            if (sc.xmlName != null && sc.xmlName != "")
+                sc.setSpritesheet(sc.spriteName, sc.xmlName, resourceMgr);
+            else
+                sc.setSprite(sprite, resourceMgr);
+            sc.Angle = (float)Math.Atan2(-direction.X, direction.Y);
+           // sc.AnchorPoint = new Vector2(1f, 0);
+            sc.origin = new Vector2(.5f, 0);
+            sc.Scale = range;
+            //sc.AnchorPoint = new Vector2(0, .25f);
+
+            PhysicsComponent pc = new PhysicsComponent();
+            pc.Origin = new Vector2(0, 0);
+
+            proj.AddComponent(spatial);
+            proj.AddComponent(sc);
+            proj.AddComponent(pc);
+            proj.AddComponent(new LaserComponent());
+            proj.AddComponent(new TimeComponent());
+
+            return proj;
+        }
+
+        
+
+
         public Entity CreateBasicEntity()
         {
             return entityMgr.CreateEntity();
@@ -310,7 +355,116 @@ namespace DirtyGame.game.Core
             return proj;
         }
 
-        public Entity CreateGrenade(Entity owner, Vector2 origin, Vector2 direction, String sprite, float range, float speed, float fuseTime, Vector2 explosionSize, Entity weapon)
+        public Entity CreateSnipProjectile(Entity owner, Vector2 origin, Vector2 direction, String sprite, float range, float speed, Entity weapon)
+        {
+            Entity proj = entityMgr.CreateEntity();
+
+            ProjectileComponent pc = new ProjectileComponent();
+            pc.direction = direction;
+            pc.origin = origin;
+            pc.range = range;
+            pc.owner = owner;
+            pc.weapon = weapon;
+
+            SpatialComponent spatial = new SpatialComponent();
+            spatial.Position = new Vector2(origin.X, origin.Y);
+            spatial.Width = 30;
+            spatial.Height = 15;
+
+            SpriteComponent sc = new SpriteComponent();
+            if (sc.xmlName != null && sc.xmlName != "")
+                sc.setSpritesheet(sc.spriteName, sc.xmlName, resourceMgr);
+            else
+                sc.setSprite(sprite, resourceMgr);
+            sc.Angle = (float)Math.Atan2(direction.X, -direction.Y);
+            sc.origin = new Vector2(0.4f, 0);
+            sc.AnchorPoint = new Vector2(0, 0f);
+            
+
+            MovementComponent mc = new MovementComponent();
+            Vector2 vel = direction * speed;
+            mc.Vertical = vel.Y;
+            mc.Horizontal = vel.X;
+
+            PhysicsComponent phys = new PhysicsComponent();
+            phys.Origin = new Vector2(0, 0);
+
+            proj.AddComponent(pc);
+            proj.AddComponent(spatial);
+            proj.AddComponent(mc);
+            proj.AddComponent(sc);
+            proj.AddComponent(phys);
+
+            return proj;
+        }
+
+        private Entity CreateMonsterBase(Vector2 pos, string spriteName, string xmlName, float scale) 
+		{
+Entity monster = entityMgr.CreateEntity();
+
+            //Create the MonsterComponent for the new entity
+            MonsterComponent m = new MonsterComponent();
+            //m.data = data;
+
+            //Create the Spatial for the new entity
+            SpatialComponent spatial = new SpatialComponent();
+            spatial.Position = pos;
+
+            //Direction Component
+            DirectionComponent direction = new DirectionComponent();
+            direction.Heading = "Down";
+
+            //stats component
+            StatsComponent s = new StatsComponent();
+            s.BaseDamage = 100;
+            s.BaseMoveSpeed = 100;
+            s.BaseHealth = 100;
+            s.CurrentHealth = 100;
+            s.HealthScale = 1;
+
+            //Create the Sprite for the new entity
+            //  Sprite monsterSprite = sprite;
+            SpriteComponent monsterSprite = new SpriteComponent();
+            monsterSprite.setSpritesheet(spriteName, xmlName, resourceMgr);
+            //monsterSprite.SpriteSheet = spriteSheet;
+            monsterSprite.AnchorPoint = new Vector2(.25f, .25f);
+            monsterSprite.Scale = scale;
+            //monsterSprite.SrcRect = monsterSprite.SpriteSheet.Animation["Idle" + direction.Heading][0];
+
+            AnimationComponent ac = new AnimationComponent();
+            ac.CurrentAnimation = "IdleDown";
+
+            //create movement component
+            MovementComponent mc = new MovementComponent();
+
+            //Create the TimeComponent for the new entity
+            TimeComponent timeComponent = new TimeComponent();
+            timeComponent.timeOfLastDraw = new TimeSpan(0, 0, 0, 0, 0);
+
+            //Create AIMovementComponent for the new entity
+            MovementComponent movementComponent = new MovementComponent();
+
+            //Add the new components to the entity
+            monster.AddComponent(m);
+            monster.AddComponent(s);
+            monster.AddComponent(mc);
+            monster.AddComponent(ac);
+            monster.AddComponent(spatial);
+            monster.AddComponent(monsterSprite);
+            monster.AddComponent(timeComponent);
+            monster.AddComponent(movementComponent);
+
+            monster.AddComponent(new PhysicsComponent());
+            monster.AddComponent(direction);
+            //     monster.AddComponent(new AnimationComponent());
+            monster.AddComponent(new SeparationComponent());
+            monster.GetComponent<SpatialComponent>().Height = (int)(monsterSprite.SrcRect.Height * monsterSprite.Scale / 2);
+            monster.GetComponent<SpatialComponent>().Width = (int)(monsterSprite.SrcRect.Width * monsterSprite.Scale / 2);
+
+            return monster;		
+		}
+		
+		public Entity CreateGrenade(Entity owner, Vector2 origin, Vector2 direction, String sprite, float range, float speed, float fuseTime, Vector2 explosionSize, Entity weapon)
         {
             Entity grenade = entityMgr.CreateEntity();
 

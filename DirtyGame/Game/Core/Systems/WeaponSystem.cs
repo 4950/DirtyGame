@@ -113,10 +113,17 @@ namespace DirtyGame.game.Core.Systems
                         Entity proj = game.entityFactory.CreateAOEField(Owner, spatial.Center, new Vector2(wc.Range, 25), wc.ProjectileSprite, wc.SpriteXml, 6, .5f, 2.094f, Weapon);
                         proj.Refresh();
                     }
+
                     else if (wc.WeaponName == "GrenadeLauncher")
                     {
                         Entity grenade = game.entityFactory.CreateGrenade(Owner, spatial.Center, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, 2.0f, new Vector2(128, 128), Weapon);
                         grenade.Refresh();
+					}
+					
+                    else if(wc.WeaponName == "SnipWeapon")
+                    {
+                        Entity proj = game.entityFactory.CreateSnipProjectile(Owner, spatial.Center, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, Weapon);
+                        proj.Refresh();
                     }
                     else
                     {
