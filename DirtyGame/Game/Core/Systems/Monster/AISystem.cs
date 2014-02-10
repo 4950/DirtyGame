@@ -171,7 +171,7 @@ namespace DirtyGame.game.Core.Systems.Monster
         {
 
             double[] vel = new double[2];
-            String type = m.GetComponent<PropertyComponent<String>>("MonsterType").value;
+                String type = m.GetComponent<PropertyComponent<String>>("MonsterType").value;
 
             if (type == "Flametower")
             {
@@ -183,6 +183,11 @@ namespace DirtyGame.game.Core.Systems.Monster
                 return snipMovement(m, dt);
             }
 
+            else if (type == "WallHugger")
+            {
+                return WallHuggerMovement(m) * 5 * (m.GetComponent<StatsComponent>().MoveSpeed / 100.0f);
+            }
+
             else if (m.HasComponent<InventoryComponent>())//has weapon
             {
                 Entity weapon = m.GetComponent<InventoryComponent>().CurrentWeapon;
@@ -190,7 +195,7 @@ namespace DirtyGame.game.Core.Systems.Monster
                 if (wc.Type == WeaponComponent.WeaponType.Landmine)
                 {
                     vel = seekPlayer(entities, m, 0, 200, false);//if player is close, run
-                   
+
                     if (vel[0] == vel[1] && vel[0] == 0)//player not in sight or in range, wander
                         vel = randDir();
                 }
@@ -222,6 +227,8 @@ namespace DirtyGame.game.Core.Systems.Monster
 
             return new Vector2((float)vel[0], (float)vel[1]) * 5 * (m.GetComponent<StatsComponent>().MoveSpeed / 100.0f);
         }
+
+        
         private double[] seekPlayer(IEnumerable<Entity> entities, Entity m, int minrange, int maxrange, bool seek)
         {
             foreach (Entity e in entities)
@@ -528,6 +535,229 @@ namespace DirtyGame.game.Core.Systems.Monster
                 }
             }
             return chaseVector;
+        }
+
+        private Vector2 WallHuggerMovement(Entity m)
+        {
+            Vector2 velocity = new Vector2();
+
+
+            Vector2 top = new Vector2(m.GetComponent<SpatialComponent>().Center.X, m.GetComponent<SpatialComponent>().Center.Y - 32);
+            Vector2 bottom = new Vector2(m.GetComponent<SpatialComponent>().Center.X, m.GetComponent<SpatialComponent>().Center.Y + 32);
+            Vector2 left = new Vector2(m.GetComponent<SpatialComponent>().Center.X - 32, m.GetComponent<SpatialComponent>().Center.Y);
+            Vector2 right = new Vector2(m.GetComponent<SpatialComponent>().Center.X + 32, m.GetComponent<SpatialComponent>().Center.Y);
+            List<Entity> topList = physics.RayCast(m.GetComponent<SpatialComponent>().Center, top);
+            List<Entity> bottomList = physics.RayCast(m.GetComponent<SpatialComponent>().Center, bottom);
+            List<Entity> leftList = physics.RayCast(m.GetComponent<SpatialComponent>().Center, left);
+            List<Entity> rightList = physics.RayCast(m.GetComponent<SpatialComponent>().Center, right);
+            bool t = WallCheck(topList);
+            bool b = WallCheck(bottomList);
+            bool l = WallCheck(leftList);
+            bool r = WallCheck(rightList);
+            Random rand = new Random();
+            if (r && l)
+            {
+                if (b)
+                {
+                    //Move up
+                    velocity = new Vector2(0.0f, -1.0f);
+                }
+                if (t)
+                {
+                    //Move Down
+                    velocity = new Vector2(0.0f, 1.0f);
+                }
+                //Move up or down
+                if (rand.NextDouble() > .5)
+                {
+                    velocity = new Vector2(0.0f, -1.0f);
+                }
+                else
+                {
+                    velocity = new Vector2(0.0f, 1.0f);
+                }
+            }
+            else if (t && b)
+            {
+                if (l)
+                {
+                    //Move right
+                    velocity = new Vector2(1.0f, 0.0f);
+                }
+                if (r)
+                {
+                    //Move left
+                    velocity = new Vector2(-1.0f, 0.0f);
+                }
+                //Move left or right
+                if (rand.NextDouble() > .5)
+                {
+                    velocity = new Vector2(-1.0f, 0.0f);
+                }
+                else
+                {
+                    velocity = new Vector2(1.0f, 0.0f);
+                }
+            }
+            else if (b && l)
+            {
+                //Move up or right
+                if (rand.NextDouble() > .5)
+                {
+                    velocity = new Vector2(0.0f, -1.0f);
+                }
+                else
+                {
+                    velocity = new Vector2(1.0f, 0.0f);
+                }
+            }
+            else if (b && r)
+            {
+                //Move up or left
+                if (rand.NextDouble() > .5)
+                {
+                    velocity = new Vector2(0.0f, -1.0f);
+                }
+                else
+                {
+                    velocity = new Vector2(-1.0f, 0.0f);
+                }
+            }
+            else if (t && l)
+            {
+                //Move down or right
+                if (rand.NextDouble() > .5)
+                {
+                    velocity = new Vector2(0.0f, 1.0f);
+                }
+                else
+                {
+                    velocity = new Vector2(1.0f, 0.0f);
+                }
+            }
+            else if (t && r)
+            {
+                //Move down or left
+                if (rand.NextDouble() > .5)
+                {
+                    velocity = new Vector2(0.0f, 1.0f);
+                }
+                else
+                {
+                    velocity = new Vector2(-1.0f, 0.0f);
+                }
+            }
+            else if (l || r)
+            {
+
+                //Move up or down
+                if (rand.NextDouble() > .5)
+                {
+                    velocity = new Vector2(0.0f, -1.0f);
+                }
+                else
+                {
+                    velocity = new Vector2(0.0f, 1.0f);
+                }
+            }
+            else if (t || b)
+            {
+                //Move left or right
+                if (rand.NextDouble() > .5)
+                {
+                    velocity = new Vector2(-1.0f, 0.0f);
+                }
+                else
+                {
+                    velocity = new Vector2(1.0f, 0.0f);
+                }
+            }
+            else
+            {
+                Vector2 topleft = new Vector2(m.GetComponent<SpatialComponent>().Center.X - 32, m.GetComponent<SpatialComponent>().Center.Y - 32);
+                Vector2 topright = new Vector2(m.GetComponent<SpatialComponent>().Center.X + 32, m.GetComponent<SpatialComponent>().Center.Y - 32);
+                Vector2 bottomleft = new Vector2(m.GetComponent<SpatialComponent>().Center.X - 32, m.GetComponent<SpatialComponent>().Center.Y + 32);
+                Vector2 bottomright = new Vector2(m.GetComponent<SpatialComponent>().Center.X + 32, m.GetComponent<SpatialComponent>().Center.Y + 32);
+                List<Entity> topRight = physics.RayCast(m.GetComponent<SpatialComponent>().Center, topright);
+                List<Entity> topLeft = physics.RayCast(m.GetComponent<SpatialComponent>().Center, topleft);
+                List<Entity> bottomRight = physics.RayCast(m.GetComponent<SpatialComponent>().Center, bottomright);
+                List<Entity> bottomLeft = physics.RayCast(m.GetComponent<SpatialComponent>().Center, bottomleft);
+                bool tr = WallCheck(topRight);
+                bool tl = WallCheck(topLeft);
+                bool bl = WallCheck(bottomLeft);
+                bool br = WallCheck(bottomRight);
+                if (tr)
+                {
+                    //Move Up or right
+                    if (rand.NextDouble() > .5)
+                    {
+                        velocity = new Vector2(0.0f, -1.0f);
+                    }
+                    else
+                    {
+                        velocity = new Vector2(1.0f, 0.0f);
+                    }
+                }
+                else if (tl)
+                {
+                    //Move up or left
+                    if (rand.NextDouble() > .5)
+                    {
+                        velocity = new Vector2(0.0f, -1.0f);
+                    }
+                    else
+                    {
+                        velocity = new Vector2(-1.0f, 0.0f);
+                    }
+                }
+                else if (bl)
+                {
+                    //Move down or left
+                    if (rand.NextDouble() > .5)
+                    {
+                        velocity = new Vector2(0.0f, 1.0f);
+                    }
+                    else
+                    {
+                        velocity = new Vector2(-1.0f, 0.0f);
+                    }
+                }
+                else if (br)
+                {
+                    //Move down or right
+                    if (rand.NextDouble() > .5)
+                    {
+                        velocity = new Vector2(0.0f, 1.0f);
+                    }
+                    else
+                    {
+                        velocity = new Vector2(1.0f, 0.0f);
+                    }
+                }
+                else
+                {
+                    //go find a wall//go find a wall
+                    velocity = new Vector2(-1.0f, 0.0f);
+                }
+            }
+
+            return velocity;
+        }
+        private bool WallCheck(List<Entity> list)
+        {
+            if (list.Count != 0)
+            {
+                foreach (Entity e in list)
+                {
+                    if (e.GetComponent<BorderComponent>() != null)
+                    {
+                        return true;
+
+                    }
+                }
+                return false;
+            }
+            return false;
         }
     }
 }

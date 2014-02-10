@@ -34,10 +34,6 @@ namespace DirtyGame.game.Core
                     ret.AddComponent((Component)c.Clone());
                 }
             }
-            else
-            {
-                Console.WriteLine("cakes");
-            }
             //ret.Refresh();
             return ret;
         }
