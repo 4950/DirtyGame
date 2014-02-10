@@ -214,6 +214,8 @@ namespace DirtyGame.game.Map
                 height = int.Parse(layerXML.GetAttribute("height"));
 
                 int tileX = 0, tileY = 0;
+
+
                 //Stupid attempt at base64 decode and zlib inflate
                 /*
                 XmlElement tiles = (XmlElement)layerXML.FirstChild;
@@ -236,26 +238,34 @@ namespace DirtyGame.game.Map
                     String tileXML = new StreamReader(r, System.Text.Encoding.UTF8).ReadToEnd();
 
                 }*/
+                LinkedList<int> list = new LinkedList<int>();
+
+                foreach (XmlElement tile in layerXML.ParentNode.FirstChild.ChildNodes)
+                {
+                    if (tile.Name == "tile")
+                    {
+                        int gid = int.Parse(tile.GetAttribute("id"));
+                        XmlElement t = (XmlElement)((XmlElement)tile.FirstChild).FirstChild;
+                        int col = int.Parse(t.GetAttribute("value"));
+                        if (col == 1)
+                        {
+                            list.AddFirst(gid);
+                        }
+                    }
+                }
+
+
                 foreach (XmlElement tile in ((XmlElement)layerXML.FirstChild).ChildNodes)
                 {
+                    
                     int GID = int.Parse(tile.GetAttribute("gid"));
                     TileSet set = map.tileSetsByTileGID[GID];
                     LayerTile lt = new LayerTile();
                     lt.dest = new Rectangle(tileX * map.tileWidth, tileY * map.tileHeight, map.tileWidth, map.tileHeight);
                     lt.tile = set.tiles[GID];
 
-                    //if (GID == 739 ||
-                    //    GID == 740 ||
-                    //    GID == 741 ||
-                    //    GID == 742 ||
-                    //    GID == 743 ||
-                    //    GID == 747 ||
-                    //    GID == 749 ||
-                    //    GID == 755 ||
-                    //    GID == 756 ||
-                    //    GID == 757 ||
-                    //    GID == 759)
-                    if(GID == 740 ||
+                    if(list.Contains(GID))
+                    /*if(GID == 740 ||
                        GID == 741 ||
                        GID == 742 ||
                        GID == 748 ||
@@ -316,7 +326,7 @@ namespace DirtyGame.game.Map
                        GID == 1527 ||
                        GID == 1530 ||
                        GID == 1567 ||
-                       GID == 1570)
+                       GID == 1570)*/
                     {
                         //if (GID == 749)
                         //{

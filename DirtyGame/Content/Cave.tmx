@@ -77,6 +77,46 @@
     <property name="Collidable" value="1"/>
    </properties>
   </tile>
+  <tile id="740">
+   <properties>
+    <property name="Collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="741">
+   <properties>
+    <property name="Collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="742">
+   <properties>
+    <property name="Collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="748">
+   <properties>
+    <property name="Collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="750">
+   <properties>
+    <property name="Collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="758">
+   <properties>
+    <property name="Collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="760">
+   <properties>
+    <property name="Collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="191">
+   <properties>
+    <property name="Collidable" value="1"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="Tile Layer 1" width="40" height="40">
   <data>

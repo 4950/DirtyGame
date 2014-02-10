@@ -25,6 +25,12 @@ namespace DirtyGame.game.Core.Components
             set;
         }
 
+        public Vector2 prevVelocity
+        {
+            get;
+            set;
+        }
+
         public float Vertical
         {
             get
@@ -46,6 +52,30 @@ namespace DirtyGame.game.Core.Components
             set
             {
                 Velocity = new Vector2(value, Velocity.Y);
+            }
+        }
+
+        public float prevVertical
+        {
+            get
+            {
+                return prevVelocity.Y;
+            }
+            set
+            {
+                prevVelocity = new Vector2(prevVelocity.X, value);
+            }
+        }
+
+        public float prevHorizontal
+        {
+            get
+            {
+                return prevVelocity.X;
+            }
+            set
+            {
+                prevVelocity = new Vector2(value, prevVelocity.Y);
             }
         }
 

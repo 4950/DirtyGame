@@ -400,7 +400,7 @@ namespace DirtyGame.game.Core
 
         private Entity CreateMonsterBase(Vector2 pos, string spriteName, string xmlName, float scale) 
 		{
-Entity monster = entityMgr.CreateEntity();
+			Entity monster = entityMgr.CreateEntity();
 
             //Create the MonsterComponent for the new entity
             MonsterComponent m = new MonsterComponent();
