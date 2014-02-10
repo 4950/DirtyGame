@@ -15,14 +15,16 @@ namespace DirtyGame.game.Core.Systems.Monster
         Random r = new Random();
         private Dirty game;
         private EntityFactory entityFactory;
+        private Physics physics;
         //Current goal: Make monsters of different types rush towards each other.
         // If no monster of another type is nearby... wander.
 
-        public AISystem(Dirty game, EntityFactory entityFactory)
+        public AISystem(Dirty game, EntityFactory entityFactory, Physics physics)
             : base(SystemDescriptions.MonsterSystem.Aspect, SystemDescriptions.MonsterSystem.Priority)
         {
             this.game = game;
             this.entityFactory = entityFactory;
+            this.physics = physics;
         }
 
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
@@ -130,10 +132,66 @@ namespace DirtyGame.game.Core.Systems.Monster
                         double[] chaseVector;
 
                         if (seek)
-                            chaseVector = getChaseVector(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, otherX, otherY);
-                        else
-                            chaseVector = getChaseVector(otherX, otherY, m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y);
+                        {
+                            bool wall = false;
+                            List<Entity> rayCast = physics.RayCast(new Vector2(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y), new Vector2(otherX, otherY));
+                            foreach (Entity w in rayCast)
+                            {
+                                if (w.GetComponent<BorderComponent>() != null)
+                                {
+                                    wall = true;
+                                    break;
+                                }
+                                else
+                                {
 
+
+                                }
+                            }
+
+                            chaseVector = getChaseVector(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, otherX, otherY);
+                            //if (m.GetComponent<MovementComponent>().prevHorizontal != 0)
+                            //{
+                            //    m.GetComponent<MovementComponent>().prevVelocity = new Vector2(0, 0);
+                            //}
+                            MovementComponent oldVector = m.GetComponent<MovementComponent>();
+
+                            if (wall)
+                            {
+                                if(Math.Abs(chaseVector[0]) > Math.Abs(chaseVector[1]))
+                                {
+                                    if (chaseVector[1] > 0)
+                                    {
+                                        chaseVector = WalkAroundWallVertical(m, oldVector, "up");
+                                    }
+                                    else 
+                                    {
+                                        chaseVector = WalkAroundWallVertical(m, oldVector, "down");
+                                    }
+                                   
+                                }
+                                else
+                                {
+                                    if (chaseVector[0] > 0)
+                                    {
+                                        chaseVector = WalkAroundWallHorizontal(m, oldVector, "left");
+
+                                    }
+                                    else
+                                    {
+                                        chaseVector = WalkAroundWallHorizontal(m, oldVector, "right");
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                
+                            }
+                        }
+                        else
+                        {
+                            chaseVector = getChaseVector(otherX, otherY, m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y);
+                        }
                         return chaseVector;
                     }
                 }
@@ -237,5 +295,82 @@ namespace DirtyGame.game.Core.Systems.Monster
             return vect;
         }
 
+        private double[] WalkAroundWallVertical(Entity m, MovementComponent oldVector, string direction)
+        {
+            double[] chaseVector = new double[2];
+            if (direction == "up") //Target is above us
+            {
+                if (oldVector.prevVertical <= 0) //We were moving down before
+                {
+                    //keep moving down
+                    chaseVector = getChaseVector(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y - 32);
+                    oldVector.prevHorizontal = (float)chaseVector[0];
+                    oldVector.prevVertical = (float)chaseVector[1];
+                }
+                else
+                {
+                    // Use Previous Movement Vector
+                    chaseVector[0] = oldVector.prevHorizontal;
+                    chaseVector[1] = oldVector.prevVertical;
+                }
+            }
+            if (direction == "down") //Tearget is below us
+            {
+                if (oldVector.prevVertical >= 0) //We were moving up before
+                {
+                    //Keep moving up
+                    chaseVector = getChaseVector(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y + 32);
+                    oldVector.prevHorizontal = (float)chaseVector[0];
+                    oldVector.prevVertical = (float)chaseVector[1];
+                }
+                else
+                {
+                    // Use Previous Movement Vector
+                    chaseVector[0] = oldVector.prevHorizontal;
+                    chaseVector[1] = oldVector.prevVertical;
+                }
+            }
+
+            return chaseVector;
+        }
+
+        private double[] WalkAroundWallHorizontal(Entity m, MovementComponent oldVector, string direction)
+        {
+            double[] chaseVector = new double[2];
+            if (direction == "left") //Target is to our left
+            {
+                if (oldVector.prevHorizontal >= 0) //We were moving right before
+                {
+                    //Keep moving right
+                    chaseVector = getChaseVector(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, m.GetComponent<SpatialComponent>().Position.X + 32, m.GetComponent<SpatialComponent>().Position.Y);
+                    oldVector.prevHorizontal = (float)chaseVector[0];
+                    oldVector.prevVertical = (float)chaseVector[1];
+                }
+                else
+                {
+                    // Use Previous Movement Vector
+                    chaseVector[0] = oldVector.prevHorizontal;
+                    chaseVector[1] = oldVector.prevVertical;
+                }
+
+            }
+            if(direction == "right") //Target is to our right
+            {
+                if (oldVector.prevHorizontal <= 0) //We were moving left before
+                {
+                    //keep moving left
+                    chaseVector = getChaseVector(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, m.GetComponent<SpatialComponent>().Position.X - 32, m.GetComponent<SpatialComponent>().Position.Y);
+                    oldVector.prevHorizontal = (float)chaseVector[0];
+                    oldVector.prevVertical = (float)chaseVector[1];
+                }
+                else
+                {
+                    // Use Previous Movement Vector
+                    chaseVector[0] = oldVector.prevHorizontal;
+                    chaseVector[1] = oldVector.prevVertical;
+                }
+            }
+            return chaseVector;
+        }
     }
 }
