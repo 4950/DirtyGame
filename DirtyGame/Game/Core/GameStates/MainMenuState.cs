@@ -87,7 +87,7 @@ namespace DirtyGame.game.Core.GameStates
                     mp.MouseDown += startMap;
                     p.AddElement(mp);
 
-                    Texture2D t = game.resourceManager.GetResource<Texture2D>(maps[i] + "Preview.png");
+                    Texture2D t = game.resourceManager.GetResource<Texture2D>(maps[i] + "Preview");
 
                     CoreUI.Visuals.ImageBrush ib = new CoreUI.Visuals.ImageBrush();
                     ib.SizeMode = SizeMode.Fill;

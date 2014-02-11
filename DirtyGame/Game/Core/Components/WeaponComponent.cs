@@ -40,6 +40,7 @@ namespace DirtyGame.game.Core.Components
         public float Price { get; set; }
         public float AmmoPrice { get; set; }
         public Entity Owner { get; set; }
+        public String FireSound { get; set; }
         /// <summary>
         /// Max Ammo level. -1 is infinite
         /// </summary>

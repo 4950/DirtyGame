@@ -219,7 +219,7 @@ namespace DirtyGame
 
             //start sound
             SoundSystem.Instance.SetGame(this);
-            SoundSystem.Instance.MaxVolume = .15f;
+            SoundSystem.Instance.MaxVolume = .20f;
             SoundSystem.Instance.AddBackgroundMusic("DST-BreakOut.mp3");
             SoundSystem.Instance.AddBackgroundMusic("DST-ClubFight.mp3");
             SoundSystem.Instance.AddBackgroundMusic("DST-DasElectron.mp3");

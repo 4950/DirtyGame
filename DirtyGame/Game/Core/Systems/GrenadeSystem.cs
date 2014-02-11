@@ -11,6 +11,7 @@ using CoreUI;
 using DirtyGame.game.SGraphics;
 using CoreUI.Elements;
 using DirtyGame.game.Core.Events;
+using DirtyGame.game.Util;
 
 namespace DirtyGame.game.Core.Systems
 {
@@ -51,6 +52,8 @@ namespace DirtyGame.game.Core.Systems
                                 gc.fuseTime -= dt;
                                 if (gc.fuseTime <= 0)
                                 {
+                                    SoundSystem.Instance.PlayEffect("Explosion.wav");
+
                                     DetonateEvent detEvt = new DetonateEvent();
                                     detEvt.center = e.GetComponent<SpatialComponent>().Center;
                                     detEvt.size = gc.explosionSize;

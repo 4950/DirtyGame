@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Audio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,9 +41,10 @@ namespace DirtyGame.game.Util
 
         public void PlayEffect(string effect)
         {
-            //SoundEffect s = game.resourceManager.GetResource<SoundEffect>(effect);
-            //SoundEffectInstance i = s.CreateInstance();
-            //i.Play();
+            SoundEffect s = game.resourceManager.GetResource<SoundEffect>("Sound\\" + effect);
+            SoundEffectInstance i = s.CreateInstance();
+            i.Volume = .5f;
+            i.Play();
         }
         public void AddBackgroundMusic(string song)
         {
