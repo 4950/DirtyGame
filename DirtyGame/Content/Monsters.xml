@@ -231,6 +231,24 @@
       <FireSound>Laser.wav</FireSound>
     </Component>
   </Entity>
+  <Entity name="WallHuggerWeapon">
+    <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="WeaponComponent">
+      <Name>WeaponComponent</Name>
+      <WeaponName>WallHuggerWeapon</WeaponName>
+      <Portrait>bow</Portrait>
+      <BaseDamage>10</BaseDamage>
+      <Range>300</Range>
+      <Type>Ranged</Type>
+      <ProjectileSprite>arrow</ProjectileSprite>
+      <ProjectileSpeed>5</ProjectileSpeed>
+      <Cooldown>2</Cooldown>
+      <LastFire>0</LastFire>
+      <Price>100</Price>
+      <AmmoPrice>0</AmmoPrice>
+      <MaxAmmo>-1</MaxAmmo>
+      <Ammo>-1</Ammo>
+    </Component>
+  </Entity>
   <!-- Monster Section -->
   <Entity name="MeleeMonster" data="true">
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="MonsterComponent">
@@ -986,4 +1004,112 @@
   </Component>
 	</Entity>
 
+	<Entity name="WallHugger" data="true">
+    <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="MonsterComponent">
+      <Name>MonsterComponent</Name>
+    </Component>
+    <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="StatsComponent">
+      <Name>StatsComponent</Name>
+      <BaseMoveSpeed>80</BaseMoveSpeed>
+      <BaseDamage>100</BaseDamage>
+      <RangedImmune>true</RangedImmune>
+      <BaseHealth>25</BaseHealth>
+      <HealthScale>1</HealthScale>
+      <CurrentHealth>25</CurrentHealth>
+    </Component>
+    <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="MovementComponent">
+      <Name>MovementComponent</Name>
+      <Velocity>
+        <X>0</X>
+        <Y>0</Y>
+      </Velocity>
+      <Vertical>0</Vertical>
+      <Horizontal>0</Horizontal>
+    </Component>
+    <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="AnimationComponent">
+      <Name>AnimationComponent</Name>
+      <CurrentAnimation>IdleDown</CurrentAnimation>
+      <TimeElapsed>0</TimeElapsed>
+      <CurrentFrame>0</CurrentFrame>
+      <StartedFiniteAnimation>false</StartedFiniteAnimation>
+      <FinishedFiniteAnimation>true</FinishedFiniteAnimation>
+    </Component>
+    <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="SpatialComponent">
+      <Name>SpatialComponent</Name>
+      <Position>
+        <X>0</X>
+        <Y>0</Y>
+      </Position>
+      <Size>
+        <X>25</X>
+        <Y>25</Y>
+      </Size>
+      <Rotation>0</Rotation>
+      <ConstantRotation>0</ConstantRotation>
+      <isMoving>false</isMoving>
+      <Bounds>
+        <X>0</X>
+        <Y>0</Y>
+        <Width>25</Width>
+        <Height>25</Height>
+        <Location>
+          <X>0</X>
+          <Y>0</Y>
+        </Location>
+      </Bounds>
+      <Height>25</Height>
+      <Width>25</Width>
+    </Component>
+    <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="SpriteComponent">
+      <Name>SpriteComponent</Name>
+      <RenderLayer>INVALIDE</RenderLayer>
+      <spriteName>WallHugger</spriteName>
+      <xmlName>Content\PlayerAnimation.xml</xmlName>
+      <SrcRect>
+        <X>0</X>
+        <Y>0</Y>
+        <Width>50</Width>
+        <Height>50</Height>
+        <Location>
+          <X>0</X>
+          <Y>0</Y>
+        </Location>
+      </SrcRect>
+      <Scale>1</Scale>
+      <Angle>0</Angle>
+      <AnchorPoint>
+        <X>0.25</X>
+        <Y>0.25</Y>
+      </AnchorPoint>
+      <origin>
+        <X>0</X>
+        <Y>0</Y>
+      </origin>
+    </Component>
+    <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="TimeComponent">
+      <Name>TimeComponent</Name>
+      <timeOfLastDraw />
+      <timeBetweenDraw />
+    </Component>
+    <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="PhysicsComponent">
+      <Name>PhysicsComponent</Name>
+      <Origin>
+        <X>0.5</X>
+        <Y>0.5</Y>
+      </Origin>
+    </Component>
+    <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="DirectionComponent">
+      <Name>DirectionComponent</Name>
+      <Heading>Down</Heading>
+    </Component>
+    <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="SeparationComponent">
+      <Name>SeparationComponent</Name>
+    </Component>
+    <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="PropertyComponentOfString">
+      <Name>MonsterType</Name>
+      <IsModified>true</IsModified>
+      <value>WallHugger</value>
+    </Component>
+  </Entity>
+	
 </root>

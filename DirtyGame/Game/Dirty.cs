@@ -136,7 +136,7 @@ namespace DirtyGame
 
             gameStateManager = new GameStateManager(this);
             entityFactory = new EntityFactory(world.EntityMgr, resourceManager);
-            aiSystem = new AISystem(this, entityFactory);
+            aiSystem = new AISystem(this, entityFactory, physics);
             world.AddSystem(aiSystem);
             world.AddSystem(new SpriteRenderSystem(renderer));
             world.AddSystem(new PlayerControlSystem(entityFactory, renderer, this));
