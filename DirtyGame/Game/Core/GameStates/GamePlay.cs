@@ -9,6 +9,7 @@ using CoreUI.Visuals;
 using EntityFramework;
 using DirtyGame.game.Core.Components;
 using Microsoft.Xna.Framework.Input;
+using DirtyGame.game.Util;
 
 
 namespace DirtyGame.game.Core.GameStates
@@ -48,6 +49,10 @@ namespace DirtyGame.game.Core.GameStates
         }
         public void OnEnter(Dirty game)
         {
+            SoundSystem.Instance.Loop = false;
+            SoundSystem.Instance.RemoveBackgroundMusic("DST-ChordLesson01.mp3");
+            SoundSystem.Instance.PlayRand();
+
             game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.F5, SaveGame, null);
             game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.F6, LoadGame, null);
 

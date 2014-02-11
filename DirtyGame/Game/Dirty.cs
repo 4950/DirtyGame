@@ -44,9 +44,6 @@ namespace DirtyGame
     /// </summary>
     public class Dirty : Game
     {
-
-
-
         private Map map;
         public Physics physics;
         public EntityFramework.World world;
@@ -220,6 +217,19 @@ namespace DirtyGame
             //TODO: Needs to change to be a selection
             gLogicSystem.setupScenario("scenario1");
 
+            //start sound
+            SoundSystem.Instance.SetGame(this);
+            SoundSystem.Instance.MaxVolume = .15f;
+            SoundSystem.Instance.AddBackgroundMusic("DST-BreakOut.mp3");
+            SoundSystem.Instance.AddBackgroundMusic("DST-ClubFight.mp3");
+            SoundSystem.Instance.AddBackgroundMusic("DST-DasElectron.mp3");
+            SoundSystem.Instance.AddBackgroundMusic("DST-DawnRise.mp3");
+            SoundSystem.Instance.AddBackgroundMusic("DST-DayOfRealms.mp3");
+            SoundSystem.Instance.AddBackgroundMusic("DST-KiloByte.mp3");
+            SoundSystem.Instance.AddBackgroundMusic("DST-MushroomRoad.mp3");
+
+            SoundSystem.Instance.Loop = true;
+            SoundSystem.Instance.PlayBackgroundMusic("DST-ChordLesson01.mp3");
         }
         public void LoadMap(string mapname)
         {
@@ -266,6 +276,8 @@ namespace DirtyGame
             UIEngine.GetInput(ms.X, ms.Y, ms.LeftButton == ButtonState.Pressed, ms.RightButton == ButtonState.Pressed, ms.MiddleButton == ButtonState.Pressed);
 
             physics.Update(gameTime);
+
+            SoundSystem.Instance.Update();
 
             base.Update(gameTime);
         }
