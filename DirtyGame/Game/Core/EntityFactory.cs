@@ -207,11 +207,12 @@ namespace DirtyGame.game.Core
             return meleeEntity;
         }
 
-        public Entity CreatePlayerEntity()
+        public Entity CreatePlayerEntity()//(Vector2 spawnLocation)
         {
             Entity e = entityMgr.CreateEntity();
             SpatialComponent spatial = new SpatialComponent();
             spatial.Position = new Vector2(150, 150);
+            //spatial.Position = spawnLocation;
 
             InventoryComponent ic = new InventoryComponent();
 

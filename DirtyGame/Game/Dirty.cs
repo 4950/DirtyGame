@@ -62,6 +62,7 @@ namespace DirtyGame
         public Entity player;
         public WeaponSystem weaponSystem;
         public EntityRef gameEntity;
+        public static string MapName;
 
         private void Exit(Keys key)
         {
@@ -187,7 +188,7 @@ namespace DirtyGame
 
             player = entityFactory.CreatePlayerEntity();
             player.Name = "Player";
-            player.Refresh();
+           // player.Refresh();
 
             //weapons
             e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("BasicSword"));
@@ -215,7 +216,11 @@ namespace DirtyGame
 
             //Setting up a scenario
             //TODO: Needs to change to be a selection
-            gLogicSystem.setupScenario("scenario1");
+            
+     //gLogicSystem.randomScenario(map);
+     //       gLogicSystem.setupScenario("scenario1", player);
+     //       player.Refresh();
+            //world.Refresh(player);
 
             //start sound
             SoundSystem.Instance.SetGame(this);
@@ -242,6 +247,18 @@ namespace DirtyGame
             Entity wall = entityFactory.CreateWallEntity(new Vector2(0f, 0f), new Vector2(0f, renderer.ActiveMap.getPixelHeight()),
                             new Vector2(renderer.ActiveMap.getPixelWidth(), 0f), new Vector2(renderer.ActiveMap.getPixelWidth(), renderer.ActiveMap.getPixelHeight()));
             wall.Refresh();
+
+            MapName = mapname;
+
+            //Loading a Scenario
+            LoadScenario(mapname);
+        }
+        public void LoadScenario(string mapName)
+        {
+            //Setting up the scenario for the map
+            Scenario playingScenario = gLogicSystem.randomScenario(mapName); //This will change to gLogicSystem.scenarioForPlayerScore(string mapName, float playerScore)
+            gLogicSystem.setupScenario(playingScenario, player);
+            player.Refresh();
         }
         protected override void LoadContent()
         {
