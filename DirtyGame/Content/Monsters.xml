@@ -231,10 +231,10 @@
       <WeaponName>WallHuggerWeapon</WeaponName>
       <Portrait>bow</Portrait>
       <BaseDamage>10</BaseDamage>
-      <Range>100</Range>
+      <Range>300</Range>
       <Type>Ranged</Type>
       <ProjectileSprite>arrow</ProjectileSprite>
-      <ProjectileSpeed>40</ProjectileSpeed>
+      <ProjectileSpeed>5</ProjectileSpeed>
       <Cooldown>2</Cooldown>
       <LastFire>0</LastFire>
       <Price>100</Price>
@@ -1004,8 +1004,8 @@
     </Component>
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="StatsComponent">
       <Name>StatsComponent</Name>
-      <BaseMoveSpeed>150</BaseMoveSpeed>
-      <BaseDamage>10</BaseDamage>
+      <BaseMoveSpeed>80</BaseMoveSpeed>
+      <BaseDamage>100</BaseDamage>
       <RangedImmune>true</RangedImmune>
       <BaseHealth>25</BaseHealth>
       <HealthScale>1</HealthScale>

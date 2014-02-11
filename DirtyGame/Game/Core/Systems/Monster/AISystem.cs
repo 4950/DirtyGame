@@ -18,7 +18,7 @@ namespace DirtyGame.game.Core.Systems.Monster
         private EntityFactory entityFactory;
         public float totaltime;
         private Physics physics;
-
+        
         //Current goal: Make monsters of different types rush towards each other.
         // If no monster of another type is nearby... wander.
 
@@ -555,6 +555,7 @@ namespace DirtyGame.game.Core.Systems.Monster
             bool l = WallCheck(leftList);
             bool r = WallCheck(rightList);
             Random rand = new Random();
+            
             if (r && l)
             {
                 if (b)
