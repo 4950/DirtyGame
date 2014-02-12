@@ -151,8 +151,11 @@ namespace CoreUI
                 if (Parent != null)
                     mParent.SizeChanged -= new VisualEventHandler(mParent_SizeChanged);
                 mParent = value;
-                mParent.SizeChanged += new VisualEventHandler(mParent_SizeChanged);
-                CheckPositioning();
+                if (Parent != null)
+                {
+                    mParent.SizeChanged += new VisualEventHandler(mParent_SizeChanged);
+                    CheckPositioning();
+                }
             }
         }
         void mParent_SizeChanged(object sender)

@@ -9,6 +9,7 @@ using CoreUI.Visuals;
 using EntityFramework;
 using DirtyGame.game.Core.Components;
 using Microsoft.Xna.Framework.Input;
+using DirtyGame.game.Util;
 
 
 namespace DirtyGame.game.Core.GameStates
@@ -48,6 +49,10 @@ namespace DirtyGame.game.Core.GameStates
         }
         public void OnEnter(Dirty game)
         {
+            SoundSystem.Instance.Loop = false;
+            SoundSystem.Instance.RemoveBackgroundMusic("DST-ChordLesson01.mp3");
+            SoundSystem.Instance.PlayRand();
+
             game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.F5, SaveGame, null);
             game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.F6, LoadGame, null);
 
@@ -60,7 +65,6 @@ namespace DirtyGame.game.Core.GameStates
                 monsterHUD.Position = new System.Drawing.Point(680, 0);
                 monsterHUD.Background = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.Black);
                 monsterHUD.Visibility = Visibility.Hidden;
-                game.UIEngine.Children.AddElement(monsterHUD);
 
                 scoreLbl = new Label();
                 scoreLbl.Size = new System.Drawing.Point(120, 25);
@@ -140,6 +144,8 @@ namespace DirtyGame.game.Core.GameStates
                 windowCont.AddElement(weaponAmmoLabel);
 
             }
+            if(monsterHUD.Parent == null)
+                game.UIEngine.Children.AddElement(monsterHUD);
             monsterHUD.Visibility = Visibility.Visible;
             playerStuff.Show();
         }

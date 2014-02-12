@@ -73,6 +73,10 @@ namespace DirtyGame.game.Core.Systems
                     wc.Ammo--;
                 wc.LastFire = wc.Cooldown;
 
+                //sound
+                if (wc.FireSound != null && wc.FireSound != "")
+                    SoundSystem.Instance.PlayEffect(wc.FireSound);
+
                 if (Owner.HasComponent<PlayerComponent>())
                     GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerWeaponFired, wc.WeaponName);
                 else

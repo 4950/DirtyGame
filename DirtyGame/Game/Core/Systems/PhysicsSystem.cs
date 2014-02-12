@@ -30,7 +30,7 @@ namespace DirtyGame.game.Core.Systems
     private Physics physics;
     private FarseerPhysics.Dynamics.World physicsWorld;
     private Renderer renderer;
-    private bool PhysicsDebug = true;
+    private bool PhysicsDebug = false;
     uint playerId;
     private Dirty game;
 

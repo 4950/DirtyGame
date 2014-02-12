@@ -16,19 +16,22 @@ using CoreUI.DrawEngines;
 using DirtyGame.game.Util;
 using System.Xml;
 using DirtyGame.game.Core.GameStates;
+using CoreUI;
 
 namespace DirtyGame.game.Core.Systems
 {
     public class GameLogicSystem : EntitySystem
     {
-
+        private List<ProgressBar> mPBs;
+        private Panel pbDisplay;
+        private CoreUIEngine UIEngine;
+        private Renderer renderer;
         public int monstersdefeated;
         public int monstersalive;
         private Dirty game;
         private Label roundLabel;
         private float roundLblTime;
         private float roundTime;
-        private EntityRef gameEntity;
         private bool cheatEndRound = false;
 
         private List<Entity> spawners = new List<Entity>();
@@ -38,9 +41,18 @@ namespace DirtyGame.game.Core.Systems
 
         public override void OnEntityAdded(Entity e)
         {
-            if (e.HasComponent<MonsterComponent>())
+            if (e.HasComponent<StatsComponent>())
             {
-                monstersalive++;
+                ProgressBar pb = new ProgressBar();
+                pb.Size = new System.Drawing.Point(50, 5);
+                pb.Value = 100;
+                pbDisplay.AddElement(pb);
+                mPBs.Add(pb);
+
+                if (e.HasComponent<MonsterComponent>())
+                {
+                    monstersalive++;
+                }
             }
         }
         private void resetRound()
@@ -49,7 +61,7 @@ namespace DirtyGame.game.Core.Systems
             {
                 game.world.DestroyEntity(ee);
             }
-            gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += monstersdefeated;
+            game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += monstersdefeated;
             monstersdefeated = 0;
 
             //restore player health
@@ -59,7 +71,7 @@ namespace DirtyGame.game.Core.Systems
         {
             resetRound();
 
-            int CurrentLevel = gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value;
+            int CurrentLevel = game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value;
 
             roundLabel.Text = "~Round " + CurrentLevel + "~";
             roundLabel.Visibility = CoreUI.Visibility.Visible;
@@ -67,7 +79,7 @@ namespace DirtyGame.game.Core.Systems
 
             int numRanged = 2 + 2 * CurrentLevel;
             int numMelee = 2 + 2 * CurrentLevel;
-            
+
             switch (CurrentLevel)
             {
 
@@ -81,15 +93,15 @@ namespace DirtyGame.game.Core.Systems
                     break;
             }
 
-            Entity e = game.entityFactory.CreateSpawner(600, 600, new Rectangle(0, 0, 46, 46), "LandmineDropper", "LandmineWeapon", numMelee+3, new TimeSpan(0, 0, 0, 0, 500));
+            Entity e = game.entityFactory.CreateSpawner(600, 600, new Rectangle(0, 0, 46, 46), "LandmineDropper", "LandmineWeapon", numMelee + 3, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
             spawners.Add(e);
-            
+
             e = game.entityFactory.CreateSpawner(300, 100, new Rectangle(0, 0, 46, 46), "MeleeMonster", "Monstersword", numMelee / 2, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
             spawners.Add(e);
 
-            
+
             e = game.entityFactory.CreateSpawner(100, 300, new Rectangle(0, 0, 46, 46), "RangedMonster", "Monsterbow", numRanged / 2, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
             spawners.Add(e);
@@ -108,6 +120,10 @@ namespace DirtyGame.game.Core.Systems
             e.Refresh();
             spawners.Add(e);
             e = game.entityFactory.CreateSpawner(300, 200, new Rectangle(0, 0, 46, 46), "Grenadier", "GrenadeLauncher", 1, new TimeSpan(0, 0, 0, 0, 500));
+            e.Refresh();
+            spawners.Add(e);
+
+            e = game.entityFactory.CreateSpawner(300, 200, new Rectangle(0, 0, 46, 46), "WallHugger", "WallHuggerWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
             spawners.Add(e);
 
@@ -146,7 +162,7 @@ namespace DirtyGame.game.Core.Systems
         }
         private void AdvanceLevel()
         {
-            gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value++;
+            game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value++;
             //if (gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value % 4 == 0)
             //    SetupBoss();
             //else
@@ -207,7 +223,7 @@ namespace DirtyGame.game.Core.Systems
                 List<Spawner> spawners = new List<Spawner>();
 
                 scenarioName = scenarioReader.GetAttribute("name");
-                difficultyScore = (float) Convert.ToDouble(scenarioReader.GetAttribute("difficultyScore"));
+                difficultyScore = (float)Convert.ToDouble(scenarioReader.GetAttribute("difficultyScore"));
                 mapName = scenarioReader.GetAttribute("map");
 
                 //Break out of the loop when done parsing the XML
@@ -217,7 +233,7 @@ namespace DirtyGame.game.Core.Systems
                 }
 
                 scenarioReader.ReadToDescendant("spawner");
-                        
+
                 //Looping through the spawners for the scenario
                 do
                 {
@@ -267,30 +283,36 @@ namespace DirtyGame.game.Core.Systems
 
         public override void OnEntityRemoved(Entity e)
         {
-            if (e.HasComponent<MonsterComponent>())
+            if (e.HasComponent<StatsComponent>())
             {
-                if (roundTime > 0)
+                pbDisplay.RemoveElement(mPBs[mPBs.Count - 1]);
+                mPBs.RemoveAt(mPBs.Count - 1);
+
+                if (e.HasComponent<MonsterComponent>())
                 {
-                    monstersdefeated++;
-                    gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += 50;
-                    gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").value += 10;
+                    if (roundTime > 0)
+                    {
+                        monstersdefeated++;
+                        game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += 50;
+                        game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").value += 10;
 
-                    GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MonsterKilled, e.GetComponent<MonsterComponent>().data.Type);
-                }
-                if (--monstersalive == 0)
-                {
-                    /*
-                    game.GameWon = true;
+                        GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MonsterKilled, e.GetComponent<MonsterComponent>().data.Type);
+                    }
+                    if (--monstersalive == 0)
+                    {
+                        /*
+                        game.GameWon = true;
 
-                    Event gamestate = new Event();
-                    gamestate.name = "GameStateGameOver";
-                    EventManager.Instance.TriggerEvent(gamestate);*/
+                        Event gamestate = new Event();
+                        gamestate.name = "GameStateGameOver";
+                        EventManager.Instance.TriggerEvent(gamestate);*/
 
 
-                    GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundEnded, gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value.ToString());
-                    GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundHealth, game.player.GetComponent<StatsComponent>().CurrentHealth.ToString());
-                    //next game round
-                    AdvanceLevel();
+                        GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundEnded, game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value.ToString());
+                        GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundHealth, game.player.GetComponent<StatsComponent>().CurrentHealth.ToString());
+                        //next game round
+                        AdvanceLevel();
+                    }
                 }
             }
 
@@ -347,6 +369,7 @@ namespace DirtyGame.game.Core.Systems
                     Entity e = entities.ElementAt(i);
 
                     StatsComponent hc = e.GetComponent<StatsComponent>();
+
                     if (hc.CurrentHealth <= 0)//dead
                     {
                         if (e.HasComponent<PlayerComponent>())//player died
@@ -367,6 +390,27 @@ namespace DirtyGame.game.Core.Systems
                             i--;
                         }
                     }
+                    else//update PBs
+                    {
+                        SpatialComponent sc = e.GetComponent<SpatialComponent>();
+
+                        ProgressBar pb = mPBs[i];
+                        pb.Maximum = hc.MaxHealth;
+                        pb.Value = (int)hc.CurrentHealth;
+
+                        Vector2 pos = sc.Position + new Vector2(sc.Width / 2 - pb.Size.X / 2, -20);
+                        pos = Vector2.Transform(pos, renderer.ActiveCamera.Transform);
+                        if (pos.X >= 0 && pos.Y >= 0 && pos.X <= renderer.ActiveCamera.size.X && pos.Y <= renderer.ActiveCamera.size.Y)
+                        {
+                            pb.Visibility = Visibility.Visible;
+                            pb.Position = new System.Drawing.Point((int)pos.X, (int)pos.Y);
+                        }
+                        else
+                        {
+                            pb.Visibility = Visibility.Hidden;
+                        }
+
+                    }
 
                 }
             }
@@ -384,7 +428,6 @@ namespace DirtyGame.game.Core.Systems
             roundLabel.TextPosition = TextPosition.Center;
             roundLabel.Visibility = CoreUI.Visibility.Hidden;
             game.UIEngine.Children.AddElement(roundLabel);
-            gameEntity = game.gameEntity;
             game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.OemTilde, CheatEndRound, null);
         }
 
@@ -393,11 +436,15 @@ namespace DirtyGame.game.Core.Systems
             cheatEndRound = true;
         }
 
-        public GameLogicSystem(Dirty game)
+        public GameLogicSystem(Dirty game, Renderer r, CoreUIEngine UIEngine)
             : base(SystemDescriptions.GameLogicSystem.Aspect, SystemDescriptions.GameLogicSystem.Priority)
         {
             this.game = game;
-
+            pbDisplay = new Panel();
+            mPBs = new List<ProgressBar>();
+            this.UIEngine = UIEngine;
+            renderer = r;
+            UIEngine.Children.AddElement(pbDisplay);
         }
     }
 }

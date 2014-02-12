@@ -42,6 +42,11 @@ namespace DirtyGame.game.Core.GameStates
             nextState = States.Buy;
             SwitchState();
         }
+        public void GameStateMenuEventCallback(Event e)
+        {
+            nextState = States.MainMenu;
+            SwitchState();
+        }
         public GameStateManager(Dirty game)
         {
             currentState = null;
@@ -52,6 +57,7 @@ namespace DirtyGame.game.Core.GameStates
             EventManager.Instance.AddListener("GameStateBuy", GameStateBuyEventCallback);
             EventManager.Instance.AddListener("GameStateGameOver", GameStateGameOverCallback);
             EventManager.Instance.AddListener("GameStateGame", GameStateGameCallback);
+            EventManager.Instance.AddListener("GameStateMainMenu", GameStateMenuEventCallback);
         }
         private void SwitchToState<T>() where T : IGameState, new()
         {

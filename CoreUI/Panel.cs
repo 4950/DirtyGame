@@ -51,6 +51,8 @@ namespace CoreUI
         }
         public void RemoveAllItems()
         {
+            foreach (Visual v in Visuals)
+                v.Parent = null;
             Visuals.Clear();
             InvalidateVisual();
         }

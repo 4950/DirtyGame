@@ -87,7 +87,7 @@ namespace DirtyGame.game.Core.GameStates
                     mp.MouseDown += startMap;
                     p.AddElement(mp);
 
-                    Texture2D t = game.resourceManager.GetResource<Texture2D>(maps[i] + "Preview.png");
+                    Texture2D t = game.resourceManager.GetResource<Texture2D>(maps[i] + "Preview");
 
                     CoreUI.Visuals.ImageBrush ib = new CoreUI.Visuals.ImageBrush();
                     ib.SizeMode = SizeMode.Fill;
@@ -124,7 +124,7 @@ namespace DirtyGame.game.Core.GameStates
         void startMap(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             int index = (int)((Panel)sender).Tag;
-            game.LoadMap(maps[index] + ".tmx");
+            game.StartSession(maps[index] + ".tmx");
 
             Events.Event startGame = new Events.Event();
             startGame.name = "GameStateGame";

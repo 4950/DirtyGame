@@ -32,7 +32,7 @@ namespace EntityFramework.Systems
             totalTime = totalTime + new TimeSpan(0, 0, 0, 0, elapsed);
 
             Random r = new Random();
-            TimeSpan t = new TimeSpan(0, 0, 0, 0, 500);
+            TimeSpan t = new TimeSpan(0, 0, 0, 0, 100);
 
             foreach (Entity e in entities)
             {
