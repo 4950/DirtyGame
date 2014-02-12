@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<root id="Monster">
+<root id="Player">
   <!--SpellCast-->
   <animationDefault name="SpellCastUp"
                     yPosition="0"
@@ -219,7 +219,8 @@
                     numberOfFrames="13"
                     width="64"
                     height="64"
-                    finite="true">
+                    finite="true"
+                    time=".2">
   </animationDefault>
   <animationDefault name="ShootLeft"
                     yPosition="1088"
@@ -229,7 +230,8 @@
                     numberOfFrames="13"
                     width="64"
                     height="64"
-                    finite="true">
+                    finite="true"
+                    time=".2">
   </animationDefault>
   <animationDefault name="ShootDown"
                     yPosition="1152"
@@ -239,7 +241,8 @@
                     numberOfFrames="13"
                     width="64"
                     height="64"
-                    finite="true">
+                    finite="true"
+                    time=".2">
   </animationDefault>
   <animationDefault name="ShootRight"
                     yPosition="1216"
@@ -249,7 +252,8 @@
                     numberOfFrames="13"
                     width="64"
                     height="64"
-                    finite="true">
+                    finite="true"
+                    time=".2">
   </animationDefault>
 
   <!--Hurt-->

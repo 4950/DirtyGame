@@ -9,7 +9,7 @@
       <Name>WeaponComponent</Name>
       <WeaponName>Monsterbow</WeaponName>
       <Portrait>bow</Portrait>
-      <BaseDamage>24</BaseDamage>
+      <BaseDamage>30</BaseDamage>
       <Range>400</Range>
       <Type>Ranged</Type>
       <ProjectileSprite>arrow</ProjectileSprite>
@@ -68,7 +68,7 @@
       <BaseDamage>30</BaseDamage>
       <Range>64</Range>
       <Type>Melee</Type>
-      <ProjectileSprite>BombExplosion</ProjectileSprite>
+      <ProjectileSprite>BombExplosion2</ProjectileSprite>
       <SpriteXml>Content\BombExplosion.xml</SpriteXml>
       <ProjectileSpeed>3</ProjectileSpeed>
       <Cooldown>2</Cooldown>
@@ -86,7 +86,7 @@
       <WeaponName>Monstersword</WeaponName>
       <Portrait>sword</Portrait>
       <BaseDamage>18</BaseDamage>
-      <Range>50</Range>
+      <Range>64</Range>
       <Type>Melee</Type>
       <ProjectileSprite>SwordMeleeSpriteSheet</ProjectileSprite>
       <SpriteXml>Content\MeleeAnimation.xml</SpriteXml>
@@ -104,13 +104,13 @@
       <Name>WeaponComponent</Name>
       <WeaponName>Basic Sword</WeaponName>
       <Portrait>sword</Portrait>
-      <BaseDamage>25</BaseDamage>
-      <Range>50</Range>
+      <BaseDamage>50</BaseDamage>
+      <Range>64</Range>
       <Type>Melee</Type>
       <ProjectileSprite>SwordMeleeSpriteSheet</ProjectileSprite>
       <SpriteXml>Content\MeleeAnimation.xml</SpriteXml>
       <ProjectileSpeed>0</ProjectileSpeed>
-      <Cooldown>1</Cooldown>
+      <Cooldown>.3</Cooldown>
       <LastFire>0</LastFire>
       <Price>100</Price>
       <AmmoPrice>2</AmmoPrice>
@@ -123,12 +123,12 @@
       <Name>WeaponComponent</Name>
       <WeaponName>Doomsbow</WeaponName>
       <Portrait>bow</Portrait>
-      <BaseDamage>25</BaseDamage>
+      <BaseDamage>40</BaseDamage>
       <Range>400</Range>
       <Type>Ranged</Type>
       <ProjectileSprite>arrow</ProjectileSprite>
       <ProjectileSpeed>10</ProjectileSpeed>
-      <Cooldown>1</Cooldown>
+      <Cooldown>.1</Cooldown>
       <LastFire>0</LastFire>
       <Price>100</Price>
       <AmmoPrice>0</AmmoPrice>
@@ -142,12 +142,12 @@
       <Name>WeaponComponent</Name>
       <WeaponName>Spear</WeaponName>
       <Portrait>spear</Portrait>
-      <BaseDamage>35</BaseDamage>
+      <BaseDamage>50</BaseDamage>
       <Range>200</Range>
       <Type>Ranged</Type>
       <ProjectileSprite>spear</ProjectileSprite>
       <ProjectileSpeed>5</ProjectileSpeed>
-      <Cooldown>2</Cooldown>
+      <Cooldown>.5</Cooldown>
       <LastFire>0</LastFire>
       <Price>150</Price>
       <AmmoPrice>10</AmmoPrice>
@@ -160,12 +160,12 @@
       <Name>WeaponComponent</Name>
       <WeaponName>Scattershot</WeaponName>
       <Portrait>bow</Portrait>
-      <BaseDamage>60</BaseDamage>f
+      <BaseDamage>20</BaseDamage>
       <Range>400</Range>
       <Type>Ranged</Type>
       <ProjectileSprite>arrow</ProjectileSprite>
       <ProjectileSpeed>10</ProjectileSpeed>
-      <Cooldown>.2</Cooldown>
+      <Cooldown>1</Cooldown>
       <LastFire>0</LastFire>
       <Price>100</Price>
       <AmmoPrice>10</AmmoPrice>
@@ -179,12 +179,12 @@
       <Name>WeaponComponent</Name>
       <WeaponName>Sniper</WeaponName>
       <Portrait>bow</Portrait>
-      <BaseDamage>100</BaseDamage>
+      <BaseDamage>60</BaseDamage>
       <Range>600</Range>
       <Type>Ranged</Type>
       <ProjectileSprite>arrow</ProjectileSprite>
       <ProjectileSpeed>30</ProjectileSpeed>
-      <Cooldown>4</Cooldown>
+      <Cooldown>0</Cooldown>
       <LastFire>0</LastFire>
       <Price>100</Price>
       <AmmoPrice>10</AmmoPrice>
@@ -256,7 +256,7 @@
     </Component>
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="StatsComponent">
       <Name>StatsComponent</Name>
-      <BaseMoveSpeed>13</BaseMoveSpeed>
+      <BaseMoveSpeed>50</BaseMoveSpeed>
       <BaseDamage>100</BaseDamage>
       <RangedImmune>false</RangedImmune>
       <BaseHealth>240</BaseHealth>
@@ -309,7 +309,7 @@
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="SpriteComponent">
       <Name>SpriteComponent</Name>
       <RenderLayer>INVALIDE</RenderLayer>
-      <spriteName>monsterSheet_JUNK</spriteName>
+      <spriteName>meleemonster</spriteName>
       <xmlName>Content\MonsterAnimation.xml</xmlName>
       <SrcRect>
         <X>0</X>
@@ -577,7 +577,7 @@
     </Component>
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="StatsComponent">
       <Name>StatsComponent</Name>
-      <BaseMoveSpeed>13</BaseMoveSpeed>
+      <BaseMoveSpeed>30</BaseMoveSpeed>
       <BaseDamage>100</BaseDamage>
       <RangedImmune>false</RangedImmune>
       <BaseHealth>120</BaseHealth>

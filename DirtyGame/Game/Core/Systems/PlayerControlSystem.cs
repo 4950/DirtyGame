@@ -46,6 +46,8 @@ namespace DirtyGame.game.Core.Systems
             this.renderer = renderer;
             this.game = game;
             game.baseContext.RegisterHandler(Keys.Tab, changeWeapon, null);
+            game.baseContext.RegisterHandler(Keys.Q, changeWeapon, null);
+            game.baseContext.RegisterHandler(Keys.E, changeWeapon, null);
 
             game.baseContext.RegisterHandler(Keys.Left, move, idle);
             game.baseContext.RegisterHandler(Keys.Right, move, idle);
@@ -57,7 +59,7 @@ namespace DirtyGame.game.Core.Systems
             game.baseContext.RegisterHandler(Keys.W, move, idle);
             game.baseContext.RegisterHandler(Keys.S, move, idle);
 
-            for (int i = 1; i < 9; i++)
+            for (int i = 0; i <= 9; i++)
             {
                 Keys k = (Keys)Enum.Parse(typeof(Keys), "D" + i);
                 game.baseContext.RegisterHandler(k, changeWeapon, null);
@@ -109,40 +111,54 @@ namespace DirtyGame.game.Core.Systems
             else
                 currentDirection = previousDirection;*/
         }
+
         private void changeWeapon(Keys key)
         {
             InventoryComponent ic = game.player.GetComponent<InventoryComponent>();
             var weapons = ic.WeaponList;
 
-            if (key == Keys.Tab)
+            if (ic.CurrentWeapon == null)
             {
-                if (ic.CurrentWeapon == null)
-                {
-                    if (weapons.Count > 0)
-                        ic.setCurrentWeapon(weapons[0]);
-                }
-                else
-                {
-                    int i = weapons.IndexOf(ic.CurrentWeapon);
+                if (weapons.Count > 0)
+                    ic.setCurrentWeapon(weapons[0]);
+            }
+
+            int i = weapons.IndexOf(ic.CurrentWeapon);
+            switch (key)
+            {
+                case Keys.E:
+                case Keys.Tab:
                     i++;
                     if (i >= weapons.Count)
                         i = 0;
-                    ic.setCurrentWeapon(weapons[i]);
-                }
-            }
-            else
-            {
-                String k = key.ToString();
-                int i = 0;
-                if (int.TryParse(k[1].ToString(), out i))
-                {
-                    if (i <= weapons.Count)
+
+                    break;
+                case Keys.Q:
+                    i--;
+                    if (i < 0)
+                        i = weapons.Count - 1;
+                    break;
+                default:
+                    if (int.TryParse(key.ToString()[1].ToString(), out i))
                     {
-                        ic.setCurrentWeapon(weapons[i - 1]);
+                        i--;
+                        if (i >= weapons.Count)
+                        {
+                            i = i - weapons.Count;
+                        }
+
+                        if (i < 0)
+                            i = weapons.Count - 1;
+
                     }
-                }
+                    break;
+
             }
+
+            ic.setCurrentWeapon(weapons[i]);
+
         }
+
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
         {
             foreach (Entity e in entities)
@@ -216,7 +232,7 @@ namespace DirtyGame.game.Core.Systems
                             }
                             break;
                         case MoveDirection.Idle:
-                            
+
                             break;
                     }
                     previousDirection = currentDirection;
@@ -228,7 +244,7 @@ namespace DirtyGame.game.Core.Systems
                 ms = Mouse.GetState();
                 if (prevMS == null)
                     prevMS = ms;
-                if (ms.RightButton == ButtonState.Pressed && prevMS.RightButton == ButtonState.Released)//right mouse down
+                if ((ms.RightButton == ButtonState.Pressed && prevMS.RightButton == ButtonState.Released) || (ms.LeftButton == ButtonState.Pressed && prevMS.LeftButton == ButtonState.Released))//right mouse down or left mouse
                 {
                     game.weaponSystem.FireWeapon(e.GetComponent<InventoryComponent>().CurrentWeapon, e, new Vector2(ms.X, ms.Y) + renderer.ActiveCamera.Position);
 
