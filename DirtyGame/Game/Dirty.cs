@@ -64,6 +64,8 @@ namespace DirtyGame
         public EntityRef gameEntity;
         public static string MapName;
 
+        public static SpatialComponent playerSpatialComp;
+
         private void Exit(Keys key)
         {
             Exit();
@@ -190,6 +192,8 @@ namespace DirtyGame
             player.Name = "Player";
            // player.Refresh();
 
+            //playerSpatialComp = player.GetComponent<SpatialComponent>();
+
             //weapons
             e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("BasicSword"));
             e.Refresh();
@@ -286,7 +290,7 @@ namespace DirtyGame
         {
             inputManager.DispatchInput();
 
-
+            //This is the line that is changing the location of the player back to the original location not the new location
             gameStateManager.CurrentState.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
             MouseState ms = Mouse.GetState();

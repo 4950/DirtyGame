@@ -1,5 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root id="Scenarios">
+  <!--
+  Monsters
+  monsterType="MeleeMonster" monsterWeapon="Monstersword"
+  monsterType="SuicideBomber" monsterWeapon="BomberWeapon"
+  monsterType="Flametower" monsterWeapon="FlametowerWeapon"
+  monsterType="Grenadier" monsterWeapon="GrenadeLauncher"
+  monsterType="RangedMonster" monsterWeapon="Monsterbow"
+  monsterType="SnipMonster" monsterWeapon="SnipWeapon"
+  monsterType="" monsterWeapon=""
+  monsterType="" monsterWeapon=""
+  monsterType="" monsterWeapon=""
+  -->
   <scenario name="scenario1"
             difficultyScore="0.50"
             map="Cave.tmx"

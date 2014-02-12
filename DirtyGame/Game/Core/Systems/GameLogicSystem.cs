@@ -279,7 +279,8 @@ namespace DirtyGame.game.Core.Systems
             Entity e;
 
             player.GetComponent<SpatialComponent>().Position = scenario.PlayerSpawn;
-
+        //    player.RemoveComponent(player.GetComponent<PhysicsComponent>());
+        //    player.AddComponent(new PhysicsComponent());
             //resetRound();
 
             foreach (Spawner s in scenario.Spawners)
@@ -353,7 +354,29 @@ namespace DirtyGame.game.Core.Systems
 
                     //Picking a new scenario
 ////////////////////////////////////////////////////
-                    //DirtyGame.game.Util
+                    //Removing the Player entity from the game
+                    game.world.DestroyEntity(game.player);
+                    //Recreating the Player entity
+                    game.player = game.entityFactory.CreatePlayerEntity();
+   ////////////Put this stuff in the CreatePlayerEntity() mehtod
+                    //weapons
+                    InventoryComponent playerIC = game.player.GetComponent<InventoryComponent>();
+                    e = game.entityFactory.CloneEntity(game.world.EntityMgr.GetEntityByName("BasicSword"));
+                    e.Refresh();
+                    playerIC.addWeapon(e, game.player);
+                    e = game.entityFactory.CloneEntity(game.world.EntityMgr.GetEntityByName("Doomsbow"));
+                    e.Refresh();
+                    playerIC.addWeapon(e, game.player);
+                    e = game.entityFactory.CloneEntity(game.world.EntityMgr.GetEntityByName("Spear"));
+                    e.Refresh();
+                    playerIC.addWeapon(e, game.player);
+                    e = game.entityFactory.CloneEntity(game.world.EntityMgr.GetEntityByName("Scattershot"));
+                    e.Refresh();
+                    playerIC.addWeapon(e, game.player);
+                    e = game.entityFactory.CloneEntity(game.world.EntityMgr.GetEntityByName("Sniper"));
+                    e.Refresh();
+                    playerIC.addWeapon(e, game.player);
+    ///////////////////////////////////////////////////////////
                     //TODO need to have the map name here
                     setupScenario(randomScenario(Dirty.MapName), game.player);
                     game.player.Refresh();
