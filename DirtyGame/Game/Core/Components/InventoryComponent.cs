@@ -25,6 +25,7 @@ namespace DirtyGame.game.Core.Components
             if (weapon.HasComponent<WeaponComponent>())
             {
                 weapon.GetComponent<WeaponComponent>().Owner = owner;
+                weapon.GetComponent<WeaponComponent>().ComputedDamage = weapon.GetComponent<WeaponComponent>().BaseDamage * (owner.GetComponent<StatsComponent>().Damage / 100.0f);
                 weapons.Add(weapon);
                 if (weapons.Count == 1)
                     currentWeapon = weapon;

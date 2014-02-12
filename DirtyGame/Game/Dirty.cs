@@ -124,6 +124,7 @@ namespace DirtyGame
             UIEngine.Children.RemoveAllItems();
             map.ClearMap();
 
+
             //load new stuff
             physics = new Physics(world.EntityMgr);
             CreateInputContext();
@@ -134,7 +135,7 @@ namespace DirtyGame
         }
         private void LoadSystems()
         {
-            aiSystem = new AISystem(this, entityFactory, physics);
+            aiSystem = new AISystem(this, entityFactory, physics, renderer);
             world.AddSystem(aiSystem);
             world.AddSystem(new SpriteRenderSystem(renderer));
             world.AddSystem(new PlayerControlSystem(entityFactory, renderer, this));
@@ -251,6 +252,7 @@ namespace DirtyGame
             entityFactory = new EntityFactory(world.EntityMgr, resourceManager);
             map = new Map(graphics.GraphicsDevice, entityFactory);
 
+            
             InitUI();
 
             gameStateManager = new GameStateManager(this);

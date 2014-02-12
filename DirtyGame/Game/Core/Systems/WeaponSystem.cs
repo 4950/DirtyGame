@@ -41,13 +41,13 @@ namespace DirtyGame.game.Core.Systems
             StatsComponent os = wc.Owner.GetComponent<StatsComponent>();
             StatsComponent ts = Target.GetComponent<StatsComponent>();
 
-            if (wc == null || hc == null || os == null || ts == null)
+            if (wc == null || hc == null || ts == null)
                 return;
 
             if (ts.RangedImmune && wc.Type == WeaponComponent.WeaponType.Ranged)
                 return;
 
-            int Damage = (int)Math.Floor(wc.BaseDamage * (os.Damage / 100.0f));
+            int Damage = (int)Math.Floor(wc.ComputedDamage);
 
             hc.CurrentHealth -= Damage;
 

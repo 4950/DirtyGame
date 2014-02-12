@@ -30,6 +30,7 @@ namespace DirtyGame.game.Core.Components
         public String WeaponName { get; set; }
         public String Portrait { get; set; }
         public float BaseDamage { get; set; }
+        public float ComputedDamage { get; set; }
         public float Range { get; set; }
         public WeaponType Type { get; set; }
         public String ProjectileSprite { get; set; }
