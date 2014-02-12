@@ -181,6 +181,9 @@ namespace EntityFramework.Managers
             {
                 return;
             }
+            if (entities[id].Name != null)
+                if (entityNames.ContainsKey(entities[id].Name))
+                    entityNames.Remove(entities[id].Name);
             entities.Remove(id);
             groupManager.RemoveFromAllGroups(id);
             tagManager.RemoveTag(id);

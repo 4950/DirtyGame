@@ -44,7 +44,12 @@ namespace EntityFramework
         {
             systemMgr.RemoveSystem(system);
         }
-
+        public void RemoveAllSystems()
+        {
+            List<EntitySystem> systems = systemMgr.Systems.ToList();
+            foreach (EntitySystem s in systems)
+                systemMgr.RemoveSystem(s);
+        }
         public void DestroyEntity(Entity e)
         {
             // remove entity from systems  

@@ -28,7 +28,6 @@ namespace DirtyGame.game.Core.Systems
         private Label roundLabel;
         private float roundLblTime;
         private float roundTime;
-        private EntityRef gameEntity;
         private bool cheatEndRound = false;
 
         private List<Entity> spawners = new List<Entity>();
@@ -49,7 +48,7 @@ namespace DirtyGame.game.Core.Systems
             {
                 game.world.DestroyEntity(ee);
             }
-            gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += monstersdefeated;
+            game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += monstersdefeated;
             monstersdefeated = 0;
 
             //restore player health
@@ -59,7 +58,7 @@ namespace DirtyGame.game.Core.Systems
         {
             resetRound();
 
-            int CurrentLevel = gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value;
+            int CurrentLevel = game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value;
 
             roundLabel.Text = "~Round " + CurrentLevel + "~";
             roundLabel.Visibility = CoreUI.Visibility.Visible;
@@ -150,7 +149,7 @@ namespace DirtyGame.game.Core.Systems
         }
         private void AdvanceLevel()
         {
-            gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value++;
+            game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value++;
             //if (gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value % 4 == 0)
             //    SetupBoss();
             //else
@@ -276,8 +275,8 @@ namespace DirtyGame.game.Core.Systems
                 if (roundTime > 0)
                 {
                     monstersdefeated++;
-                    gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += 50;
-                    gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").value += 10;
+                    game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += 50;
+                    game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").value += 10;
 
                     GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MonsterKilled, e.GetComponent<MonsterComponent>().data.Type);
                 }
@@ -291,7 +290,7 @@ namespace DirtyGame.game.Core.Systems
                     EventManager.Instance.TriggerEvent(gamestate);*/
 
 
-                    GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundEnded, gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value.ToString());
+                    GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundEnded, game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value.ToString());
                     GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundHealth, game.player.GetComponent<StatsComponent>().CurrentHealth.ToString());
                     //next game round
                     AdvanceLevel();
@@ -388,7 +387,6 @@ namespace DirtyGame.game.Core.Systems
             roundLabel.TextPosition = TextPosition.Center;
             roundLabel.Visibility = CoreUI.Visibility.Hidden;
             game.UIEngine.Children.AddElement(roundLabel);
-            gameEntity = game.gameEntity;
             game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.OemTilde, CheatEndRound, null);
         }
 
