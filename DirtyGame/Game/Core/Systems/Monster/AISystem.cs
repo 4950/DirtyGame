@@ -54,6 +54,15 @@ namespace DirtyGame.game.Core.Systems.Monster
                         }
                     }
 
+                    else if (wc.WeaponName == "GrenadeLauncher")
+                    {
+                        double dist = getDistance(monsterPos.X, monsterPos.Y, playerPos.X, playerPos.Y);
+                        if (dist < wc.Range)
+                        {
+                            game.weaponSystem.FireWeapon(weapon, e, playerPos);
+                        }
+                    }
+
                     else if (wc.Type != WeaponComponent.WeaponType.AOE)
                     {
                         double dist = getDistance(monsterPos.X, monsterPos.Y, playerPos.X, playerPos.Y);
