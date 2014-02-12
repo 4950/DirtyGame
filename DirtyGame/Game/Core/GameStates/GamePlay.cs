@@ -65,7 +65,6 @@ namespace DirtyGame.game.Core.GameStates
                 monsterHUD.Position = new System.Drawing.Point(680, 0);
                 monsterHUD.Background = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.Black);
                 monsterHUD.Visibility = Visibility.Hidden;
-                game.UIEngine.Children.AddElement(monsterHUD);
 
                 scoreLbl = new Label();
                 scoreLbl.Size = new System.Drawing.Point(120, 25);
@@ -145,6 +144,8 @@ namespace DirtyGame.game.Core.GameStates
                 windowCont.AddElement(weaponAmmoLabel);
 
             }
+            if(monsterHUD.Parent == null)
+                game.UIEngine.Children.AddElement(monsterHUD);
             monsterHUD.Visibility = Visibility.Visible;
             playerStuff.Show();
         }

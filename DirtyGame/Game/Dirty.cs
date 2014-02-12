@@ -127,9 +127,6 @@ namespace DirtyGame
             //load new stuff
             physics = new Physics(world.EntityMgr);
             CreateInputContext();
-            LoadSystems();
-            LoadXMLBase();
-            SetupPlayer();
 
             Event endGame = new Event();
             endGame.name = "GameStateMainMenu";
@@ -146,10 +143,9 @@ namespace DirtyGame
             world.AddSystem(new CameraUpdateSystem(renderer));
             world.AddSystem(new MapBoundarySystem(renderer));
             world.AddSystem(new SpawnerSystem(entityFactory, this));
-            world.AddSystem(new HUDSystem(renderer, UIEngine));
             world.AddSystem(new ProjectileSystem(this));
             world.AddSystem(new GrenadeSystem(this));
-            gLogicSystem = new GameLogicSystem(this);
+            gLogicSystem = new GameLogicSystem(this, renderer, UIEngine);
             world.AddSystem(gLogicSystem);
             world.AddSystem(new PhysicsSystem(physics, renderer, this));
             world.AddSystem(new AnimationSystem(this));
@@ -259,21 +255,17 @@ namespace DirtyGame
 
             gameStateManager = new GameStateManager(this);
 
-            LoadSystems();
-
             AddComponentTypes();
-
-            LoadXMLBase();
-
-            //SaveTestEntites();
-
-            SetupPlayer();
 
             InitSound();
             
         }
         public void StartSession(string mapname)
         {
+            LoadSystems();
+            LoadXMLBase();
+            SetupPlayer();
+
             LoadMap(mapname);
 
             //Loading in the different scenarios from the Scenarios.XML
