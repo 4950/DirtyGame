@@ -27,9 +27,7 @@ namespace DirtyGame.game.Core.GameStates
 
         private void endGame(object sender, MessageBox.MessageBoxResultButtons ResultButton)
         {
-            Events.Event endGame = new Events.Event();
-            endGame.name = "GameState";
-            EventManager.Instance.TriggerEvent(endGame);
+            game.ResetToMainMenu();
         }
 
         public void OnExit()

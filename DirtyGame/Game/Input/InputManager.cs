@@ -22,6 +22,10 @@ namespace DirtyGame.game.Input
         {
             inputContexts.Remove(context);
         }
+        public void RemoveAllContexts()
+        {
+            inputContexts.Clear();
+        }
 
         private void DispatchKey(Keys key, KeyState state)
         {

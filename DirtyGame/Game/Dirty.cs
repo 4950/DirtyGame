@@ -32,6 +32,7 @@ using FarseerPhysics.Dynamics;
 using DirtyGame.game.Core.Systems.Movement;
 using DirtyGame.game.Core.Components.Render;
 using DirtyGame.game.Core.Components.Movement;
+using DirtyGame.game.Core.Events;
 
 
 
@@ -112,30 +113,30 @@ namespace DirtyGame
 
             world.EntityMgr.SerializeEntities(App.Path + "test.xml");
         }
-        public Dirty()
+        public void ResetToMainMenu()
         {
-            GameplayDataCaptureSystem.Instance.CreateSession(true);
+            //clear old stuff
+            GameplayDataCaptureSystem.Instance.FlushSessions();
+            world.RemoveAllSystems();
+            world.EntityMgr.RemoveAllEntities();
+            baseContext.RemoveAllHandlers();
+            inputManager.RemoveAllContexts();
+            UIEngine.Children.RemoveAllItems();
+            map.ClearMap();
 
-            inputManager = InputManager.Instance;
-            baseContext = new InputContext();
-            inputManager.AddInputContext(baseContext);
-            baseContext.RegisterHandler(Keys.Escape, Exit, null);
-
-            graphics = new GraphicsDeviceManager(this);
-
-            resourceManager = new ResourceManager(Content);
-            //init UI
-            UIDraw = new MonoGameDrawEngine(graphics.GraphicsDevice, Content);
-            UIEngine = new CoreUIEngine(UIDraw, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
-            SpriteFont defaultFont = resourceManager.GetResource<SpriteFont>("default");
-            UIDraw.setDefaultFont(defaultFont);
-            resourceManager = new ResourceManager(Content);
-            renderer = new Renderer(graphics, new Camera(new Vector2(800, 600)));
-            world = new EntityFramework.World();
+            //load new stuff
             physics = new Physics(world.EntityMgr);
+            CreateInputContext();
+            LoadSystems();
+            LoadXMLBase();
+            SetupPlayer();
 
-            gameStateManager = new GameStateManager(this);
-            entityFactory = new EntityFactory(world.EntityMgr, resourceManager);
+            Event endGame = new Event();
+            endGame.name = "GameStateMainMenu";
+            EventManager.Instance.TriggerEvent(endGame);
+        }
+        private void LoadSystems()
+        {
             aiSystem = new AISystem(this, entityFactory, physics);
             world.AddSystem(aiSystem);
             world.AddSystem(new SpriteRenderSystem(renderer));
@@ -149,17 +150,24 @@ namespace DirtyGame
             world.AddSystem(new ProjectileSystem(this));
             world.AddSystem(new GrenadeSystem(this));
             gLogicSystem = new GameLogicSystem(this);
-
+            world.AddSystem(gLogicSystem);
             world.AddSystem(new PhysicsSystem(physics, renderer, this));
             world.AddSystem(new AnimationSystem(this));
             world.AddSystem(new MovementSystem(aiSystem));
             world.AddSystem(new AOESystem(this));
             world.AddSystem(new SeparationSystem());
             world.AddSystem(new PropertySystem());
-            map = new Map(graphics.GraphicsDevice, entityFactory);
-
-            Entity e;
-
+        }
+        private void InitUI()
+        {
+            //init UI
+            UIDraw = new MonoGameDrawEngine(graphics.GraphicsDevice, Content);
+            UIEngine = new CoreUIEngine(UIDraw, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
+            SpriteFont defaultFont = resourceManager.GetResource<SpriteFont>("default");
+            UIDraw.setDefaultFont(defaultFont);
+        }
+        private void AddComponentTypes()
+        {
             //add component types to list
             Component.ComponentTypes.Add(typeof(PropertyComponent<int>));
             Component.ComponentTypes.Add(typeof(PropertyComponent<string>));
@@ -176,21 +184,15 @@ namespace DirtyGame
             Component.ComponentTypes.Add(typeof(SeparationComponent));
             Component.ComponentTypes.Add(typeof(InventoryComponent));
             Component.ComponentTypes.Add(typeof(SnipComponent));
-
-            //load serialized entities
-            world.EntityMgr.DeserializeEntities(App.Path + "Main.xml");
-            world.EntityMgr.DeserializeEntities(App.Path + "Monsters.xml");
-            gameEntity = world.EntityMgr.GetEntityByName("Game").reference;
-            world.AddSystem(gLogicSystem);
-
-            //SaveTestEntites();
-
+        }
+        private void SetupPlayer()
+        {
             player = entityFactory.CreatePlayerEntity();
             player.Name = "Player";
             player.Refresh();
 
             //weapons
-            e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("BasicSword"));
+            Entity e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("BasicSword"));
             e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e, player);
             e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("Doomsbow"));
@@ -205,18 +207,9 @@ namespace DirtyGame
             e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("Sniper"));
             e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e, player);
-
-            //TODO: need to switch over from the rounds system to the scenario system. Have the game select a different scenario each time.
-
-     //       gLogicSystem.SetupNextRound();
-
-            //Loading in the different scenarios from the Scenarios.XML
-            gLogicSystem.decodeScenariosXML("Content\\Scenarios.xml");
-
-            //Setting up a scenario
-            //TODO: Needs to change to be a selection
-            gLogicSystem.setupScenario("scenario1");
-
+        }
+        private void InitSound()
+        {
             //start sound
             SoundSystem.Instance.SetGame(this);
             SoundSystem.Instance.MaxVolume = .20f;
@@ -231,7 +224,66 @@ namespace DirtyGame
             SoundSystem.Instance.Loop = true;
             SoundSystem.Instance.PlayBackgroundMusic("DST-ChordLesson01.mp3");
         }
-        public void LoadMap(string mapname)
+        public void LoadXMLBase()
+        {
+            //load serialized entities
+            world.EntityMgr.DeserializeEntities(App.Path + "Main.xml");
+            world.EntityMgr.DeserializeEntities(App.Path + "Monsters.xml");
+            gameEntity = world.EntityMgr.GetEntityByName("Game").reference;
+        }
+        public void CreateInputContext()
+        {
+            inputManager = InputManager.Instance;
+            baseContext = new InputContext();
+            inputManager.AddInputContext(baseContext);
+            baseContext.RegisterHandler(Keys.Escape, Exit, null);
+        }
+        public Dirty()
+        {
+            GameplayDataCaptureSystem.Instance.CreateSession(true);
+
+            CreateInputContext();
+
+            graphics = new GraphicsDeviceManager(this);
+            renderer = new Renderer(graphics, new Camera(new Vector2(800, 600)));
+
+            resourceManager = new ResourceManager(Content);
+
+            world = new EntityFramework.World();
+            physics = new Physics(world.EntityMgr);
+            
+            entityFactory = new EntityFactory(world.EntityMgr, resourceManager);
+            map = new Map(graphics.GraphicsDevice, entityFactory);
+
+            InitUI();
+
+            gameStateManager = new GameStateManager(this);
+
+            LoadSystems();
+
+            AddComponentTypes();
+
+            LoadXMLBase();
+
+            //SaveTestEntites();
+
+            SetupPlayer();
+
+            InitSound();
+            
+        }
+        public void StartSession(string mapname)
+        {
+            LoadMap(mapname);
+
+            //Loading in the different scenarios from the Scenarios.XML
+            gLogicSystem.decodeScenariosXML("Content\\Scenarios.xml");
+
+            //Setting up a scenario
+            //TODO: Needs to change to be a selection
+            gLogicSystem.setupScenario("scenario1");
+        }
+        private void LoadMap(string mapname)
         {
             GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MapSelected, mapname);
 
@@ -245,13 +297,7 @@ namespace DirtyGame
         }
         protected override void LoadContent()
         {
-            //map.LoadMap("Forest.tmx", graphics.GraphicsDevice, Content);
-            //renderer.ActiveMap = map;
 
-            //Need to be moved
-            //Entity wall = entityFactory.CreateWallEntity(new Vector2(0f, 0f), new Vector2(0f, renderer.ActiveMap.getPixelHeight()),
-            //                new Vector2(renderer.ActiveMap.getPixelWidth(), 0f), new Vector2(renderer.ActiveMap.getPixelWidth(), renderer.ActiveMap.getPixelHeight()));
-            // wall.Refresh();
 
         }
 

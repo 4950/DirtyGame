@@ -19,7 +19,10 @@ namespace DirtyGame.game.Input
         {
             keyHandlers.Remove(key);
         }
-
+        public void RemoveAllHandlers()
+        {
+            keyHandlers.Clear();
+        }
         public bool Dispatch(Keys key, KeyState state)
         {
             KeyHandler.KeyHandlerDelegate handler;

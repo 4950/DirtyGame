@@ -124,7 +124,7 @@ namespace DirtyGame.game.Core.GameStates
         void startMap(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             int index = (int)((Panel)sender).Tag;
-            game.LoadMap(maps[index] + ".tmx");
+            game.StartSession(maps[index] + ".tmx");
 
             Events.Event startGame = new Events.Event();
             startGame.name = "GameStateGame";

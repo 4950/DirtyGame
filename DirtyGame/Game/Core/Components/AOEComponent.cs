@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace DirtyGame.game.Core.Components
 {
@@ -20,7 +21,9 @@ namespace DirtyGame.game.Core.Components
         /// Time elapse since last tick(counts up)
         /// </summary>
         public float Timer;
+        [XmlIgnoreAttribute]
         public EntityRef Owner;
+        [XmlIgnoreAttribute]
         public EntityRef Weapon;
         /// <summary>
         /// This bool is true only for frames in which damage will be applied

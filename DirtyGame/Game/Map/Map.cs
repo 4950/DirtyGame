@@ -413,6 +413,12 @@ namespace DirtyGame.game.Map
             batch = new SpriteBatch(dev);
             entityFactory = entityFact;
         }
+        public void ClearMap()
+        {
+            tileSets.Clear();
+            tileSetsByTileGID.Clear();
+            layers.Clear();
+        }
         public bool LoadMap(String filename, GraphicsDevice dev, ContentManager Content)
         {
             filename = App.Path + filename;
