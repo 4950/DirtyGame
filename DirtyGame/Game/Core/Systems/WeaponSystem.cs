@@ -66,6 +66,7 @@ namespace DirtyGame.game.Core.Systems
             if (wc == null || spatial == null)
                 return;
 
+
             if ((wc.Ammo > 0 || wc.MaxAmmo == -1) && wc.LastFire <= 0)
             {
                 if (wc.Ammo > 0)
@@ -143,17 +144,19 @@ namespace DirtyGame.game.Core.Systems
 
         private static void SetShootAnimation(Entity Owner, string attack)
         {
+            AnimationComponent ac;
             if (!Owner.HasComponent<AnimationComponent>())
             {
-                AnimationComponent animation = new AnimationComponent();
-                animation.CurrentAnimation = attack + Owner.GetComponent<DirectionComponent>().Heading;
-                Owner.AddComponent(animation);
+                ac = new AnimationComponent();
+                ac.CurrentAnimation = attack + Owner.GetComponent<DirectionComponent>().Heading;
+
+                Owner.AddComponent(ac);
                 Owner.Refresh();
             }
             else
             {
-                AnimationComponent ac = Owner.GetComponent<AnimationComponent>();
-                ac.CurrentAnimation = "Shoot" + Owner.GetComponent<DirectionComponent>().Heading;
+                ac = Owner.GetComponent<AnimationComponent>();
+                ac.CurrentAnimation = attack + Owner.GetComponent<DirectionComponent>().Heading;
             }
         }
 
@@ -174,7 +177,6 @@ namespace DirtyGame.game.Core.Systems
                 if (e.HasComponent<WeaponComponent>())
                 {
                     WeaponComponent wc = e.GetComponent<WeaponComponent>();
-
                     if (wc.LastFire > 0)
                         wc.LastFire -= dt;
                 }
