@@ -218,7 +218,7 @@
       <WeaponName>SnipWeapon</WeaponName>
       <Portrait>bow</Portrait>
       <BaseDamage>60</BaseDamage>
-      <Range>400</Range>
+      <Range>400</Range>w
       <Type>Ranged</Type>
       <ProjectileSprite>arrow</ProjectileSprite>
       <ProjectileSpeed>40</ProjectileSpeed>
