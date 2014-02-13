@@ -44,12 +44,14 @@ namespace DirtyGame.game.Core.Systems.Monster
 
                     Vector2 monsterPos = e.GetComponent<SpatialComponent>().Center;
 
-                    if(wc.WeaponName == "SnipWeapon")
+                    if (wc.WeaponName == "SnipWeapon")
                     {
-                        if (e.GetComponent<SnipComponent>().Locked == true)
+                        SnipComponent snip = e.GetComponent<SnipComponent>();
+
+                        if (snip.Locked == true)
                         {
-                            e.GetComponent<SnipComponent>().Locked = false;
-                            
+                            snip.Locked = false;
+
                             game.weaponSystem.FireWeapon(weapon, e, playerPos);
                         }
                     }
@@ -94,62 +96,72 @@ namespace DirtyGame.game.Core.Systems.Monster
             double[] vel = new double[2];
             double dist;
 
-            Vector2 Target = new Vector2(game.player.GetComponent<SpatialComponent>().Center.X, game.player.GetComponent<SpatialComponent>().Center.Y);
-            if((dist = getDistance(Target.X, Target.Y, spatial.Center.X, spatial.Center.Y)) <= snip.Range) //Player Within Range
+            Vector2 Target = game.player.GetComponent<SpatialComponent>().Center;
+            if ((dist = getDistance(Target.X, Target.Y, spatial.Center.X, spatial.Center.Y)) <= snip.Range) //Player Within Range
             {
-                    playerFound = true;
-                    
-                    Vector2 dir = (Target - spatial.Center + snip.Offset);
-                    dir.Normalize();
+                playerFound = true;
 
-                    if (snip.LaserPres == true)
+                Vector2 dirNoOff = (Target - spatial.Center);
+                dirNoOff.Normalize();
+                Vector2 dir = (Target - spatial.Center + snip.Offset);
+                dir.Normalize();
+
+                Entity Laser = game.world.EntityMgr.GetEntity(snip.Laser);
+
+                if (snip.LaserPres == true)
+                {
+                    Laser.GetComponent<SpriteComponent>().Scale = (float)dist / (float)snip.Range;
+
+                    if (Laser.GetComponent<LaserComponent>().PlayerPres == true)
                     {
-                        game.world.EntityMgr.GetEntity(snip.Laser).GetComponent<SpriteComponent>().Scale = (float)dist / (float)snip.Range;
-
-                        if (game.world.EntityMgr.GetEntity(snip.Laser).GetComponent<LaserComponent>().PlayerPres == true)
-                        {
-                            game.world.EntityMgr.GetEntity(snip.Laser).GetComponent<SpatialComponent>().ConstantRotation = laserFollow(e, game.world.EntityMgr.GetEntity(snip.Laser), dt, Target - spatial.Center);
-                        }
-
-                        
+                        laserFollow(e, Laser, dirNoOff);
                     }
 
-                    if (snip.LaserPres == false && snip.IsRunning == false)
-                    {
-                        snip.LaserPres = true;
-                        Entity laser = game.entityFactory.CreateLaserEntity("laser", "sniplaser", spatial.Center, dir, (float)dist / (float)snip.Range);
-                        laser.Refresh();
-                        snip.Laser = laser.Id;
-                      
-                        
-                    }
-
-
-                    else if (dist <= snip.FleeDistance) //Snip Run
-                    {
-                        snip.IsRunning = true;
-                        if (snip.LaserPres == true)
-                        {
-                            game.world.DestroyEntity(game.world.EntityMgr.GetEntity(snip.Laser));
-                            snip.LaserPres = false;
-                        }
-
-                        vel = getChaseVector(-dir.X, dir.Y, spatial.Center.X, spatial.Center.Y);
-
-
-
-                    }
-
-                    else if (dist > snip.FleeDistance) //Snip Camp
-                    {
-                        snip.IsRunning = false;
-                        vel[0] = 0;
-                        vel[1] = 0;
-                    }
 
                 }
 
-            
+                if (snip.LaserPres == false && snip.IsRunning == false)
+                {
+                    snip.LaserPres = true;
+                    Entity laser = game.entityFactory.CreateLaserEntity("laser", "sniplaser", spatial.Center, dir, (float)dist / (float)snip.Range);
+                    laser.Refresh();
+                    snip.Laser = laser.Id;
+
+                    SpatialComponent laserSpatial = laser.GetComponent<SpatialComponent>();
+
+                    laser.GetComponent<LaserComponent>().Offset = snip.LaserOffset;
+                    laserSpatial.DefaultRotationCons = snip.DefaultRotation;
+                    laserSpatial.ConstantRotation = laserSpatial.DefaultRotationCons;
+
+                }
+
+
+                else if (dist <= snip.FleeDistance) //Snip Run
+                {
+                    snip.IsRunning = true;
+                    if (snip.LaserPres == true)
+                    {
+                        game.world.DestroyEntity(Laser);
+                        snip.LaserPres = false;
+                    }
+
+                    vel = getChaseVector(Target.X, Target.Y, spatial.Center.X, spatial.Center.Y);
+
+
+
+
+                }
+
+                else if (dist > snip.FleeDistance) //Snip Camp
+                {
+                    snip.IsRunning = false;
+                    vel[0] = 0;
+                    vel[1] = 0;
+                }
+
+            }
+
+
 
             if (playerFound == false && snip.LaserPres == true)
             {
@@ -158,7 +170,7 @@ namespace DirtyGame.game.Core.Systems.Monster
             }
 
 
-
+            setIdleDirection(getChaseVector(spatial.Center.X, spatial.Center.Y, Target.X, Target.Y), vel, e);
             setDirection(vel, e);
             return new Vector2((float)vel[0], (float)vel[1]);
         }
@@ -318,7 +330,7 @@ namespace DirtyGame.game.Core.Systems.Monster
 
             if (vel[0] == 0 && vel[1] == 0)
             {
-                direction.Heading = "Down";
+                
                 m.GetComponent<MovementComponent>().Vertical = 0;
                 m.GetComponent<MovementComponent>().Horizontal = 0;
                 AnimationComponent animation = new AnimationComponent();
@@ -371,43 +383,82 @@ namespace DirtyGame.game.Core.Systems.Monster
             }
         }
 
-        
-
-        private float laserFollow(Entity Enemy, Entity e, float dt, Vector2 target)
+        private void setIdleDirection(double[] dir, double[] velocity, Entity m)
         {
-            float rotation = 2f;
-            float angle = e.GetComponent<SpriteComponent>().Angle;
-            float tarangle = (float)Math.Atan2(-target.X, target.Y);
-
-            if (e.GetComponent<TimeComponent>().timeofLock == 0)
-            {
-                e.GetComponent<TimeComponent>().timeofLock = totaltime;
-            }
+            DirectionComponent direction = m.GetComponent<DirectionComponent>();
 
 
-            if (totaltime - e.GetComponent<TimeComponent>().timeofLock > 4000)
+            if (velocity[0] == 0 && velocity[1] == 0)
             {
 
-                e.GetComponent<SpatialComponent>().ConstantRotation = e.GetComponent<SpatialComponent>().DefaultRotationCons;
-                e.GetComponent<LaserComponent>().PlayerPres = false;
-                e.GetComponent<LaserComponent>().Reset = true;
-            }
 
-            if (e.GetComponent<LaserComponent>().LockedOn == true)
+                if (Math.Abs(dir[0]) > Math.Abs(dir[1]))
+                {
+                    if (dir[0] > 0)
+                    {
+                        direction.Heading = "Right";
+
+                    }
+                    else if (dir[0] < 0)
+                    {
+                        direction.Heading = "Left";
+
+                    }
+                }
+
+                else
+                {
+                    if (dir[1] > 0)
+                    {
+                        direction.Heading = "Down";
+
+                    }
+                    else if (dir[1] < 0)
+                    {
+                        direction.Heading = "Up";
+
+                    }
+                }
+
+            }
+        }
+
+        private void laserFollow(Entity Enemy, Entity e, Vector2 dir)
+        {
+
+            TimeComponent time = e.GetComponent<TimeComponent>();
+            LaserComponent laser = e.GetComponent<LaserComponent>();
+            SnipComponent snip = Enemy.GetComponent<SnipComponent>();
+            SpatialComponent spatial = e.GetComponent<SpatialComponent>();
+
+
+            float rotation = spatial.DefaultRotationCons;
+
+            if (time.timeofLock == 0)
             {
-                //fire
-
-                Enemy.GetComponent<SnipComponent>().Locked = true;
-                e.GetComponent<LaserComponent>().LockedOn = false;
-                e.GetComponent<SpatialComponent>().ConstantRotation = e.GetComponent<SpatialComponent>().DefaultRotationCons;
-                e.GetComponent<LaserComponent>().PlayerPres = false;
-                e.GetComponent<LaserComponent>().Reset = true;
+                time.timeofLock = totaltime;
             }
 
-            
+            if (laser.LockedOn == true)
+            {
+                rotation = 0;
+                spatial.Rotation = 0;
+                e.GetComponent<SpriteComponent>().Angle = (float)Math.Atan2(dir.X, -dir.Y) + 3.14159265f; //180 degrees
 
+                if (totaltime - time.timeofLock > (1000 * snip.TimeDelay))
+                {
+                    //fire
+                    time.timeofLock = 0;
+                    rotation = spatial.DefaultRotationCons;
+                    laser.PlayerPres = false;
+                    laser.Reset = true;
+                    snip.Locked = true;
+                    laser.LockedOn = false;
+                }
 
-            return rotation;
+            }
+
+            spatial.ConstantRotation = rotation;
         }
 
         private double[] randDir()

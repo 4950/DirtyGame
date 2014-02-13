@@ -70,24 +70,51 @@ namespace DirtyGame.game.Core.Systems
 							bodyDictionary[e.Id].Rotation = spatial.Rotation;
 						}
 
-						
+                        if (e.HasComponent<SnipComponent>())
+                        {
+                            SnipComponent snip = e.GetComponent<SnipComponent>();
 
-						if (e.HasComponent<LaserComponent>())
-						{
-							
-							
-							bodyDictionary[e.Id].Rotation += spatial.ConstantRotation * dt;
-							spatial.Rotation += spatial.ConstantRotation * dt;
+                            if (snip.IsRunning == false)
+                            {
+                                bodyDictionary[e.Id].IsStatic = true;
+                            }
 
-							if (e.GetComponent<LaserComponent>().Reset == true)
-							{
-								e.GetComponent<LaserComponent>().Reset = false;
-								spatial.Rotation = 5;
-								bodyDictionary[e.Id].Rotation = e.GetComponent<SpriteComponent>().Angle + 5;
-								
-							}
+                            if (snip.IsRunning == true)
+                            {
+                                bodyDictionary[e.Id].IsStatic = false;
 
-						}
+                            }
+
+                        }
+
+                        if (e.HasComponent<LaserComponent>())
+                        {
+
+                            LaserComponent laser = e.GetComponent<LaserComponent>();
+
+                            if (laser.LockedOn == true)
+                            {
+                                bodyDictionary[e.Id].Rotation = e.GetComponent<SpriteComponent>().Angle;
+
+                            }
+
+                            else
+                            {
+                                bodyDictionary[e.Id].Rotation += spatial.ConstantRotation * dt;
+                                spatial.Rotation += spatial.ConstantRotation * dt;
+                            }
+
+                            if (laser.Reset == true)
+                            {
+
+
+                                laser.Reset = false;
+                                spatial.Rotation = laser.Offset;
+                                bodyDictionary[e.Id].Rotation = e.GetComponent<SpriteComponent>().Angle + laser.Offset;
+
+                            }
+
+                        }
 
 
 						if (PhysicsDebug)
@@ -139,7 +166,10 @@ namespace DirtyGame.game.Core.Systems
 					{
 
 						MovementComponent movement = e.GetComponent<MovementComponent>();
-						bodyDictionary[e.Id].LinearVelocity = movement.Velocity;
+                        if (bodyDictionary[e.Id].IsStatic == false)
+                        {
+                            bodyDictionary[e.Id].LinearVelocity = movement.Velocity;
+                        }
 
 					}
 
@@ -329,20 +359,23 @@ namespace DirtyGame.game.Core.Systems
                     Collide = false;
 					}
 
-                else if (A.HasComponent<LaserComponent>() || B.HasComponent<LaserComponent>())
-                {
-                    Entity laser = A.HasComponent<LaserComponent>() ? A : B;
-                    Entity player = laser == A ? B : A;
-                    
-                    if(player.HasComponent<PlayerComponent>())
+                    else if (A.HasComponent<LaserComponent>() || B.HasComponent<LaserComponent>())
                     {
-                        laser.GetComponent<LaserComponent>().LockedOn = true;
-                        laser.GetComponent<LaserComponent>().PlayerPres = true;
-                       
-                    }
+                        Entity laser = A.HasComponent<LaserComponent>() ? A : B;
+                        Entity player = laser == A ? B : A;
 
-                    Collide = false;
-                }
+                        if (player.HasComponent<PlayerComponent>())
+                        {
+
+                            LaserComponent laserComp = laser.GetComponent<LaserComponent>();
+
+                            laserComp.LockedOn = true;
+                            laserComp.PlayerPres = true;
+
+                        }
+
+                        Collide = false;
+                    }
 
                 else if (A.HasComponent<PlayerComponent>() || B.HasComponent<PlayerComponent>())
                 {
@@ -405,7 +438,7 @@ namespace DirtyGame.game.Core.Systems
             }
             else if (e.HasComponent<LaserComponent>())//is monster
             {
-                body.CollisionCategories = Category.Cat4;
+                body.CollisionCategories = Category.Cat3;
                 body.CollidesWith = Category.Cat1; //Player
             }
             else if (e.HasComponent<AOEComponent>())//AOE Damage

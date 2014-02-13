@@ -127,6 +127,7 @@ namespace DirtyGame.game.Core.Systems
 					
                     else if(wc.WeaponName == "SnipWeapon")
                     {
+                        SetShootAnimation(Owner, "Shoot");
                         Entity proj = game.entityFactory.CreateSnipProjectile(Owner, spatial.Center, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, Weapon);
                         proj.Refresh();
                     }
