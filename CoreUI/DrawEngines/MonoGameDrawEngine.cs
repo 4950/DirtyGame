@@ -266,7 +266,7 @@ namespace CoreUI.DrawEngines
 
         public void Draw_Default_Text(string text, int left, int top, IUIColor color)
         {
-            if (defaultFont != null && text != "")
+            if (defaultFont != null && text != null && text != "")
                 batch.DrawString(defaultFont, text, new Vector2(left, top), (color as MonoGameColor).color);
             //throw new NotImplementedException();
         }

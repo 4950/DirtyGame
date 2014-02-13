@@ -47,6 +47,12 @@ namespace DirtyGame.game.Core.GameStates
             game.world.EntityMgr.DeserializeEntities(App.Path + "..\\quicksave.xml");
 
         }
+        private void ShowMenu(Keys key)
+        {
+            Events.Event startGame = new Events.Event();
+            startGame.name = "GameStateGameMenu";
+            EventManager.Instance.TriggerEvent(startGame);
+        }
         public void OnEnter(Dirty game)
         {
             SoundSystem.Instance.Loop = false;
@@ -55,6 +61,7 @@ namespace DirtyGame.game.Core.GameStates
 
             game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.F5, SaveGame, null);
             game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.F6, LoadGame, null);
+            game.baseContext.RegisterHandler(Keys.Escape, ShowMenu, null);
 
             //curWeapon = game.player.GetComponent<InventoryComponent>().CurrentWeapon;
             this.game = game;
@@ -156,11 +163,14 @@ namespace DirtyGame.game.Core.GameStates
             playerStuff.Hide();
             game.baseContext.UnregisterHandlers(Microsoft.Xna.Framework.Input.Keys.F5);
             game.baseContext.UnregisterHandlers(Microsoft.Xna.Framework.Input.Keys.F6);
+            game.baseContext.UnregisterHandlers(Keys.Escape);
         }
 
         public void Update(float dt)
         {
             game.world.Update(dt);
+            game.physics.Update(dt);
+
             aliveLbl.Text = "Monsters Left: " + game.gLogicSystem.monstersalive;
             killLbl.Text = "Monsters Killed: " + game.gLogicSystem.monstersdefeated;
 
