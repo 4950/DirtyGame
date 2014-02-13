@@ -121,7 +121,8 @@ namespace DirtyGame.game.Core.Systems
 
                     else if (wc.WeaponName == "GrenadeLauncher")
                     {
-                        Entity grenade = game.entityFactory.CreateGrenade(Owner, spatial.Center, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, 2.0f, new Vector2(128, 128), Weapon);
+                        double dist = getDistance(spatial.Center.X, spatial.Center.Y, Target.X, Target.Y);
+                        Entity grenade = game.entityFactory.CreateGrenade(Owner, spatial.Center, dir, wc.ProjectileSprite, (float) dist, wc.ProjectileSpeed, 2.0f, new Vector2(128, 128), Weapon);
                         grenade.Refresh();
 					}
 					
@@ -163,6 +164,14 @@ namespace DirtyGame.game.Core.Systems
                 ac = Owner.GetComponent<AnimationComponent>();
                 ac.CurrentAnimation = attack + Owner.GetComponent<DirectionComponent>().Heading;
             }
+        }
+
+        private double getDistance(double x, double y, double ox, double oy)
+        {
+            return Math.Sqrt(
+                (Math.Pow(ox - x, 2.0))
+                + (Math.Pow(oy - y, 2.0))
+                );
         }
 
         public void CreateExplosionCallback(Event e)
