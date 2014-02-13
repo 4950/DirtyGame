@@ -63,6 +63,15 @@ namespace DirtyGame.game.Core.Systems
 						SpatialComponent spatial = e.GetComponent<SpatialComponent>();
 						PhysicsComponent pc = e.GetComponent<PhysicsComponent>();
 						//body position is (.5f, .5f), while spatial position is (0, 0)
+
+                        if (pc.movePlayer)
+                        {
+                            //move the player to the new spatial location
+                           // bodyDictionary[playerId].Position = spatial.Position;
+                            bodyDictionary[playerId].Position = ConvertUnits.ToSimUnits(spatial.Position - spatial.Size * pc.Origin);
+                            pc.movePlayer = false;
+                        }
+
 						spatial.Position = ConvertUnits.ToDisplayUnits(bodyDictionary[e.Id].Position) - spatial.Size * pc.Origin;
 						if (spatial.ConstantRotation > 0 && !e.HasComponent<LaserComponent>())
 						{

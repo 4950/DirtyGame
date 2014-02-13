@@ -354,6 +354,7 @@ namespace DirtyGame.game.Core.Systems
 
                     //Picking a new scenario
 ////////////////////////////////////////////////////
+                    /*
                     //Removing the Player entity from the game
                     game.world.DestroyEntity(game.player);
                     //Recreating the Player entity
@@ -376,7 +377,10 @@ namespace DirtyGame.game.Core.Systems
                     e = game.entityFactory.CloneEntity(game.world.EntityMgr.GetEntityByName("Sniper"));
                     e.Refresh();
                     playerIC.addWeapon(e, game.player);
+                     */
     ///////////////////////////////////////////////////////////
+                    //Setting the movePlayer flag in the physics component of the player
+                    game.player.GetComponent<PhysicsComponent>().movePlayer = true;
                     //TODO need to have the map name here
                     setupScenario(randomScenario(Dirty.MapName), game.player);
                     game.player.Refresh();
