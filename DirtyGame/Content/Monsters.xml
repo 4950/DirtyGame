@@ -902,7 +902,7 @@
 		</Component>
 		<Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="StatsComponent">
 			<Name>StatsComponent</Name>
-			<BaseMoveSpeed>13</BaseMoveSpeed>
+			<BaseMoveSpeed>100</BaseMoveSpeed>
 			<BaseDamage>100</BaseDamage>
 			<RangedImmune>false</RangedImmune>
 			<BaseHealth>120</BaseHealth>

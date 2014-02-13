@@ -15,10 +15,12 @@ namespace DirtyGame.game.Core.Components
         private Boolean laserpres;
         private Boolean isRunning;
         private int fleeDistance;
+        private int laserOffset; //Radians offset after sniper fires
         private double range;
         private Boolean locked;
-        
-        private Vector2 offset;
+        private float defaultRotation;
+        private float timeDelay; //seconds
+        private Vector2 offset; //Vector, offset when player enters range
         #endregion
 
         #region Constructors
@@ -28,8 +30,10 @@ namespace DirtyGame.game.Core.Components
             laserpres = false;
             isRunning = false;
             fleeDistance = 200;
+            defaultRotation = 2f;
+            timeDelay = 1;
             range = 400;
-            
+            laserOffset = 5;
             offset = new Vector2(75, 75);
         }
         #endregion
@@ -37,7 +41,7 @@ namespace DirtyGame.game.Core.Components
 
         #region Properties
         //Delay in seconds
-        
+
 
         public Vector2 Offset
         {
@@ -52,6 +56,19 @@ namespace DirtyGame.game.Core.Components
             }
         }
 
+        public int LaserOffset
+        {
+            get
+            {
+                return laserOffset;
+            }
+
+            set
+            {
+                laserOffset = value;
+            }
+        }
+
         public double Range
         {
             get
@@ -61,6 +78,30 @@ namespace DirtyGame.game.Core.Components
             set
             {
                 range = value;
+            }
+        }
+
+        public float TimeDelay
+        {
+            get
+            {
+                return timeDelay;
+            }
+            set
+            {
+                timeDelay = value;
+            }
+        }
+
+        public float DefaultRotation
+        {
+            get
+            {
+                return defaultRotation;
+            }
+            set
+            {
+                defaultRotation = value;
             }
         }
 
@@ -129,3 +170,4 @@ namespace DirtyGame.game.Core.Components
 
     }
 }
+

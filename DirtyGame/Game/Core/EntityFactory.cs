@@ -67,7 +67,7 @@ namespace DirtyGame.game.Core
 
             SpatialComponent spatial = new SpatialComponent();
             spatial.Position = new Vector2(origin.X, origin.Y);
-            spatial.Width = 2;
+            spatial.Width = 6;
             spatial.Height = 400;
             spatial.DefaultRotationCons = 1f;
             spatial.ConstantRotation = 1f;
@@ -77,8 +77,8 @@ namespace DirtyGame.game.Core
                 sc.setSpritesheet(sc.spriteName, sc.xmlName, resourceMgr);
             else
                 sc.setSprite(sprite, resourceMgr);
-            sc.Angle = (float)Math.Atan2(-direction.X, direction.Y);
-           // sc.AnchorPoint = new Vector2(1f, 0);
+            sc.Angle = (float)Math.Atan2(direction.X, -direction.Y);
+            // sc.AnchorPoint = new Vector2(1f, 0);
             sc.origin = new Vector2(.5f, 0);
             sc.Scale = range;
             //sc.AnchorPoint = new Vector2(0, .25f);

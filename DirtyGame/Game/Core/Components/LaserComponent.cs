@@ -13,6 +13,7 @@ namespace DirtyGame.game.Core.Components
         private Boolean lockedOn;
         private Boolean playerPres;
         public Boolean Reset;
+        public int Offset;
 
         public LaserComponent()
         {
