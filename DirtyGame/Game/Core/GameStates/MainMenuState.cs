@@ -13,6 +13,8 @@ namespace DirtyGame.game.Core.GameStates
         private Dirty game;
         private Window menu;
         private Window selectMap;
+        private Window settingsWindow;
+        private CheckBox full;
         private bool isMapWindowShown = false;
         string[] maps = { "Cave", "Forest", "Arena" };
 
@@ -56,6 +58,45 @@ namespace DirtyGame.game.Core.GameStates
                 b4.Text = "Exit";
                 b4.Click += endGame;
                 p.AddElement(b4);
+            }
+            if (settingsWindow == null)
+            {
+                settingsWindow = new CoreUI.Window();
+                settingsWindow.Style = Window.WindowStyle.None;
+                settingsWindow.Size = new System.Drawing.Point(310, 150);
+                settingsWindow.Position = new System.Drawing.Point(250, 50);
+
+                CoreUI.Panel p = new CoreUI.Panel();
+                p.SizeMode = SizeMode.Fill;
+                settingsWindow.Content = p;
+
+                Label title = new Label();
+                title.Size = new System.Drawing.Point(300, 25);
+                title.Position = new System.Drawing.Point(0, 0);
+                //title.Foreground = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.White);
+                title.Text = "Settings";
+                title.TextPosition = TextPosition.Center;
+                p.AddElement(title);
+
+                full = new CheckBox();
+                full.Position = new System.Drawing.Point(20, 40);
+                full.Size = new System.Drawing.Point(100, 25);
+                full.Text = "Fullscreen";
+                p.AddElement(full);
+
+                CoreUI.Elements.Button s = new CoreUI.Elements.Button();
+                s.Position = new System.Drawing.Point(20, 120);
+                s.Size = new System.Drawing.Point(50, 25);
+                s.Text = "Cancel";
+                s.Click += back;
+                p.AddElement(s);
+
+                CoreUI.Elements.Button s2 = new CoreUI.Elements.Button();
+                s2.Position = new System.Drawing.Point(250, 120);
+                s2.Size = new System.Drawing.Point(50, 25);
+                s2.Text = "Save";
+                s2.Click += s2_Click;
+                p.AddElement(s2);
             }
             if (selectMap == null)
             {
@@ -121,6 +162,16 @@ namespace DirtyGame.game.Core.GameStates
             menu.Show();
         }
 
+        void s2_Click(object sender)
+        {
+            //save settings
+            if (game.graphics.IsFullScreen != (bool)full.IsChecked)
+            {
+                game.ToggleFullscreen();
+            }
+            back(sender);
+        }
+
         void startMap(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             int index = (int)((Panel)sender).Tag;
@@ -138,10 +189,16 @@ namespace DirtyGame.game.Core.GameStates
                 selectMap.Hide();
                 menu.Show();
             }
+            else
+            {
+                settingsWindow.Hide();
+                menu.Show();
+            }
         }
         void options(object sender)
         {
-            MessageBox.Show("lol no options", "Options");
+            menu.Hide();
+            settingsWindow.Show();
         }
         void startGame(object sender)
         {

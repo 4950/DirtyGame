@@ -63,6 +63,9 @@ namespace DirtyGame
         public Entity player;
         public WeaponSystem weaponSystem;
         public EntityRef gameEntity;
+        public MouseState mouseState;
+        private DisplayMode defaultDisplayMode;
+        public DisplayMode currrentDisplayMode;
 
         private void Exit(Keys key)
         {
@@ -234,6 +237,24 @@ namespace DirtyGame
             inputManager.AddInputContext(baseContext);
             //baseContext.RegisterHandler(Keys.Escape, Exit, null);
         }
+        public void ToggleFullscreen()
+        {
+            if (graphics.IsFullScreen == false)
+            {
+                graphics.IsFullScreen = true;
+                graphics.ApplyChanges();
+            }
+            else
+            {
+                graphics.PreferredBackBufferWidth = defaultDisplayMode.Width;
+                graphics.PreferredBackBufferHeight = defaultDisplayMode.Height;
+                graphics.ApplyChanges();
+                graphics.IsFullScreen = false;
+                graphics.PreferredBackBufferWidth = currrentDisplayMode.Width;
+                graphics.PreferredBackBufferHeight = currrentDisplayMode.Height;
+                graphics.ApplyChanges();
+            }
+        }
         public Dirty()
         {
             GameplayDataCaptureSystem.Instance.CreateSession(true);
@@ -241,7 +262,42 @@ namespace DirtyGame
             CreateInputContext();
 
             graphics = new GraphicsDeviceManager(this);
-            renderer = new Renderer(graphics, new Camera(new Vector2(800, 600)));
+            defaultDisplayMode = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
+
+            DisplayMode smallest = null;
+            DisplayMode sm86 = null;
+
+            //for some god damn reason I can't check (smallest == null) so these stupid bools must be used
+            bool smNull = true;
+            bool sm86Null = true;
+            foreach (DisplayMode d in GraphicsAdapter.DefaultAdapter.SupportedDisplayModes[graphics.PreferredBackBufferFormat])
+            {
+                if (smNull)
+                {
+                    smallest = d;
+                    smNull = false;
+                }
+                if (d.Width == 800 && d.Height == 600)
+                    if (sm86Null || sm86.RefreshRate < d.RefreshRate)
+                    {
+                        sm86 = d;
+                        sm86Null = false;
+                    }
+                if (smallest.Width >= d.Width || smallest.Height >= d.Height)
+                    if (smallest.RefreshRate < d.RefreshRate)
+                        smallest = d;
+            }
+
+            if (!sm86Null)
+                currrentDisplayMode = sm86;
+            else if (!smNull)
+                currrentDisplayMode = smallest;
+            else
+                currrentDisplayMode = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
+
+            graphics.PreferredBackBufferWidth = currrentDisplayMode.Width;
+            graphics.PreferredBackBufferHeight = currrentDisplayMode.Height;
+            renderer = new Renderer(graphics, new Camera(new Vector2(currrentDisplayMode.Width, currrentDisplayMode.Height)));
 
             resourceManager = new ResourceManager(Content);
 
@@ -287,6 +343,17 @@ namespace DirtyGame
                             new Vector2(renderer.ActiveMap.getPixelWidth(), 0f), new Vector2(renderer.ActiveMap.getPixelWidth(), renderer.ActiveMap.getPixelHeight()));
             wall.Refresh();
         }
+        protected override void OnDeactivated(object sender, EventArgs args)
+        {
+            base.OnDeactivated(sender, args);
+
+            if (gameStateManager.CurrentState.GetType() == typeof(GamePlay))//if in game, pause
+            {
+                Event startGame = new Event();
+                startGame.name = "GameStateGameMenu";
+                EventManager.Instance.TriggerEvent(startGame);
+            }
+        }
         protected override void LoadContent()
         {
 
@@ -310,8 +377,8 @@ namespace DirtyGame
 
             gameStateManager.CurrentState.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
-            MouseState ms = Mouse.GetState();
-            UIEngine.GetInput(ms.X, ms.Y, ms.LeftButton == ButtonState.Pressed, ms.RightButton == ButtonState.Pressed, ms.MiddleButton == ButtonState.Pressed);
+            mouseState = Mouse.GetState();
+            UIEngine.GetInput(mouseState.X, mouseState.Y, mouseState.LeftButton == ButtonState.Pressed, mouseState.RightButton == ButtonState.Pressed, mouseState.MiddleButton == ButtonState.Pressed);
 
 
             SoundSystem.Instance.Update();
