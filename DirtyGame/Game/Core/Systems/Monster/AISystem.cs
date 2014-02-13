@@ -84,6 +84,15 @@ namespace DirtyGame.game.Core.Systems.Monster
         public override void OnEntityRemoved(Entity e)
         {
             // do nothing
+            if (e.HasComponent<SnipComponent>())
+            {
+                SnipComponent snip = e.GetComponent<SnipComponent>();
+                if (snip.LaserPres == true)
+                {
+                    game.world.DestroyEntity(game.world.EntityMgr.GetEntity(snip.Laser));
+                }
+            }
+
         }
 
 
