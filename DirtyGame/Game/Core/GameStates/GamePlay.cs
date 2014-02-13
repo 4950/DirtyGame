@@ -10,6 +10,7 @@ using EntityFramework;
 using DirtyGame.game.Core.Components;
 using Microsoft.Xna.Framework.Input;
 using DirtyGame.game.Util;
+using Microsoft.Xna.Framework;
 
 
 namespace DirtyGame.game.Core.GameStates
@@ -170,6 +171,22 @@ namespace DirtyGame.game.Core.GameStates
         {
             game.world.Update(dt);
             game.physics.Update(dt);
+
+            if (!game.graphics.IsFullScreen)//mouse locking
+            {
+                Vector2 pos = new Vector2(game.mouseState.X, game.mouseState.Y);
+                Vector2 pos2 = pos;
+                if (pos.X < 0)
+                    pos2.X = 0;
+                else if (pos.X > game.renderer.ActiveCamera.size.X)
+                    pos2.X = game.renderer.ActiveCamera.size.X;
+                if (pos.Y < 0)
+                    pos2.Y = 0;
+                else if (pos.Y > game.renderer.ActiveCamera.size.Y)
+                    pos2.Y = game.renderer.ActiveCamera.size.Y;
+                if (pos2 != pos)
+                    Mouse.SetPosition((int)pos2.X, (int)pos2.Y);
+            }
 
             aliveLbl.Text = "Monsters Left: " + game.gLogicSystem.monstersalive;
             killLbl.Text = "Monsters Killed: " + game.gLogicSystem.monstersdefeated;

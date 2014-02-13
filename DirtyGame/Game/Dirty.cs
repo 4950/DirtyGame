@@ -63,6 +63,7 @@ namespace DirtyGame
         public Entity player;
         public WeaponSystem weaponSystem;
         public EntityRef gameEntity;
+        public MouseState mouseState;
 
         private void Exit(Keys key)
         {
@@ -241,6 +242,9 @@ namespace DirtyGame
             CreateInputContext();
 
             graphics = new GraphicsDeviceManager(this);
+            //graphics.IsFullScreen = true;
+            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = 600;
             renderer = new Renderer(graphics, new Camera(new Vector2(800, 600)));
 
             resourceManager = new ResourceManager(Content);
@@ -321,8 +325,8 @@ namespace DirtyGame
 
             gameStateManager.CurrentState.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
 
-            MouseState ms = Mouse.GetState();
-            UIEngine.GetInput(ms.X, ms.Y, ms.LeftButton == ButtonState.Pressed, ms.RightButton == ButtonState.Pressed, ms.MiddleButton == ButtonState.Pressed);
+            mouseState = Mouse.GetState();
+            UIEngine.GetInput(mouseState.X, mouseState.Y, mouseState.LeftButton == ButtonState.Pressed, mouseState.RightButton == ButtonState.Pressed, mouseState.MiddleButton == ButtonState.Pressed);
 
 
             SoundSystem.Instance.Update();
