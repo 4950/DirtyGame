@@ -232,7 +232,7 @@ namespace DirtyGame
             inputManager = InputManager.Instance;
             baseContext = new InputContext();
             inputManager.AddInputContext(baseContext);
-            baseContext.RegisterHandler(Keys.Escape, Exit, null);
+            //baseContext.RegisterHandler(Keys.Escape, Exit, null);
         }
         public Dirty()
         {
@@ -313,7 +313,6 @@ namespace DirtyGame
             MouseState ms = Mouse.GetState();
             UIEngine.GetInput(ms.X, ms.Y, ms.LeftButton == ButtonState.Pressed, ms.RightButton == ButtonState.Pressed, ms.MiddleButton == ButtonState.Pressed);
 
-            physics.Update(gameTime);
 
             SoundSystem.Instance.Update();
 

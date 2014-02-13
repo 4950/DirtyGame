@@ -84,9 +84,9 @@ namespace DirtyGame.game.Core
             return entity;
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(float dT)
         {
-            physicsWorld.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
+            physicsWorld.Step(dT);
         }
 
 

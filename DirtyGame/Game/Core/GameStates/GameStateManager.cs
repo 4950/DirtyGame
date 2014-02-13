@@ -20,7 +20,7 @@ namespace DirtyGame.game.Core.GameStates
         }
 
         private States nextState;
-        enum States { Splash, Pause, Game, MainMenu, GameOver, Buy, Exit };
+        enum States { Splash, Pause, Game, MainMenu, GameOver, GameMenu, Buy, Exit };
 
         public void GameStateEventCallback(Event e)
         {
@@ -42,9 +42,14 @@ namespace DirtyGame.game.Core.GameStates
             nextState = States.Buy;
             SwitchState();
         }
-        public void GameStateMenuEventCallback(Event e)
+        public void GameStateMainMenuEventCallback(Event e)
         {
             nextState = States.MainMenu;
+            SwitchState();
+        }
+        public void GameStateGameMenuEventCallback(Event e)
+        {
+            nextState = States.GameMenu;
             SwitchState();
         }
         public GameStateManager(Dirty game)
@@ -57,7 +62,8 @@ namespace DirtyGame.game.Core.GameStates
             EventManager.Instance.AddListener("GameStateBuy", GameStateBuyEventCallback);
             EventManager.Instance.AddListener("GameStateGameOver", GameStateGameOverCallback);
             EventManager.Instance.AddListener("GameStateGame", GameStateGameCallback);
-            EventManager.Instance.AddListener("GameStateMainMenu", GameStateMenuEventCallback);
+            EventManager.Instance.AddListener("GameStateMainMenu", GameStateMainMenuEventCallback);
+            EventManager.Instance.AddListener("GameStateGameMenu", GameStateGameMenuEventCallback);
         }
         private void SwitchToState<T>() where T : IGameState, new()
         {
@@ -91,6 +97,9 @@ namespace DirtyGame.game.Core.GameStates
                    }
                 case States.MainMenu:
                    currentState = new MainMenuState();
+                   break;
+                case States.GameMenu:
+                   currentState = new GameMenuState();
                    break;
                 case States.GameOver:
                    currentState = new GameStateGameOver();

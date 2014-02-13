@@ -77,6 +77,7 @@
     <Compile Include="game\Core\Components\Unit\UnitComponent.cs" />
     <Compile Include="game\Core\Events\DetonateEvent.cs" />
     <Compile Include="game\Core\GameStates\BuyState.cs" />
+    <Compile Include="game\Core\GameStates\GameMenuState.cs" />
     <Compile Include="game\Core\GameStates\Scenario.cs" />
     <Compile Include="game\Core\GameStates\Spawner.cs" />
     <Compile Include="game\Core\Systems\AOESystem.cs" />
@@ -105,7 +106,6 @@
     <Compile Include="game\Core\EntityFactory.cs" />
     <Compile Include="game\Core\Events\Event.cs" />
     <Compile Include="game\Core\EventManager.cs" />
-    <Compile Include="game\Core\GameManager.cs" />
     <Compile Include="game\Core\GameStates\ExitState.cs" />
     <Compile Include="game\Core\GameStates\GamePlay.cs" />
     <Compile Include="game\Core\GameStates\GameStateGameOver.cs" />
