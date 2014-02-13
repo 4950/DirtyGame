@@ -165,7 +165,7 @@
       <Type>Ranged</Type>
       <ProjectileSprite>arrow</ProjectileSprite>
       <ProjectileSpeed>10</ProjectileSpeed>
-      <Cooldown>1</Cooldown>
+      <Cooldown>.5</Cooldown>
       <LastFire>0</LastFire>
       <Price>100</Price>
       <AmmoPrice>10</AmmoPrice>
@@ -184,7 +184,7 @@
       <Type>Ranged</Type>
       <ProjectileSprite>arrow</ProjectileSprite>
       <ProjectileSpeed>30</ProjectileSpeed>
-      <Cooldown>0</Cooldown>
+      <Cooldown>1</Cooldown>
       <LastFire>0</LastFire>
       <Price>100</Price>
       <AmmoPrice>10</AmmoPrice>

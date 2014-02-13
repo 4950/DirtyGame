@@ -52,9 +52,10 @@ namespace DirtyGame.game.Core.Systems
             game.baseContext.RegisterHandler(Keys.Up, move, idle);
             game.baseContext.RegisterHandler(Keys.Down, move, idle);
 
+
             // scroll wheel
             //if (ms.ScrollWheelValue < prevScrollWheel)
-                move(Keys.E);
+//                move(Keys.E);
             //else if (ms.ScrollWheelValue > prevScrollWheel)
               //  move(Keys.Q);
             //prevScrollWheel = ms.ScrollWheelValue;
