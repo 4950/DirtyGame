@@ -287,6 +287,17 @@ namespace DirtyGame
                             new Vector2(renderer.ActiveMap.getPixelWidth(), 0f), new Vector2(renderer.ActiveMap.getPixelWidth(), renderer.ActiveMap.getPixelHeight()));
             wall.Refresh();
         }
+        protected override void OnDeactivated(object sender, EventArgs args)
+        {
+            base.OnDeactivated(sender, args);
+
+            if (gameStateManager.CurrentState.GetType() == typeof(GamePlay))//if in game, pause
+            {
+                Event startGame = new Event();
+                startGame.name = "GameStateGameMenu";
+                EventManager.Instance.TriggerEvent(startGame);
+            }
+        }
         protected override void LoadContent()
         {
 
