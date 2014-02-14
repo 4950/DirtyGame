@@ -10,6 +10,7 @@ using EntityFramework;
 using DirtyGame.game.Core.Components;
 using Microsoft.Xna.Framework.Input;
 using DirtyGame.game.Util;
+using Microsoft.Xna.Framework;
 
 
 namespace DirtyGame.game.Core.GameStates
@@ -47,6 +48,12 @@ namespace DirtyGame.game.Core.GameStates
             game.world.EntityMgr.DeserializeEntities(App.Path + "..\\quicksave.xml");
 
         }
+        private void ShowMenu(Keys key)
+        {
+            Events.Event startGame = new Events.Event();
+            startGame.name = "GameStateGameMenu";
+            EventManager.Instance.TriggerEvent(startGame);
+        }
         public void OnEnter(Dirty game)
         {
             SoundSystem.Instance.Loop = false;
@@ -55,6 +62,7 @@ namespace DirtyGame.game.Core.GameStates
 
             game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.F5, SaveGame, null);
             game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.F6, LoadGame, null);
+            game.baseContext.RegisterHandler(Keys.Escape, ShowMenu, null);
 
             //curWeapon = game.player.GetComponent<InventoryComponent>().CurrentWeapon;
             this.game = game;
@@ -156,11 +164,30 @@ namespace DirtyGame.game.Core.GameStates
             playerStuff.Hide();
             game.baseContext.UnregisterHandlers(Microsoft.Xna.Framework.Input.Keys.F5);
             game.baseContext.UnregisterHandlers(Microsoft.Xna.Framework.Input.Keys.F6);
+            game.baseContext.UnregisterHandlers(Keys.Escape);
         }
 
         public void Update(float dt)
         {
             game.world.Update(dt);
+            game.physics.Update(dt);
+
+            if (!game.graphics.IsFullScreen)//mouse locking
+            {
+                Vector2 pos = new Vector2(game.mouseState.X, game.mouseState.Y);
+                Vector2 pos2 = pos;
+                if (pos.X < 0)
+                    pos2.X = 0;
+                else if (pos.X > game.renderer.ActiveCamera.size.X)
+                    pos2.X = game.renderer.ActiveCamera.size.X;
+                if (pos.Y < 0)
+                    pos2.Y = 0;
+                else if (pos.Y > game.renderer.ActiveCamera.size.Y)
+                    pos2.Y = game.renderer.ActiveCamera.size.Y;
+                if (pos2 != pos)
+                    Mouse.SetPosition((int)pos2.X, (int)pos2.Y);
+            }
+
             aliveLbl.Text = "Monsters Left: " + game.gLogicSystem.monstersalive;
             killLbl.Text = "Monsters Killed: " + game.gLogicSystem.monstersdefeated;
 

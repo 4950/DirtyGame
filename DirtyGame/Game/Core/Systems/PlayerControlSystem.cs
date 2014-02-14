@@ -24,6 +24,9 @@ namespace DirtyGame.game.Core.Systems
         private Dirty game;
         private List<Keys> keysDown = new List<Keys>();
 
+        //scroll wheel
+        private int prevScrollWheel;
+
         enum MoveDirection
         {
             Up,
@@ -36,34 +39,59 @@ namespace DirtyGame.game.Core.Systems
         private MoveDirection currentDirection = MoveDirection.Idle;
         private MoveDirection previousDirection = MoveDirection.Idle;
 
-
-
-
         public PlayerControlSystem(EntityFactory ef, Renderer renderer, Dirty game)
             : base(SystemDescriptions.PlayerControlSystem.Aspect, SystemDescriptions.PlayerControlSystem.Priority)
         {
             this.entityFactory = ef;
             this.renderer = renderer;
             this.game = game;
-            game.baseContext.RegisterHandler(Keys.Tab, changeWeapon, null);
-            game.baseContext.RegisterHandler(Keys.Q, changeWeapon, null);
-            game.baseContext.RegisterHandler(Keys.E, changeWeapon, null);
 
+            // arrow keys, useful for mouse + scroll wheel
             game.baseContext.RegisterHandler(Keys.Left, move, idle);
             game.baseContext.RegisterHandler(Keys.Right, move, idle);
             game.baseContext.RegisterHandler(Keys.Up, move, idle);
             game.baseContext.RegisterHandler(Keys.Down, move, idle);
 
-            game.baseContext.RegisterHandler(Keys.A, move, idle);
-            game.baseContext.RegisterHandler(Keys.D, move, idle);
-            game.baseContext.RegisterHandler(Keys.W, move, idle);
-            game.baseContext.RegisterHandler(Keys.S, move, idle);
+            // scroll wheel
+            //if (ms.ScrollWheelValue < prevScrollWheel)
+                move(Keys.E);
+            //else if (ms.ScrollWheelValue > prevScrollWheel)
+              //  move(Keys.Q);
+            //prevScrollWheel = ms.ScrollWheelValue;
 
+
+            // left handed controls
+            // movement
+            game.baseContext.RegisterHandler(Keys.U, move, idle);
+            game.baseContext.RegisterHandler(Keys.H, move, idle);
+            game.baseContext.RegisterHandler(Keys.J, move, idle);
+            game.baseContext.RegisterHandler(Keys.K, move, idle);
+
+            // weapon cycling
+            game.baseContext.RegisterHandler(Keys.T, changeWeapon, null);
+            game.baseContext.RegisterHandler(Keys.Y, changeWeapon, null);
+            game.baseContext.RegisterHandler(Keys.I, changeWeapon, null);
+
+            // right handed controls
+            // movement
+            game.baseContext.RegisterHandler(Keys.W, move, idle);
+            game.baseContext.RegisterHandler(Keys.A, move, idle);
+            game.baseContext.RegisterHandler(Keys.S, move, idle);
+            game.baseContext.RegisterHandler(Keys.D, move, idle);
+
+            // weapon cycling
+            game.baseContext.RegisterHandler(Keys.Tab, changeWeapon, null);
+            game.baseContext.RegisterHandler(Keys.Q, changeWeapon, null);
+            game.baseContext.RegisterHandler(Keys.E, changeWeapon, null);
+
+            // weapon quick access
             for (int i = 0; i <= 9; i++)
             {
                 Keys k = (Keys)Enum.Parse(typeof(Keys), "D" + i);
                 game.baseContext.RegisterHandler(k, changeWeapon, null);
             }
+
+
         }
         private void move(Keys key)
         {
@@ -75,18 +103,22 @@ namespace DirtyGame.game.Core.Systems
         {
             switch (key)
             {
+                case Keys.U:
                 case Keys.Up:
                 case Keys.W:
                     currentDirection = MoveDirection.Up;
                     break;
+                case Keys.J:
                 case Keys.Down:
                 case Keys.S:
                     currentDirection = MoveDirection.Down;
                     break;
+                case Keys.H:
                 case Keys.Left:
                 case Keys.A:
                     currentDirection = MoveDirection.Left;
                     break;
+                case Keys.K:
                 case Keys.Right:
                 case Keys.D:
                     currentDirection = MoveDirection.Right;
@@ -126,6 +158,8 @@ namespace DirtyGame.game.Core.Systems
             int i = weapons.IndexOf(ic.CurrentWeapon);
             switch (key)
             {
+                case Keys.T:
+                case Keys.I:
                 case Keys.E:
                 case Keys.Tab:
                     i++;
@@ -133,6 +167,7 @@ namespace DirtyGame.game.Core.Systems
                         i = 0;
 
                     break;
+                case Keys.Y:
                 case Keys.Q:
                     i--;
                     if (i < 0)
