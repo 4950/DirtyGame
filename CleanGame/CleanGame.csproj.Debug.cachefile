@@ -33,10 +33,13 @@ Content\Player.xnb
 Content\Sound\BowFire.xnb
 Content\Sound\Explosion.xnb
 Content\Sound\Laser.xnb
+Content\BombExplosion.xnb
+Content\BombExplosion2.xnb
 Content\landmine.png
 Content\CavePreview.png
 Content\archer.png
 Content\ArenaPreview.png
+Content\BombExplosion.png
 Content\Flames.png
 Content\Flametower.png
 Content\FlameTrail.png
@@ -60,7 +63,6 @@ Content\Player.png
 Content\Sound\BowFire.wav
 Content\Sound\Explosion.wav
 Content\Sound\Laser.wav
-Content\BombExplosion.png
 SQLite.Interop.dll
 Content\FlameTrail.xml
 Content\Flames.xml
