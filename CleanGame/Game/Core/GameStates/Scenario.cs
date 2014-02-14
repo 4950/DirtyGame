@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
 namespace DirtyGame.game.Core.GameStates
 {
@@ -14,6 +15,8 @@ namespace DirtyGame.game.Core.GameStates
         private float difficultyScore;
         //Map Name
         private string mapName;
+        //Player Spawn Location
+        private Vector2 playerSpawn;
         //List of Spawners
         private List<Spawner> spawners;
 
@@ -50,6 +53,17 @@ namespace DirtyGame.game.Core.GameStates
                 mapName = value;
             }
         }
+        public Vector2 PlayerSpawn
+        {
+            get
+            {
+                return playerSpawn;
+            }
+            set
+            {
+                playerSpawn = value;
+            }
+        }
         public List<Spawner> Spawners
         {
             get
@@ -65,12 +79,13 @@ namespace DirtyGame.game.Core.GameStates
         public Scenario()
         {
         }
-        public Scenario(string name, float difficulty, string map, List<Spawner> listSpawners)
+        public Scenario(string name, float difficulty, string map, List<Spawner> listSpawners, Vector2 pSpawn)
         {
             this.name = name;
             this.difficultyScore = difficulty;
             this.mapName = map;
             this.spawners = listSpawners;
+            this.playerSpawn = pSpawn;
         }
     }
 }

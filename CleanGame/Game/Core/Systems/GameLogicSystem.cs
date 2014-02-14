@@ -197,6 +197,7 @@ namespace DirtyGame.game.Core.Systems
 
                 //scenarioCount++;
 
+                //MAP VARIABLES
                 //Temporary Variables
                 //Scenario name
                 string scenarioName;
@@ -204,7 +205,11 @@ namespace DirtyGame.game.Core.Systems
                 float difficultyScore;
                 //Map name
                 string mapName;
-                //Location
+                //Player Spawn Point
+                Vector2 playerSpawnPoint;
+
+                //SPAWNER VARIABLES
+                //Monster Spawner Location
                 int xPosition;
                 int yPosition;
                 //? ? ? ? ?
@@ -225,6 +230,8 @@ namespace DirtyGame.game.Core.Systems
                 scenarioName = scenarioReader.GetAttribute("name");
                 difficultyScore = (float)Convert.ToDouble(scenarioReader.GetAttribute("difficultyScore"));
                 mapName = scenarioReader.GetAttribute("map");
+                playerSpawnPoint = new Vector2((float)Convert.ToDouble(scenarioReader.GetAttribute("playerX")),
+                                               (float)Convert.ToDouble(scenarioReader.GetAttribute("playerY")));
 
                 //Break out of the loop when done parsing the XML
                 if (scenarioName == null || mapName == null)
@@ -260,16 +267,18 @@ namespace DirtyGame.game.Core.Systems
                                              numberOfMonsters, timePerSpawn, modifier));
                 } while (scenarioReader.ReadToNextSibling("spawner"));
 
-                scenarios.Add(scenarioName, new Scenario(scenarioName, difficultyScore, mapName, spawners));
+                scenarios.Add(scenarioName, new Scenario(scenarioName, difficultyScore, mapName, spawners, playerSpawnPoint));
 
                 //spawnerCount = 0;
             }
         }
 
-        public void setupScenario(string scenarioName)
+        public void setupScenario(string scenarioName, Entity player)
         {
             Scenario tempScenario = scenarios[scenarioName];
             Entity e;
+
+            player.GetComponent<SpatialComponent>().Position = tempScenario.PlayerSpawn;
 
             //resetRound();
 
@@ -279,6 +288,56 @@ namespace DirtyGame.game.Core.Systems
                 e.Refresh();
                 spawners.Add(e);
             }
+        }
+
+        public void setupScenario(Scenario scenario, Entity player)
+        {
+            Entity e;
+
+            player.GetComponent<SpatialComponent>().Position = scenario.PlayerSpawn;
+        //    player.RemoveComponent(player.GetComponent<PhysicsComponent>());
+        //    player.AddComponent(new PhysicsComponent());
+            //resetRound();
+
+            foreach (Spawner s in scenario.Spawners)
+            {
+                e = game.entityFactory.CreateSpawner(s);
+                e.Refresh();
+                spawners.Add(e);
+            }
+        }
+
+        //Returns a random scenario for the selected map
+        public Scenario randomScenario(string mapName)
+        {
+            //random scenario to return
+            Random random = new Random();
+            int randomScenario = random.Next(0, scenarios.Count);
+            int count = -1;
+            Scenario playScenario = new Scenario();
+
+            //Making sure that the scenario is made for the map
+            foreach (var scenario in scenarios.Values)
+            {
+                //break out if the random number scenario for that map
+                if (count == randomScenario)
+                {
+                    break;
+                }
+                //found a map with the same name
+                if (scenario.MapName.Equals(mapName))
+                {
+                    playScenario = (Scenario) scenario;
+                    count++;
+                }
+            }
+
+            return playScenario;
+        }
+
+        public void scenarioForPlayerScore(string mapName, float playerScore)
+        {
+            //WORK IN PROGRESS
         }
 
         public override void OnEntityRemoved(Entity e)
@@ -311,7 +370,13 @@ namespace DirtyGame.game.Core.Systems
                         GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundEnded, game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value.ToString());
                         GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundHealth, game.player.GetComponent<StatsComponent>().CurrentHealth.ToString());
                         //next game round
-                        AdvanceLevel();
+                        //AdvanceLevel();
+
+                        //Setting the movePlayer flag in the physics component of the player
+                        game.player.GetComponent<PhysicsComponent>().movePlayer = true;
+                        //TODO need to have the map name here
+                        setupScenario(randomScenario(game.mapName), game.player);
+                        game.player.Refresh();
                     }
                 }
             }
