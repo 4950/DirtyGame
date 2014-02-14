@@ -6,7 +6,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using System.Xml.Serialization;
 
-namespace DirtyGame.game.Core.Components
+namespace CleanGame.Game.Core.Components
 {
     public class StatsComponent : Component
     {

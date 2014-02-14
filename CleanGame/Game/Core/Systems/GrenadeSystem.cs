@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using EntityFramework.Systems;
 using EntityFramework;
-using DirtyGame.game.Core.Systems.Util;
-using DirtyGame.game.Core.Components;
+using CleanGame.Game.Core.Systems.Util;
+using CleanGame.Game.Core.Components;
 using Microsoft.Xna.Framework;
 using CoreUI;
-using DirtyGame.game.SGraphics;
+using CleanGame.Game.SGraphics;
 using CoreUI.Elements;
-using DirtyGame.game.Core.Events;
-using DirtyGame.game.Util;
+using CleanGame.Game.Core.Events;
+using CleanGame.Game.Util;
 
-namespace DirtyGame.game.Core.Systems
+namespace CleanGame.Game.Core.Systems
 {
     class GrenadeSystem : EntitySystem
     {

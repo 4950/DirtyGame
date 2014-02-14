@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DirtyGame.game.Core.Events;
+using CleanGame.Game.Core.Events;
 
 
-namespace DirtyGame.game.Core.GameStates
+namespace CleanGame.Game.Core.GameStates
 {
     public class GameStateManager
     {

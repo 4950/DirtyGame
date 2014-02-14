@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DirtyGame.game.Core.Components;
-using DirtyGame.game.Core.Components.Render;
-using DirtyGame.game.Core.Systems.Util;
-using DirtyGame.game.SGraphics;
-using DirtyGame.game.SGraphics.Commands;
-using DirtyGame.game.SGraphics.Commands.DrawCalls;
+using CleanGame.Game.Core.Components;
+using CleanGame.Game.Core.Components.Render;
+using CleanGame.Game.Core.Systems.Util;
+using CleanGame.Game.SGraphics;
+using CleanGame.Game.SGraphics.Commands;
+using CleanGame.Game.SGraphics.Commands.DrawCalls;
 using EntityFramework;
 using EntityFramework.Systems;
 using Microsoft.Xna.Framework;
 
 
-namespace DirtyGame.game.Systems
+namespace CleanGame.Game.Systems
 {
     class SpriteRenderSystem : EntitySystem
     {

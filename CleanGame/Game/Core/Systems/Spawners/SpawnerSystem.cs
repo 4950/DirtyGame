@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EntityFramework.Systems;
-using DirtyGame.game.Core.Components;
+using CleanGame.Game.Core.Components;
 using EntityFramework.Managers;
-using DirtyGame.game.Core.Components.Render;
-using DirtyGame.game.Core.Systems.Util;
-using DirtyGame.game.Core;
-using DirtyGame;
-using DirtyGame.game.Util;
+using CleanGame.Game.Core.Components.Render;
+using CleanGame.Game.Core.Systems.Util;
+using CleanGame.Game.Core;
+using CleanGame;
+using CleanGame.Game.Util;
 
 namespace EntityFramework.Systems
 {

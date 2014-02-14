@@ -5,10 +5,10 @@ using System.Text;
 using EntityFramework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using DirtyGame.game.SGraphics;
+using CleanGame.Game.SGraphics;
 using System.Xml.Serialization;
 
-namespace DirtyGame.game.Core.Components
+namespace CleanGame.Game.Core.Components
 {
     public class WeaponComponent : Component
     {

@@ -2,23 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DirtyGame.game.Core.Components;
-using DirtyGame.game.Core.Components.Render;
-using DirtyGame.game.Core.Systems.Monster;
-using DirtyGame.game.Core.Systems.Util;
-using DirtyGame.game.Core.Events;
+using CleanGame.Game.Core.Components;
+using CleanGame.Game.Core.Components.Render;
+using CleanGame.Game.Core.Systems.Monster;
+using CleanGame.Game.Core.Systems.Util;
+using CleanGame.Game.Core.Events;
 using Microsoft.Xna.Framework;
 using EntityFramework.Systems;
 using EntityFramework;
-using DirtyGame.game.SGraphics;
+using CleanGame.Game.SGraphics;
 using CoreUI.Elements;
 using CoreUI.DrawEngines;
-using DirtyGame.game.Util;
+using CleanGame.Game.Util;
 using System.Xml;
-using DirtyGame.game.Core.GameStates;
+using CleanGame.Game.Core.GameStates;
 using CoreUI;
 
-namespace DirtyGame.game.Core.Systems
+namespace CleanGame.Game.Core.Systems
 {
     public class GameLogicSystem : EntitySystem
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using EntityFramework;
 
-namespace DirtyGame.game.Core.Systems.Util
+namespace CleanGame.Game.Core.Systems.Util
 {
     public class SystemParams
     {

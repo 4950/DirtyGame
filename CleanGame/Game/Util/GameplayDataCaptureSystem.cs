@@ -10,7 +10,7 @@ using System.IO;
 using System.ComponentModel;
 using System.Data.SQLite;
 
-namespace DirtyGame.game.Util
+namespace CleanGame.Game.Util
 {
     public enum CaptureEventType
     {

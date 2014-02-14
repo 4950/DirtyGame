@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace DirtyGame.game.SGraphics.Commands.DrawCalls
+namespace CleanGame.Game.SGraphics.Commands.DrawCalls
 {
     class BatchDrawText : DrawCall
     {

@@ -3,3 +3,4 @@ obj/
 *.suo
 UpgradeLog*
 _UpgradeReport_Files/
+CleanGame/CleanGame.csproj.Debug.cachefile

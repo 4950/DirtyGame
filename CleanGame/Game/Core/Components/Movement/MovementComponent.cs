@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace DirtyGame.game.Core.Components
+namespace CleanGame.Game.Core.Components
 {
     public class MovementComponent : Component
     {
@@ -18,7 +18,7 @@ namespace DirtyGame.game.Core.Components
         #endregion
 
         #region Properties
-
+        public float WanderTheta { get; set; }
         public Vector2 Velocity
         {
             get;

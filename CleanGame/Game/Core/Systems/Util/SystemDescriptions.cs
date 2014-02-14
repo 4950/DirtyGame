@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DirtyGame.game.Core.Components;
-using DirtyGame.game.Core.Components.Render;
+using CleanGame.Game.Core.Components;
+using CleanGame.Game.Core.Components.Render;
 using EntityFramework;
-using DirtyGame.game.Core.Components.Movement;
+using CleanGame.Game.Core.Components.Movement;
 
-namespace DirtyGame.game.Core.Systems.Util
+namespace CleanGame.Game.Core.Systems.Util
 {
     public class SystemDescriptions
     {

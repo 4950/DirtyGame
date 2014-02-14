@@ -1,5 +1,5 @@
-﻿using DirtyGame.game.Core.Components;
-using DirtyGame.game.Core.Systems.Util;
+﻿using CleanGame.Game.Core.Components;
+using CleanGame.Game.Core.Systems.Util;
 using EntityFramework;
 using EntityFramework.Systems;
 using Microsoft.Xna.Framework;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DirtyGame.game.Core.Systems.Movement
+namespace CleanGame.Game.Core.Systems.Movement
 {
     class SeparationSystem : EntitySystem   
     {

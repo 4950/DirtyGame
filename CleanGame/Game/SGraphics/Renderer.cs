@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DirtyGame.game.SGraphics.Commands;
+using CleanGame.Game.SGraphics.Commands;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using DirtyGame.game.Map;
+using CleanGame.Game.Map;
 
-namespace DirtyGame.game.SGraphics
+namespace CleanGame.Game.SGraphics
 {
     public class Renderer
     {

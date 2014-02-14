@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using EntityFramework;
 using EntityFramework.Systems;
-using DirtyGame.game.Core.Systems.Util;
-using DirtyGame.game.Core.Components;
+using CleanGame.Game.Core.Systems.Util;
+using CleanGame.Game.Core.Components;
 
-namespace DirtyGame.game.Core.Systems
+namespace CleanGame.Game.Core.Systems
 {
     class PropertySystem : EntitySystem
     {

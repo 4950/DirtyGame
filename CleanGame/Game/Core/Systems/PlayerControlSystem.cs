@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DirtyGame.game.Core.Systems.Util;
-using DirtyGame.game.Core.Components;
+using CleanGame.Game.Core.Systems.Util;
+using CleanGame.Game.Core.Components;
 using EntityFramework;
 using EntityFramework.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using DirtyGame.game.SGraphics;
-using DirtyGame.game.Input;
-using DirtyGame.game.Core.Components.Render;
+using CleanGame.Game.SGraphics;
+using CleanGame.Game.Input;
+using CleanGame.Game.Core.Components.Render;
 
-namespace DirtyGame.game.Core.Systems
+namespace CleanGame.Game.Core.Systems
 {
     class PlayerControlSystem : EntitySystem
     {

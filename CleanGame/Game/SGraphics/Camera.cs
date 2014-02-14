@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace DirtyGame.game.SGraphics
+namespace CleanGame.Game.SGraphics
 {
     public class Camera
     {    

@@ -7,9 +7,9 @@ using EntityFramework;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using FarseerPhysics;
-using DirtyGame.game.Core.Systems;
+using CleanGame.Game.Core.Systems;
 
-namespace DirtyGame.game.Core
+namespace CleanGame.Game.Core
 {
     public class Physics
     {

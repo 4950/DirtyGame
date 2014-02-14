@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using EntityFramework;
 using Microsoft.Xna.Framework;
 
-namespace DirtyGame.game.Core.Components
+namespace CleanGame.Game.Core.Components
 {
     public class SnipComponent : Component
     {

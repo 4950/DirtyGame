@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 #endregion
 
-namespace DirtyGame
+namespace CleanGame
 {
 #if WINDOWS || LINUX
     /// <summary>

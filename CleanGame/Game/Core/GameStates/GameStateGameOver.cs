@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using CoreUI;
 
-namespace DirtyGame.game.Core.GameStates
+namespace CleanGame.Game.Core.GameStates
 {
     class GameStateGameOver : IGameState
     {
