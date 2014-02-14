@@ -93,39 +93,39 @@ namespace DirtyGame.game.Core.Systems
                     break;
             }
 
-            //Entity e = game.entityFactory.CreateSpawner(600, 600, new Rectangle(0, 0, 46, 46), "LandmineDropper", "LandmineWeapon", numMelee + 3, new TimeSpan(0, 0, 0, 0, 500));
-            //e.Refresh();
-            //spawners.Add(e);
-
-            //e = game.entityFactory.CreateSpawner(300, 100, new Rectangle(0, 0, 46, 46), "MeleeMonster", "Monstersword", numMelee / 2, new TimeSpan(0, 0, 0, 0, 500));
-            //e.Refresh();
-            //spawners.Add(e);
-
-
-            //e = game.entityFactory.CreateSpawner(100, 300, new Rectangle(0, 0, 46, 46), "RangedMonster", "Monsterbow", numRanged / 2, new TimeSpan(0, 0, 0, 0, 500));
-            //e.Refresh();
-            //spawners.Add(e);
-            //e = game.entityFactory.CreateSpawner(300, 640, new Rectangle(0, 0, 46, 46), "MeleeMonster", "Monstersword", numMelee / 2, new TimeSpan(0, 0, 0, 0, 500));
-            //e.Refresh();
-            //spawners.Add(e);
-            //e = game.entityFactory.CreateSpawner(300, 640, new Rectangle(0, 0, 46, 46), "Flametower", "FlametowerWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
-            //e.Refresh();
-            //spawners.Add(e);
-
-            //e = game.entityFactory.CreateSpawner(300, 200, new Rectangle(0, 0, 46, 46), "SuicideBomber", "BomberWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
-            //e.Refresh();
-            //spawners.Add(e);
-            //e = game.entityFactory.CreateSpawner(300, 200, new Rectangle(0, 0, 46, 46), "SnipMonster", "SnipWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
-
-            //e.Refresh();
-            //spawners.Add(e);
-            Entity e = game.entityFactory.CreateSpawner(300, 200, new Rectangle(0, 0, 46, 46), "Grenadier", "GrenadeLauncher", 2, new TimeSpan(0, 0, 0, 0, 500));
+            Entity e = game.entityFactory.CreateSpawner(600, 600, new Rectangle(0, 0, 46, 46), "LandmineDropper", "LandmineWeapon", numMelee + 3, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
             spawners.Add(e);
 
-            //e = game.entityFactory.CreateSpawner(300, 200, new Rectangle(0, 0, 46, 46), "WallHugger", "WallHuggerWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
-            //e.Refresh();
-            //spawners.Add(e);
+            e = game.entityFactory.CreateSpawner(300, 100, new Rectangle(0, 0, 46, 46), "MeleeMonster", "Monstersword", numMelee / 2, new TimeSpan(0, 0, 0, 0, 500));
+            e.Refresh();
+            spawners.Add(e);
+
+
+            e = game.entityFactory.CreateSpawner(100, 300, new Rectangle(0, 0, 46, 46), "RangedMonster", "Monsterbow", numRanged / 2, new TimeSpan(0, 0, 0, 0, 500));
+            e.Refresh();
+            spawners.Add(e);
+            e = game.entityFactory.CreateSpawner(300, 640, new Rectangle(0, 0, 46, 46), "MeleeMonster", "Monstersword", numMelee / 2, new TimeSpan(0, 0, 0, 0, 500));
+            e.Refresh();
+            spawners.Add(e);
+            e = game.entityFactory.CreateSpawner(300, 640, new Rectangle(0, 0, 46, 46), "Flametower", "FlametowerWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
+            e.Refresh();
+            spawners.Add(e);
+
+            e = game.entityFactory.CreateSpawner(300, 200, new Rectangle(0, 0, 46, 46), "SuicideBomber", "BomberWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
+            e.Refresh();
+            spawners.Add(e);
+            e = game.entityFactory.CreateSpawner(300, 200, new Rectangle(0, 0, 46, 46), "SnipMonster", "SnipWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
+
+            e.Refresh();
+            spawners.Add(e);
+            e = game.entityFactory.CreateSpawner(300, 200, new Rectangle(0, 0, 46, 46), "Grenadier", "GrenadeLauncher", 2, new TimeSpan(0, 0, 0, 0, 500));
+            e.Refresh();
+            spawners.Add(e);
+
+            e = game.entityFactory.CreateSpawner(300, 200, new Rectangle(0, 0, 46, 46), "WallHugger", "WallHuggerWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
+            e.Refresh();
+            spawners.Add(e);
 
             //show buy phase before starting
             //if (CurrentLevel > 1)
