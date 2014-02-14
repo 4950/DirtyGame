@@ -18,6 +18,7 @@ namespace DirtyGame.game.Core.Components
         public PhysicsComponent()
         {
             Origin = new Vector2(.5f, .5f);
+            movePlayer = false;
         }
 
         #endregion
@@ -27,6 +28,7 @@ namespace DirtyGame.game.Core.Components
         /// Origin for rotation. Default is (.5f, .5f)
         /// </summary>
         public Vector2 Origin { get; set; }
+        public bool movePlayer { get; set; }
         #endregion
 
         #region Functions

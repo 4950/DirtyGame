@@ -65,6 +65,7 @@ namespace DirtyGame
         public MouseState mouseState;
         private DisplayMode defaultDisplayMode;
         public DisplayMode currrentDisplayMode;
+        public string mapName;
 
         private void Exit(Keys key)
         {
@@ -187,7 +188,7 @@ namespace DirtyGame
         {
             player = entityFactory.CreatePlayerEntity();
             player.Name = "Player";
-            player.Refresh();
+            //player.Refresh();
 
             //weapons
             Entity e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("BasicSword"));
@@ -313,7 +314,15 @@ namespace DirtyGame
 
             //Setting up a scenario
             //TODO: Needs to change to be a selection
-            gLogicSystem.setupScenario("scenario1");
+//            gLogicSystem.setupScenario("scenario1");
+            LoadScenario(mapname);
+        }
+        public void LoadScenario(string mapName)
+        {
+            //Setting up the scenario for the map
+            Scenario playingScenario = gLogicSystem.randomScenario(mapName); //This will change to gLogicSystem.scenarioForPlayerScore(string mapName, float playerScore)
+            gLogicSystem.setupScenario(playingScenario, player);
+            player.Refresh();
         }
         private void LoadMap(string mapname)
         {
@@ -321,6 +330,8 @@ namespace DirtyGame
 
             map.LoadMap(mapname, graphics.GraphicsDevice, Content);
             renderer.ActiveMap = map;
+
+            mapName = mapname;
 
             //Need to be moved
             Entity wall = entityFactory.CreateWallEntity(new Vector2(0f, 0f), new Vector2(0f, renderer.ActiveMap.getPixelHeight()),

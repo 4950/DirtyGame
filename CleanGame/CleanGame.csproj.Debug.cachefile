@@ -10,6 +10,7 @@ Content\sniplaser.xnb
 Content\CavePreview.xnb
 Content\archer.xnb
 Content\ArenaPreview.xnb
+Content\BombExplosion.xnb
 Content\Flames.xnb
 Content\Flametower.xnb
 Content\FlameTrail.xnb
@@ -30,11 +31,10 @@ Content\snipMonster.xnb
 Content\SuicideBomber.xnb
 Content\WallHugger.xnb
 Content\Player.xnb
+Content\BombExplosion2.xnb
 Content\Sound\BowFire.xnb
 Content\Sound\Explosion.xnb
 Content\Sound\Laser.xnb
-Content\BombExplosion.xnb
-Content\BombExplosion2.xnb
 Content\landmine.png
 Content\CavePreview.png
 Content\archer.png
