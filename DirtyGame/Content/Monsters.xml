@@ -13,7 +13,7 @@
       <Range>400</Range>
       <Type>Ranged</Type>
       <ProjectileSprite>arrow</ProjectileSprite>
-      <ProjectileSpeed>10</ProjectileSpeed>
+      <ProjectileSpeed>7</ProjectileSpeed>
       <FireSound>BowFire.wav</FireSound>
       <Cooldown>3</Cooldown>
       <LastFire>0</LastFire>
@@ -127,8 +127,8 @@
       <Range>400</Range>
       <Type>Ranged</Type>
       <ProjectileSprite>arrow</ProjectileSprite>
-      <ProjectileSpeed>10</ProjectileSpeed>
-      <Cooldown>.1</Cooldown>
+      <ProjectileSpeed>7</ProjectileSpeed>
+      <Cooldown>.25</Cooldown>
       <LastFire>0</LastFire>
       <Price>100</Price>
       <AmmoPrice>0</AmmoPrice>
