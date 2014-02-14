@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DirtyGame.game.SGraphics
+namespace CleanGame.Game.SGraphics
 {
     public class SortKey : IComparable<SortKey>
     {

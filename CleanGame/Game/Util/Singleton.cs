@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DirtyGame.game.Util
+namespace CleanGame.Game.Util
 {
     public class Singleton<T> where T : class, new()
     {

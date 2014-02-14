@@ -176,6 +176,7 @@
     <Compile Include="Game\SGraphics\SpriteSheet.cs" />
     <Compile Include="Game\Util\GameplayDataCaptureSystem.cs" />
     <Compile Include="Game\Util\Logger.cs" />
+    <Compile Include="Game\Util\Settings.cs" />
     <Compile Include="Game\Util\Singleton.cs" />
     <Compile Include="Game\Util\SoundSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

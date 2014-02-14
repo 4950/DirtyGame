@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Xml;
-using DirtyGame;
-using DirtyGame.game.SGraphics;
+using CleanGame;
+using CleanGame.Game.SGraphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
-using DirtyGame.game.Core;
+using CleanGame.Game.Core;
 using EntityFramework;
 
-namespace DirtyGame.game.Map
+namespace CleanGame.Game.Map
 {
     public class Map
     {

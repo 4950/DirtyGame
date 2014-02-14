@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Input;
 
-namespace DirtyGame.game.Input
+namespace CleanGame.Game.Input
 {
     public class InputContext
     {      

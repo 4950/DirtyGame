@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DirtyGame.game.Core.Events
+namespace CleanGame.Game.Core.Events
 {
     public class DetonateEvent : Event
     {

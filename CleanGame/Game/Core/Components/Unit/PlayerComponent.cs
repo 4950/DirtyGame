@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EntityFramework;
-using DirtyGame.game.Core.Components.Unit;
+using CleanGame.Game.Core.Components.Unit;
 
-namespace DirtyGame.game.Core.Components
+namespace CleanGame.Game.Core.Components
 {
     public class PlayerComponent : UnitComponent
     {

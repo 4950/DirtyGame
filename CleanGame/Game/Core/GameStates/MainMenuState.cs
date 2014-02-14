@@ -5,8 +5,9 @@ using System.Text;
 using CoreUI;
 using CoreUI.Elements;
 using Microsoft.Xna.Framework.Graphics;
+using CleanGame.Game.Util;
 
-namespace DirtyGame.game.Core.GameStates
+namespace CleanGame.Game.Core.GameStates
 {
     class MainMenuState : IGameState
     {
@@ -82,6 +83,7 @@ namespace DirtyGame.game.Core.GameStates
                 full.Position = new System.Drawing.Point(20, 40);
                 full.Size = new System.Drawing.Point(100, 25);
                 full.Text = "Fullscreen";
+                full.IsChecked = Settings.Instance.Global.Fullscreen;
                 p.AddElement(full);
 
                 CoreUI.Elements.Button s = new CoreUI.Elements.Button();
@@ -167,7 +169,8 @@ namespace DirtyGame.game.Core.GameStates
             //save settings
             if (game.graphics.IsFullScreen != (bool)full.IsChecked)
             {
-                game.ToggleFullscreen();
+                game.graphics.ToggleFullScreen();
+                Settings.Instance.Global.Fullscreen = game.graphics.IsFullScreen;
             }
             back(sender);
         }

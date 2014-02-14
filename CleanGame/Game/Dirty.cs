@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using DirtyGame.game.Core;
-using DirtyGame.game.Core.Systems;
-using DirtyGame.game.Core.Systems.Render;
-using DirtyGame.game.SGraphics;
-using DirtyGame.game.Systems;
-using DirtyGame.game.Map;
+using CleanGame.Game.Core;
+using CleanGame.Game.Core.Systems;
+using CleanGame.Game.Core.Systems.Render;
+using CleanGame.Game.SGraphics;
+using CleanGame.Game.Systems;
+using CleanGame.Game.Map;
 using EntityFramework;
 using EntityFramework.Managers;
 using Microsoft.Xna.Framework;
@@ -16,33 +16,33 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.GamerServices;
 using EntityFramework.Systems;
-using DirtyGame.game.Core.Systems.Monster;
-using DirtyGame.game.Core.GameStates;
+using CleanGame.Game.Core.Systems.Monster;
+using CleanGame.Game.Core.GameStates;
 using CoreUI;
 using CoreUI.DrawEngines;
-using DirtyGame.game.Input;
-using DirtyGame.game.Util;
+using CleanGame.Game.Input;
+using CleanGame.Game.Util;
 using CoreUI;
 using CoreUI.DrawEngines;
-using DirtyGame.game.Input;
+using CleanGame.Game.Input;
 
-using DirtyGame.game.Core.Components;
+using CleanGame.Game.Core.Components;
 using FarseerPhysics.Dynamics;
-using DirtyGame.game.Core.Systems.Movement;
-using DirtyGame.game.Core.Components.Render;
-using DirtyGame.game.Core.Components.Movement;
-using DirtyGame.game.Core.Events;
+using CleanGame.Game.Core.Systems.Movement;
+using CleanGame.Game.Core.Components.Render;
+using CleanGame.Game.Core.Components.Movement;
+using CleanGame.Game.Core.Events;
 
 
 
 #endregion
 
-namespace DirtyGame
+namespace CleanGame
 {
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Dirty : Game
+    public class Dirty : Microsoft.Xna.Framework.Game
     {
         private Map map;
         public Physics physics;
@@ -246,18 +246,21 @@ namespace DirtyGame
             }
             else
             {
+                graphics.ToggleFullScreen();
+                /*
                 graphics.PreferredBackBufferWidth = defaultDisplayMode.Width;
                 graphics.PreferredBackBufferHeight = defaultDisplayMode.Height;
                 graphics.ApplyChanges();
                 graphics.IsFullScreen = false;
                 graphics.PreferredBackBufferWidth = currrentDisplayMode.Width;
                 graphics.PreferredBackBufferHeight = currrentDisplayMode.Height;
-                graphics.ApplyChanges();
+                graphics.ApplyChanges();*/
             }
         }
         public Dirty()
         {
             GameplayDataCaptureSystem.Instance.CreateSession(true);
+            Settings.Instance.LoadSettings();
 
             CreateInputContext();
 
@@ -266,6 +269,7 @@ namespace DirtyGame
 
             DisplayMode smallest = null;
             DisplayMode sm86 = null;
+            Vector2 preferred = Settings.Instance.Global.Resolution;
 
             //for some god damn reason I can't check (smallest == null) so these stupid bools must be used
             bool smNull = true;
@@ -277,7 +281,7 @@ namespace DirtyGame
                     smallest = d;
                     smNull = false;
                 }
-                if (d.Width == 800 && d.Height == 600)
+                if (d.Width == preferred.X && d.Height == preferred.Y)
                     if (sm86Null)
                     {
                         sm86 = d;
@@ -294,8 +298,11 @@ namespace DirtyGame
             else
                 currrentDisplayMode = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
 
+            Settings.Instance.Global.Resolution = new Vector2(currrentDisplayMode.Width, currrentDisplayMode.Height);
+
             graphics.PreferredBackBufferWidth = currrentDisplayMode.Width;
             graphics.PreferredBackBufferHeight = currrentDisplayMode.Height;
+            graphics.IsFullScreen = Settings.Instance.Global.Fullscreen;
             graphics.ApplyChanges();
 
             IsMouseVisible = true;
@@ -374,6 +381,7 @@ namespace DirtyGame
         protected override void UnloadContent()
         {
             GameplayDataCaptureSystem.Instance.FlushSessions();
+            Settings.Instance.SaveSettings();
         }
         public bool GameWon
         {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using DirtyGame.game.Util;
+using CleanGame.Game.Util;
 using Microsoft.Xna.Framework.Input;
 
-namespace DirtyGame.game.Input
+namespace CleanGame.Game.Input
 {
     public class InputManager : Singleton<InputManager>
     {

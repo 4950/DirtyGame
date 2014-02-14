@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DirtyGame.game.Core.Components
+namespace CleanGame.Game.Core.Components
 {
     public class AIComponent : Component
     {

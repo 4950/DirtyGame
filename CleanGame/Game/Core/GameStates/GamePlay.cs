@@ -7,13 +7,13 @@ using CoreUI.Elements;
 using CoreUI.DrawEngines;
 using CoreUI.Visuals;
 using EntityFramework;
-using DirtyGame.game.Core.Components;
+using CleanGame.Game.Core.Components;
 using Microsoft.Xna.Framework.Input;
-using DirtyGame.game.Util;
+using CleanGame.Game.Util;
 using Microsoft.Xna.Framework;
 
 
-namespace DirtyGame.game.Core.GameStates
+namespace CleanGame.Game.Core.GameStates
 {
     class GamePlay : IGameState
     {

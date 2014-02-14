@@ -1,10 +1,10 @@
-﻿using DirtyGame.game.Core.Components.Unit;
+﻿using CleanGame.Game.Core.Components.Unit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
-using DirtyGame.game.Core.Components;
+using CleanGame.Game.Core.Components;
 using System.Xml.Serialization;
 
 namespace EntityFramework

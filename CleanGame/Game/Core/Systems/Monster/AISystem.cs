@@ -1,6 +1,6 @@
-﻿using DirtyGame.game.Core.Components;
-using DirtyGame.game.Core.Components.Render;
-using DirtyGame.game.Core.Systems.Util;
+﻿using CleanGame.Game.Core.Components;
+using CleanGame.Game.Core.Components.Render;
+using CleanGame.Game.Core.Systems.Util;
 using EntityFramework;
 using EntityFramework.Systems;
 using Microsoft.Xna.Framework;
@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DirtyGame.game.Core.Systems.Monster
+namespace CleanGame.Game.Core.Systems.Monster
 {
     public class AISystem : EntitySystem
     {
@@ -18,7 +18,7 @@ namespace DirtyGame.game.Core.Systems.Monster
         private EntityFactory entityFactory;
         public float totaltime;
         private Physics physics;
-        
+
         //Current goal: Make monsters of different types rush towards each other.
         // If no monster of another type is nearby... wander.
 
@@ -199,9 +199,10 @@ namespace DirtyGame.game.Core.Systems.Monster
         // If no monster of another type is nearby... wander.
         public Vector2 calculateMoveVector(IEnumerable<Entity> entities, Entity m, float dt)
         {
-
+            MovementComponent mc = m.GetComponent<MovementComponent>();
+            SpatialComponent s = m.GetComponent<SpatialComponent>();
             double[] vel = new double[2];
-                String type = m.GetComponent<PropertyComponent<String>>("MonsterType").value;
+            String type = m.GetComponent<PropertyComponent<String>>("MonsterType").value;
 
             if (type == "Flametower")
             {
@@ -227,7 +228,11 @@ namespace DirtyGame.game.Core.Systems.Monster
                     vel = seekPlayer(entities, m, 0, 200, false);//if player is close, run
 
                     if (vel[0] == vel[1] && vel[0] == 0)//player not in sight or in range, wander
-                        vel = randDir();
+                    {
+                        float theta = mc.WanderTheta;
+                        vel = Wander(s.Position, mc.Velocity, ref theta);
+                        mc.WanderTheta = theta;
+                    }
                 }
                 if (wc.Type == WeaponComponent.WeaponType.Ranged)
                 {
@@ -235,13 +240,21 @@ namespace DirtyGame.game.Core.Systems.Monster
                     if (vel[0] == vel[1] && vel[0] == 0)
                         seekPlayer(entities, m, (int)wc.Range - 50, 600, true);//if player is not within weapon range but in sight range, chase
                     if (vel[0] == vel[1] && vel[0] == 0)//player not in sight or in range, wander
-                        vel = randDir();
+                    {
+                        float theta = mc.WanderTheta;
+                        vel = Wander(s.Position, mc.Velocity, ref theta);
+                        mc.WanderTheta = theta;
+                    }
                 }
                 else if (wc.Type == WeaponComponent.WeaponType.Melee)
                 {
                     vel = seekPlayer(entities, m, (int)wc.Range, 600, true);//if player is not within weapon range but in sight range, chase
                     if (vel[0] == vel[1] && vel[0] == 0)//player not in sight or in range, wander
-                        vel = randDir();
+                    {
+                        float theta = mc.WanderTheta;
+                        vel = Wander(s.Position, mc.Velocity, ref theta);
+                        mc.WanderTheta = theta;
+                    }
                 }
             }
             else//old ai
@@ -249,7 +262,11 @@ namespace DirtyGame.game.Core.Systems.Monster
                 vel = seekPlayer(entities, m, 0, 600, true);
 
                 if (vel[0] == vel[1] && vel[0] == 0)
-                    vel = randDir();
+                {
+                    float theta = mc.WanderTheta;
+                    vel = Wander(s.Position, mc.Velocity, ref theta);
+                    mc.WanderTheta = theta;
+                }
 
             }
 
@@ -258,7 +275,7 @@ namespace DirtyGame.game.Core.Systems.Monster
             return new Vector2((float)vel[0], (float)vel[1]) * 5 * (m.GetComponent<StatsComponent>().MoveSpeed / 100.0f);
         }
 
-        
+
         private double[] seekPlayer(IEnumerable<Entity> entities, Entity m, int minrange, int maxrange, bool seek)
         {
             foreach (Entity e in entities)
@@ -300,17 +317,17 @@ namespace DirtyGame.game.Core.Systems.Monster
 
                             if (wall)
                             {
-                                if(Math.Abs(chaseVector[0]) > Math.Abs(chaseVector[1]))
+                                if (Math.Abs(chaseVector[0]) > Math.Abs(chaseVector[1]))
                                 {
                                     if (chaseVector[1] > 0)
                                     {
                                         chaseVector = WalkAroundWallVertical(m, oldVector, "up");
                                     }
-                                    else 
+                                    else
                                     {
                                         chaseVector = WalkAroundWallVertical(m, oldVector, "down");
                                     }
-                                   
+
                                 }
                                 else
                                 {
@@ -327,7 +344,7 @@ namespace DirtyGame.game.Core.Systems.Monster
                             }
                             else
                             {
-                                
+
                             }
                         }
                         else
@@ -348,7 +365,7 @@ namespace DirtyGame.game.Core.Systems.Monster
 
             if (vel[0] == 0 && vel[1] == 0)
             {
-                
+
                 m.GetComponent<MovementComponent>().Vertical = 0;
                 m.GetComponent<MovementComponent>().Horizontal = 0;
                 AnimationComponent animation = new AnimationComponent();
@@ -478,35 +495,65 @@ namespace DirtyGame.game.Core.Systems.Monster
 
             spatial.ConstantRotation = rotation;
         }
-
-        private double[] randDir()
+        private double[] Wander(Vector2 pos, Vector2 curVel, ref float theta)
         {
-            int randInt;
-            randInt = r.Next(0, 101);
-            double[] randDir = new double[2];
-            if (randInt < 26)
-            {
-                randDir[0] = 1.0;
-                randDir[1] = 0.0;
-            }
-            else if (randInt < 51)
-            {
-                randDir[0] = -1.0;
-                randDir[1] = 0.0;
-            }
-            else if (randInt < 76)
-            {
-                randDir[0] = 0.0;
-                randDir[1] = 1.0;
-            }
-            else
-            {
-                randDir[0] = 0.0;
-                randDir[1] = -1.0;
-            }
+            const float wanderR = 16.0f;
+            const float wanderD = 60.0f;
+            const float change = 0.5f;
 
-            return randDir;
+            float negChange = r.Next(2);
+            float randomNum = r.Next(1) * change;
+            if (negChange == 2)
+                theta = theta - randomNum;
+            else
+                theta = theta + randomNum;
+
+
+            Vector2 circleLoc = curVel;
+
+            circleLoc.Normalize();
+            circleLoc *= wanderD;
+            circleLoc += pos;
+
+            Vector2 circleOffset = new Vector2((float)(wanderR * Math.Cos(theta)), (float)(wanderR * Math.Sin(theta)));
+            Vector2 target = circleLoc;
+            target += circleOffset;
+
+            Vector2 dir = target - pos;
+            dir.Normalize();
+            double[] rr = new double[2];
+            rr[0] = dir.X;
+            rr[1] = dir.Y;
+            return rr;
         }
+        //private double[] randDir()
+        //{
+        //    int randInt;
+        //    randInt = r.Next(0, 101);
+        //    double[] randDir = new double[2];
+        //    if (randInt < 26)
+        //    {
+        //        randDir[0] = 1.0;
+        //        randDir[1] = 0.0;
+        //    }
+        //    else if (randInt < 51)
+        //    {
+        //        randDir[0] = -1.0;
+        //        randDir[1] = 0.0;
+        //    }
+        //    else if (randInt < 76)
+        //    {
+        //        randDir[0] = 0.0;
+        //        randDir[1] = 1.0;
+        //    }
+        //    else
+        //    {
+        //        randDir[0] = 0.0;
+        //        randDir[1] = -1.0;
+        //    }
+
+        //    return randDir;
+        //}
 
 
         private double getDistance(double x, double y, double ox, double oy)
@@ -587,7 +634,7 @@ namespace DirtyGame.game.Core.Systems.Monster
                 }
 
             }
-            if(direction == "right") //Target is to our right
+            if (direction == "right") //Target is to our right
             {
                 if (oldVector.prevHorizontal <= 0) //We were moving left before
                 {
@@ -624,7 +671,7 @@ namespace DirtyGame.game.Core.Systems.Monster
             bool l = WallCheck(leftList);
             bool r = WallCheck(rightList);
             Random rand = new Random();
-            
+
             if (r && l)
             {
                 if (b)

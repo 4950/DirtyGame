@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using EntityFramework.Systems;
 using EntityFramework;
-using DirtyGame.game.Core.Systems.Util;
-using DirtyGame.game.Core.Components;
+using CleanGame.Game.Core.Systems.Util;
+using CleanGame.Game.Core.Components;
 using Microsoft.Xna.Framework;
 using CoreUI;
-using DirtyGame.game.SGraphics;
+using CleanGame.Game.SGraphics;
 using CoreUI.Elements;
 
-namespace DirtyGame.game.Core.Systems
+namespace CleanGame.Game.Core.Systems
 {
     class ProjectileSystem : EntitySystem
     {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
-namespace DirtyGame.game.Core.GameStates
+namespace CleanGame.Game.Core.GameStates
 {
     public class Spawner
     {

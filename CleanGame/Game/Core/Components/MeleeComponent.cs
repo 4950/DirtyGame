@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DirtyGame.game.SGraphics;
+using CleanGame.Game.SGraphics;
 using System.Xml.Serialization;
 
-namespace DirtyGame.game.Core.Components
+namespace CleanGame.Game.Core.Components
 {
     public class MeleeComponent : Component
     {

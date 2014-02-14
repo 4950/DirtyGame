@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
-using DirtyGame.game.SGraphics;
-using DirtyGame.game.Util;
+using CleanGame.Game.SGraphics;
+using CleanGame.Game.Util;
 
-namespace DirtyGame.game.Core
+namespace CleanGame.Game.Core
 {
     public class ResourceManager : Singleton<ResourceManager>
     {

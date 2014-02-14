@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DirtyGame.game.SGraphics;
+using CleanGame.Game.SGraphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Xml.Serialization;
 
-namespace DirtyGame.game.Core.Components.Render
+namespace CleanGame.Game.Core.Components.Render
 {
     public class SpriteComponent : RenderComponent
     {

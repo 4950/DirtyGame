@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace DirtyGame.game.SGraphics.Commands
+namespace CleanGame.Game.SGraphics.Commands
 {
     class BeginBatchDraw : RenderCommand, IComparable<BeginBatchDraw>
     {

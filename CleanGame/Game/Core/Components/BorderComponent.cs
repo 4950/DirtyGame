@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using EntityFramework;
 
-namespace DirtyGame.game.Core.Components
+namespace CleanGame.Game.Core.Components
 {
     public class BorderComponent : Component
     {

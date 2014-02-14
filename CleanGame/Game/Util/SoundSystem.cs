@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace DirtyGame.game.Util
+namespace CleanGame.Game.Util
 {
     class SoundSystem : Singleton<SoundSystem>
     {

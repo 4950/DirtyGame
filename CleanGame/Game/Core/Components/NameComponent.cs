@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using EntityFramework;
 
-namespace DirtyGame.game.Core.Components
+namespace CleanGame.Game.Core.Components
 {
     public class NameComponent : Component
     {

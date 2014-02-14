@@ -1,8 +1,8 @@
-﻿using DirtyGame.game.Core.Components;
-using DirtyGame.game.Core.Components.Movement;
-using DirtyGame.game.Core.Components.Render;
-using DirtyGame.game.Core.Systems.Monster;
-using DirtyGame.game.Core.Systems.Util;
+﻿using CleanGame.Game.Core.Components;
+using CleanGame.Game.Core.Components.Movement;
+using CleanGame.Game.Core.Components.Render;
+using CleanGame.Game.Core.Systems.Monster;
+using CleanGame.Game.Core.Systems.Util;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;

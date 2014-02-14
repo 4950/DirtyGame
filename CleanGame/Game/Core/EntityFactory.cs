@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DirtyGame.game.Core.Components;
-using DirtyGame.game.Core.Components.Render;
-using DirtyGame.game.SGraphics;
+using CleanGame.Game.Core.Components;
+using CleanGame.Game.Core.Components.Render;
+using CleanGame.Game.SGraphics;
 using EntityFramework;
 using EntityFramework.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using DirtyGame.game.Core.Components.Movement;
-using DirtyGame.game.Core.GameStates;
+using CleanGame.Game.Core.Components.Movement;
+using CleanGame.Game.Core.GameStates;
 
-namespace DirtyGame.game.Core
+namespace CleanGame.Game.Core
 {
     public class EntityFactory
     {

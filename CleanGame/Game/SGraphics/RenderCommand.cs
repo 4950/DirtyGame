@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace DirtyGame.game.SGraphics
+namespace CleanGame.Game.SGraphics
 {
 
     public abstract class RenderCommand    

@@ -6,21 +6,21 @@ using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using EntityFramework.Systems;
 using FarseerPhysics.Factories;
-using DirtyGame.game.Core.Components.Movement;
+using CleanGame.Game.Core.Components.Movement;
 using EntityFramework;
-using DirtyGame.game.Core.Systems.Util;
-using DirtyGame.game.Core.Components;
+using CleanGame.Game.Core.Systems.Util;
+using CleanGame.Game.Core.Components;
 using Microsoft.Xna.Framework;
-using DirtyGame.game.SGraphics;
-using DirtyGame.game.SGraphics.Commands;
-using DirtyGame.game.SGraphics.Commands.DrawCalls;
+using CleanGame.Game.SGraphics;
+using CleanGame.Game.SGraphics.Commands;
+using CleanGame.Game.SGraphics.Commands.DrawCalls;
 using FarseerPhysics.Common;
 using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.Collision;
-using DirtyGame.game.Util;
-using DirtyGame.game.Core.Components.Render;
+using CleanGame.Game.Util;
+using CleanGame.Game.Core.Components.Render;
 
-namespace DirtyGame.game.Core.Systems
+namespace CleanGame.Game.Core.Systems
 {
     class PhysicsSystem : EntitySystem
     {

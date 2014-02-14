@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DirtyGame.game.SGraphics.Commands;
+using CleanGame.Game.SGraphics.Commands;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Xml;
 
-namespace DirtyGame.game.SGraphics
+namespace CleanGame.Game.SGraphics
 {
     public class SpriteSheet
     {
