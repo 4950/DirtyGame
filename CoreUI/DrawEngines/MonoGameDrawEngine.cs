@@ -55,11 +55,16 @@ namespace CoreUI.DrawEngines
         Texture2D pixel;
         Texture2D gradQuad;
         Texture2D gradPixel;
+        SamplerState sampler;
 
         public MonoGameDrawEngine(GraphicsDevice dev, ContentManager cont)
         {
             content = cont;
             device = dev;
+
+            SamplerState sampler = new SamplerState();
+            sampler.Filter = TextureFilter.Anisotropic;
+            sampler.MaxAnisotropy = 16;
 
             batch = new SpriteBatch(device);
 
@@ -142,7 +147,7 @@ namespace CoreUI.DrawEngines
         {
             Texture2D tex = //new Texture2D(device, 0, 0);
             Texture2D.FromStream(device, new System.IO.MemoryStream(data));
-            
+
             //tex.SetData(data);
             return new MonoGameTexture(tex);
         }
@@ -159,14 +164,16 @@ namespace CoreUI.DrawEngines
         {
             if (batch.GraphicsDevice.IsDisposed)
                 batch = new SpriteBatch(device);
+
+
             if (transform != null)
             {
-                
-                batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, (Matrix)transform);
+
+                batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, sampler, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, (Matrix)transform);
             }
             else
             {
-                batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null);
+                batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, sampler, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null);
             }
 
             //device.SamplerStates[0].MaxAnisotropy = 16;
@@ -198,12 +205,12 @@ namespace CoreUI.DrawEngines
         {
 
             //device.SamplerStates[0].Filter = TextureFilter.Anisotropic;
-            
+
             batch.Draw(pixel, toRect(left, top, right, bottom), (color1 as MonoGameColor).color);
             batch.Draw(gradQuad, toRect(left, top, right, bottom), (color2 as MonoGameColor).color);
             batch.Draw(gradQuad, toRect(left, top, right, bottom), null, (color3 as MonoGameColor).color, 0, Vector2.Zero, SpriteEffects.FlipVertically, 0);
             batch.Draw(gradQuad, toRect(left, top, right, bottom), null, (color4 as MonoGameColor).color, 0, Vector2.Zero, SpriteEffects.FlipVertically | SpriteEffects.FlipHorizontally, 0);
-            
+
             //device.SamplerStates[0].Filter = TextureFilter.Point;
 
         }
