@@ -178,9 +178,17 @@ namespace DirtyGame.game.Core.Systems
         {
             DetonateEvent detEvt = (DetonateEvent)e;
             WeaponComponent wc = detEvt.Weapon.entity.GetComponent<WeaponComponent>();
+            // If grenadier that owned grenade has died, the grenade weapon entity becomes its own owner.
+            EntityRef owner;
             if (detEvt.Owner.entity == null)
-                return;
-            Entity proj = game.entityFactory.CreateAOEField(detEvt.Owner.entity, detEvt.center, detEvt.size, "BombExplosion", wc.SpriteXml, 1, 1, 0, detEvt.Weapon.entity);
+            {
+                owner = detEvt.Weapon;
+            }
+            else
+            {
+                owner = detEvt.Owner;
+            }
+            Entity proj = game.entityFactory.CreateAOEField(owner.entity, detEvt.center, detEvt.size, "BombExplosion", wc.SpriteXml, 1, 1, 0, detEvt.Weapon.entity);
             proj.Refresh();
         }
 
