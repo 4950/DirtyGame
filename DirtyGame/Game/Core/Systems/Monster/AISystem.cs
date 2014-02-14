@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DirtyGame.game.Map;
+using DirtyGame.game.SGraphics;
 
 namespace DirtyGame.game.Core.Systems.Monster
 {
@@ -18,16 +20,19 @@ namespace DirtyGame.game.Core.Systems.Monster
         private EntityFactory entityFactory;
         public float totaltime;
         private Physics physics;
+        private Renderer renderer;
+        
         
         //Current goal: Make monsters of different types rush towards each other.
         // If no monster of another type is nearby... wander.
 
-        public AISystem(Dirty game, EntityFactory entityFactory, Physics physics)
+        public AISystem(Dirty game, EntityFactory entityFactory, Physics physics, Renderer renderer)
             : base(SystemDescriptions.MonsterSystem.Aspect, SystemDescriptions.MonsterSystem.Priority)
         {
             this.game = game;
             this.entityFactory = entityFactory;
             this.physics = physics;
+            this.renderer = renderer;
         }
 
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
@@ -181,6 +186,9 @@ namespace DirtyGame.game.Core.Systems.Monster
         // If no monster of another type is nearby... wander.
         public Vector2 calculateMoveVector(IEnumerable<Entity> entities, Entity m, float dt)
         {
+            bool[,] collMap = renderer.ActiveMap.getPassabilityMap();
+            int mapWidth = renderer.ActiveMap.getPixelWidth() / 32;
+            int mapHeight = renderer.ActiveMap.getPixelHeight() / 32;
 
             double[] vel = new double[2];
                 String type = m.GetComponent<PropertyComponent<String>>("MonsterType").value;
@@ -197,7 +205,7 @@ namespace DirtyGame.game.Core.Systems.Monster
 
             else if (type == "WallHugger")
             {
-                return WallHuggerMovement(m) * 5 * (m.GetComponent<StatsComponent>().MoveSpeed / 100.0f);
+                return WallHuggerMovement(m, collMap, mapWidth, mapHeight) * 5 * (m.GetComponent<StatsComponent>().MoveSpeed / 100.0f);
             }
 
             else if (m.HasComponent<InventoryComponent>())//has weapon
@@ -206,29 +214,29 @@ namespace DirtyGame.game.Core.Systems.Monster
                 WeaponComponent wc = weapon.GetComponent<WeaponComponent>();
                 if (wc.Type == WeaponComponent.WeaponType.Landmine)
                 {
-                    vel = seekPlayer(entities, m, 0, 200, false);//if player is close, run
+                    vel = seekPlayer(entities, m, 0, 200, false, collMap);//if player is close, run
 
                     if (vel[0] == vel[1] && vel[0] == 0)//player not in sight or in range, wander
                         vel = randDir();
                 }
                 if (wc.Type == WeaponComponent.WeaponType.Ranged)
                 {
-                    vel = seekPlayer(entities, m, 0, 200, false);//if player is close, run
+                    vel = seekPlayer(entities, m, 0, 200, false, collMap);//if player is close, run
                     if (vel[0] == vel[1] && vel[0] == 0)
-                        seekPlayer(entities, m, (int)wc.Range - 50, 600, true);//if player is not within weapon range but in sight range, chase
+                        seekPlayer(entities, m, (int)wc.Range - 50, 600, true, collMap);//if player is not within weapon range but in sight range, chase
                     if (vel[0] == vel[1] && vel[0] == 0)//player not in sight or in range, wander
                         vel = randDir();
                 }
                 else if (wc.Type == WeaponComponent.WeaponType.Melee)
                 {
-                    vel = seekPlayer(entities, m, (int)wc.Range, 600, true);//if player is not within weapon range but in sight range, chase
+                    vel = seekPlayer(entities, m, (int)wc.Range, 600, true, collMap);//if player is not within weapon range but in sight range, chase
                     if (vel[0] == vel[1] && vel[0] == 0)//player not in sight or in range, wander
                         vel = randDir();
                 }
             }
             else//old ai
             {
-                vel = seekPlayer(entities, m, 0, 600, true);
+                vel = seekPlayer(entities, m, 0, 600, true, collMap);
 
                 if (vel[0] == vel[1] && vel[0] == 0)
                     vel = randDir();
@@ -241,7 +249,7 @@ namespace DirtyGame.game.Core.Systems.Monster
         }
 
         
-        private double[] seekPlayer(IEnumerable<Entity> entities, Entity m, int minrange, int maxrange, bool seek)
+        private double[] seekPlayer(IEnumerable<Entity> entities, Entity m, int minrange, int maxrange, bool seek, bool[,] collMap)
         {
             foreach (Entity e in entities)
             {
@@ -258,27 +266,56 @@ namespace DirtyGame.game.Core.Systems.Monster
                         if (seek)
                         {
                             bool wall = false;
-                            List<Entity> rayCast = physics.RayCast(new Vector2(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y), new Vector2(otherX, otherY));
-                            foreach (Entity w in rayCast)
-                            {
-                                if (w.GetComponent<BorderComponent>() != null)
-                                {
-                                    wall = true;
-                                    break;
-                                }
-                                else
-                                {
+                            //List<Entity> rayCast = physics.RayCast(new Vector2(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y), new Vector2(otherX, otherY));
+                            //foreach (Entity w in rayCast)
+                            //{
+                            //    if (w.GetComponent<BorderComponent>() != null)
+                            //    {
+                            //        wall = true;
+                            //        break;
+                            //    }
+                            //    else
+                            //    {
 
 
-                                }
-                            }
+                            //    }
+                            //}
 
                             chaseVector = getChaseVector(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, otherX, otherY);
                             //if (m.GetComponent<MovementComponent>().prevHorizontal != 0)
                             //{
                             //    m.GetComponent<MovementComponent>().prevVelocity = new Vector2(0, 0);
                             //}
-                            MovementComponent oldVector = m.GetComponent<MovementComponent>();
+                            MovementComponent oldMovement = m.GetComponent<MovementComponent>();
+
+                            int monsterX = (int)Math.Floor(m.GetComponent<SpatialComponent>().Center.X / 32);
+                            int monsterY = (int)Math.Floor(m.GetComponent<SpatialComponent>().Center.Y / 32);
+                            if (Math.Abs(chaseVector[0]) > Math.Abs(chaseVector[1]))
+                            {
+                                if (chaseVector[0] > 0)
+                                {
+                                    //wall = (collMap[monsterX + 1, monsterY - 1] || collMap[monsterX + 1, monsterY] || collMap[monsterX + 1, monsterY + 1]);
+                                    wall = collMap[monsterX + 1, monsterY];
+                                }
+                                else
+                                {
+                                    //wall = (collMap[monsterX - 1, monsterY - 1] || collMap[monsterX - 1, monsterY] || collMap[monsterX - 1, monsterY + 1]);
+                                    wall = collMap[monsterX - 1, monsterY];
+                                }
+                            }
+                            else
+                            {
+                                if (chaseVector[1] > 0)
+                                {
+                                    //wall = (collMap[monsterX - 1, monsterY + 1] || collMap[monsterX, monsterY + 1] || collMap[monsterX + 1, monsterY + 1]);
+                                    wall = collMap[monsterX, monsterY + 1];
+                                }
+                                else
+                                {
+                                    //wall = (collMap[monsterX - 1, monsterY - 1] || collMap[monsterX, monsterY - 1] || collMap[monsterX + 1, monsterY - 1]);
+                                    wall = collMap[monsterX, monsterY - 1];
+                                }
+                            }
 
                             if (wall)
                             {
@@ -286,11 +323,11 @@ namespace DirtyGame.game.Core.Systems.Monster
                                 {
                                     if (chaseVector[1] > 0)
                                     {
-                                        chaseVector = WalkAroundWallVertical(m, oldVector, "up");
+                                        chaseVector = WalkAroundWallVertical(m, oldMovement, "up");
                                     }
                                     else 
                                     {
-                                        chaseVector = WalkAroundWallVertical(m, oldVector, "down");
+                                        chaseVector = WalkAroundWallVertical(m, oldMovement, "down");
                                     }
                                    
                                 }
@@ -298,12 +335,12 @@ namespace DirtyGame.game.Core.Systems.Monster
                                 {
                                     if (chaseVector[0] > 0)
                                     {
-                                        chaseVector = WalkAroundWallHorizontal(m, oldVector, "left");
+                                        chaseVector = WalkAroundWallHorizontal(m, oldMovement, "right");
 
                                     }
                                     else
                                     {
-                                        chaseVector = WalkAroundWallHorizontal(m, oldVector, "right");
+                                        chaseVector = WalkAroundWallHorizontal(m, oldMovement, "left");
                                     }
                                 }
                             }
@@ -518,7 +555,7 @@ namespace DirtyGame.game.Core.Systems.Monster
                 if (oldVector.prevVertical <= 0) //We were moving down before
                 {
                     //keep moving down
-                    chaseVector = getChaseVector(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y - 32);
+                    chaseVector = getChaseVector(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y + 32);
                     oldVector.prevHorizontal = (float)chaseVector[0];
                     oldVector.prevVertical = (float)chaseVector[1];
                 }
@@ -534,7 +571,7 @@ namespace DirtyGame.game.Core.Systems.Monster
                 if (oldVector.prevVertical >= 0) //We were moving up before
                 {
                     //Keep moving up
-                    chaseVector = getChaseVector(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y + 32);
+                    chaseVector = getChaseVector(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y - 32);
                     oldVector.prevHorizontal = (float)chaseVector[0];
                     oldVector.prevVertical = (float)chaseVector[1];
                 }
@@ -557,7 +594,7 @@ namespace DirtyGame.game.Core.Systems.Monster
                 if (oldVector.prevHorizontal >= 0) //We were moving right before
                 {
                     //Keep moving right
-                    chaseVector = getChaseVector(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, m.GetComponent<SpatialComponent>().Position.X + 32, m.GetComponent<SpatialComponent>().Position.Y);
+                    chaseVector = getChaseVector(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, m.GetComponent<SpatialComponent>().Position.X - 32, m.GetComponent<SpatialComponent>().Position.Y);
                     oldVector.prevHorizontal = (float)chaseVector[0];
                     oldVector.prevVertical = (float)chaseVector[1];
                 }
@@ -574,6 +611,12 @@ namespace DirtyGame.game.Core.Systems.Monster
                 if (oldVector.prevHorizontal <= 0) //We were moving left before
                 {
                     //keep moving left
+                    chaseVector = getChaseVector(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, m.GetComponent<SpatialComponent>().Position.X + 32, m.GetComponent<SpatialComponent>().Position.Y);
+                    oldVector.prevHorizontal = (float)chaseVector[0];
+                    oldVector.prevVertical = (float)chaseVector[1];
+                }
+                else if (oldVector.prevHorizontal != 1)
+                {
                     chaseVector = getChaseVector(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, m.GetComponent<SpatialComponent>().Position.X - 32, m.GetComponent<SpatialComponent>().Position.Y);
                     oldVector.prevHorizontal = (float)chaseVector[0];
                     oldVector.prevVertical = (float)chaseVector[1];
@@ -588,23 +631,16 @@ namespace DirtyGame.game.Core.Systems.Monster
             return chaseVector;
         }
 
-        private Vector2 WallHuggerMovement(Entity m)
+        private Vector2 WallHuggerMovement(Entity m, bool[,] collMap, int mapWidth, int mapHeight)
         {
+            int monsterX = (int) Math.Floor(m.GetComponent<SpatialComponent>().Center.X / 32);
+            int monsterY = (int)Math.Floor(m.GetComponent<SpatialComponent>().Center.Y / 32);
+            
             Vector2 velocity = new Vector2();
-
-
-            Vector2 top = new Vector2(m.GetComponent<SpatialComponent>().Center.X, m.GetComponent<SpatialComponent>().Center.Y - 32);
-            Vector2 bottom = new Vector2(m.GetComponent<SpatialComponent>().Center.X, m.GetComponent<SpatialComponent>().Center.Y + 32);
-            Vector2 left = new Vector2(m.GetComponent<SpatialComponent>().Center.X - 32, m.GetComponent<SpatialComponent>().Center.Y);
-            Vector2 right = new Vector2(m.GetComponent<SpatialComponent>().Center.X + 32, m.GetComponent<SpatialComponent>().Center.Y);
-            List<Entity> topList = physics.RayCast(m.GetComponent<SpatialComponent>().Center, top);
-            List<Entity> bottomList = physics.RayCast(m.GetComponent<SpatialComponent>().Center, bottom);
-            List<Entity> leftList = physics.RayCast(m.GetComponent<SpatialComponent>().Center, left);
-            List<Entity> rightList = physics.RayCast(m.GetComponent<SpatialComponent>().Center, right);
-            bool t = WallCheck(topList);
-            bool b = WallCheck(bottomList);
-            bool l = WallCheck(leftList);
-            bool r = WallCheck(rightList);
+            bool t = collMap[monsterX, Math.Max(monsterY - 1, 0)];
+            bool b = collMap[monsterX, Math.Min(monsterY + 1, mapHeight-1)];
+            bool l = collMap[Math.Max(monsterX - 1, 0), monsterY];
+            bool r = collMap[Math.Min(monsterX + 1, mapWidth-1), monsterY];
             Random rand = new Random();
             
             if (r && l)
@@ -653,99 +689,61 @@ namespace DirtyGame.game.Core.Systems.Monster
             }
             else if (b && l)
             {
-                //Move up or right
-                if (rand.NextDouble() > .5)
-                {
-                    velocity = new Vector2(0.0f, -1.0f);
-                }
-                else
-                {
-                    velocity = new Vector2(1.0f, 0.0f);
-                }
+                //Move up
+                velocity = new Vector2(0.0f, -1.0f);
             }
             else if (b && r)
             {
-                //Move up or left
-                if (rand.NextDouble() > .5)
-                {
-                    velocity = new Vector2(0.0f, -1.0f);
-                }
-                else
-                {
-                    velocity = new Vector2(-1.0f, 0.0f);
-                }
+                //Moveleft
+                velocity = new Vector2(-1.0f, 0.0f);
             }
             else if (t && l)
             {
-                //Move down or right
-                if (rand.NextDouble() > .5)
-                {
-                    velocity = new Vector2(0.0f, 1.0f);
-                }
-                else
-                {
-                    velocity = new Vector2(1.0f, 0.0f);
-                }
+                //Move right
+                velocity = new Vector2(1.0f, 0.0f);
             }
             else if (t && r)
             {
-                //Move down or left
-                if (rand.NextDouble() > .5)
-                {
-                    velocity = new Vector2(0.0f, 1.0f);
-                }
-                else
-                {
-                    velocity = new Vector2(-1.0f, 0.0f);
-                }
+                //Move down 
+                velocity = new Vector2(0.0f, 1.0f);
             }
-            else if (l || r)
+            else if (l)
             {
 
-                //Move up or down
-                if (rand.NextDouble() > .5)
-                {
-                    velocity = new Vector2(0.0f, -1.0f);
-                }
-                else
-                {
-                    velocity = new Vector2(0.0f, 1.0f);
-                }
+                //Move up
+                velocity = new Vector2(0.0f, -1.0f);
             }
-            else if (t || b)
+            else if (r)
             {
-                //Move left or right
-                if (rand.NextDouble() > .5)
-                {
-                    velocity = new Vector2(-1.0f, 0.0f);
-                }
-                else
-                {
-                    velocity = new Vector2(1.0f, 0.0f);
-                }
+                //Move Down
+                velocity = new Vector2(0.0f, 1.0f);
+                
+            }
+            else if (b)
+            {
+                //Move left 
+                velocity = new Vector2(-1.0f, 0.0f);
+            }
+            else if(t)
+            {
+                //Move Right
+                velocity = new Vector2(1.0f, 0.0f);
             }
             else
             {
-                Vector2 topleft = new Vector2(m.GetComponent<SpatialComponent>().Center.X - 32, m.GetComponent<SpatialComponent>().Center.Y - 32);
-                Vector2 topright = new Vector2(m.GetComponent<SpatialComponent>().Center.X + 32, m.GetComponent<SpatialComponent>().Center.Y - 32);
-                Vector2 bottomleft = new Vector2(m.GetComponent<SpatialComponent>().Center.X - 32, m.GetComponent<SpatialComponent>().Center.Y + 32);
-                Vector2 bottomright = new Vector2(m.GetComponent<SpatialComponent>().Center.X + 32, m.GetComponent<SpatialComponent>().Center.Y + 32);
-                List<Entity> topRight = physics.RayCast(m.GetComponent<SpatialComponent>().Center, topright);
-                List<Entity> topLeft = physics.RayCast(m.GetComponent<SpatialComponent>().Center, topleft);
-                List<Entity> bottomRight = physics.RayCast(m.GetComponent<SpatialComponent>().Center, bottomright);
-                List<Entity> bottomLeft = physics.RayCast(m.GetComponent<SpatialComponent>().Center, bottomleft);
-                bool tr = WallCheck(topRight);
-                bool tl = WallCheck(topLeft);
-                bool bl = WallCheck(bottomLeft);
-                bool br = WallCheck(bottomRight);
+                bool tr = collMap[Math.Min(monsterX + 1, mapWidth-1), Math.Max(monsterY - 1, 0)];
+                bool tl = collMap[Math.Max(monsterX - 1, 0), Math.Max(monsterY - 1, 0)];
+                bool bl = collMap[Math.Max(monsterX - 1, 0), Math.Min(monsterY + 1, mapHeight-1)];
+                bool br = collMap[Math.Min(monsterX + 1, mapWidth-1), Math.Min(monsterY + 1, mapHeight-1)];
+                MovementComponent oldMovement = m.GetComponent<MovementComponent>();
                 if (tr)
                 {
                     //Move Up or right
-                    if (rand.NextDouble() > .5)
+                    if (oldMovement.prevVertical == 0)
                     {
                         velocity = new Vector2(0.0f, -1.0f);
                     }
-                    else
+                    else //if(oldMovement.prevVertical>0)
                     {
                         velocity = new Vector2(1.0f, 0.0f);
                     }
@@ -753,11 +751,11 @@ namespace DirtyGame.game.Core.Systems.Monster
                 else if (tl)
                 {
                     //Move up or left
-                    if (rand.NextDouble() > .5)
+                    if (oldMovement.prevVertical == 0)
                     {
                         velocity = new Vector2(0.0f, -1.0f);
                     }
-                    else
+                    else //if(oldMovement.prevVertical>0)
                     {
                         velocity = new Vector2(-1.0f, 0.0f);
                     }
@@ -765,11 +763,11 @@ namespace DirtyGame.game.Core.Systems.Monster
                 else if (bl)
                 {
                     //Move down or left
-                    if (rand.NextDouble() > .5)
+                    if (oldMovement.prevVertical == 0)
                     {
                         velocity = new Vector2(0.0f, 1.0f);
                     }
-                    else
+                    else //if(oldMovement.prevVertical<0)
                     {
                         velocity = new Vector2(-1.0f, 0.0f);
                     }
@@ -777,11 +775,11 @@ namespace DirtyGame.game.Core.Systems.Monster
                 else if (br)
                 {
                     //Move down or right
-                    if (rand.NextDouble() > .5)
+                    if (oldMovement.prevVertical == 0)
                     {
                         velocity = new Vector2(0.0f, 1.0f);
                     }
-                    else
+                    else //if (oldMovement.prevVertical < 0)
                     {
                         velocity = new Vector2(1.0f, 0.0f);
                     }
@@ -793,6 +791,8 @@ namespace DirtyGame.game.Core.Systems.Monster
                 }
             }
 
+            m.GetComponent<MovementComponent>().prevHorizontal = velocity.X;
+            m.GetComponent<MovementComponent>().prevVertical = velocity.Y;
             return velocity;
         }
         private bool WallCheck(List<Entity> list)

@@ -57,7 +57,7 @@ namespace DirtyGame.game.Core.Systems
                                     DetonateEvent detEvt = new DetonateEvent();
                                     detEvt.center = e.GetComponent<SpatialComponent>().Center;
                                     detEvt.size = gc.explosionSize;
-                                    detEvt.Owner = new EntityRef(gc.owner);
+                                    detEvt.Owner  = new EntityRef(gc.owner);
                                     detEvt.Weapon = new EntityRef(gc.weapon);
                                     detEvt.name = "Detonate";
                                     EventManager.Instance.TriggerEvent(detEvt);
