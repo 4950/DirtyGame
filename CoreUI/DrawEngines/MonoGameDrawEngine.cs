@@ -82,6 +82,10 @@ namespace CoreUI.DrawEngines
             rectData[3] = Color.Transparent;
             gradQuad.SetData(rectData);
         }
+        public void SetDevice(GraphicsDevice dev)
+        {
+            this.device = dev;
+        }
         public void setDefaultFont(SpriteFont font)
         {
             defaultFont = font;
@@ -94,7 +98,10 @@ namespace CoreUI.DrawEngines
         public void BeginDraw(IUIRenderSurface ren)
         {
             cur = ren;
-            device.SetRenderTarget((ren as MonoGameRenderSurface).target);
+            MonoGameRenderSurface r = ren as MonoGameRenderSurface;
+            if (r.target.GraphicsDevice.IsDisposed)
+                r.target = new RenderTarget2D(device, r.target.Width, r.target.Height, false, SurfaceFormat.Color, DepthFormat.None);
+            device.SetRenderTarget(r.target);
             device.Clear(Color.Transparent);
             BeginDraw();
         }
@@ -150,6 +157,8 @@ namespace CoreUI.DrawEngines
         }
         public void BeginDraw()
         {
+            if (batch.GraphicsDevice.IsDisposed)
+                batch = new SpriteBatch(device);
             if (transform != null)
             {
                 
@@ -159,8 +168,8 @@ namespace CoreUI.DrawEngines
             {
                 batch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null);
             }
-            device.SamplerStates[0].MaxAnisotropy = 16;
 
+            //device.SamplerStates[0].MaxAnisotropy = 16;
         }
         public void EndDraw()
         {
@@ -187,22 +196,15 @@ namespace CoreUI.DrawEngines
 
         public void Draw_FilledBox(int left, int top, int right, int bottom, IUIColor color1, IUIColor color2, IUIColor color3, IUIColor color4)
         {
-            /*Texture2D rect = getRect();//new Texture2D(device, 2, 2, false, SurfaceFormat.Color);
-            Color[] rectData = new Color[4];
-            rectData[0] = (color1 as MonoGameColor).color;
-            rectData[1] = (color2 as MonoGameColor).color;
-            rectData[2] = (color3 as MonoGameColor).color;
-            rectData[3] = (color4 as MonoGameColor).color;
-            rect.SetData(rectData);*/
 
-            device.SamplerStates[0].Filter = TextureFilter.Anisotropic;
-            //batch.Draw(rect, toRect(left, top, right, bottom), Color.White);
+            //device.SamplerStates[0].Filter = TextureFilter.Anisotropic;
+            
             batch.Draw(pixel, toRect(left, top, right, bottom), (color1 as MonoGameColor).color);
             batch.Draw(gradQuad, toRect(left, top, right, bottom), (color2 as MonoGameColor).color);
             batch.Draw(gradQuad, toRect(left, top, right, bottom), null, (color3 as MonoGameColor).color, 0, Vector2.Zero, SpriteEffects.FlipVertically, 0);
             batch.Draw(gradQuad, toRect(left, top, right, bottom), null, (color4 as MonoGameColor).color, 0, Vector2.Zero, SpriteEffects.FlipVertically | SpriteEffects.FlipHorizontally, 0);
-            //batch.Draw(gradPixel, toRect(left, bottom, right, top), (color3 as MonoGameColor).color);
-            device.SamplerStates[0].Filter = TextureFilter.Point;
+            
+            //device.SamplerStates[0].Filter = TextureFilter.Point;
 
         }
 
@@ -225,50 +227,39 @@ namespace CoreUI.DrawEngines
             float angle = (float)Math.Acos(Vector2.Dot(v, -Vector2.UnitX));
             if (begin.Y > end.Y) angle = MathHelper.TwoPi - angle;
 
-            device.SamplerStates[0].Filter = TextureFilter.Anisotropic;
+            //device.SamplerStates[0].Filter = TextureFilter.Anisotropic;
+
             batch.Draw(pixel, r, null, (color as MonoGameColor).color, angle, Vector2.Zero, SpriteEffects.None, 0);
-            device.SamplerStates[0].Filter = TextureFilter.Point;
+
+            //device.SamplerStates[0].Filter = TextureFilter.Point;
         }
 
         public void Draw_Line(int left, int top, int right, int bottom, IUIColor color1, IUIColor color2)
         {
 
-            /*Texture2D line = getLine();//new Texture2D(device, 2, 1, false, SurfaceFormat.Color);
-            Color[] lineData = new Color[2];
-            lineData[0] = (color1 as MonoGameColor).color;
-            lineData[1] = (color2 as MonoGameColor).color;
-            line.SetData(lineData);*/
-
             int width = 1;
             Vector2 begin = new Vector2(left, top);
             Vector2 end = new Vector2(right, bottom);
 
-            //test
-            /*eff.CurrentTechnique.Passes[0].Apply();
-            VertexPositionColor[] va = new VertexPositionColor[2];
-            va[0].Position = new Vector3(left, top, 0);
-            va[0].Color = (color1 as MonoGameColor).color;
-            va[1].Position = new Vector3(right, bottom, 0);
-            va[1].Color = (color2 as MonoGameColor).color;
-            device.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, va, 0, 2);*/
 
             Rectangle r = new Rectangle((int)begin.X, (int)begin.Y, (int)(end - begin).Length() + width, width);
             Vector2 v = Vector2.Normalize(begin - end);
             float angle = (float)Math.Acos(Vector2.Dot(v, -Vector2.UnitX));
             if (begin.Y > end.Y) angle = MathHelper.TwoPi - angle;
 
-            device.SamplerStates[0].Filter = TextureFilter.Anisotropic;
+            //device.SamplerStates[0].Filter = TextureFilter.Anisotropic;
+
             batch.Draw(pixel, r, null, (color1 as MonoGameColor).color, angle, Vector2.Zero, SpriteEffects.None, 0);
             batch.Draw(gradPixel, r, null, (color2 as MonoGameColor).color, angle, Vector2.Zero, SpriteEffects.None, 0);
-            //batch.Draw(line, r, null, Color.White, angle, Vector2.Zero, SpriteEffects.None, 0);
-            device.SamplerStates[0].Filter = TextureFilter.Point;
+
+            //device.SamplerStates[0].Filter = TextureFilter.Point;
         }
 
         public void Draw_Default_Text(string text, int left, int top, IUIColor color)
         {
             if (defaultFont != null && text != null && text != "")
                 batch.DrawString(defaultFont, text, new Vector2(left, top), (color as MonoGameColor).color);
-            //throw new NotImplementedException();
+
         }
         public System.Drawing.PointF getTextSize(String text, IUIFont font)
         {
@@ -279,7 +270,7 @@ namespace CoreUI.DrawEngines
         {
             if (defaultFont != null && text != "")
                 batch.DrawString(defaultFont, text, new Vector2(left, top), (color as MonoGameColor).color);
-            //throw new NotImplementedException();
+
         }
     }
 }
