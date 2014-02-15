@@ -504,8 +504,8 @@ namespace CleanGame.Game.Core.Systems.Monster
         }
         private double[] Wander(Vector2 pos, Vector2 curVel, ref float theta)
         {
-            const float wanderR = 16.0f;
-            const float wanderD = 60.0f;
+            const float wanderR = 32.0f;
+            const float wanderD = 64.0f;
             const float change = 0.5f;
 
             float negChange = (int)Math.Round(r.NextDouble()) + 1;
