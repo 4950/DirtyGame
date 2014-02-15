@@ -285,6 +285,8 @@ namespace CleanGame.Game.Core.Systems.Monster
 
         private double[] seekPlayer(IEnumerable<Entity> entities, Entity m, int minrange, int maxrange, bool seek)
         {
+            int mapWidth = renderer.ActiveMap.getPixelWidth() / 32;
+            int mapHeight = renderer.ActiveMap.getPixelHeight() / 32;
             foreach (Entity e in entities)
             {
                 if (e.HasComponent<PlayerComponent>())
@@ -302,23 +304,25 @@ namespace CleanGame.Game.Core.Systems.Monster
                             //Monster Tile Position
                             int monsterTileX = (int)Math.Floor(m.GetComponent<SpatialComponent>().Center.X / 32);
                             int monsterTileY = (int)Math.Floor(m.GetComponent<SpatialComponent>().Center.Y / 32);
-                            
+
                             //Player Tile Position
                             int goalTileX = (int)Math.Floor(e.GetComponent<SpatialComponent>().Center.X / 32);
                             int goalTileY = (int)Math.Floor(e.GetComponent<SpatialComponent>().Center.Y / 32);
 
                             LinkedList<Node> openList = new LinkedList<Node>();
-                            LinkedList<Node> closedList = new LinkedList<Node>();
+                            //Dictionary<int, int> closedList = new Dictionary<int, int>();
+
+                            bool[,] closedList = new bool[mapWidth, mapHeight];
 
                             Node start = new Node(renderer);
                             start.xPos = monsterTileX;
                             start.yPos = monsterTileY;
                             start.gScore = 0;
-                            start.fScore = (float) getDistance(start.xPos, start.yPos, goalTileX, goalTileY) + start.gScore;
+                            start.fScore = (float)getDistance(start.xPos, start.yPos, goalTileX, goalTileY) + start.gScore;
                             start.cameFrom = null;
 
                             openList.AddFirst(start);
-
+                            chaseVector = null;
                             while (openList.Count != 0)
                             {
                                 Node current = null;
@@ -331,7 +335,7 @@ namespace CleanGame.Game.Core.Systems.Monster
                                     }
                                     else
                                     {
-                                        
+
                                         if (current.fScore > n.fScore)
                                         {
                                             current = n;
@@ -339,29 +343,59 @@ namespace CleanGame.Game.Core.Systems.Monster
                                     }
                                 }
 
+                                
+
                                 //Finish if we find goal node
                                 if (current.xPos == goalTileX && current.yPos == goalTileY)
                                 {
                                     //Generate Vector
+                                    Node next = current.getPath();
+                                    chaseVector = getChaseVector(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, next.xPos * 32, next.yPos * 32);
                                 }
 
                                 //Update open/closed list
                                 openList.Remove(current);
-                                closedList.AddFirst(current);
+                                closedList[current.xPos, current.yPos] = true;
 
                                 foreach (Node n in current.neighbors())
                                 {
-                                    if (closedList.Contains(n))
+                                    if (closedList[n.xPos, n.yPos])
                                     {
                                         continue;
                                     }
 
-                                    float tentativeGScore = current.gScore + (float) getDistance(current.xPos, current.yPos, n.xPos, n.yPos);
+                                    float tentativeGScore = current.gScore + (float)getDistance(current.xPos, current.yPos, n.xPos, n.yPos);
 
-                                    if(open
+                                    if (openList.Contains<Node>(n))
+                                    {
+                                        Node oldN = openList.Find(n).Value;
+                                        if (tentativeGScore < oldN.gScore)
+                                        {
+                                            n.cameFrom = current;
+                                            n.gScore = tentativeGScore;
+                                            n.fScore = n.gScore + (float)getDistance(n.xPos, n.yPos, goalTileX, goalTileY)*5;
+                                            if (!openList.Contains<Node>(n))
+                                            {
+                                                openList.AddFirst(n);
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (!openList.Contains<Node>(n))
+                                        {
+                                            n.cameFrom = current;
+                                            n.gScore = tentativeGScore;
+                                            n.fScore = n.gScore + (float)getDistance(n.xPos, n.yPos, goalTileX, goalTileY)*5;
+                                            if (!openList.Contains<Node>(n))
+                                            {
+                                                openList.AddFirst(n);
+                                            }
+                                        }
+                                    }
                                 }
-
                             }
+
                             return chaseVector;
                         }
                         else
@@ -372,7 +406,6 @@ namespace CleanGame.Game.Core.Systems.Monster
                     }
                 }
             }
-
             return new double[2];
         }
         private void setDirection(double[] vel, Entity m)
@@ -1055,10 +1088,12 @@ namespace CleanGame.Game.Core.Systems.Monster
                 renderer = r;
             }
 
-            public Node(int xPos, int yPos, Node cameFrom)
+            public Node(int xPos, int yPos, Node cameFrom, Renderer renderer)
             {
                 this.xPos = xPos;
                 this.yPos = yPos;
+                this.cameFrom = cameFrom;
+                this.renderer = renderer;
             }
 
             public LinkedList<Node> neighbors()
@@ -1074,9 +1109,12 @@ namespace CleanGame.Game.Core.Systems.Monster
                         {
 
                         }
-                        else if(!bool[i,j])
+                        else if ((this.xPos + i < renderer.ActiveMap.getPixelHeight() / 32) && (this.yPos + j < renderer.ActiveMap.getPixelWidth() / 32))
                         {
-                            neighbors.AddFirst(new Node(this.xPos+i, this.yPos+j, this);
+                            if (!collMap[this.xPos + i, this.yPos + j])
+                            {
+                                neighbors.AddFirst(new Node(this.xPos + i, this.yPos + j, this, renderer));
+                            }
                         }
                     }
                 }
@@ -1086,15 +1124,22 @@ namespace CleanGame.Game.Core.Systems.Monster
 
             public override bool Equals(object obj)
             {
-                if (obj.GetType() == this.GetType())
+                Node n = (Node) obj;
+                if (n.xPos != this.xPos || n.yPos != this.yPos)
                 {
-                    Node n = (Node) obj;
-                    if (n.xPos == this.xPos && n.yPos == this.yPos)
-                    {
-                        return true;
-                    }
+                    return false;
                 }
-                return false;
+                return true;
+            }
+
+            public Node getPath()
+            {
+                Node n = this;
+                while (n.cameFrom.cameFrom != null)
+                {
+                    n = n.cameFrom;
+                }
+                return n;
             }
         }
     }

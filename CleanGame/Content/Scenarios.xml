@@ -459,7 +459,7 @@
   <scenario name="scenario11"
             difficultyScore="0.50"
             map="Forest.tmx"
-            playerX="1050"
+            playerX="150"
             playerY="300">
     <spawner xPosition="300"
              yPosition="100"
@@ -469,7 +469,7 @@
              rectangleValue4="46"
              monsterType="MeleeMonster"
              monsterWeapon="Monstersword"
-             numberOfMonsters="1"
+             numberOfMonsters="20"
              timeSpanDays="0"
              timeSpanHours="0"
              timeSpanMinutes="0"
