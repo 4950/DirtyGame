@@ -299,60 +299,70 @@ namespace CleanGame.Game.Core.Systems.Monster
 
                         if (seek)
                         {
-                            bool wall = false;
-                            List<Entity> rayCast = physics.RayCast(new Vector2(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y), new Vector2(otherX, otherY));
-                            foreach (Entity w in rayCast)
+                            //Monster Tile Position
+                            int monsterTileX = (int)Math.Floor(m.GetComponent<SpatialComponent>().Center.X / 32);
+                            int monsterTileY = (int)Math.Floor(m.GetComponent<SpatialComponent>().Center.Y / 32);
+                            
+                            //Player Tile Position
+                            int goalTileX = (int)Math.Floor(e.GetComponent<SpatialComponent>().Center.X / 32);
+                            int goalTileY = (int)Math.Floor(e.GetComponent<SpatialComponent>().Center.Y / 32);
+
+                            LinkedList<Node> openList = new LinkedList<Node>();
+                            LinkedList<Node> closedList = new LinkedList<Node>();
+
+                            Node start = new Node(renderer);
+                            start.xPos = monsterTileX;
+                            start.yPos = monsterTileY;
+                            start.gScore = 0;
+                            start.fScore = (float) getDistance(start.xPos, start.yPos, goalTileX, goalTileY) + start.gScore;
+                            start.cameFrom = null;
+
+                            openList.AddFirst(start);
+
+                            while (openList.Count != 0)
                             {
-                                if (w.GetComponent<BorderComponent>() != null)
+                                Node current = null;
+                                //Find best node to evaluate
+                                foreach (Node n in openList)
                                 {
-                                    wall = true;
-                                    break;
-                                }
-                                else
-                                {
-
-
-                                }
-                            }
-
-                            chaseVector = getChaseVector(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, otherX, otherY);
-                            //if (m.GetComponent<MovementComponent>().prevHorizontal != 0)
-                            //{
-                            //    m.GetComponent<MovementComponent>().prevVelocity = new Vector2(0, 0);
-                            //}
-                            MovementComponent oldVector = m.GetComponent<MovementComponent>();
-
-                            if (wall)
-                            {
-                                if (Math.Abs(chaseVector[0]) > Math.Abs(chaseVector[1]))
-                                {
-                                    if (chaseVector[1] > 0)
+                                    if (current == null)
                                     {
-                                        chaseVector = WalkAroundWallVertical(m, oldVector, "up");
+                                        current = n;
                                     }
                                     else
                                     {
-                                        chaseVector = WalkAroundWallVertical(m, oldVector, "down");
+                                        
+                                        if (current.fScore > n.fScore)
+                                        {
+                                            current = n;
+                                        }
                                     }
-
                                 }
-                                else
+
+                                //Finish if we find goal node
+                                if (current.xPos == goalTileX && current.yPos == goalTileY)
                                 {
-                                    if (chaseVector[0] > 0)
-                                    {
-                                        chaseVector = WalkAroundWallHorizontal(m, oldVector, "left");
-
-                                    }
-                                    else
-                                    {
-                                        chaseVector = WalkAroundWallHorizontal(m, oldVector, "right");
-                                    }
+                                    //Generate Vector
                                 }
-                            }
-                            else
-                            {
+
+                                //Update open/closed list
+                                openList.Remove(current);
+                                closedList.AddFirst(current);
+
+                                foreach (Node n in current.neighbors())
+                                {
+                                    if (closedList.Contains(n))
+                                    {
+                                        continue;
+                                    }
+
+                                    float tentativeGScore = current.gScore + (float) getDistance(current.xPos, current.yPos, n.xPos, n.yPos);
+
+                                    if(open
+                                }
 
                             }
+                            return chaseVector;
                         }
                         else
                         {
@@ -1020,6 +1030,72 @@ namespace CleanGame.Game.Core.Systems.Monster
                 return false;
             }
             return false;
+        }
+
+        private class Node
+        {
+            public int xPos;
+            public int yPos;
+            public float gScore;
+            public float fScore;
+            public Node cameFrom;
+            private Renderer renderer;
+
+            public Node(int xPos, int yPos, float gScore, float fScore, Node cameFrom)
+            {
+                this.xPos = xPos;
+                this.yPos = yPos;
+                this.gScore = gScore;
+                this.fScore = fScore;
+                this.cameFrom = cameFrom;
+            }
+
+            public Node(Renderer r)
+            {
+                renderer = r;
+            }
+
+            public Node(int xPos, int yPos, Node cameFrom)
+            {
+                this.xPos = xPos;
+                this.yPos = yPos;
+            }
+
+            public LinkedList<Node> neighbors()
+            {
+                LinkedList<Node> neighbors = new LinkedList<Node>();
+                bool [,] collMap = renderer.ActiveMap.getPassabilityMap();
+
+                for (int i = -1; i<=1; i++)
+                {
+                    for (int j = -1; j <= 1; j++)
+                    {
+                        if(i== 0 && j==0)
+                        {
+
+                        }
+                        else if(!bool[i,j])
+                        {
+                            neighbors.AddFirst(new Node(this.xPos+i, this.yPos+j, this);
+                        }
+                    }
+                }
+
+                return neighbors;
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (obj.GetType() == this.GetType())
+                {
+                    Node n = (Node) obj;
+                    if (n.xPos == this.xPos && n.yPos == this.yPos)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
         }
     }
 }
