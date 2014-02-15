@@ -109,7 +109,7 @@ namespace CleanGame.Game.Core.Systems.Monster
 
 
         //Sniper Movement
-        public Vector2 snipMovement(Entity e, float dt)
+        public double[] snipMovement(Entity e, float dt)
         {
             SpatialComponent spatial = e.GetComponent<SpatialComponent>();
             SnipComponent snip = e.GetComponent<SnipComponent>();
@@ -193,7 +193,7 @@ namespace CleanGame.Game.Core.Systems.Monster
 
             setIdleDirection(getChaseVector(spatial.Center.X, spatial.Center.Y, Target.X, Target.Y), vel, e);
             setDirection(vel, e);
-            return new Vector2((float)vel[0], (float)vel[1]);
+            return vel;
         }
 
 
@@ -218,7 +218,7 @@ namespace CleanGame.Game.Core.Systems.Monster
 
             else if (type == "SnipMonster")
             {
-                return snipMovement(m, dt);
+                vel = snipMovement(m, dt);
             }
 
             else if (type == "WallHugger")
