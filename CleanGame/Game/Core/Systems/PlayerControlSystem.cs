@@ -16,7 +16,6 @@ namespace CleanGame.Game.Core.Systems
 {
     class PlayerControlSystem : EntitySystem
     {
-        private KeyboardState KeyboardState;
         private MouseState ms;
         private MouseState prevMS;
         private EntityFactory entityFactory;
@@ -54,9 +53,9 @@ namespace CleanGame.Game.Core.Systems
 
             // scroll wheel
             //if (ms.ScrollWheelValue < prevScrollWheel)
-                move(Keys.E);
+            move(Keys.E);
             //else if (ms.ScrollWheelValue > prevScrollWheel)
-              //  move(Keys.Q);
+            //  move(Keys.Q);
             //prevScrollWheel = ms.ScrollWheelValue;
 
 
@@ -95,6 +94,7 @@ namespace CleanGame.Game.Core.Systems
         }
         private void move(Keys key)
         {
+            keysDown.Remove(key);
             keysDown.Add(key);
             setDirection(key);
         }
