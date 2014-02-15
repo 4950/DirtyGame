@@ -198,6 +198,7 @@ namespace CleanGame.Game.Core
             meleeEntity.AddComponent(animation);
             meleeEntity.AddComponent(sprite);
             meleeEntity.AddComponent(mc);
+            meleeEntity.AddComponent(new MovementComponent());
             meleeEntity.AddComponent(new PhysicsComponent());
 
             return meleeEntity;
