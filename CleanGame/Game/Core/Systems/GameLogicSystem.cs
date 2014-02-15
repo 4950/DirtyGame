@@ -17,6 +17,7 @@ using CleanGame.Game.Util;
 using System.Xml;
 using CleanGame.Game.Core.GameStates;
 using CoreUI;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace CleanGame.Game.Core.Systems
 {
@@ -30,8 +31,11 @@ namespace CleanGame.Game.Core.Systems
         public int monstersalive;
         private Dirty game;
         private Label roundLabel;
+        private Label ActionLabel;
+        private Panel ActionLabelBack;
         private float roundLblTime;
         private float roundTime;
+        private float roundStartTime;
         private bool cheatEndRound = false;
 
         private List<Entity> spawners = new List<Entity>();
@@ -290,13 +294,13 @@ namespace CleanGame.Game.Core.Systems
             }
         }
 
-        public void setupScenario(Scenario scenario, Entity player)
+        public void setupScenario(Scenario scenario)
         {
             Entity e;
 
-            player.GetComponent<SpatialComponent>().Position = scenario.PlayerSpawn;
-        //    player.RemoveComponent(player.GetComponent<PhysicsComponent>());
-        //    player.AddComponent(new PhysicsComponent());
+            game.player.GetComponent<SpatialComponent>().Position = scenario.PlayerSpawn;
+            //    player.RemoveComponent(player.GetComponent<PhysicsComponent>());
+            //    player.AddComponent(new PhysicsComponent());
             //resetRound();
 
             foreach (Spawner s in scenario.Spawners)
@@ -327,7 +331,7 @@ namespace CleanGame.Game.Core.Systems
                 //found a map with the same name
                 if (scenario.MapName.Equals(mapName))
                 {
-                    playScenario = (Scenario) scenario;
+                    playScenario = (Scenario)scenario;
                     count++;
                 }
             }
@@ -372,11 +376,12 @@ namespace CleanGame.Game.Core.Systems
                         //next game round
                         //AdvanceLevel();
 
-                        //Setting the movePlayer flag in the physics component of the player
-                        game.player.GetComponent<PhysicsComponent>().movePlayer = true;
-                        //TODO need to have the map name here
-                        setupScenario(randomScenario(game.mapName), game.player);
-                        game.player.Refresh();
+                        //start next round in 5
+                        roundStartTime = 5f;
+                        ActionLabel.Text = "Get Ready";
+                        ActionLabel.Position = new System.Drawing.Point(-ActionLabel.Size.X / 2, ActionLabel.Position.Y);
+                        ActionLabelBack.Visibility = CoreUI.Visibility.Visible;
+
                     }
                 }
             }
@@ -393,10 +398,41 @@ namespace CleanGame.Game.Core.Systems
                     roundLblTime = 0;
                 }
             }
+            if (roundStartTime > 0)
+            {
+                roundStartTime -= dt;
+
+                if (roundStartTime > 4.5)
+                {
+                    float mult = ((5 - roundStartTime) * 2);
+                    ActionLabel.Position = new System.Drawing.Point((int)(-ActionLabel.Size.X / 2 + ActionLabel.Size.X / 2 * mult), ActionLabel.Position.Y);
+                }
+                else if (Math.Floor(roundStartTime) == 1 && Math.Round(roundStartTime) == 1)
+                {
+                    ActionLabel.Text = "Go!";
+                    ActionLabel.Position = new System.Drawing.Point(-ActionLabel.Size.X , ActionLabel.Position.Y);
+                }
+                else if (roundStartTime < 1 && roundStartTime > .5f)
+                {
+                    float mult = ((1 - roundStartTime) * 2);
+                    ActionLabel.Position = new System.Drawing.Point((int)(-ActionLabel.Size.X / 2 + ActionLabel.Size.X / 2 * mult), ActionLabel.Position.Y);
+                }
+                else if (roundStartTime <= 0)
+                {
+                    roundStartTime = 0;
+
+                    ActionLabelBack.Visibility = Visibility.Hidden;
+                    //Setting the movePlayer flag in the physics component of the player
+                    game.player.GetComponent<PhysicsComponent>().movePlayer = true;
+                    //TODO need to have the map name here
+                    setupScenario(randomScenario(game.mapName));
+                    game.player.Refresh();
+                }
+            }
             //if (roundTime > 0)
             //{
             //    roundTime -= dt;
-            //    if(roundLblTime == 0)//if done showing round number, show time
+            //    if (roundLblTime == 0)//if done showing round number, show time
             //        roundLabel.Text = "Time Remaining: " + (int)roundTime + "s";
 
             //    if (roundTime <= 0)//if time over, end round
@@ -493,6 +529,24 @@ namespace CleanGame.Game.Core.Systems
             roundLabel.TextPosition = TextPosition.Center;
             roundLabel.Visibility = CoreUI.Visibility.Hidden;
             game.UIEngine.Children.AddElement(roundLabel);
+
+            ActionLabelBack = new Panel();
+            ActionLabelBack.Size = new System.Drawing.Point(game.currrentDisplayMode.Width, 100);
+            ActionLabelBack.Position = new System.Drawing.Point(0, game.currrentDisplayMode.Height / 2 - 50);
+            ActionLabelBack.Background = new MonoGameColor(Microsoft.Xna.Framework.Color.Black);
+            ActionLabelBack.Visibility = CoreUI.Visibility.Hidden;
+            game.UIEngine.Children.AddElement(ActionLabelBack);
+
+            ActionLabel = new Label();
+            ActionLabel.mFontInt = new MonoGameFont(game.resourceManager.GetResource<SpriteFont>("Round"));
+            ActionLabel.Size = new System.Drawing.Point(game.currrentDisplayMode.Width, 100);
+            ActionLabel.Position = new System.Drawing.Point(0, game.currrentDisplayMode.Height / 2 - 50);
+            ActionLabel.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.Red);
+            ActionLabel.TextPosition = TextPosition.Center;
+            ActionLabel.Visibility = CoreUI.Visibility.Visible;
+            ActionLabelBack.AddElement(ActionLabel);
+
+
             game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.OemTilde, CheatEndRound, null);
         }
 

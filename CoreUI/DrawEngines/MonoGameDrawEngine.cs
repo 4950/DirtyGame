@@ -20,6 +20,14 @@ namespace CoreUI.DrawEngines
             texture.Dispose();
         }
     }
+    public class MonoGameFont : IUIFont
+    {
+        public SpriteFont font;
+        public MonoGameFont(SpriteFont font)
+        {
+            this.font = font;
+        }
+    }
     public class MonoGameColor : IUIColor
     {
         public Color color;
@@ -270,13 +278,19 @@ namespace CoreUI.DrawEngines
         }
         public System.Drawing.PointF getTextSize(String text, IUIFont font)
         {
-            Vector2 s = defaultFont.MeasureString(text);
+            SpriteFont f = null;
+            if (font != null)
+                f = (font as MonoGameFont).font;
+            Vector2 s = f == null ? defaultFont.MeasureString(text) : f.MeasureString(text);
             return new System.Drawing.PointF(s.X, s.Y);
         }
         public void Draw_Default_Text(string text, int left, int top, IUIColor color, IUIFont font)
         {
+            SpriteFont f = null;
+            if (font != null)
+                f = (font as MonoGameFont).font;
             if (defaultFont != null && text != "")
-                batch.DrawString(defaultFont, text, new Vector2(left, top), (color as MonoGameColor).color);
+                batch.DrawString(f == null ? defaultFont : f, text, new Vector2(left, top), (color as MonoGameColor).color);
 
         }
     }

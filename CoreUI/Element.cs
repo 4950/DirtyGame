@@ -26,7 +26,7 @@ namespace CoreUI
         private bool mIsMouseOver = false;
         private bool mIsFocused = false;
 
-        protected IUIFont mFontInt;
+        public IUIFont mFontInt;
         private Font mFont;
 
         protected Visual mBackgroundVisual;
