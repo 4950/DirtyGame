@@ -1,6 +1,7 @@
 ﻿using CleanGame.Game.Core.Components;
 using CleanGame.Game.Core.Components.Render;
 using CleanGame.Game.Core.Systems.Util;
+using CleanGame.Game.SGraphics;
 using EntityFramework;
 using EntityFramework.Systems;
 using Microsoft.Xna.Framework;
@@ -18,16 +19,18 @@ namespace CleanGame.Game.Core.Systems.Monster
         private EntityFactory entityFactory;
         public float totaltime;
         private Physics physics;
+        private Renderer renderer;
 
         //Current goal: Make monsters of different types rush towards each other.
         // If no monster of another type is nearby... wander.
 
-        public AISystem(Dirty game, EntityFactory entityFactory, Physics physics)
+        public AISystem(Dirty game, EntityFactory entityFactory, Physics physics, Renderer renderer)
             : base(SystemDescriptions.MonsterSystem.Aspect, SystemDescriptions.MonsterSystem.Priority)
         {
             this.game = game;
             this.entityFactory = entityFactory;
             this.physics = physics;
+            this.renderer = renderer;
         }
 
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
@@ -204,6 +207,10 @@ namespace CleanGame.Game.Core.Systems.Monster
             double[] vel = new double[2];
             String type = m.GetComponent<PropertyComponent<String>>("MonsterType").value;
 
+            bool[,] collMap = renderer.ActiveMap.getPassabilityMap();
+            int mapWidth = renderer.ActiveMap.getPixelWidth() / 32;
+            int mapHeight = renderer.ActiveMap.getPixelHeight() / 32;
+
             if (type == "Flametower")
             {
                 //don't move
@@ -216,7 +223,7 @@ namespace CleanGame.Game.Core.Systems.Monster
 
             else if (type == "WallHugger")
             {
-                return WallHuggerMovement(m) * 5 * (m.GetComponent<StatsComponent>().MoveSpeed / 100.0f);
+                return WallHuggerMovement(m, collMap, mapWidth, mapHeight) * 5 * (m.GetComponent<StatsComponent>().MoveSpeed / 100.0f);
             }
 
             else if (m.HasComponent<InventoryComponent>())//has weapon
@@ -526,34 +533,6 @@ namespace CleanGame.Game.Core.Systems.Monster
             rr[1] = dir.Y;
             return rr;
         }
-        //private double[] randDir()
-        //{
-        //    int randInt;
-        //    randInt = r.Next(0, 101);
-        //    double[] randDir = new double[2];
-        //    if (randInt < 26)
-        //    {
-        //        randDir[0] = 1.0;
-        //        randDir[1] = 0.0;
-        //    }
-        //    else if (randInt < 51)
-        //    {
-        //        randDir[0] = -1.0;
-        //        randDir[1] = 0.0;
-        //    }
-        //    else if (randInt < 76)
-        //    {
-        //        randDir[0] = 0.0;
-        //        randDir[1] = 1.0;
-        //    }
-        //    else
-        //    {
-        //        randDir[0] = 0.0;
-        //        randDir[1] = -1.0;
-        //    }
-
-        //    return randDir;
-        //}
 
 
         private double getDistance(double x, double y, double ox, double oy)
@@ -860,6 +839,172 @@ namespace CleanGame.Game.Core.Systems.Monster
 
             return velocity;
         }
+
+        private Vector2 WallHuggerMovement(Entity m, bool[,] collMap, int mapWidth, int mapHeight)
+        {
+            int monsterX = (int)Math.Floor(m.GetComponent<SpatialComponent>().Center.X / 32);
+            int monsterY = (int)Math.Floor(m.GetComponent<SpatialComponent>().Center.Y / 32);
+
+            Vector2 velocity = new Vector2();
+            bool t = collMap[monsterX, Math.Max(monsterY - 1, 0)];
+            bool b = collMap[monsterX, Math.Min(monsterY + 1, mapHeight - 1)];
+            bool l = collMap[Math.Max(monsterX - 1, 0), monsterY];
+            bool r = collMap[Math.Min(monsterX + 1, mapWidth - 1), monsterY];
+            Random rand = new Random();
+
+            if (r && l)
+            {
+                if (b)
+                {
+                    //Move up
+                    velocity = new Vector2(0.0f, -1.0f);
+                }
+                if (t)
+                {
+                    //Move Down
+                    velocity = new Vector2(0.0f, 1.0f);
+                }
+                //Move up or down
+                if (rand.NextDouble() > .5)
+                {
+                    velocity = new Vector2(0.0f, -1.0f);
+                }
+                else
+                {
+                    velocity = new Vector2(0.0f, 1.0f);
+                }
+            }
+            else if (t && b)
+            {
+                if (l)
+                {
+                    //Move right
+                    velocity = new Vector2(1.0f, 0.0f);
+                }
+                if (r)
+                {
+                    //Move left
+                    velocity = new Vector2(-1.0f, 0.0f);
+                }
+                //Move left or right
+                if (rand.NextDouble() > .5)
+                {
+                    velocity = new Vector2(-1.0f, 0.0f);
+                }
+                else
+                {
+                    velocity = new Vector2(1.0f, 0.0f);
+                }
+            }
+            else if (b && l)
+            {
+                //Move up
+                velocity = new Vector2(0.0f, -1.0f);
+            }
+            else if (b && r)
+            {
+                //Moveleft
+                velocity = new Vector2(-1.0f, 0.0f);
+            }
+            else if (t && l)
+            {
+                //Move right
+                velocity = new Vector2(1.0f, 0.0f);
+            }
+            else if (t && r)
+            {
+                //Move down 
+                velocity = new Vector2(0.0f, 1.0f);
+            }
+            else if (l)
+            {
+
+                //Move up
+                velocity = new Vector2(0.0f, -1.0f);
+            }
+            else if (r)
+            {
+                //Move Down
+                velocity = new Vector2(0.0f, 1.0f);
+
+            }
+            else if (b)
+            {
+                //Move left 
+                velocity = new Vector2(-1.0f, 0.0f);
+            }
+            else if (t)
+            {
+                //Move Right
+                velocity = new Vector2(1.0f, 0.0f);
+            }
+            else
+            {
+                bool tr = collMap[Math.Min(monsterX + 1, mapWidth - 1), Math.Max(monsterY - 1, 0)];
+                bool tl = collMap[Math.Max(monsterX - 1, 0), Math.Max(monsterY - 1, 0)];
+                bool bl = collMap[Math.Max(monsterX - 1, 0), Math.Min(monsterY + 1, mapHeight - 1)];
+                bool br = collMap[Math.Min(monsterX + 1, mapWidth - 1), Math.Min(monsterY + 1, mapHeight - 1)];
+                MovementComponent oldMovement = m.GetComponent<MovementComponent>();
+                if (tr)
+                {
+                    //Move Up or right
+                    if (oldMovement.prevVertical == 0)
+                    {
+                        velocity = new Vector2(0.0f, -1.0f);
+                    }
+                    else //if(oldMovement.prevVertical>0)
+                    {
+                        velocity = new Vector2(1.0f, 0.0f);
+                    }
+                }
+                else if (tl)
+                {
+                    //Move up or left
+                    if (oldMovement.prevVertical == 0)
+                    {
+                        velocity = new Vector2(0.0f, -1.0f);
+                    }
+                    else //if(oldMovement.prevVertical>0)
+                    {
+                        velocity = new Vector2(-1.0f, 0.0f);
+                    }
+                }
+                else if (bl)
+                {
+                    //Move down or left
+                    if (oldMovement.prevVertical == 0)
+                    {
+                        velocity = new Vector2(0.0f, 1.0f);
+                    }
+                    else //if(oldMovement.prevVertical<0)
+                    {
+                        velocity = new Vector2(-1.0f, 0.0f);
+                    }
+                }
+                else if (br)
+                {
+                    //Move down or right
+                    if (oldMovement.prevVertical == 0)
+                    {
+                        velocity = new Vector2(0.0f, 1.0f);
+                    }
+                    else //if (oldMovement.prevVertical < 0)
+                    {
+                        velocity = new Vector2(1.0f, 0.0f);
+                    }
+                }
+                else
+                {
+                    //go find a wall//go find a wall
+                    velocity = new Vector2(-1.0f, 0.0f);
+                }
+            }
+
+            m.GetComponent<MovementComponent>().prevHorizontal = velocity.X;
+            m.GetComponent<MovementComponent>().prevVertical = velocity.Y;
+            return velocity;
+        }
+        
         private bool WallCheck(List<Entity> list)
         {
             if (list.Count != 0)

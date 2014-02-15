@@ -140,7 +140,7 @@ namespace CleanGame
         }
         private void LoadSystems()
         {
-            aiSystem = new AISystem(this, entityFactory, physics);
+            aiSystem = new AISystem(this, entityFactory, physics, renderer);
             world.AddSystem(aiSystem);
             world.AddSystem(new SpriteRenderSystem(renderer));
             world.AddSystem(new PlayerControlSystem(entityFactory, renderer, this));

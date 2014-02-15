@@ -16,6 +16,9 @@ namespace CleanGame.Game.Map
 {
     public class Map
     {
+
+        bool[,] passabilityMap;
+
         public class TileData
         {
             public Rectangle coords; //Coords of tile in tileset
@@ -225,6 +228,8 @@ namespace CleanGame.Game.Map
                 width = int.Parse(layerXML.GetAttribute("width"));
                 height = int.Parse(layerXML.GetAttribute("height"));
 
+                map.passabilityMap = new bool[width, height];
+
                 int tileX = 0, tileY = 0;
 
 
@@ -277,80 +282,19 @@ namespace CleanGame.Game.Map
                     lt.tile = set.tiles[GID];
 
                     if (list.Contains(GID))
-                    /*if(GID == 740 ||
-                       GID == 741 ||
-                       GID == 742 ||
-                       GID == 748 ||
-                       GID == 750 ||
-                       GID == 756 ||
-                       GID == 757 ||
-                       GID == 758 ||
-                       GID == 760 ||
-                       GID == 191 ||
-                       GID == 33  ||
-                       GID == 39  ||
-                       GID == 59  ||
-                       GID == 34  ||
-                       GID == 40  ||
-                       GID == 26  ||
-                       GID == 38  ||
-                       GID == 37  ||
-                       GID == 21  ||
-                       GID == 19  ||
-                       GID == 5   ||
-                       GID == 9   ||
-                       GID == 16  ||
-                       GID == 937 ||
-                       GID == 962 ||
-                       GID == 967 ||
-                       GID == 970 ||
-                       GID == 1002 ||
-                       GID == 1007 ||
-                       GID == 1010 ||
-                       GID == 1042 ||
-                       GID == 1045 ||
-                       GID == 1048 ||
-                       GID == 1049 ||
-                       GID == 1082 ||
-                       GID == 1088 ||
-                       GID == 1089 ||
-                       GID == 1122 ||
-                       GID == 1124 ||
-                       GID == 1128 ||
-                       GID == 1129 ||
-                       GID == 1162 ||
-                       GID == 1168 ||
-                       GID == 1169 ||
-                       GID == 1202 ||
-                       GID == 1204 ||
-                       GID == 1242 ||
-                       GID == 1255 ||
-                       GID == 1256 ||
-                       GID == 1285 ||
-                       GID == 1292 ||
-                       GID == 1327 ||
-                       GID == 1330 ||
-                       GID == 1447 ||
-                       GID == 1450 ||
-                       GID == 1451 ||
-                       GID == 1487 ||
-                       GID == 1490 ||
-                       GID == 1527 ||
-                       GID == 1530 ||
-                       GID == 1567 ||
-                       GID == 1570)*/
                     {
-                        //if (GID == 749)
-                        //{
-                        //    Console.WriteLine("Made IT");
-                        //}
                         Entity e = entityFactory.CreateWallEntity(new Vector2((float)tileX * map.tileWidth, (float)tileY * map.tileHeight),
                                                         new Vector2((float)tileX * map.tileWidth, ((float)tileY * map.tileHeight + map.tileHeight)),
                                                         new Vector2(((float)tileX * map.tileWidth + map.tileWidth), (float)tileY * map.tileHeight),
                                                         new Vector2(((float)tileX * map.tileWidth + map.tileWidth), ((float)tileY * map.tileHeight + map.tileHeight)));
                         e.Refresh();
-                    }
 
+                        map.passabilityMap[tileX, tileY] = true;
+                    }
+                    else
+                    {
+                        map.passabilityMap[tileX, tileY] = false;
+                    }
 
 
                     //Entity e = entityFactory.CreateWallEntity(new Vector2((float)tilewidth * col, (float)tileheight * row), 
@@ -406,6 +350,11 @@ namespace CleanGame.Game.Map
         List<MapLayer> layers;
         SpriteBatch batch;
         EntityFactory entityFactory;
+
+        public bool[,] getPassabilityMap()
+        {
+            return passabilityMap;
+        }
 
         public int getPixelHeight()
         {
