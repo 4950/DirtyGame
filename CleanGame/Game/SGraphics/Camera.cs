@@ -39,7 +39,7 @@ namespace CleanGame.Game.SGraphics
         {
             get
             {
-                return Matrix.CreateLookAt(new Vector3(position, 0), new Vector3(position, -1), new Vector3(0, 1, 0));
+                return Matrix.CreateLookAt(new Vector3(position.X, position.Y, 1), new Vector3(position.X, position.Y, 0), Vector3.Up);
             }
         }
         public Vector2 size { get; set; }

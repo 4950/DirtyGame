@@ -206,13 +206,14 @@ namespace CleanGame.Game.Core.Systems
 
             //Reads to the start of the XML file
             scenarioReader.ReadToFollowing("root");
+            //scenarioReader.ReadStartElement();
 
             //TESTING
             //int scenarioCount = 0;
             //int spawnerCount = 0;
 
             //Parse the XML for the Scenarios
-            while (scenarioReader.Read()) //(scenarioReader.ReadToFollowing("scenario"))
+            while (scenarioReader.ReadToFollowing("scenario"))
             {
 
                 //scenarioCount++;
@@ -318,12 +319,14 @@ namespace CleanGame.Game.Core.Systems
             //    player.RemoveComponent(player.GetComponent<PhysicsComponent>());
             //    player.AddComponent(new PhysicsComponent());
             //resetRound();
-
-            foreach (Spawner s in scenario.Spawners)
+            if (scenario.Spawners != null)
             {
-                e = game.entityFactory.CreateSpawner(s);
-                e.Refresh();
-                spawners.Add(e);
+                foreach (Spawner s in scenario.Spawners)
+                {
+                    e = game.entityFactory.CreateSpawner(s);
+                    e.Refresh();
+                    spawners.Add(e);
+                }
             }
         }
 

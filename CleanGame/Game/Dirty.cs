@@ -268,6 +268,8 @@ namespace CleanGame
             CreateInputContext();
 
             graphics = new GraphicsDeviceManager(this);
+  
+
             defaultDisplayMode = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
 
             DisplayMode smallest = null;
