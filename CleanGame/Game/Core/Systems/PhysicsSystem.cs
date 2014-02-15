@@ -79,6 +79,16 @@ namespace CleanGame.Game.Core.Systems
 							bodyDictionary[e.Id].Rotation = spatial.Rotation;
 						}
 
+                        if (e.HasComponent<PropertyComponent<String>>())
+                        {
+
+                            if (e.GetComponent<PropertyComponent<String>>("MonsterType").value == "Flametower" && bodyDictionary[e.Id].IsStatic == false)
+                            {
+                                bodyDictionary[e.Id].IsStatic = true;
+                            }
+
+                        }
+
                         if (e.HasComponent<SnipComponent>())
                         {
                             SnipComponent snip = e.GetComponent<SnipComponent>();
@@ -240,7 +250,6 @@ namespace CleanGame.Game.Core.Systems
 					
 				}
 
-
 				if (e.HasComponent<BorderComponent>())
 				{
 					BorderComponent border = e.GetComponent<BorderComponent>();
@@ -261,14 +270,17 @@ namespace CleanGame.Game.Core.Systems
 					Body.Restitution = 0.3f;
 				}
 
+                
+
 				Body.OnCollision += BodyOnCollision;
-				
 
 				CollisionCategory(e, Body);
 
 				entityDictionary.Add(Body.BodyId, e);
 				physics.AddEntityId(Body.BodyId, e.Id);
 				bodyDictionary.Add(e.Id, Body);
+
+                
 			}
 			
 	private bool BodyOnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
