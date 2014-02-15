@@ -348,7 +348,7 @@ namespace CleanGame.Game.Core.Systems
                     break;
                 }
                 //found a map with the same name
-                if (scenario.Name.Equals("scenario1"))
+                if (scenario.MapName.Equals(mapName))
                 {
                     playScenario = (Scenario)scenario;
                     count++;
