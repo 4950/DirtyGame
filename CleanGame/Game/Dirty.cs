@@ -268,7 +268,7 @@ namespace CleanGame
             CreateInputContext();
 
             graphics = new GraphicsDeviceManager(this);
-  
+            graphics.PreferMultiSampling = true;
 
             defaultDisplayMode = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
 

@@ -144,7 +144,7 @@ namespace CleanGame.Game.Map
                 foreach (LayerTile tile in tiles)
                 {
                     Vector2[] texCoords = getTexCoords(tile.tile.coords, texSize);
-                    Vector3[] quadCoords = getQuad(new Vector3(-tile.dest.X - 32, tile.dest.Y - 32, 0), Vector3.Backward, Vector3.Left, tile.dest.Width, tile.dest.Height);
+                    Vector3[] quadCoords = getQuad(new Vector3(-tile.dest.X - 32, tile.dest.Y - 32, 0), Vector3.Backward, Vector3.Left, tile.dest.Width+1f, tile.dest.Height+1f);
                     for (int j = 0; j < 4; j++)
                     {
                         //v[i * 4 + j].Normal = Vector3.Backward;
@@ -168,7 +168,7 @@ namespace CleanGame.Game.Map
                 foreach (EffectPass pass in quadEffect.CurrentTechnique.Passes)
                 {
                     pass.Apply();
-                    dev.SamplerStates[0] = SamplerState.PointClamp;
+                    dev.SamplerStates[0] = state;
                     dev.Indices = inds;
                     dev.SetVertexBuffer(verts);
                     dev.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, verts.VertexCount, 0, inds.IndexCount / 3);//inds.IndexCount / 3);
