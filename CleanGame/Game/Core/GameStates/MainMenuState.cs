@@ -16,6 +16,7 @@ namespace CleanGame.Game.Core.GameStates
         private Window selectMap;
         private Window settingsWindow;
         private CheckBox full;
+        private CheckBox cap;
         private bool isMapWindowShown = false;
         string[] maps = { "Cave", "Forest", "Arena" };
 
@@ -81,10 +82,17 @@ namespace CleanGame.Game.Core.GameStates
 
                 full = new CheckBox();
                 full.Position = new System.Drawing.Point(20, 40);
-                full.Size = new System.Drawing.Point(100, 25);
+                full.Size = new System.Drawing.Point(100, 20);
                 full.Text = "Fullscreen";
                 full.IsChecked = Settings.Instance.Global.Fullscreen;
                 p.AddElement(full);
+
+                cap = new CheckBox();
+                cap.Position = new System.Drawing.Point(20, 60);
+                cap.Size = new System.Drawing.Point(100, 20);
+                cap.Text = "Capture Mouse";
+                cap.IsChecked = Settings.Instance.Global.DefaultUser.CaptureMouse;
+                p.AddElement(cap);
 
                 CoreUI.Elements.Button s = new CoreUI.Elements.Button();
                 s.Position = new System.Drawing.Point(20, 120);
@@ -172,6 +180,8 @@ namespace CleanGame.Game.Core.GameStates
                 game.graphics.ToggleFullScreen();
                 Settings.Instance.Global.Fullscreen = game.graphics.IsFullScreen;
             }
+            Settings.Instance.Global.DefaultUser.CaptureMouse = (bool)cap.IsChecked;
+
             back(sender);
         }
 

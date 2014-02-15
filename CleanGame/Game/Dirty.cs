@@ -134,6 +134,9 @@ namespace CleanGame
             Event endGame = new Event();
             endGame.name = "GameStateMainMenu";
             EventManager.Instance.TriggerEvent(endGame);
+
+            SoundSystem.Instance.Loop = true;
+            SoundSystem.Instance.PlayBackgroundMusic("DST-ChordLesson01.mp3");
         }
         private void LoadSystems()
         {
@@ -323,6 +326,10 @@ namespace CleanGame
             //TODO: Needs to change to be a selection
 //            gLogicSystem.setupScenario("scenario1");
             LoadScenario(mapname);
+
+            SoundSystem.Instance.Loop = false;
+            SoundSystem.Instance.RemoveBackgroundMusic("DST-ChordLesson01.mp3");
+            SoundSystem.Instance.PlayRand();
         }
         public void LoadScenario(string mapName)
         {

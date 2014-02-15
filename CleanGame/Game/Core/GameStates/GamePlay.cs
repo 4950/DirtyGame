@@ -56,9 +56,7 @@ namespace CleanGame.Game.Core.GameStates
         }
         public void OnEnter(Dirty game)
         {
-            SoundSystem.Instance.Loop = false;
-            SoundSystem.Instance.RemoveBackgroundMusic("DST-ChordLesson01.mp3");
-            SoundSystem.Instance.PlayRand();
+           
 
             game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.F5, SaveGame, null);
             game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.F6, LoadGame, null);
@@ -172,7 +170,7 @@ namespace CleanGame.Game.Core.GameStates
             game.world.Update(dt);
             game.physics.Update(dt);
 
-            if (!game.graphics.IsFullScreen)//mouse locking
+            if (!game.graphics.IsFullScreen && Settings.Instance.Global.DefaultUser.CaptureMouse)//mouse locking
             {
                 Vector2 pos = new Vector2(game.mouseState.X, game.mouseState.Y);
                 Vector2 pos2 = pos;

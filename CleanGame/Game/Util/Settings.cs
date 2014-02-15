@@ -21,7 +21,7 @@ namespace CleanGame.Game.Util
         public class UserSettings
         {
             public String Name { get; set; }
-
+            public bool CaptureMouse { get; set; }
         }
 
         public GlobalSettings Global { get; set; }
@@ -33,6 +33,7 @@ namespace CleanGame.Game.Util
         {
             UserSettings u = new UserSettings();
             u.Name = "Test";
+            u.CaptureMouse = true;
             return u;
         }
         private void CreateGlobal()
