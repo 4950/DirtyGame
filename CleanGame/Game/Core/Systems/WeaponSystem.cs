@@ -36,16 +36,28 @@ namespace CleanGame.Game.Core.Systems
         }
         public void DealDamage(Entity Weapon, Entity Target)
         {
+            if (Weapon == null || Target == null)
+                return;
+
             WeaponComponent wc = Weapon.GetComponent<WeaponComponent>();
             StatsComponent hc = Target.GetComponent<StatsComponent>();
-            StatsComponent os = wc.Owner.GetComponent<StatsComponent>();
             StatsComponent ts = Target.GetComponent<StatsComponent>();
 
-            if (wc == null || hc == null || os == null || ts == null)
+            if (wc == null || wc.Owner == null)
+                return;
+
+            StatsComponent os = wc.Owner.GetComponent<StatsComponent>();
+
+            if (hc == null || os == null || ts == null)
                 return;
 
             if (ts.RangedImmune && wc.Type == WeaponComponent.WeaponType.Ranged)
                 return;
+
+            if (wc.Owner == game.player)
+                game.gLogicSystem.PlayerDealtDamage();
+            else if (Target == game.player)
+                game.gLogicSystem.PlayerTookDamage();
 
             int Damage = (int)Math.Floor(wc.BaseDamage * (os.Damage / 100.0f));
 

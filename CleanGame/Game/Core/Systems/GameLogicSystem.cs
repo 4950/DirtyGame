@@ -33,10 +33,13 @@ namespace CleanGame.Game.Core.Systems
         private Label roundLabel;
         private Label ActionLabel;
         private Panel ActionLabelBack;
+        private Label HitLabel;
         private float roundLblTime;
         private float roundTime;
         private float roundStartTime;
         private bool cheatEndRound = false;
+        private int PlayerHits;
+        private float playerHitTime;
 
         private List<Entity> spawners = new List<Entity>();
 
@@ -136,6 +139,19 @@ namespace CleanGame.Game.Core.Systems
             //    BuyPhase();
 
             roundTime = 60;
+        }
+        public void PlayerDealtDamage()
+        {
+            playerHitTime = 4;
+            PlayerHits++;
+            HitLabel.Visibility = Visibility.Visible;
+            HitLabel.Text = PlayerHits + " hits";
+        }
+        public void PlayerTookDamage()
+        {
+            playerHitTime = 0;
+            PlayerHits = 0;
+            HitLabel.Visibility = Visibility.Hidden;
         }
         private void SetupBoss()
         {
@@ -398,6 +414,16 @@ namespace CleanGame.Game.Core.Systems
                     roundLblTime = 0;
                 }
             }
+            if (playerHitTime > 0)
+            {
+                playerHitTime -= dt;
+                if (playerHitTime <= 0)
+                {
+                    playerHitTime = 0;
+                    PlayerHits = 0;
+                    HitLabel.Visibility = Visibility.Hidden;
+                }
+            }
             if (roundStartTime > 0)
             {
                 roundStartTime -= dt;
@@ -546,6 +572,16 @@ namespace CleanGame.Game.Core.Systems
             ActionLabel.Visibility = CoreUI.Visibility.Visible;
             ActionLabelBack.AddElement(ActionLabel);
 
+            HitLabel = new Label();
+            SpriteFont f = game.resourceManager.GetResource<SpriteFont>("Hits");
+            f.Spacing = 0;
+            HitLabel.mFontInt = new MonoGameFont(f);
+            HitLabel.Size = new System.Drawing.Point(200, 50);
+            HitLabel.Position = new System.Drawing.Point(50, 100);
+            HitLabel.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.White);
+            HitLabel.TextPosition = TextPosition.Left;
+            HitLabel.Visibility = CoreUI.Visibility.Hidden;
+            game.UIEngine.Children.AddElement(HitLabel);
 
             game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.OemTilde, CheatEndRound, null);
         }
