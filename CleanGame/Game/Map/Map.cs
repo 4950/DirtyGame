@@ -88,6 +88,7 @@ namespace CleanGame.Game.Map
             TileSet set;
             MapLayer layer;
             BasicEffect quadEffect;
+            SamplerState state;
             VertexBuffer verts;
             IndexBuffer inds;
 
@@ -96,8 +97,15 @@ namespace CleanGame.Game.Map
                 this.set = set;
                 this.layer = layer;
 
-                Matrix View = Matrix.CreateLookAt(new Vector3(20, 1, 0), new Vector3(20, -1, 0), Vector3.Forward);
-                Matrix Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 4.0f / 3.0f, 1, 500);
+                Vector3 cameraPosition = new Vector3(0, 0, 1000);
+                Vector3 cameraTarget = new Vector3(0, 0, 0);
+                Matrix View = Matrix.CreateLookAt(cameraPosition, cameraTarget, new Vector3(0, -1, 0));
+                //Matrix View = Matrix.CreateLookAt(new Vector3(20, 1, 0), new Vector3(20, -1, 0), Vector3.Forward);
+                Matrix Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, 4 / 3f, 1, 10000);
+
+                state = new SamplerState();
+                state.Filter = TextureFilter.Anisotropic;
+                state.MaxAnisotropy = 16;
 
                 quadEffect = new BasicEffect(dev);
                 quadEffect.LightingEnabled = false;
@@ -107,13 +115,14 @@ namespace CleanGame.Game.Map
                 quadEffect.TextureEnabled = true;
                 quadEffect.Texture = set.tex;
 
+
                 List<LayerTile> tiles = layer.tileRectsBySet[set];
                 int len = tiles.Count;
 
-                verts = new VertexBuffer(dev, VertexPositionTexture.VertexDeclaration, 4*len, BufferUsage.WriteOnly);
-                inds = new IndexBuffer(dev, typeof(int), 6*len, BufferUsage.WriteOnly);
+                verts = new VertexBuffer(dev, VertexPositionTexture.VertexDeclaration, 4 * len, BufferUsage.WriteOnly);
+                inds = new IndexBuffer(dev, typeof(int), 6 * len, BufferUsage.WriteOnly);
                 VertexPositionTexture[] v = new VertexPositionTexture[4 * len];
-                int[] ins = new int[6*len];
+                int[] ins = new int[6 * len];
 
                 int i;
                 for (i = 0; i < len; i++)
@@ -132,7 +141,7 @@ namespace CleanGame.Game.Map
                 foreach (LayerTile tile in tiles)
                 {
                     Vector2[] texCoords = getTexCoords(tile.tile.coords, texSize);
-                    Vector3[] quadCoords = getQuad(new Vector3(tile.dest.X-32, -500, tile.dest.Y-32), Vector3.Up, Vector3.Forward, tile.dest.Width, tile.dest.Height);
+                    Vector3[] quadCoords = getQuad(new Vector3(-tile.dest.X - 32, tile.dest.Y - 32, 0), Vector3.Backward, Vector3.Left, tile.dest.Width, tile.dest.Height);
                     for (int j = 0; j < 4; j++)
                     {
                         //v[i * 4 + j].Normal = Vector3.Backward;
@@ -147,14 +156,16 @@ namespace CleanGame.Game.Map
                 verts.SetData<VertexPositionTexture>(v);
                 inds.SetData<int>(ins);
             }
-            public void render(GraphicsDevice dev, Matrix view)
+            public void render(GraphicsDevice dev, Camera cam)
             {
-                Matrix v = Matrix.CreateLookAt(new Vector3(20, 1, 0), new Vector3(20, -1, 0), Vector3.Forward);
-                v.Translation = view.Translation;
-                quadEffect.View = v;
+                Matrix m = quadEffect.View;
+                m.Translation = new Vector3((-dev.Viewport.Width / 2) - cam.Position.X - 16, dev.Viewport.Height / 2 + cam.Position.Y -48, -724);
+                quadEffect.View = m;
+
                 foreach (EffectPass pass in quadEffect.CurrentTechnique.Passes)
                 {
                     pass.Apply();
+                    dev.SamplerStates[0] = SamplerState.PointClamp;
                     dev.Indices = inds;
                     dev.SetVertexBuffer(verts);
                     dev.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, verts.VertexCount, 0, inds.IndexCount / 3);//inds.IndexCount / 3);
@@ -184,6 +195,7 @@ namespace CleanGame.Game.Map
                 float top = coords.Top / size.Y;
                 float bottom = coords.Bottom / size.Y;
                 float right = coords.Right / size.X;
+
                 Vector2[] v = new Vector2[4];
                 v[0] = new Vector2(left, top);
                 v[1] = new Vector2(right, top);
@@ -257,14 +269,14 @@ namespace CleanGame.Game.Map
 
                 foreach (XmlElement tile in ((XmlElement)layerXML.FirstChild).ChildNodes)
                 {
-                    
+
                     int GID = int.Parse(tile.GetAttribute("gid"));
                     TileSet set = map.tileSetsByTileGID[GID];
                     LayerTile lt = new LayerTile();
                     lt.dest = new Rectangle(tileX * map.tileWidth, tileY * map.tileHeight, map.tileWidth, map.tileHeight);
                     lt.tile = set.tiles[GID];
 
-                    if(list.Contains(GID))
+                    if (list.Contains(GID))
                     /*if(GID == 740 ||
                        GID == 741 ||
                        GID == 742 ||
@@ -339,7 +351,7 @@ namespace CleanGame.Game.Map
                         e.Refresh();
                     }
 
-                    
+
 
                     //Entity e = entityFactory.CreateWallEntity(new Vector2((float)tilewidth * col, (float)tileheight * row), 
                     //                                            new Vector2((float)tilewidth * col, (float)((tileheight * row)+tileheight)), 
@@ -365,25 +377,25 @@ namespace CleanGame.Game.Map
                     mapLayerSets.Add(new MapLayerSet(t, this, dev));
                 }
             }
-            public void draw(SpriteBatch batch, Matrix view)
+            public void draw(SpriteBatch batch, Camera cam)
             {
-                int i = 0;
-                foreach (var entry in tileRectsBySet)
-                {
-                    foreach (LayerTile t in entry.Value)
-                    {
-                        i++;
-                        batch.Draw(entry.Key.tex, t.dest, t.tile.coords, Color.White);
-                    }
-                }
-                i = 0;
+                //int i = 0;
+                //foreach (var entry in tileRectsBySet)
+                //{
+                //    foreach (LayerTile t in entry.Value)
+                //    {
+                //        i++;
+                //        batch.Draw(entry.Key.tex, t.dest, t.tile.coords, Color.White);
+                //    }
+                //}
+                //i = 0;
 
 
                 // THIS NEEDS TO GET FIXED
-              //  foreach (MapLayerSet l in mapLayerSets)
-              //  {
-              //      l.render(batch.GraphicsDevice, view);
-              //  }
+                foreach (MapLayerSet l in mapLayerSets)
+                {
+                    l.render(batch.GraphicsDevice, cam);
+                }
             }
         }
 
@@ -462,10 +474,10 @@ namespace CleanGame.Game.Map
         }
         public void draw(Camera cam)
         {
-            batch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, cam.Transform);
+            batch.Begin(SpriteSortMode.Texture, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, cam.Transform);
             foreach (MapLayer l in layers)
             {
-                l.draw(batch, cam.Transform);
+                l.draw(batch, cam);
             }
             batch.End();
         }

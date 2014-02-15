@@ -134,6 +134,9 @@ namespace CleanGame
             Event endGame = new Event();
             endGame.name = "GameStateMainMenu";
             EventManager.Instance.TriggerEvent(endGame);
+
+            SoundSystem.Instance.Loop = true;
+            SoundSystem.Instance.PlayBackgroundMusic("DST-ChordLesson01.mp3");
         }
         private void LoadSystems()
         {
@@ -265,6 +268,8 @@ namespace CleanGame
             CreateInputContext();
 
             graphics = new GraphicsDeviceManager(this);
+  
+
             defaultDisplayMode = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
 
             DisplayMode smallest = null;
@@ -323,12 +328,16 @@ namespace CleanGame
             //TODO: Needs to change to be a selection
 //            gLogicSystem.setupScenario("scenario1");
             LoadScenario(mapname);
+
+            SoundSystem.Instance.Loop = false;
+            SoundSystem.Instance.RemoveBackgroundMusic("DST-ChordLesson01.mp3");
+            SoundSystem.Instance.PlayRand();
         }
         public void LoadScenario(string mapName)
         {
             //Setting up the scenario for the map
             Scenario playingScenario = gLogicSystem.randomScenario(mapName); //This will change to gLogicSystem.scenarioForPlayerScore(string mapName, float playerScore)
-            gLogicSystem.setupScenario(playingScenario, player);
+            gLogicSystem.setupScenario(playingScenario);
             player.Refresh();
         }
         private void LoadMap(string mapname)

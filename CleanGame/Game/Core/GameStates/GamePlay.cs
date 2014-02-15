@@ -56,9 +56,7 @@ namespace CleanGame.Game.Core.GameStates
         }
         public void OnEnter(Dirty game)
         {
-            SoundSystem.Instance.Loop = false;
-            SoundSystem.Instance.RemoveBackgroundMusic("DST-ChordLesson01.mp3");
-            SoundSystem.Instance.PlayRand();
+
 
             game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.F5, SaveGame, null);
             game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.F6, LoadGame, null);
@@ -152,7 +150,7 @@ namespace CleanGame.Game.Core.GameStates
                 windowCont.AddElement(weaponAmmoLabel);
 
             }
-            if(monsterHUD.Parent == null)
+            if (monsterHUD.Parent == null)
                 game.UIEngine.Children.AddElement(monsterHUD);
             monsterHUD.Visibility = Visibility.Visible;
             playerStuff.Show();
@@ -172,7 +170,7 @@ namespace CleanGame.Game.Core.GameStates
             game.world.Update(dt);
             game.physics.Update(dt);
 
-            if (!game.graphics.IsFullScreen)//mouse locking
+            if (!game.graphics.IsFullScreen && Settings.Instance.Global.DefaultUser.CaptureMouse)//mouse locking
             {
                 Vector2 pos = new Vector2(game.mouseState.X, game.mouseState.Y);
                 Vector2 pos2 = pos;
@@ -222,8 +220,20 @@ namespace CleanGame.Game.Core.GameStates
                 }
 
             }
-
-            if (curWeapon.entity.GetComponent<WeaponComponent>().Ammo != weaponAmmo.Value && curWeapon.entity.GetComponent<WeaponComponent>().MaxAmmo != -1)
+            if (wc.MaxAmmo == -1)//no ammo, show cooldown
+            {
+                int val = (int)((wc.Cooldown - wc.LastFire) / wc.Cooldown * 100);
+                if (val != weaponAmmo.Value)
+                {
+                    weaponAmmo.Maximum = 100;
+                    weaponAmmo.Value = val;
+                    if (val < 100)
+                        weaponAmmoLabel.Text = "Reloading";
+                    else
+                        weaponAmmoLabel.Text = "Ready";
+                }
+            }
+            else if (wc.Ammo != weaponAmmo.Value)
             {
                 weaponAmmo.Maximum = wc.MaxAmmo;
                 weaponAmmo.Value = wc.Ammo;

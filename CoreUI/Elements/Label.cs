@@ -57,10 +57,15 @@ namespace CoreUI.Elements
                 InvalidateVisual();
             }
         }
+        protected internal override void OnPositionChanged(object sender)
+        {
+            base.OnPositionChanged(sender);
+            CalculateText();
+        }
         protected internal override void OnSizeChanged(object sender)
         {
-            CalculateText();
             base.OnSizeChanged(sender);
+            CalculateText();
         }
         public String Text
         {
