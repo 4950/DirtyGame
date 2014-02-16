@@ -795,6 +795,11 @@
       <BaseMoveSpeed>0</BaseMoveSpeed>
       <BaseDamage>100</BaseDamage>
       <RangedImmune>true</RangedImmune>
+      <ImmuneTo>
+        <List>Sniper</List>
+        <List>Doomsbow</List>
+        <List>Scattershot</List>
+      </ImmuneTo>
       <BaseHealth>100</BaseHealth>
       <HealthScale>1</HealthScale>
       <CurrentHealth>100</CurrentHealth>
@@ -1013,6 +1018,11 @@
       <BaseMoveSpeed>80</BaseMoveSpeed>
       <BaseDamage>100</BaseDamage>
       <RangedImmune>true</RangedImmune>
+      <ImmuneTo>
+        <List>Sniper</List>
+        <List>Doomsbow</List>
+        <List>Scattershot</List>
+      </ImmuneTo>
       <BaseHealth>25</BaseHealth>
       <HealthScale>1</HealthScale>
       <CurrentHealth>25</CurrentHealth>

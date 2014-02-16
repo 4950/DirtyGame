@@ -51,9 +51,17 @@ namespace CleanGame.Game.Core.Systems
             if (hc == null || os == null || ts == null)
                 return;
 
-            if (ts.RangedImmune && wc.Type == WeaponComponent.WeaponType.Ranged)
-                return;
-
+            if (ts.RangedImmune)
+            {
+                foreach (string weapon in ts.ImmuneTo)
+                {
+                    if (weapon == wc.WeaponName)
+                    {
+                        return;
+                    }
+                }
+                
+            }
             if (wc.Owner == game.player)
                 game.gLogicSystem.PlayerDealtDamage();
             else if (Target == game.player)
