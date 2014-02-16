@@ -24,8 +24,8 @@ namespace CleanGame.Game.Core.GameStates
         //TimeSpan for Monsters to Spawn
         private TimeSpan timePerSpawn;
         //Modifier
-        private float damageupmodifier;
-        private float healthupmodifier;
+        private float damageupmodifier = 1.0f;
+        private float healthupmodifier = 1.0f;
         
 
         #region Properties
