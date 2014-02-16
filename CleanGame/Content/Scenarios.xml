@@ -50,8 +50,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             healthUpModifier="1000"
-             damageUpModifier="1000">
+             healthUpModifier="10"
+             damageUpModifier="10">
     </spawner>
   </scenario>
  

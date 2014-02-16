@@ -75,15 +75,15 @@ namespace EntityFramework.Systems
                         {
                            StatsComponent stats = monster.GetComponent<StatsComponent>();
 
-                           stats.BaseHealth = (int)Math.Floor(stats.BaseHealth + spawner.HealthUpModifier);
-                           stats.CurrentHealth = (int)Math.Floor(stats.CurrentHealth + spawner.HealthUpModifier);
+                           stats.BaseHealth = (int)Math.Floor(stats.BaseHealth * spawner.HealthUpModifier);
+                           stats.CurrentHealth = (int)Math.Floor(stats.CurrentHealth * spawner.HealthUpModifier);
                         }
 
                         if (spawner.DamageUpModifier != 0)
                         {
                            WeaponComponent wc = weapon.GetComponent<WeaponComponent>();
 
-                           wc.BaseDamage = (int)Math.Floor(wc.BaseDamage + spawner.DamageUpModifier);
+                           wc.BaseDamage = (int)Math.Floor(wc.BaseDamage * spawner.DamageUpModifier);
                         }    
 
                         
