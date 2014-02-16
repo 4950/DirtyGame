@@ -548,7 +548,9 @@ namespace CleanGame.Game.Core
             spawnerCmp.MonsterType = s.MonsterType;
             spawnerCmp.MonsterWeapon = s.MonsterWeapon;
             //TODO Spawner Component needs a modifier
-
+            //spawnerCmp.healthUp = s.HealthUpModifier;
+            //spawnerCmp.damageUp = s.DamageUpModifier;
+               
             //Add the new components to the entity
             e.AddComponent(spatial);
             e.AddComponent(spawnerCmp);
