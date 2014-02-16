@@ -24,8 +24,8 @@ namespace CleanGame.Game.Core.GameStates
         //TimeSpan for Monsters to Spawn
         private TimeSpan timePerSpawn;
         //Modifier
-        private string modifier;
-        private float valueofmodifier;
+        private float damageupmodifier;
+        private float healthupmodifier;
         
 
         #region Properties
@@ -106,28 +106,28 @@ namespace CleanGame.Game.Core.GameStates
                 timePerSpawn = value;
             }
         }
-        public string Modifier
+        public float DamageUpModifier
         {
             get
             {
-                return modifier;
+                return damageupmodifier;
             }
             set
             {
-                modifier = value;
+                damageupmodifier = value;
             }
         }
 
         
-        public float ValueOfModifier
+        public float HealthUpModifier
         {
             get
             {
-                return valueofmodifier;
+                return healthupmodifier;
             }
             set
             {
-                valueofmodifier = value;
+                healthupmodifier = value;
             }
         }
 
@@ -136,7 +136,7 @@ namespace CleanGame.Game.Core.GameStates
         public Spawner()
         {
         }
-        public Spawner(int xPos, int yPos, Rectangle spawnerRec, string mType, string mWeapon, int numMonsters, TimeSpan tPerSpawn, string mod, float valueofmodifier)
+        public Spawner(int xPos, int yPos, Rectangle spawnerRec, string mType, string mWeapon, int numMonsters, TimeSpan tPerSpawn, float healthUpModifier, float damageUpModifier)
         {
             this.xPosition = xPos;
             this.yPosition = yPos;
@@ -145,8 +145,8 @@ namespace CleanGame.Game.Core.GameStates
             this.monsterWeapon = mWeapon;
             this.numberOfMonsters = numMonsters;
             this.timePerSpawn = tPerSpawn;
-            this.modifier = mod;
-            this.valueofmodifier = valueofmodifier;
+            this.healthupmodifier = healthUpModifier;
+            this.damageupmodifier = damageUpModifier;
         }
     }
 }

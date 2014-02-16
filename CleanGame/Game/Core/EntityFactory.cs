@@ -547,10 +547,8 @@ namespace CleanGame.Game.Core
             spawnerCmp.timePerSpawn = s.TimePerSpawn;
             spawnerCmp.MonsterType = s.MonsterType;
             spawnerCmp.MonsterWeapon = s.MonsterWeapon;
-            spawnerCmp.Modifier = s.Modifier;
-            spawnerCmp.ValueOfModifier = s.ValueOfModifier;
-
-            spawnerCmp.SetModifier(s.Modifier);
+            spawnerCmp.HealthUpModifier = s.HealthUpModifier;
+            spawnerCmp.DamageUpModifier = s.DamageUpModifier;
 
             //Add the new components to the entity
             e.AddComponent(spatial);

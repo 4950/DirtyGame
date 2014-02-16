@@ -243,10 +243,10 @@ namespace CleanGame.Game.Core.Systems
                 int numberOfMonsters;
                 //TimeSpan for Monsters to Spawn
                 TimeSpan timePerSpawn;
-                //Modifier for the spawner
-                string modifier;
-                //Value of modifier
-                float valueofmodifier;
+                //Modifier for health of the spawner
+                float healthUpModifier;
+                //Value of damageUp modifier
+                float damageUpModifier;
                 //List of Spawners
                 List<Spawner> spawners = new List<Spawner>();
 
@@ -284,11 +284,11 @@ namespace CleanGame.Game.Core.Systems
                                                 Convert.ToInt32(scenarioReader.GetAttribute("timeSpanMinutes")),
                                                 Convert.ToInt32(scenarioReader.GetAttribute("timeSpanSeconds")),
                                                 Convert.ToInt32(scenarioReader.GetAttribute("timeSpanMilliseconds")));
-                    modifier = scenarioReader.GetAttribute("modifier");
-                    valueofmodifier = Convert.ToInt32(scenarioReader.GetAttribute("valueofmodifier"));
+                    healthUpModifier = Convert.ToInt32(scenarioReader.GetAttribute("healthUpModifier"));
+                    damageUpModifier = Convert.ToInt32(scenarioReader.GetAttribute("damageUpModifier"));
 
                     spawners.Add(new Spawner(xPosition, yPosition, spawnerRectangle, monsterType, monsterWeapon,
-                                             numberOfMonsters, timePerSpawn, modifier, valueofmodifier));
+                                             numberOfMonsters, timePerSpawn, healthUpModifier, damageUpModifier));
                 } while (scenarioReader.ReadToNextSibling("spawner"));
 
                 scenarios.Add(scenarioName, new Scenario(scenarioName, difficultyScore, mapName, spawners, playerSpawnPoint));
@@ -346,7 +346,7 @@ namespace CleanGame.Game.Core.Systems
             foreach (var scenario in scenarios.Values)
             {
                 //break out if the random number scenario for that map
-                if (count == 1)
+                if (count == randomScenario)
                 {
                     break;
                 }

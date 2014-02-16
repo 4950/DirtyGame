@@ -69,24 +69,24 @@ namespace EntityFramework.Systems
                         Entity weapon = entityFactory.CloneEntity(game.world.EntityMgr.GetEntityByName(spawner.MonsterWeapon));
                         weapon.Refresh();
 
-                        if (spawner.IsModifier == true)
+                        
+                        
+                        if (spawner.HealthUpModifier > 0)
                         {
-                            if (spawner.Modifier.Equals("healthUp"))
-                            {
-                                StatsComponent stats = monster.GetComponent<StatsComponent>();
+                           StatsComponent stats = monster.GetComponent<StatsComponent>();
 
-                                stats.BaseHealth = (int)Math.Floor(stats.BaseHealth * spawner.ValueOfModifier);
-                                stats.CurrentHealth = (int)Math.Floor(stats.CurrentHealth * spawner.ValueOfModifier);
-                            }
-
-                            if (spawner.Modifier.Equals("damageUp"))
-                            {
-                                WeaponComponent wc = weapon.GetComponent<WeaponComponent>();
-
-                                wc.BaseDamage = (int)Math.Floor(wc.BaseDamage * spawner.ValueOfModifier);
-                            }
-
+                           stats.BaseHealth = (int)Math.Floor(stats.BaseHealth + spawner.HealthUpModifier);
+                           stats.CurrentHealth = (int)Math.Floor(stats.CurrentHealth + spawner.HealthUpModifier);
                         }
+
+                        if (spawner.DamageUpModifier > 0)
+                        {
+                           WeaponComponent wc = weapon.GetComponent<WeaponComponent>();
+
+                           wc.BaseDamage = (int)Math.Floor(wc.BaseDamage + spawner.DamageUpModifier);
+                        }    
+
+                        
 
                         ic.addWeapon(weapon, monster);
                         monster.AddComponent(ic);

@@ -15,19 +15,8 @@ namespace CleanGame.Game.Core.Components
         public TimeSpan timeOfLastSpawn;
         public String MonsterType;
         public String MonsterWeapon;
-        public String Modifier;
-        public float ValueOfModifier;
-        public Boolean IsModifier = false;
-
-
-
-        public void SetModifier(String mod)
-        {
-            if (mod != null)
-            {
-                IsModifier = true;
-            }
-        }
+        public float HealthUpModifier;
+        public float DamageUpModifier;
 
     }
 }

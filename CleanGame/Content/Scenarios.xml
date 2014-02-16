@@ -12,108 +12,7 @@
   monsterType="" monsterWeapon=""
   monsterType="" monsterWeapon=""
   -->
-  <scenario name="scenario1"
-            difficultyScore="0.50"
-            map="Cave.tmx"
-            playerX="100"
-            playerY="300">
-    <spawner xPosition="300"
-             yPosition="100"
-             rectangleValue1="0"
-             rectangleValue2="0"
-             rectangleValue3="46"
-             rectangleValue4="46"
-             monsterType="MeleeMonster"
-             monsterWeapon="Monstersword"
-             numberOfMonsters="1"
-             timeSpanDays="0"
-             timeSpanHours="0"
-             timeSpanMinutes="0"
-             timeSpanSeconds="0"
-             timeSpanMilliseconds="1000"
-             modifier="healthUp">
-    </spawner>
-    <spawner xPosition="300"
-             yPosition="100"
-             rectangleValue1="0"
-             rectangleValue2="0"
-             rectangleValue3="46"
-             rectangleValue4="46"
-             monsterType="SuicideBomber"
-             monsterWeapon="BomberWeapon"
-             numberOfMonsters="1"
-             timeSpanDays="0"
-             timeSpanHours="0"
-             timeSpanMinutes="0"
-             timeSpanSeconds="0"
-             timeSpanMilliseconds="1000"
-             modifier="healthUp">
-    </spawner>
-    <spawner xPosition="300"
-             yPosition="100"
-             rectangleValue1="0"
-             rectangleValue2="0"
-             rectangleValue3="46"
-             rectangleValue4="46"
-             monsterType="Flametower"
-             monsterWeapon="FlametowerWeapon"
-             numberOfMonsters="1"
-             timeSpanDays="0"
-             timeSpanHours="0"
-             timeSpanMinutes="0"
-             timeSpanSeconds="0"
-             timeSpanMilliseconds="1000"
-             modifier="healthUp">
-    </spawner>
-    <spawner xPosition="300"
-             yPosition="100"
-             rectangleValue1="0"
-             rectangleValue2="0"
-             rectangleValue3="46"
-             rectangleValue4="46"
-             monsterType="Grenadier"
-             monsterWeapon="GrenadeLauncher"
-             numberOfMonsters="1"
-             timeSpanDays="0"
-             timeSpanHours="0"
-             timeSpanMinutes="0"
-             timeSpanSeconds="0"
-             timeSpanMilliseconds="1000"
-             modifier="healthUp">
-    </spawner>
-    <spawner xPosition="300"
-             yPosition="100"
-             rectangleValue1="0"
-             rectangleValue2="0"
-             rectangleValue3="46"
-             rectangleValue4="46"
-             monsterType="RangedMonster"
-             monsterWeapon="Monsterbow"
-             numberOfMonsters="1"
-             timeSpanDays="0"
-             timeSpanHours="0"
-             timeSpanMinutes="0"
-             timeSpanSeconds="0"
-             timeSpanMilliseconds="1000"
-             modifier="healthUp">
-    </spawner>
-    <spawner xPosition="300"
-             yPosition="100"
-             rectangleValue1="0"
-             rectangleValue2="0"
-             rectangleValue3="46"
-             rectangleValue4="46"
-             monsterType="SnipMonster"
-             monsterWeapon="SnipWeapon"
-             numberOfMonsters="1"
-             timeSpanDays="0"
-             timeSpanHours="0"
-             timeSpanMinutes="0"
-             timeSpanSeconds="0"
-             timeSpanMilliseconds="1000"
-             modifier="healthUp">
-    </spawner>
-  </scenario>
+  
   <scenario name="scenario2"
             difficultyScore="0.50"
             map="Forest.tmx"
@@ -132,7 +31,9 @@
              timeSpanHours="0"
              timeSpanMinutes="0"
              timeSpanSeconds="0"
-             timeSpanMilliseconds="1000">
+             timeSpanMilliseconds="1000"
+             healthUpModifier="0"
+             damageUpModifier="0">
     
     </spawner>
     <spawner xPosition="300"
@@ -149,8 +50,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp"
-            valueofmodifier="10">
+             healthUpModifier="1000"
+             damageUpModifier="1000">
     </spawner>
   </scenario>
  
