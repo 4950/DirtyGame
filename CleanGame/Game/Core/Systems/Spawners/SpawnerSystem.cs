@@ -71,7 +71,7 @@ namespace EntityFramework.Systems
 
                         
                         
-                        if (spawner.HealthUpModifier > 0)
+                        if (spawner.HealthUpModifier != 0)
                         {
                            StatsComponent stats = monster.GetComponent<StatsComponent>();
 
@@ -79,7 +79,7 @@ namespace EntityFramework.Systems
                            stats.CurrentHealth = (int)Math.Floor(stats.CurrentHealth + spawner.HealthUpModifier);
                         }
 
-                        if (spawner.DamageUpModifier > 0)
+                        if (spawner.DamageUpModifier != 0)
                         {
                            WeaponComponent wc = weapon.GetComponent<WeaponComponent>();
 
