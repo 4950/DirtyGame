@@ -245,6 +245,8 @@ namespace CleanGame.Game.Core.Systems
                 TimeSpan timePerSpawn;
                 //Modifier for the spawner
                 string modifier;
+                //Value of modifier
+                float valueofmodifier;
                 //List of Spawners
                 List<Spawner> spawners = new List<Spawner>();
 
@@ -283,9 +285,10 @@ namespace CleanGame.Game.Core.Systems
                                                 Convert.ToInt32(scenarioReader.GetAttribute("timeSpanSeconds")),
                                                 Convert.ToInt32(scenarioReader.GetAttribute("timeSpanMilliseconds")));
                     modifier = scenarioReader.GetAttribute("modifier");
+                    valueofmodifier = Convert.ToInt32(scenarioReader.GetAttribute("valueofmodifier"));
 
                     spawners.Add(new Spawner(xPosition, yPosition, spawnerRectangle, monsterType, monsterWeapon,
-                                             numberOfMonsters, timePerSpawn, modifier));
+                                             numberOfMonsters, timePerSpawn, modifier, valueofmodifier));
                 } while (scenarioReader.ReadToNextSibling("spawner"));
 
                 scenarios.Add(scenarioName, new Scenario(scenarioName, difficultyScore, mapName, spawners, playerSpawnPoint));

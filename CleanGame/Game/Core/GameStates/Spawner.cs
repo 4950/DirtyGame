@@ -25,6 +25,8 @@ namespace CleanGame.Game.Core.GameStates
         private TimeSpan timePerSpawn;
         //Modifier
         private string modifier;
+        private float valueofmodifier;
+        
 
         #region Properties
         public int XPosition
@@ -115,12 +117,26 @@ namespace CleanGame.Game.Core.GameStates
                 modifier = value;
             }
         }
+
+        
+        public float ValueOfModifier
+        {
+            get
+            {
+                return valueofmodifier;
+            }
+            set
+            {
+                valueofmodifier = value;
+            }
+        }
+
         #endregion
 
         public Spawner()
         {
         }
-        public Spawner(int xPos, int yPos, Rectangle spawnerRec, string mType, string mWeapon, int numMonsters, TimeSpan tPerSpawn, string mod)
+        public Spawner(int xPos, int yPos, Rectangle spawnerRec, string mType, string mWeapon, int numMonsters, TimeSpan tPerSpawn, string mod, float valueofmodifier)
         {
             this.xPosition = xPos;
             this.yPosition = yPos;
@@ -130,6 +146,7 @@ namespace CleanGame.Game.Core.GameStates
             this.numberOfMonsters = numMonsters;
             this.timePerSpawn = tPerSpawn;
             this.modifier = mod;
+            this.valueofmodifier = valueofmodifier;
         }
     }
 }
