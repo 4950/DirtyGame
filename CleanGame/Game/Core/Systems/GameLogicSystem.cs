@@ -346,7 +346,7 @@ namespace CleanGame.Game.Core.Systems
             foreach (var scenario in scenarios.Values)
             {
                 //break out if the random number scenario for that map
-                if (count == randomScenario)
+                if (count == 1)
                 {
                     break;
                 }
