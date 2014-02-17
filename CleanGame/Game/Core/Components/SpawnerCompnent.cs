@@ -15,5 +15,8 @@ namespace CleanGame.Game.Core.Components
         public TimeSpan timeOfLastSpawn;
         public String MonsterType;
         public String MonsterWeapon;
+        public float HealthUpModifier;
+        public float DamageUpModifier;
+
     }
 }

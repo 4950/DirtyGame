@@ -31,7 +31,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
     <spawner xPosition="300"
              yPosition="100"
@@ -47,7 +48,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
     <spawner xPosition="300"
              yPosition="100"
@@ -63,7 +65,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
     <spawner xPosition="300"
              yPosition="100"
@@ -79,7 +82,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
     <spawner xPosition="300"
              yPosition="100"
@@ -95,7 +99,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
     <spawner xPosition="300"
              yPosition="100"
@@ -111,7 +116,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
   </scenario>
   <scenario name="scenario2"
@@ -133,7 +139,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
     <spawner xPosition="300"
              yPosition="100"
@@ -149,7 +156,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
   </scenario>
   <scenario name="scenario3"
@@ -171,7 +179,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
     <spawner xPosition="300"
              yPosition="100"
@@ -187,7 +196,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
   </scenario>
   <scenario name="scenario4"
@@ -209,7 +219,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
     <spawner xPosition="300"
              yPosition="100"
@@ -225,7 +236,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
   </scenario>
   <scenario name="scenario5"
@@ -247,7 +259,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
     <spawner xPosition="300"
              yPosition="100"
@@ -263,7 +276,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
   </scenario>
   <scenario name="scenario6"
@@ -285,7 +299,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
     <spawner xPosition="300"
              yPosition="100"
@@ -301,7 +316,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
   </scenario>
   <scenario name="scenario7"
@@ -323,7 +339,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
     <spawner xPosition="300"
              yPosition="100"
@@ -339,7 +356,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
   </scenario>
   <scenario name="scenario8"
@@ -361,7 +379,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
     <spawner xPosition="300"
              yPosition="100"
@@ -377,7 +396,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
   </scenario>
   <scenario name="scenario9"
@@ -399,7 +419,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
     <spawner xPosition="300"
              yPosition="100"
@@ -415,7 +436,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
   </scenario>
   <scenario name="scenario10"
@@ -437,7 +459,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
     <spawner xPosition="300"
              yPosition="100"
@@ -453,7 +476,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
   </scenario>
   <scenario name="scenario11"
@@ -475,7 +499,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
     <spawner xPosition="300"
              yPosition="100"
@@ -491,7 +516,8 @@
              timeSpanMinutes="0"
              timeSpanSeconds="0"
              timeSpanMilliseconds="1000"
-             modifier="healthUp">
+             healthUpModifier="1"
+             damageUpModifier="1">
     </spawner>
   </scenario>
 </root>

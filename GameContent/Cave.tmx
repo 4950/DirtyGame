@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="30" height="30" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="pubdlcnt" tilewidth="32" tileheight="32">
-  <image source="pubdlcnt" width="416" height="502"/>
+  <image source="pubdlcnt.png" width="416" height="502"/>
   <tile id="19">
    <properties>
     <property name="Collision" value="1"/>
