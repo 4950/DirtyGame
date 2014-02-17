@@ -17,7 +17,7 @@
             map="Cave.tmx"
             playerX="100"
             playerY="300">
-    <spawner xPosition="300"
+    <spawner xPosition="500"
              yPosition="100"
              rectangleValue1="0"
              rectangleValue2="0"
@@ -34,7 +34,7 @@
              healthUpModifier="1"
              damageUpModifier="1">
     </spawner>
-    <spawner xPosition="300"
+    <spawner xPosition="500"
              yPosition="100"
              rectangleValue1="0"
              rectangleValue2="0"
@@ -51,7 +51,7 @@
              healthUpModifier="1"
              damageUpModifier="1">
     </spawner>
-    <spawner xPosition="300"
+    <spawner xPosition="500"
              yPosition="100"
              rectangleValue1="0"
              rectangleValue2="0"
@@ -68,7 +68,7 @@
              healthUpModifier="1"
              damageUpModifier="1">
     </spawner>
-    <spawner xPosition="300"
+    <spawner xPosition="500"
              yPosition="100"
              rectangleValue1="0"
              rectangleValue2="0"
@@ -85,7 +85,7 @@
              healthUpModifier="1"
              damageUpModifier="1">
     </spawner>
-    <spawner xPosition="300"
+    <spawner xPosition="500"
              yPosition="100"
              rectangleValue1="0"
              rectangleValue2="0"
@@ -102,7 +102,7 @@
              healthUpModifier="1"
              damageUpModifier="1">
     </spawner>
-    <spawner xPosition="300"
+    <spawner xPosition="500"
              yPosition="100"
              rectangleValue1="0"
              rectangleValue2="0"

@@ -250,19 +250,19 @@ namespace CleanGame.Game.Core.Systems
 					
 				}
 
-				if (e.HasComponent<BorderComponent>())
-				{
-					BorderComponent border = e.GetComponent<BorderComponent>();
-					Vertices borders = new Vertices(4);
-					borders.Add(ConvertUnits.ToSimUnits(border.TopLeft));
-					borders.Add(ConvertUnits.ToSimUnits(border.TopRight));
-					borders.Add(ConvertUnits.ToSimUnits(border.BottomRight));
-					borders.Add(ConvertUnits.ToSimUnits(border.BottomLeft));
+                if (e.HasComponent<BorderComponent>())
+                {
+                    BorderComponent border = e.GetComponent<BorderComponent>();
+                    Vertices borders = new Vertices(4);
+                    borders.Add(ConvertUnits.ToSimUnits(border.TopLeft));
+                    borders.Add(ConvertUnits.ToSimUnits(border.TopRight));
+                    borders.Add(ConvertUnits.ToSimUnits(border.BottomRight));
+                    borders.Add(ConvertUnits.ToSimUnits(border.BottomLeft));
 
-					Body = BodyFactory.CreateLoopShape(physicsWorld, borders);
-					Body.CollisionCategories = Category.All;
-					Body.CollidesWith = Category.All;
-				}
+                    Body = BodyFactory.CreateLoopShape(physicsWorld, borders);
+                    Body.CollisionCategories = Category.All;
+                    Body.CollidesWith = Category.All;
+                }
 
 				if (e.HasComponent<MovementComponent>())
 				{

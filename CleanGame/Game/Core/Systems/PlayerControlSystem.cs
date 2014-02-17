@@ -38,6 +38,11 @@ namespace CleanGame.Game.Core.Systems
         private MoveDirection currentDirection = MoveDirection.Idle;
         private bool directionChanged;
 
+        // tile based collision, because I HATE the physics system doing this.
+        private bool[,] collMap;
+        private int mapWidth;
+        private int mapHeight;
+
         public PlayerControlSystem(EntityFactory ef, Renderer renderer, Dirty game)
             : base(SystemDescriptions.PlayerControlSystem.Aspect, SystemDescriptions.PlayerControlSystem.Priority)
         {
@@ -53,7 +58,7 @@ namespace CleanGame.Game.Core.Systems
 
             // scroll wheel
             //if (ms.ScrollWheelValue < prevScrollWheel)
-            move(Keys.E);
+            //move(Keys.E);
             //else if (ms.ScrollWheelValue > prevScrollWheel)
             //  move(Keys.Q);
             //prevScrollWheel = ms.ScrollWheelValue;
@@ -89,7 +94,6 @@ namespace CleanGame.Game.Core.Systems
                 Keys k = (Keys)Enum.Parse(typeof(Keys), "D" + i);
                 game.baseContext.RegisterHandler(k, changeWeapon, null);
             }
-
 
         }
         private void move(Keys key)
@@ -198,6 +202,9 @@ namespace CleanGame.Game.Core.Systems
 
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
         {
+
+            collMap = renderer.ActiveMap.getPassabilityMap();
+
             foreach (Entity e in entities)
             {
                 //            if (!e.HasComponent<Player>()) continue;
@@ -207,6 +214,9 @@ namespace CleanGame.Game.Core.Systems
                 MovementComponent movement = e.GetComponent<MovementComponent>();
                 SpriteComponent sprite = e.GetComponent<SpriteComponent>();
                 StatsComponent s = e.GetComponent<StatsComponent>();
+
+                int monsterX = (int)((e.GetComponent<SpatialComponent>().Position.X) / 32);
+                int monsterY = (int)((e.GetComponent<SpatialComponent>().Position.Y + 32) / 32);
 
                 if (directionChanged)//direction state changed
                 {
@@ -274,6 +284,75 @@ namespace CleanGame.Game.Core.Systems
                             break;
                     }
                 }
+
+                int mapWidth = renderer.ActiveMap.getPixelWidth();
+                int mapHeight = renderer.ActiveMap.getPixelHeight();
+
+                //calcualte position of sprite using anchorpoint
+                //Vector2 size = new Vector2(sprite.SrcRect.Width, sprite.SrcRect.Height) * sprite.Scale;
+                //Vector2 pos = spatial.Position - size * sprite.AnchorPoint;
+
+                // This is kinda hacked. The first run, this works like it should. 
+                // After a "Quit to Menu", there is some other vodoo system that does a similar thing, but not as clean (aka drifting health bars).
+                while (spatial.Position.X >= mapWidth - 64)
+                {
+                    spatial.Position = new Vector2(mapWidth - 65, spatial.Position.Y);
+                    movement.Horizontal = -1;
+                    directionChanged = true;
+                }
+
+                while (spatial.Position.X <= 0)
+                {
+                    spatial.Position = new Vector2(1, spatial.Position.Y);
+                    movement.Horizontal = 1;
+                    directionChanged = true;
+                }
+
+                while (spatial.Position.Y <= 0)
+                {
+                    spatial.Position = new Vector2(spatial.Position.X, 1);
+                    movement.Vertical = 1;
+                    directionChanged = true;
+                }
+
+                while (spatial.Position.Y >= mapHeight - 64)
+                {
+                    spatial.Position = new Vector2(spatial.Position.X, mapHeight - 65);
+                    movement.Vertical = -1;
+                    directionChanged = true;
+                }
+
+                //System.Diagnostics.Debug.Write("monsterX: " + monsterX + " monsterY: " + monsterY + "\n");
+                //System.Diagnostics.Debug.Write("mapHeight: " + mapHeight + "playerY: " + spatial.Position.Y);
+                //System.Diagnostics.Debug.Write("\n");
+
+                //switch (currentDirection)
+                //{
+                //    case MoveDirection.Left:
+                //        if (collMap[Math.Max(monsterX - 1, 0), monsterY])
+                //        {
+                //            movement.Horizontal = 0;
+                //        }
+                //        break;
+                //    case MoveDirection.Right:
+                //        if (collMap[Math.Min(monsterX + 1, mapHeight / 32 - 1), monsterY])
+                //        {
+                //            movement.Horizontal = 0;
+                //        }
+                //        break;
+                //    case MoveDirection.Down:
+                //        if (collMap[monsterX, Math.Min(monsterY + 1, mapWidth / 32 - 1)])
+                //        {
+                //            movement.Vertical = 0;
+                //        }
+                //        break;
+                //    case MoveDirection.Up:
+                //        if (collMap[monsterX, Math.Max(monsterY - 1, 0)])
+                //        {
+                //            movement.Vertical = 0;
+                //        }
+                //        break;
+                //}
 
 
                 //Attacking with the mouse

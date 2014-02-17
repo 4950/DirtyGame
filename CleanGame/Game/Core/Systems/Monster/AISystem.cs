@@ -19,7 +19,7 @@ namespace CleanGame.Game.Core.Systems.Monster
         private EntityFactory entityFactory;
         public float totaltime;
         private Physics physics;
-        private Renderer renderer;
+        public Renderer renderer;
 
         //Current goal: Make monsters of different types rush towards each other.
         // If no monster of another type is nearby... wander.

@@ -22,6 +22,31 @@
     <property name="Collision" value="1"/>
    </properties>
   </tile>
+  <tile id="65">
+   <properties>
+    <property name="Collision" value="1"/>
+   </properties>
+  </tile>
+  <tile id="66">
+   <properties>
+    <property name="Collision" value="1"/>
+   </properties>
+  </tile>
+  <tile id="67">
+   <properties>
+    <property name="Collision" value="1"/>
+   </properties>
+  </tile>
+  <tile id="68">
+   <properties>
+    <property name="Collision" value="1"/>
+   </properties>
+  </tile>
+  <tile id="69">
+   <properties>
+    <property name="Collision" value="1"/>
+   </properties>
+  </tile>
   <tile id="71">
    <properties>
     <property name="Collision" value="1"/>
@@ -370,8 +395,8 @@
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
-   <tile gid="29"/>
-   <tile gid="29"/>
+   <tile gid="74"/>
+   <tile gid="74"/>
    <tile gid="29"/>
    <tile gid="29"/>
    <tile gid="29"/>
