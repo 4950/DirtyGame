@@ -313,12 +313,15 @@
   <ItemGroup>
     <None Include="Content\Arena.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Content\Cave.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Content\Forest.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Content\Monster.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

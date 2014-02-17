@@ -835,7 +835,7 @@
       </Size>
       <Rotation>0</Rotation>
       <ConstantRotation>0</ConstantRotation>
-      <isMoving>false</isMoving>
+      <isMoving>true</isMoving>
       <Bounds>
         <X>0</X>
         <Y>0</Y>
