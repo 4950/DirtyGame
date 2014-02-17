@@ -454,11 +454,12 @@ namespace CleanGame.Game.Core.Systems
                     roundStartTime = 0;
 
                     ActionLabelBack.Visibility = Visibility.Hidden;
+                    SetupNextRound();
                     //Setting the movePlayer flag in the physics component of the player
-                    game.player.GetComponent<PhysicsComponent>().movePlayer = true;
-                    //TODO need to have the map name here
-                    setupScenario(randomScenario(game.mapName));
-                    game.player.Refresh();
+                    //game.player.GetComponent<PhysicsComponent>().movePlayer = true;
+                    ////TODO need to have the map name here
+                    //setupScenario(randomScenario(game.mapName));
+                    //game.player.Refresh();
                 }
             }
             //if (roundTime > 0)
