@@ -16,7 +16,6 @@ namespace CleanGame.Game.Core.Systems
 {
     class PlayerControlSystem : EntitySystem
     {
-        private KeyboardState KeyboardState;
         private MouseState ms;
         private MouseState prevMS;
         private EntityFactory entityFactory;
@@ -37,7 +36,7 @@ namespace CleanGame.Game.Core.Systems
         };
 
         private MoveDirection currentDirection = MoveDirection.Idle;
-        private MoveDirection previousDirection = MoveDirection.Idle;
+        private bool directionChanged;
 
         public PlayerControlSystem(EntityFactory ef, Renderer renderer, Dirty game)
             : base(SystemDescriptions.PlayerControlSystem.Aspect, SystemDescriptions.PlayerControlSystem.Priority)
@@ -54,9 +53,9 @@ namespace CleanGame.Game.Core.Systems
 
             // scroll wheel
             //if (ms.ScrollWheelValue < prevScrollWheel)
-                move(Keys.E);
+            move(Keys.E);
             //else if (ms.ScrollWheelValue > prevScrollWheel)
-              //  move(Keys.Q);
+            //  move(Keys.Q);
             //prevScrollWheel = ms.ScrollWheelValue;
 
 
@@ -95,7 +94,7 @@ namespace CleanGame.Game.Core.Systems
         }
         private void move(Keys key)
         {
-            previousDirection = currentDirection;
+            keysDown.Remove(key);
             keysDown.Add(key);
             setDirection(key);
         }
@@ -127,15 +126,18 @@ namespace CleanGame.Game.Core.Systems
                     currentDirection = MoveDirection.Idle;
                     break;
             }
+            directionChanged = true;
         }
         private void idle(Keys key)
         {
             keysDown.Remove(key);
-            previousDirection = currentDirection;
             if (keysDown.Count > 0)
                 setDirection(keysDown[keysDown.Count - 1]);
             else
+            {
                 currentDirection = MoveDirection.Idle;
+                directionChanged = true;
+            }
             /*
             move(key);
             if (previousDirection == currentDirection)
@@ -206,8 +208,9 @@ namespace CleanGame.Game.Core.Systems
                 SpriteComponent sprite = e.GetComponent<SpriteComponent>();
                 StatsComponent s = e.GetComponent<StatsComponent>();
 
-                if (previousDirection != currentDirection)//direction state changed
+                if (directionChanged)//direction state changed
                 {
+                    directionChanged = false;
                     float MoveSpeed = 5 * (s.MoveSpeed / 100);
 
                     movement.Vertical = 0;
@@ -270,7 +273,6 @@ namespace CleanGame.Game.Core.Systems
 
                             break;
                     }
-                    previousDirection = currentDirection;
                 }
 
 

@@ -219,7 +219,7 @@ namespace CleanGame
             SoundSystem.Instance.AddBackgroundMusic("DST-ClubFight.mp3");
             SoundSystem.Instance.AddBackgroundMusic("DST-DasElectron.mp3");
             SoundSystem.Instance.AddBackgroundMusic("DST-DawnRise.mp3");
-            SoundSystem.Instance.AddBackgroundMusic("DST-DayOfRealms.mp3");
+            SoundSystem.Instance.AddBackgroundMusic("DST-DaysOfRealms.mp3");
             SoundSystem.Instance.AddBackgroundMusic("DST-KiloByte.mp3");
             SoundSystem.Instance.AddBackgroundMusic("DST-MushroomRoad.mp3");
 
@@ -268,7 +268,7 @@ namespace CleanGame
             CreateInputContext();
 
             graphics = new GraphicsDeviceManager(this);
-  
+            graphics.PreferMultiSampling = true;
 
             defaultDisplayMode = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
 

@@ -35,13 +35,13 @@ namespace CleanGame.Game.SGraphics.Commands.DrawCalls
             float angle = (float)Math.Acos(Vector2.Dot(v, -Vector2.UnitX));
             if (start.Y > end.Y) angle = MathHelper.TwoPi - angle;
 
-            TextureFilter prev = spriteBatch.GraphicsDevice.SamplerStates[0].Filter;
-            spriteBatch.GraphicsDevice.SamplerStates[0].Filter = TextureFilter.Anisotropic;
+            SamplerState prev = spriteBatch.GraphicsDevice.SamplerStates[0];
+            spriteBatch.GraphicsDevice.SamplerStates[0] = SamplerState.AnisotropicClamp;
             spriteBatch.Draw(r.Pixel, rect, null, color1, angle, Vector2.Zero, SpriteEffects.None, 0);
             if(color1 != color2)
                 spriteBatch.Draw(r.GradientPixel, rect, null, color2, angle, Vector2.Zero, SpriteEffects.None, 0);
 
-            spriteBatch.GraphicsDevice.SamplerStates[0].Filter = prev;    
+            spriteBatch.GraphicsDevice.SamplerStates[0] = prev;    
         }
     }
 }
