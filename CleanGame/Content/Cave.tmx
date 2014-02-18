@@ -2,12 +2,7 @@
 <map version="1.0" orientation="orthogonal" width="30" height="30" tilewidth="32" tileheight="32">
   <tileset firstgid="1" name="pubdlcnt" tilewidth="32" tileheight="32">
     <image source="pubdlcnt" width="416" height="502"/>
-    <tile id="19">
-      <properties>
-        <property name="Collision" value="1"/>
-      </properties>
-    </tile>
-    <tile id="44">
+    <tile id="20">
       <properties>
         <property name="Collision" value="1"/>
       </properties>
@@ -22,7 +17,7 @@
         <property name="Collision" value="1"/>
       </properties>
     </tile>
-    <tile id="65">
+    <tile id="47">
       <properties>
         <property name="Collision" value="1"/>
       </properties>
@@ -37,7 +32,7 @@
         <property name="Collision" value="1"/>
       </properties>
     </tile>
-    <tile id="68">
+    <tile id="698">
       <properties>
         <property name="Collision" value="1"/>
       </properties>
@@ -47,7 +42,7 @@
         <property name="Collision" value="1"/>
       </properties>
     </tile>
-    <tile id="71">
+    <tile id="70">
       <properties>
         <property name="Collision" value="1"/>
       </properties>
@@ -62,7 +57,7 @@
         <property name="Collision" value="1"/>
       </properties>
     </tile>
-    <tile id="75">
+    <tile id="74">
       <properties>
         <property name="Collision" value="1"/>
       </properties>
@@ -77,17 +72,17 @@
         <property name="Collision" value="1"/>
       </properties>
     </tile>
-    <tile id="84">
+    <tile id="78">
       <properties>
         <property name="Collision" value="1"/>
       </properties>
     </tile>
-    <tile id="86">
+    <tile id="85">
       <properties>
         <property name="Collision" value="1"/>
       </properties>
     </tile>
-    <tile id="88">
+    <tile id="87">
       <properties>
         <property name="Collision" value="1"/>
       </properties>
@@ -107,36 +102,6 @@
         <property name="Collision" value="1"/>
       </properties>
     </tile>
-    <tile id="92">
-      <properties>
-        <property name="Collision" value="1"/>
-      </properties>
-    </tile>
-    <tile id="93">
-      <properties>
-        <property name="Collision" value="1"/>
-      </properties>
-    </tile>
-    <tile id="97">
-      <properties>
-        <property name="Collision" value="1"/>
-      </properties>
-    </tile>
-    <tile id="98">
-      <properties>
-        <property name="Collision" value="1"/>
-      </properties>
-    </tile>
-    <tile id="99">
-      <properties>
-        <property name="Collision" value="1"/>
-      </properties>
-    </tile>
-    <tile id="101">
-      <properties>
-        <property name="Collision" value="1"/>
-      </properties>
-    </tile>
     <tile id="102">
       <properties>
         <property name="Collision" value="1"/>
@@ -147,22 +112,22 @@
         <property name="Collision" value="1"/>
       </properties>
     </tile>
-    <tile id="116">
+    <tile id="104">
       <properties>
         <property name="Collision" value="1"/>
       </properties>
     </tile>
-    <tile id="125">
+    <tile id="117">
       <properties>
         <property name="Collision" value="1"/>
       </properties>
     </tile>
-    <tile id="142">
+    <tile id="126">
       <properties>
         <property name="Collision" value="1"/>
       </properties>
     </tile>
-    <tile id="153">
+    <tile id="143">
       <properties>
         <property name="Collision" value="1"/>
       </properties>
@@ -177,7 +142,7 @@
         <property name="Collision" value="1"/>
       </properties>
     </tile>
-    <tile id="166">
+    <tile id="156">
       <properties>
         <property name="Collision" value="1"/>
       </properties>
@@ -187,12 +152,7 @@
         <property name="Collision" value="1"/>
       </properties>
     </tile>
-    <tile id="168">
-      <properties>
-        <property name="Collision" value="1"/>
-      </properties>
-    </tile>
-    <tile id="179">
+    <tile id="169">
       <properties>
         <property name="Collision" value="1"/>
       </properties>
@@ -203,6 +163,11 @@
       </properties>
     </tile>
     <tile id="181">
+      <properties>
+        <property name="Collision" value="1"/>
+      </properties>
+    </tile>
+    <tile id="182">
       <properties>
         <property name="Collision" value="1"/>
       </properties>
