@@ -366,32 +366,26 @@ namespace CleanGame.Game.Core.Systems.Monster
 
                                     float tentativeGScore = current.gScore + (float)getDistance(current.xPos, current.yPos, n.xPos, n.yPos);
 
-                                    if (openList.Contains<Node>(n))
+                                    LinkedListNode<Node> old = openList.Find(n);
+                                    if (old != null)
                                     {
-                                        Node oldN = openList.Find(n).Value;
+                                        Node oldN = old.Value;
+                                        
                                         if (tentativeGScore < oldN.gScore)
                                         {
+                                            openList.Remove(n);
                                             n.cameFrom = current;
                                             n.gScore = tentativeGScore;
                                             n.fScore = n.gScore + (float)getDistance(n.xPos, n.yPos, goalTileX, goalTileY)*5;
-                                            if (!openList.Contains<Node>(n))
-                                            {
-                                                openList.AddFirst(n);
-                                            }
+                                            openList.AddFirst(n);
                                         }
                                     }
                                     else
                                     {
-                                        if (!openList.Contains<Node>(n))
-                                        {
-                                            n.cameFrom = current;
-                                            n.gScore = tentativeGScore;
-                                            n.fScore = n.gScore + (float)getDistance(n.xPos, n.yPos, goalTileX, goalTileY)*5;
-                                            if (!openList.Contains<Node>(n))
-                                            {
-                                                openList.AddFirst(n);
-                                            }
-                                        }
+                                        n.cameFrom = current;
+                                        n.gScore = tentativeGScore;
+                                        n.fScore = n.gScore + (float)getDistance(n.xPos, n.yPos, goalTileX, goalTileY)*5;
+                                        openList.AddFirst(n);
                                     }
                                 }
                             }
@@ -1099,7 +1093,8 @@ namespace CleanGame.Game.Core.Systems.Monster
             public LinkedList<Node> neighbors()
             {
                 LinkedList<Node> neighbors = new LinkedList<Node>();
-                bool [,] collMap = renderer.ActiveMap.getPassabilityMap();
+                Map.Map map = renderer.ActiveMap;
+                bool [,] collMap = map.getPassabilityMap();
 
                 for (int i = -1; i<=1; i++)
                 {
@@ -1109,11 +1104,12 @@ namespace CleanGame.Game.Core.Systems.Monster
                         {
 
                         }
-                        else if ((this.xPos + i < renderer.ActiveMap.getPixelHeight() / 32) && (this.yPos + j < renderer.ActiveMap.getPixelWidth() / 32))
+                        else if ((this.xPos + i < map.getPixelHeight() / 32) && (this.yPos + j < map.getPixelWidth() / 32))
                         {
                             if (!collMap[this.xPos + i, this.yPos + j])
                             {
-                                neighbors.AddFirst(new Node(this.xPos + i, this.yPos + j, this, renderer));
+                                neighbors.AddLast(new Node(this.xPos + i, this.yPos + j, this, renderer));
+                                
                             }
                         }
                     }
