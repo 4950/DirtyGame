@@ -213,7 +213,7 @@
   <!--Shoot-->
   <animationDefault name="ShootUp"
                     yPosition="1024"
-                    xStartFrame="0"
+                    xStartFrame="32"
                     xOffset="0"
                     yOffset="0"
                     numberOfFrames="13"
@@ -224,7 +224,7 @@
   </animationDefault>
   <animationDefault name="ShootLeft"
                     yPosition="1088"
-                    xStartFrame="0"
+                    xStartFrame="32"
                     xOffset="0"
                     yOffset="0"
                     numberOfFrames="13"
@@ -235,7 +235,7 @@
   </animationDefault>
   <animationDefault name="ShootDown"
                     yPosition="1152"
-                    xStartFrame="0"
+                    xStartFrame="32"
                     xOffset="0"
                     yOffset="0"
                     numberOfFrames="13"
@@ -246,7 +246,7 @@
   </animationDefault>
   <animationDefault name="ShootRight"
                     yPosition="1216"
-                    xStartFrame="0"
+                    xStartFrame="32"
                     xOffset="0"
                     yOffset="0"
                     numberOfFrames="13"
