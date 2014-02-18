@@ -179,7 +179,7 @@ namespace CleanGame.Game.Core.Systems
                     {
                         SetShootAnimation(Owner, "BigSlash");
                         meleeEntity = game.entityFactory.CreateMeleeEntity(Owner, Weapon);
-                        meleeEntity.GetComponent<SpatialComponent>().ConstantRotation = 1f;
+                        
                     }
                     else
                     {
