@@ -267,4 +267,50 @@
                     height="64"
                     finite="true">
   </animationDefault>
+
+  <!--BigSlash-->
+  <animationDefault name="BigSlashUp"
+                    yPosition="1344"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="6"
+                    width="192"
+                    height="192"
+                    finite="true"
+                    time=".5">
+  </animationDefault>
+  <animationDefault name="BigSlashLeft"
+                    yPosition="1536"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="6"
+                    width="192"
+                    height="192"
+                    finite="true"
+                    time=".5">
+  </animationDefault>
+  <animationDefault name="BigSlashDown"
+                    yPosition="1728"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="6"
+                    width="192"
+                    height="192"
+                    finite="true"
+                    time=".5">
+  </animationDefault>
+  <animationDefault name="BigSlashRight"
+                    yPosition="1920"
+                    xStartFrame="0"
+                    xOffset="0"
+                    yOffset="0"
+                    numberOfFrames="6"
+                    width="192"
+                    height="192"
+                    finite="true"
+                    time=".5">
+  </animationDefault>
 </root>

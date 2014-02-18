@@ -397,6 +397,8 @@ namespace CleanGame
             get;
             set;
         }
+        public bool ClearField = false; //Ling's added variable to clear landmines
+       
 
         protected override void Update(GameTime gameTime)
         {
