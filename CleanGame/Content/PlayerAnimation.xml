@@ -270,7 +270,7 @@
 
   <!--BigSlash-->
   <animationDefault name="BigSlashUp"
-                    yPosition="1344"
+                    yPosition="1376"
                     xStartFrame="0"
                     xOffset="0"
                     yOffset="0"
@@ -281,7 +281,7 @@
                     time=".5">
   </animationDefault>
   <animationDefault name="BigSlashLeft"
-                    yPosition="1536"
+                    yPosition="1568"
                     xStartFrame="0"
                     xOffset="0"
                     yOffset="0"
@@ -292,7 +292,7 @@
                     time=".5">
   </animationDefault>
   <animationDefault name="BigSlashDown"
-                    yPosition="1728"
+                    yPosition="1760"
                     xStartFrame="0"
                     xOffset="0"
                     yOffset="0"
@@ -303,7 +303,7 @@
                     time=".5">
   </animationDefault>
   <animationDefault name="BigSlashRight"
-                    yPosition="1920"
+                    yPosition="1952"
                     xStartFrame="0"
                     xOffset="0"
                     yOffset="0"
