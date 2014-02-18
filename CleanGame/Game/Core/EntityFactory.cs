@@ -166,14 +166,14 @@ namespace CleanGame.Game.Core
 
                 case "Right":
                     xOffset = 40.0f;
-                    yOffset = 0.0f;
+                    yOffset = 50.0f;
                     spatial.Height = 40;
                     spatial.Width = 20;
                     break;
 
                 case "Left":
                     xOffset = -15.0f;
-                    yOffset = 0.0f;
+                    yOffset = 50.0f;
                     spatial.Height = 40;
                     spatial.Width = 20;
                     break;

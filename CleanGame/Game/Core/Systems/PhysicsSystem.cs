@@ -30,7 +30,7 @@ namespace CleanGame.Game.Core.Systems
     private Physics physics;
     private FarseerPhysics.Dynamics.World physicsWorld;
     private Renderer renderer;
-    private bool PhysicsDebug = false;
+    private bool PhysicsDebug = true;
     uint playerId;
     private Dirty game;
 
@@ -326,6 +326,9 @@ namespace CleanGame.Game.Core.Systems
 					}
 					else if (A.HasComponent<MeleeComponent>() || B.HasComponent<MeleeComponent>())//Melee
 					{
+
+                        Collide = false;
+
 						Entity melee = A.HasComponent<MeleeComponent>() ? A : B;
 						Entity hit = melee == A ? B : A;
 
@@ -343,6 +346,8 @@ namespace CleanGame.Game.Core.Systems
 									mc.targetsHit.Add(hit);
 
 									game.weaponSystem.DealDamage(mc.Weapon, hit);
+
+                                    
 								}
 							}
 						}

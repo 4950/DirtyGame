@@ -172,15 +172,22 @@ namespace CleanGame.Game.Core.Systems
                 }
                 else if (wc.Type == WeaponComponent.WeaponType.Melee)
                 {
+
+                    Entity meleeEntity;
+
                     if (wc.Owner.HasComponent<PlayerComponent>()) //Owned by player
                     {
                         SetShootAnimation(Owner, "BigSlash");
+                        meleeEntity = game.entityFactory.CreateMeleeEntity(Owner, Weapon);
+                        meleeEntity.GetComponent<SpatialComponent>().ConstantRotation = 1f;
                     }
                     else
                     {
                         SetShootAnimation(Owner, "Attack");
+                        meleeEntity = game.entityFactory.CreateMeleeEntity(Owner, Weapon);
+                        
                     }
-                    Entity meleeEntity = game.entityFactory.CreateMeleeEntity(Owner, Weapon);
+
                     meleeEntity.Refresh();
                 }
        
