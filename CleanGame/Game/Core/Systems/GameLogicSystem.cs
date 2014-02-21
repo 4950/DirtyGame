@@ -316,6 +316,8 @@ namespace CleanGame.Game.Core.Systems
 
         public void setupScenario(Scenario scenario)
         {
+            game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value++;
+
             Entity e;
 
             game.player.GetComponent<SpatialComponent>().Position = scenario.PlayerSpawn;
