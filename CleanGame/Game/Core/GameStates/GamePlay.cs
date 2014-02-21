@@ -90,25 +90,32 @@ namespace CleanGame.Game.Core.GameStates
                 cashLbl.Position = new System.Drawing.Point(680, 25);
                 cashLbl.Foreground = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.White);
                 cashLbl.Text = "Cash: 0";
+                cashLbl.Visibility = Visibility.Hidden;
                 monsterHUD.AddElement(cashLbl);
 
                 roundLbl = new Label();
-                roundLbl.Size = new System.Drawing.Point(120, 25);
-                roundLbl.Position = new System.Drawing.Point(680, 70);
+                roundLbl.Size = new System.Drawing.Point(190, 25);
+                roundLbl.Position = new System.Drawing.Point(590, 50);
                 roundLbl.Foreground = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.White);
-                roundLbl.Text = "Round: 1";
+                roundLbl.TextPosition = TextPosition.Right;
+                roundLbl.mFontInt = new MonoGameFont(f);
+                roundLbl.Text = "Round: 0";
                 monsterHUD.AddElement(roundLbl);
 
                 killLbl = new Label();
-                killLbl.Size = new System.Drawing.Point(120, 25);
-                killLbl.Position = new System.Drawing.Point(680, 95);
+                killLbl.Size = new System.Drawing.Point(190, 25);
+                killLbl.Position = new System.Drawing.Point(590, 25);
                 killLbl.Foreground = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.White);
+                killLbl.TextPosition = TextPosition.Right;
+                killLbl.mFontInt = new MonoGameFont(f);
+                killLbl.Text = "Kills: 0";
                 monsterHUD.AddElement(killLbl);
 
                 aliveLbl = new Label();
                 aliveLbl.Size = new System.Drawing.Point(120, 25);
                 aliveLbl.Position = new System.Drawing.Point(680, 120);
                 aliveLbl.Foreground = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.White);
+                aliveLbl.Visibility = Visibility.Hidden;
                 monsterHUD.AddElement(aliveLbl);
 
                 playerStuff = new Window();
@@ -193,7 +200,10 @@ namespace CleanGame.Game.Core.GameStates
             }
 
             aliveLbl.Text = "Monsters Left: " + game.gLogicSystem.monstersalive;
-            killLbl.Text = "Monsters Killed: " + game.gLogicSystem.monstersdefeated;
+            
+
+            if (game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").IsModified)
+                killLbl.Text = "Kills: " + game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value;
 
             if (game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").IsModified)
                 roundLbl.Text = "Round: " + game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value;

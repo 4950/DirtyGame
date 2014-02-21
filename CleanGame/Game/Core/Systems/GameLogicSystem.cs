@@ -74,7 +74,7 @@ namespace CleanGame.Game.Core.Systems
             {
                 game.world.DestroyEntity(ee);
             }
-            game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += monstersdefeated;
+            //game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += monstersdefeated;
             monstersdefeated = 0;
 
             //restore player health
@@ -386,14 +386,15 @@ namespace CleanGame.Game.Core.Systems
 
                 if (e.HasComponent<MonsterComponent>())
                 {
-                    if (roundTime > 0)
-                    {
+                    //if (roundTime > 0)
+                    //{
                         monstersdefeated++;
                         game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += 50;
                         game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").value += 10;
+                        game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += 1;
 
                         GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MonsterKilled, e.GetComponent<MonsterComponent>().data.Type);
-                    }
+                    //}
                     if (--monstersalive == 0)
                     {
                         /*
@@ -478,7 +479,7 @@ namespace CleanGame.Game.Core.Systems
                     roundStartTime = 0;
 
                     ActionLabelBack.Visibility = Visibility.Hidden;
-                    if (game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value == 1)
+                    if (game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value == 0)
                     {
                         //Setting the movePlayer flag in the physics component of the player
                         game.player.GetComponent<PhysicsComponent>().movePlayer = true;
@@ -487,7 +488,7 @@ namespace CleanGame.Game.Core.Systems
                         game.player.Refresh();
                     }
                     else
-                        SetupNextRound();
+                        AdvanceLevel();
 
                 }
             }
@@ -549,8 +550,6 @@ namespace CleanGame.Game.Core.Systems
                         }
                         else
                         {
-                            //increment score
-                            game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += 50;
 
                             World.DestroyEntity(e);
                             i--;
