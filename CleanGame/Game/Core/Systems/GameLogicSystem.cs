@@ -19,10 +19,14 @@ using CleanGame.Game.Core.GameStates;
 using CoreUI;
 using Microsoft.Xna.Framework.Graphics;
 
+
 namespace CleanGame.Game.Core.Systems
 {
     public class GameLogicSystem : EntitySystem
     {
+        private const float damagePnlMaxTime = .5f;
+        private const byte damagePnlMaxAlpha = 128;
+
         private List<ProgressBar> mPBs;
         private Panel pbDisplay;
         private CoreUIEngine UIEngine;
@@ -34,6 +38,8 @@ namespace CleanGame.Game.Core.Systems
         private Label ActionLabel;
         private Panel ActionLabelBack;
         private Label HitLabel;
+        private Panel DamagePanel;
+        private float damagePnlTime;
         private float roundLblTime;
         private float roundTime;
         private float roundStartTime;
@@ -152,6 +158,9 @@ namespace CleanGame.Game.Core.Systems
             playerHitTime = 0;
             PlayerHits = 0;
             HitLabel.Visibility = Visibility.Hidden;
+            (DamagePanel.Background as MonoGameColor).color.A = damagePnlMaxAlpha;
+            DamagePanel.Visibility = Visibility.Visible;
+            damagePnlTime = damagePnlMaxTime;
         }
         private void SetupBoss()
         {
@@ -417,6 +426,16 @@ namespace CleanGame.Game.Core.Systems
         }
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
         {
+            if (damagePnlTime > 0)
+            {
+                (DamagePanel.Background as MonoGameColor).color.A = (byte)(damagePnlMaxAlpha * (damagePnlTime / damagePnlMaxTime));
+                damagePnlTime -= dt;
+                if (damagePnlTime <= 0)
+                {
+                    damagePnlTime = 0;
+                    DamagePanel.Visibility = Visibility.Hidden;
+                }
+            }
             if (roundLblTime > 0)
             {
                 roundLblTime -= dt;
@@ -563,6 +582,14 @@ namespace CleanGame.Game.Core.Systems
         public override void Initialize()
         {
             monstersdefeated = 0;
+
+            DamagePanel = new Panel();
+            DamagePanel.SizeMode = SizeMode.Fill;
+            Color tr = Microsoft.Xna.Framework.Color.Red;
+            tr.A = damagePnlMaxAlpha;
+            DamagePanel.Background = new MonoGameColor(tr);
+            DamagePanel.Visibility = CoreUI.Visibility.Hidden;
+            game.UIEngine.Children.AddElement(DamagePanel);
 
             roundLabel = new Label();
             roundLabel.Size = new System.Drawing.Point(200, 40);
