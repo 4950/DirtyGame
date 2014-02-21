@@ -95,6 +95,13 @@ namespace CleanGame.Game.Core.Systems
                 game.baseContext.RegisterHandler(k, changeWeapon, null);
             }
 
+            //Weapon fire
+            game.baseContext.RegisterHandler(Keys.Space, fire, null);
+
+        }
+        private void fire(Keys key)
+        {
+            game.weaponSystem.FireWeapon(game.player.GetComponent<InventoryComponent>().CurrentWeapon, game.player, new Vector2(ms.X, ms.Y) + renderer.ActiveCamera.Position);
         }
         private void move(Keys key)
         {
@@ -362,12 +369,12 @@ namespace CleanGame.Game.Core.Systems
                     prevMS = ms;
                 if ((ms.RightButton == ButtonState.Pressed && prevMS.RightButton == ButtonState.Released) || (ms.LeftButton == ButtonState.Pressed && prevMS.LeftButton == ButtonState.Released))//right mouse down or left mouse
                 {
-                    game.weaponSystem.FireWeapon(e.GetComponent<InventoryComponent>().CurrentWeapon, e, new Vector2(ms.X, ms.Y) + renderer.ActiveCamera.Position);
+                    fire(Keys.None);
 
                 }
             }
         }
-
+        
         public override void OnEntityAdded(Entity e)
         {
             // do nothing
