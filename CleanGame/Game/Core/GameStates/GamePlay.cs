@@ -11,6 +11,7 @@ using CleanGame.Game.Core.Components;
 using Microsoft.Xna.Framework.Input;
 using CleanGame.Game.Util;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 
 namespace CleanGame.Game.Core.GameStates
@@ -67,15 +68,20 @@ namespace CleanGame.Game.Core.GameStates
             if (monsterHUD == null)
             {
                 monsterHUD = new Panel();
-                monsterHUD.Size = new System.Drawing.Point(120, 145);
+                monsterHUD.Size = new System.Drawing.Point(150, 145);
                 monsterHUD.Position = new System.Drawing.Point(680, 0);
-                monsterHUD.Background = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.Black);
+                //monsterHUD.Background = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.Black);
                 monsterHUD.Visibility = Visibility.Hidden;
 
+                SpriteFont f = game.resourceManager.GetResource<SpriteFont>("HitsSmall");
+                
+
                 scoreLbl = new Label();
-                scoreLbl.Size = new System.Drawing.Point(120, 25);
-                scoreLbl.Position = new System.Drawing.Point(680, 0);
+                scoreLbl.Size = new System.Drawing.Point(190, 25);
+                scoreLbl.Position = new System.Drawing.Point(590, 0);
                 scoreLbl.Foreground = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.White);
+                scoreLbl.TextPosition = TextPosition.Right;
+                scoreLbl.mFontInt = new MonoGameFont(f);
                 scoreLbl.Text = "Score: 0";
                 monsterHUD.AddElement(scoreLbl);
 
@@ -107,7 +113,7 @@ namespace CleanGame.Game.Core.GameStates
 
                 playerStuff = new Window();
                 playerStuff.Size = new System.Drawing.Point(200, 100);
-                playerStuff.Position = new System.Drawing.Point(0, 400);
+                playerStuff.Position = new System.Drawing.Point(0, game.currrentDisplayMode.Height - 100);
                 playerStuff.Style = Window.WindowStyle.None;
                 playerStuff.Background = new MonoGameColor(new Microsoft.Xna.Framework.Color(0, 0, 0, .5f));
 

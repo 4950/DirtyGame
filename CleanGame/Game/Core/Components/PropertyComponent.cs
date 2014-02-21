@@ -9,6 +9,7 @@ namespace CleanGame.Game.Core.Components
     public class PropertyComponent : Component
     {
         private bool modified;
+        private byte modCount;
         public bool IsModified
         {
             get
@@ -17,6 +18,16 @@ namespace CleanGame.Game.Core.Components
             }
             set
             {
+                if (value)
+                {
+                    modCount = 0;
+                }
+                else
+                {
+                    modCount++;
+                    if (modCount == 1)
+                        return;
+                }
                 modified = value;
             }
         }

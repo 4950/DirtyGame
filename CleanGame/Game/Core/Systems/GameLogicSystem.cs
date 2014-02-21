@@ -549,6 +549,9 @@ namespace CleanGame.Game.Core.Systems
                         }
                         else
                         {
+                            //increment score
+                            game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += 50;
+
                             World.DestroyEntity(e);
                             i--;
                         }
@@ -620,7 +623,6 @@ namespace CleanGame.Game.Core.Systems
 
             HitLabel = new Label();
             SpriteFont f = game.resourceManager.GetResource<SpriteFont>("Hits");
-            f.Spacing = 0;
             HitLabel.mFontInt = new MonoGameFont(f);
             HitLabel.Size = new System.Drawing.Point(200, 50);
             HitLabel.Position = new System.Drawing.Point(50, 100);

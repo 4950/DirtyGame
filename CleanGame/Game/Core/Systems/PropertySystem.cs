@@ -22,6 +22,7 @@ namespace CleanGame.Game.Core.Systems
             {
                 foreach (Component c in e.Components)
                 {
+                    //IsModified must be set to false twice before it becomes false now, thus allowing the property to propogate for one full frame
                     if (c.GetType().BaseType.Equals(typeof(PropertyComponent)))
                         ((PropertyComponent)c).IsModified = false;
                 }
