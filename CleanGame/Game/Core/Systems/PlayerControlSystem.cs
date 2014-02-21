@@ -95,6 +95,7 @@ namespace CleanGame.Game.Core.Systems
         }
         private void move(Keys key)
         {
+            //Console.WriteLine("Move " + key +" " + keysDown.Count);
             previousDirection = currentDirection;
             keysDown.Add(key);
             setDirection(key);
@@ -127,9 +128,11 @@ namespace CleanGame.Game.Core.Systems
                     currentDirection = MoveDirection.Idle;
                     break;
             }
+            //Console.WriteLine("Current Dir: " + currentDirection);
         }
         private void idle(Keys key)
         {
+            //Console.WriteLine("Idle " + key + " " + keysDown.Count);
             keysDown.Remove(key);
             previousDirection = currentDirection;
             if (keysDown.Count > 0)
@@ -206,6 +209,7 @@ namespace CleanGame.Game.Core.Systems
                 SpriteComponent sprite = e.GetComponent<SpriteComponent>();
                 StatsComponent s = e.GetComponent<StatsComponent>();
 
+                Console.WriteLine(previousDirection + ", " + currentDirection);
                 if (previousDirection != currentDirection)//direction state changed
                 {
                     float MoveSpeed = 5 * (s.MoveSpeed / 100);
@@ -220,6 +224,7 @@ namespace CleanGame.Game.Core.Systems
                         sprite.SrcRect = sprite.SpriteSheet.Animation["Idle" + direction.Heading][0]; //I do not know if this is the best way to do this - JP
                     }
                     string anim = "Walk";
+                    Console.WriteLine(currentDirection);
                     switch (currentDirection)
                     {
                         case MoveDirection.Up:

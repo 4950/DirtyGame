@@ -32,7 +32,7 @@ namespace CleanGame.Game.Input
             foreach (InputContext context in inputContexts)
             {
                 if (context.Dispatch(key, state))
-                {                    
+                {
                     return;
                 }
             }
