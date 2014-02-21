@@ -103,7 +103,7 @@ namespace CleanGame.Game.Core.Systems
             Entity e = game.entityFactory.CreateSpawner(600, 600, new Rectangle(0, 0, 46, 46), "LandmineDropper", "LandmineWeapon", numMelee + 3, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
             spawners.Add(e);
-            
+
             e = game.entityFactory.CreateSpawner(300, 100, new Rectangle(0, 0, 46, 46), "MeleeMonster", "Monstersword", numMelee / 2, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
             spawners.Add(e);
@@ -395,21 +395,24 @@ namespace CleanGame.Game.Core.Systems
 
                         GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundEnded, game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value.ToString());
                         GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundHealth, game.player.GetComponent<StatsComponent>().CurrentHealth.ToString());
-                        //next game round
-                        //AdvanceLevel();
-                        game.ClearField = true;
-                        //start next round in 5
-                        roundStartTime = 5f;
-                        ActionLabel.Text = "Get Ready";
-                        ActionLabel.Position = new System.Drawing.Point(-ActionLabel.Size.X / 2, ActionLabel.Position.Y);
-                        ActionLabelBack.Visibility = CoreUI.Visibility.Visible;
 
+                        StartPreRound();
                     }
                 }
             }
 
         }
-
+        public void StartPreRound()
+        {
+            //next game round
+            //AdvanceLevel();
+            game.ClearField = true;
+            //start next round in 5
+            roundStartTime = 5f;
+            ActionLabel.Text = "Get Ready";
+            ActionLabel.Position = new System.Drawing.Point(-ActionLabel.Size.X / 2, ActionLabel.Position.Y);
+            ActionLabelBack.Visibility = CoreUI.Visibility.Visible;
+        }
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
         {
             if (roundLblTime > 0)
@@ -442,7 +445,7 @@ namespace CleanGame.Game.Core.Systems
                 else if (Math.Floor(roundStartTime) == 1 && Math.Round(roundStartTime) == 1)
                 {
                     ActionLabel.Text = "Go!";
-                    ActionLabel.Position = new System.Drawing.Point(-ActionLabel.Size.X , ActionLabel.Position.Y);
+                    ActionLabel.Position = new System.Drawing.Point(-ActionLabel.Size.X, ActionLabel.Position.Y);
                 }
                 else if (roundStartTime < 1 && roundStartTime > .5f)
                 {
@@ -454,12 +457,17 @@ namespace CleanGame.Game.Core.Systems
                     roundStartTime = 0;
 
                     ActionLabelBack.Visibility = Visibility.Hidden;
-                    SetupNextRound();
-                    //Setting the movePlayer flag in the physics component of the player
-                    //game.player.GetComponent<PhysicsComponent>().movePlayer = true;
-                    ////TODO need to have the map name here
-                    //setupScenario(randomScenario(game.mapName));
-                    //game.player.Refresh();
+                    if (game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value == 1)
+                    {
+                        //Setting the movePlayer flag in the physics component of the player
+                        game.player.GetComponent<PhysicsComponent>().movePlayer = true;
+                        //TODO need to have the map name here
+                        setupScenario(randomScenario(game.mapName));
+                        game.player.Refresh();
+                    }
+                    else
+                        SetupNextRound();
+
                 }
             }
             //if (roundTime > 0)
@@ -566,7 +574,9 @@ namespace CleanGame.Game.Core.Systems
             ActionLabelBack = new Panel();
             ActionLabelBack.Size = new System.Drawing.Point(game.currrentDisplayMode.Width, 100);
             ActionLabelBack.Position = new System.Drawing.Point(0, game.currrentDisplayMode.Height / 2 - 50);
-            ActionLabelBack.Background = new MonoGameColor(Microsoft.Xna.Framework.Color.Black);
+            Color trans =  Microsoft.Xna.Framework.Color.Black;
+            trans.A = 200;
+            ActionLabelBack.Background = new MonoGameColor(trans);
             ActionLabelBack.Visibility = CoreUI.Visibility.Hidden;
             game.UIEngine.Children.AddElement(ActionLabelBack);
 
