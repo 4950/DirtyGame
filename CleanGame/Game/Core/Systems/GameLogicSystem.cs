@@ -46,6 +46,7 @@ namespace CleanGame.Game.Core.Systems
         private bool cheatEndRound = false;
         private int PlayerHits;
         private float playerHitTime;
+        private List<Label> textFloaters = new List<Label>();
 
         private List<Entity> spawners = new List<Entity>();
 
@@ -79,6 +80,19 @@ namespace CleanGame.Game.Core.Systems
 
             //restore player health
             game.player.GetComponent<StatsComponent>().CurrentHealth = game.player.GetComponent<StatsComponent>().MaxHealth;
+        }
+        public void AddTextFloater(string val)
+        {
+            Label floater = new Label();
+            SpriteFont f = game.resourceManager.GetResource<SpriteFont>("HitsSmall");
+            floater.mFontInt = new MonoGameFont(f);
+            floater.Size = new System.Drawing.Point(200, 50);
+            floater.Position = new System.Drawing.Point(game.currrentDisplayMode.Width/2, game.currrentDisplayMode.Height/2);
+            floater.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.White);
+            floater.TextPosition = TextPosition.Center;
+            floater.Text = val;
+            game.UIEngine.Children.AddElement(floater);
+            textFloaters.Add(floater);
         }
         public void SetupNextRound()
         {
@@ -155,12 +169,19 @@ namespace CleanGame.Game.Core.Systems
         }
         public void PlayerTookDamage()
         {
-            playerHitTime = 0;
-            PlayerHits = 0;
-            HitLabel.Visibility = Visibility.Hidden;
+            ResetHitCounter();
             (DamagePanel.Background as MonoGameColor).color.A = damagePnlMaxAlpha;
             DamagePanel.Visibility = Visibility.Visible;
             damagePnlTime = damagePnlMaxTime;
+        }
+        private void ResetHitCounter()
+        {
+            int mul = (int)Math.Floor(PlayerHits / 10.0d);
+            game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += PlayerHits * mul;
+            AddTextFloater("+" + PlayerHits * mul);
+            playerHitTime = 0;
+            PlayerHits = 0;
+            HitLabel.Visibility = Visibility.Hidden;
         }
         private void SetupBoss()
         {
@@ -389,7 +410,9 @@ namespace CleanGame.Game.Core.Systems
                     //if (roundTime > 0)
                     //{
                         monstersdefeated++;
-                        game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += 50;
+
+                        AddTextFloater("+" + (50 + PlayerHits));
+                        game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += 50 + PlayerHits;
                         game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").value += 10;
                         game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += 1;
 
@@ -427,6 +450,21 @@ namespace CleanGame.Game.Core.Systems
         }
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
         {
+            for(int i = 0; i < textFloaters.Count; i++)
+            {
+                Label floater = textFloaters[i];
+                System.Drawing.Point pos = floater.Position;
+                pos.X += (int)(dt * 300);
+                pos.Y -= (int)(dt * 300);
+                floater.Position = pos;
+
+                if (pos.Y <= 0)
+                {
+                    textFloaters.Remove(floater);
+                    game.UIEngine.Children.RemoveElement(floater);
+                    i--;
+                }
+            }
             if (damagePnlTime > 0)
             {
                 (DamagePanel.Background as MonoGameColor).color.A = (byte)(damagePnlMaxAlpha * (damagePnlTime / damagePnlMaxTime));
@@ -450,9 +488,7 @@ namespace CleanGame.Game.Core.Systems
                 playerHitTime -= dt;
                 if (playerHitTime <= 0)
                 {
-                    playerHitTime = 0;
-                    PlayerHits = 0;
-                    HitLabel.Visibility = Visibility.Hidden;
+                    ResetHitCounter();
                 }
             }
             if (roundStartTime > 0)
