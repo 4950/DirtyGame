@@ -141,6 +141,7 @@ namespace CleanGame.Game.Core.Systems
         }
         private void idle(Keys key)
         {
+            //Console.WriteLine("Idle " + key + " " + keysDown.Count);
             keysDown.Remove(key);
             if (keysDown.Count > 0)
                 setDirection(keysDown[keysDown.Count - 1]);
@@ -240,6 +241,7 @@ namespace CleanGame.Game.Core.Systems
                         sprite.SrcRect = sprite.SpriteSheet.Animation["Idle" + direction.Heading][0]; //I do not know if this is the best way to do this - JP
                     }
                     string anim = "Walk";
+                    Console.WriteLine(currentDirection);
                     switch (currentDirection)
                     {
                         case MoveDirection.Up:
