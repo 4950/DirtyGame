@@ -213,7 +213,7 @@
   <!--Shoot-->
   <animationDefault name="ShootUp"
                     yPosition="1024"
-                    xStartFrame="32"
+                    xStartFrame="0"
                     xOffset="0"
                     yOffset="0"
                     numberOfFrames="13"
@@ -224,7 +224,7 @@
   </animationDefault>
   <animationDefault name="ShootLeft"
                     yPosition="1088"
-                    xStartFrame="32"
+                    xStartFrame="0"
                     xOffset="0"
                     yOffset="0"
                     numberOfFrames="13"
@@ -235,7 +235,7 @@
   </animationDefault>
   <animationDefault name="ShootDown"
                     yPosition="1152"
-                    xStartFrame="32"
+                    xStartFrame="0"
                     xOffset="0"
                     yOffset="0"
                     numberOfFrames="13"
@@ -246,7 +246,7 @@
   </animationDefault>
   <animationDefault name="ShootRight"
                     yPosition="1216"
-                    xStartFrame="32"
+                    xStartFrame="0"
                     xOffset="0"
                     yOffset="0"
                     numberOfFrames="13"
@@ -274,43 +274,43 @@
                     xStartFrame="0"
                     xOffset="0"
                     yOffset="0"
-                    numberOfFrames="6"
-                    width="192"
+                    numberOfFrames="7"
+                    width="256"
                     height="192"
                     finite="true"
-                    time=".5">
+                    time=".3">
   </animationDefault>
   <animationDefault name="BigSlashLeft"
                     yPosition="1568"
                     xStartFrame="0"
-                    xOffset="0"
+                    xOffset="2"
                     yOffset="0"
-                    numberOfFrames="6"
-                    width="192"
+                    numberOfFrames="7"
+                    width="256"
                     height="192"
                     finite="true"
-                    time=".5">
+                    time=".3">
   </animationDefault>
   <animationDefault name="BigSlashDown"
                     yPosition="1760"
                     xStartFrame="0"
                     xOffset="0"
                     yOffset="0"
-                    numberOfFrames="6"
-                    width="192"
+                    numberOfFrames="7"
+                    width="256"
                     height="192"
                     finite="true"
-                    time=".5">
+                    time=".3">
   </animationDefault>
   <animationDefault name="BigSlashRight"
                     yPosition="1952"
                     xStartFrame="0"
                     xOffset="0"
                     yOffset="0"
-                    numberOfFrames="6"
-                    width="192"
+                    numberOfFrames="7"
+                    width="256"
                     height="192"
                     finite="true"
-                    time=".5">
+                    time=".3">
   </animationDefault>
 </root>
