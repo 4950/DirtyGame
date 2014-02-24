@@ -60,6 +60,6 @@ namespace CleanGame.Game.Core.Systems.Util
            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(GrenadeComponent) }), 1);
 
         public static SystemParams PropertySystem =
-           new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(PropertyComponent) }), 5);
+           new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(PropertyComponent) }), 0);
     }
 }

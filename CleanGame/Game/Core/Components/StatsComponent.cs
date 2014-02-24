@@ -21,7 +21,9 @@ namespace CleanGame.Game.Core.Components
         //Other stats
         public bool RangedImmune { get; set; }
         public float CurrentHealth;
-
+        [XmlArray]
+        [XmlArrayItem(ElementName="List")]
+        public List<string> ImmuneTo { get; set; }
         //Calculated Stats
         public int MaxHealth
         {
@@ -44,5 +46,8 @@ namespace CleanGame.Game.Core.Components
                 return BaseDamage;
             }
         }
+        
+        
+
     }
 }

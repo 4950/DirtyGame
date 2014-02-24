@@ -42,6 +42,17 @@ namespace CleanGame.Game.Core.Systems
             WeaponComponent wc = Weapon.GetComponent<WeaponComponent>();
             StatsComponent hc = Target.GetComponent<StatsComponent>();
             StatsComponent ts = Target.GetComponent<StatsComponent>();
+            int Damage; //Ling's bad code
+            CaptureEventType t; //Ling's bad code
+
+            if (wc.WeaponName == "LandmineWeapon") //Ling's code
+            {
+                Damage = 23;//TODO: Make this get the value from the xml
+                hc.CurrentHealth -= Damage;
+                t = Target.HasComponent<PlayerComponent>() ? CaptureEventType.PlayerDamageTaken : CaptureEventType.MonsterDamageTaken;
+                GameplayDataCaptureSystem.Instance.LogEvent(t, Damage.ToString());
+                return;
+            }
 
             if (wc == null || wc.Owner == null)
                 return;
@@ -51,19 +62,27 @@ namespace CleanGame.Game.Core.Systems
             if (hc == null || os == null || ts == null)
                 return;
 
-            if (ts.RangedImmune && wc.Type == WeaponComponent.WeaponType.Ranged)
-                return;
-
+            if (ts.RangedImmune)
+            {
+                foreach (string weapon in ts.ImmuneTo)
+                {
+                    if (weapon == wc.WeaponName)
+                    {
+                        return;
+                    }
+                }
+                
+            }
             if (wc.Owner == game.player)
                 game.gLogicSystem.PlayerDealtDamage();
             else if (Target == game.player)
                 game.gLogicSystem.PlayerTookDamage();
 
-            int Damage = (int)Math.Floor(wc.BaseDamage * (os.Damage / 100.0f));
+            Damage = (int)Math.Floor(wc.BaseDamage * (os.Damage / 100.0f));
 
             hc.CurrentHealth -= Damage;
 
-            CaptureEventType t = Target.HasComponent<PlayerComponent>() ? CaptureEventType.PlayerDamageTaken : CaptureEventType.MonsterDamageTaken;
+            t = Target.HasComponent<PlayerComponent>() ? CaptureEventType.PlayerDamageTaken : CaptureEventType.MonsterDamageTaken;
             GameplayDataCaptureSystem.Instance.LogEvent(t, Damage.ToString());
         }
         public void FireWeapon(Entity Weapon, Entity Owner, Vector2 Target)
@@ -153,10 +172,25 @@ namespace CleanGame.Game.Core.Systems
                 }
                 else if (wc.Type == WeaponComponent.WeaponType.Melee)
                 {
-                    SetShootAnimation(Owner, "Attack");
-                    Entity meleeEntity = game.entityFactory.CreateMeleeEntity(Owner, Weapon);
+
+                    Entity meleeEntity;
+
+                    if (wc.Owner.HasComponent<PlayerComponent>()) //Owned by player
+                    {
+                        SetShootAnimation(Owner, "BigSlash");
+                        meleeEntity = game.entityFactory.CreateMeleeEntity(Owner, Weapon);
+                        
+                    }
+                    else
+                    {
+                        SetShootAnimation(Owner, "Attack");
+                        meleeEntity = game.entityFactory.CreateMeleeEntity(Owner, Weapon);
+                        
+                    }
+
                     meleeEntity.Refresh();
                 }
+       
             }
         }
 

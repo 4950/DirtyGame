@@ -145,6 +145,9 @@ namespace CleanGame.Game.Core
             DirectionComponent direction = new DirectionComponent();
             direction.Heading = owner.GetComponent<DirectionComponent>().Heading;
 
+            PhysicsComponent pc = new PhysicsComponent();
+            
+
             SpatialComponent spatial = new SpatialComponent();
             float xOffset = 0.0f;
             float yOffset = 0.0f;
@@ -152,30 +155,50 @@ namespace CleanGame.Game.Core
             {
                 case "Up":
                     xOffset = 0.0f;
-                    yOffset = -20.0f;
+                    yOffset = 10.0f;
                     spatial.Height = 20;
                     spatial.Width = 40;
+                    if (owner.HasComponent<PlayerComponent>())
+                    {
+                        pc.Origin = new Vector2(0, 0);
+                        spatial.ConstantRotation = 11f;
+                    }
                     break;
 
                 case "Down":
                     xOffset = 0.0f;
-                    yOffset = 50.0f;
+                    yOffset = 25.0f;
                     spatial.Height = 20;
                     spatial.Width = 40;
+                    if (owner.HasComponent<PlayerComponent>())
+                    {
+                        pc.Origin = new Vector2(0,0);
+                        spatial.ConstantRotation = -11f;
+                    }
                     break;
 
                 case "Right":
-                    xOffset = 40.0f;
-                    yOffset = 0.0f;
-                    spatial.Height = 40;
+                    xOffset = 0.0f;
+                    yOffset = 15.0f;
+                    spatial.Height = 60;
                     spatial.Width = 20;
+                    if (owner.HasComponent<PlayerComponent>())
+                    {
+                        pc.Origin = new Vector2(0,0);
+                        spatial.ConstantRotation = -2f;
+                    }
                     break;
 
                 case "Left":
                     xOffset = -15.0f;
-                    yOffset = 0.0f;
+                    yOffset = 20.0f;
                     spatial.Height = 40;
                     spatial.Width = 20;
+                    if (owner.HasComponent<PlayerComponent>())
+                    {
+                        pc.Origin = new Vector2(0, 0);
+                        spatial.ConstantRotation = 6f;
+                    }
                     break;
             }
             spatial.Position = new Vector2(ownerLocation.X + xOffset, ownerLocation.Y + yOffset);
@@ -192,6 +215,8 @@ namespace CleanGame.Game.Core
             mc.Weapon = weapon;
             mc.Owner = owner;
 
+            
+
             //Adding the components to the melee entity
             meleeEntity.AddComponent(spatial);
             meleeEntity.AddComponent(direction);
@@ -199,7 +224,7 @@ namespace CleanGame.Game.Core
             meleeEntity.AddComponent(sprite);
             meleeEntity.AddComponent(mc);
             meleeEntity.AddComponent(new MovementComponent());
-            meleeEntity.AddComponent(new PhysicsComponent());
+            meleeEntity.AddComponent(pc);
 
             return meleeEntity;
         }
@@ -208,10 +233,8 @@ namespace CleanGame.Game.Core
         {
             Entity e = entityMgr.CreateEntity();
             SpatialComponent spatial = new SpatialComponent();
-            spatial.Position = new Vector2(150, 150);
-
+            spatial.Position = new Vector2(150, 150); 
             InventoryComponent ic = new InventoryComponent();
-
             SpriteComponent sprite = new SpriteComponent();
             sprite.RenderLayer = RenderLayer.BACKGROUND;
             sprite.AnchorPoint = new Vector2(.25f, .25f);
@@ -223,7 +246,6 @@ namespace CleanGame.Game.Core
             s.BaseHealth = 100;
             s.HealthScale = 1;
             s.CurrentHealth = s.MaxHealth;
-
 
             //Direction Component
             DirectionComponent direction = new DirectionComponent();
@@ -547,7 +569,8 @@ namespace CleanGame.Game.Core
             spawnerCmp.timePerSpawn = s.TimePerSpawn;
             spawnerCmp.MonsterType = s.MonsterType;
             spawnerCmp.MonsterWeapon = s.MonsterWeapon;
-            //TODO Spawner Component needs a modifier
+            spawnerCmp.HealthUpModifier = s.HealthUpModifier;
+            spawnerCmp.DamageUpModifier = s.DamageUpModifier;
 
             //Add the new components to the entity
             e.AddComponent(spatial);

@@ -19,7 +19,7 @@ namespace CleanGame.Game.Core.Systems.Monster
         private EntityFactory entityFactory;
         public float totaltime;
         private Physics physics;
-        private Renderer renderer;
+        public Renderer renderer;
 
         //Current goal: Make monsters of different types rush towards each other.
         // If no monster of another type is nearby... wander.
@@ -504,12 +504,12 @@ namespace CleanGame.Game.Core.Systems.Monster
         }
         private double[] Wander(Vector2 pos, Vector2 curVel, ref float theta)
         {
-            const float wanderR = 16.0f;
-            const float wanderD = 60.0f;
+            const float wanderR = 32.0f;
+            const float wanderD = 64.0f;
             const float change = 0.5f;
 
-            float negChange = r.Next(2);
-            float randomNum = r.Next(1) * change;
+            float negChange = (int)Math.Round(r.NextDouble()) + 1;
+            float randomNum = (float)(r.NextDouble() * change);
             if (negChange == 2)
                 theta = theta - randomNum;
             else
@@ -517,6 +517,8 @@ namespace CleanGame.Game.Core.Systems.Monster
 
 
             Vector2 circleLoc = curVel;
+            if (circleLoc.Length() == 0)
+                circleLoc = new Vector2(0, 1);
 
             circleLoc.Normalize();
             circleLoc *= wanderD;

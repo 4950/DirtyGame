@@ -73,7 +73,7 @@ namespace CleanGame.Game.Core.Systems
                         }
 
 						spatial.Position = ConvertUnits.ToDisplayUnits(bodyDictionary[e.Id].Position) - spatial.Size * pc.Origin;
-						if (spatial.ConstantRotation > 0 && !e.HasComponent<LaserComponent>())
+						if (spatial.ConstantRotation != 0 && !e.HasComponent<LaserComponent>())
 						{
 							spatial.Rotation += spatial.ConstantRotation * dt;
 							bodyDictionary[e.Id].Rotation = spatial.Rotation;
@@ -250,19 +250,19 @@ namespace CleanGame.Game.Core.Systems
 					
 				}
 
-				if (e.HasComponent<BorderComponent>())
-				{
-					BorderComponent border = e.GetComponent<BorderComponent>();
-					Vertices borders = new Vertices(4);
-					borders.Add(ConvertUnits.ToSimUnits(border.TopLeft));
-					borders.Add(ConvertUnits.ToSimUnits(border.TopRight));
-					borders.Add(ConvertUnits.ToSimUnits(border.BottomRight));
-					borders.Add(ConvertUnits.ToSimUnits(border.BottomLeft));
+                if (e.HasComponent<BorderComponent>())
+                {
+                    BorderComponent border = e.GetComponent<BorderComponent>();
+                    Vertices borders = new Vertices(4);
+                    borders.Add(ConvertUnits.ToSimUnits(border.TopLeft));
+                    borders.Add(ConvertUnits.ToSimUnits(border.TopRight));
+                    borders.Add(ConvertUnits.ToSimUnits(border.BottomRight));
+                    borders.Add(ConvertUnits.ToSimUnits(border.BottomLeft));
 
-					Body = BodyFactory.CreateLoopShape(physicsWorld, borders);
-					Body.CollisionCategories = Category.All;
-					Body.CollidesWith = Category.All;
-				}
+                    Body = BodyFactory.CreateLoopShape(physicsWorld, borders);
+                    Body.CollisionCategories = Category.All;
+                    Body.CollidesWith = Category.All;
+                }
 
 				if (e.HasComponent<MovementComponent>())
 				{
@@ -326,6 +326,9 @@ namespace CleanGame.Game.Core.Systems
 					}
 					else if (A.HasComponent<MeleeComponent>() || B.HasComponent<MeleeComponent>())//Melee
 					{
+
+                        Collide = false;
+
 						Entity melee = A.HasComponent<MeleeComponent>() ? A : B;
 						Entity hit = melee == A ? B : A;
 
@@ -343,6 +346,8 @@ namespace CleanGame.Game.Core.Systems
 									mc.targetsHit.Add(hit);
 
 									game.weaponSystem.DealDamage(mc.Weapon, hit);
+
+                                    
 								}
 							}
 						}

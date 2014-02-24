@@ -1,8 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
 
-
-
   <!-- Weapon Section -->
   <Entity name="Monsterbow">
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="WeaponComponent">
@@ -13,7 +11,7 @@
       <Range>400</Range>
       <Type>Ranged</Type>
       <ProjectileSprite>arrow</ProjectileSprite>
-      <ProjectileSpeed>10</ProjectileSpeed>
+      <ProjectileSpeed>7</ProjectileSpeed>
       <FireSound>BowFire</FireSound>
       <Cooldown>3</Cooldown>
       <LastFire>0</LastFire>
@@ -37,8 +35,8 @@
       <LastFire>0</LastFire>
       <Price>100</Price>
       <AmmoPrice>0</AmmoPrice>
-      <MaxAmmo>-1</MaxAmmo>
-      <Ammo>-1</Ammo>
+      <MaxAmmo>5</MaxAmmo>
+      <Ammo>5</Ammo>
     </Component>
   </Entity>
   <Entity name="FlametowerWeapon">
@@ -107,10 +105,10 @@
       <BaseDamage>50</BaseDamage>
       <Range>64</Range>
       <Type>Melee</Type>
-      <ProjectileSprite>SwordMeleeSpriteSheet</ProjectileSprite>
+      <ProjectileSprite>invisibleSwordMeleeSpriteSheet</ProjectileSprite>
       <SpriteXml>Content\MeleeAnimation.xml</SpriteXml>
       <ProjectileSpeed>0</ProjectileSpeed>
-      <Cooldown>.3</Cooldown>
+      <Cooldown>.5</Cooldown>
       <LastFire>0</LastFire>
       <Price>100</Price>
       <AmmoPrice>2</AmmoPrice>
@@ -127,8 +125,8 @@
       <Range>400</Range>
       <Type>Ranged</Type>
       <ProjectileSprite>arrow</ProjectileSprite>
-      <ProjectileSpeed>10</ProjectileSpeed>
-      <Cooldown>.1</Cooldown>
+      <ProjectileSpeed>7</ProjectileSpeed>
+      <Cooldown>.25</Cooldown>
       <LastFire>0</LastFire>
       <Price>100</Price>
       <AmmoPrice>0</AmmoPrice>
@@ -165,7 +163,7 @@
       <Type>Ranged</Type>
       <ProjectileSprite>arrow</ProjectileSprite>
       <ProjectileSpeed>10</ProjectileSpeed>
-      <Cooldown>1</Cooldown>
+      <Cooldown>.1</Cooldown>
       <LastFire>0</LastFire>
       <Price>100</Price>
       <AmmoPrice>10</AmmoPrice>
@@ -184,7 +182,8 @@
       <Type>Ranged</Type>
       <ProjectileSprite>arrow</ProjectileSprite>
       <ProjectileSpeed>30</ProjectileSpeed>
-      <Cooldown>0</Cooldown>
+
+      <Cooldown>1</Cooldown>
       <LastFire>0</LastFire>
       <Price>100</Price>
       <AmmoPrice>10</AmmoPrice>
@@ -218,7 +217,7 @@
       <WeaponName>SnipWeapon</WeaponName>
       <Portrait>bow</Portrait>
       <BaseDamage>60</BaseDamage>
-      <Range>400</Range>
+      <Range>400</Range>w
       <Type>Ranged</Type>
       <ProjectileSprite>arrow</ProjectileSprite>
       <ProjectileSpeed>40</ProjectileSpeed>
@@ -249,6 +248,9 @@
       <Ammo>-1</Ammo>
     </Component>
   </Entity>
+  
+  
+  
   <!-- Monster Section -->
   <Entity name="MeleeMonster" data="true">
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="MonsterComponent">
@@ -795,6 +797,11 @@
       <BaseMoveSpeed>0</BaseMoveSpeed>
       <BaseDamage>100</BaseDamage>
       <RangedImmune>true</RangedImmune>
+      <ImmuneTo>
+        <List>Sniper</List>
+        <List>Doomsbow</List>
+        <List>Scattershot</List>
+      </ImmuneTo>
       <BaseHealth>100</BaseHealth>
       <HealthScale>1</HealthScale>
       <CurrentHealth>100</CurrentHealth>
@@ -828,7 +835,7 @@
       </Size>
       <Rotation>0</Rotation>
       <ConstantRotation>0</ConstantRotation>
-      <isMoving>false</isMoving>
+      <isMoving>true</isMoving>
       <Bounds>
         <X>0</X>
         <Y>0</Y>
@@ -1013,6 +1020,11 @@
       <BaseMoveSpeed>80</BaseMoveSpeed>
       <BaseDamage>100</BaseDamage>
       <RangedImmune>true</RangedImmune>
+      <ImmuneTo>
+        <List>Sniper</List>
+        <List>Doomsbow</List>
+        <List>Scattershot</List>
+      </ImmuneTo>
       <BaseHealth>25</BaseHealth>
       <HealthScale>1</HealthScale>
       <CurrentHealth>25</CurrentHealth>

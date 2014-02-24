@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,10 +29,13 @@ namespace CleanGame.Game.Util
 
         private void PlaySong(string s)
         {
-            currentBackground = s;
-            player.Volume = 0;
-            player.Open(new Uri(App.Path + "Sound\\Music\\" + s));
-            player.Play();
+            if (File.Exists(App.Path + "Sound\\Music\\" + s))
+            {
+                currentBackground = s;
+                player.Volume = 0;
+                player.Open(new Uri(App.Path + "Sound\\Music\\" + s));
+                player.Play();
+            }
         }
 
         public void SetGame(Dirty game)
@@ -48,8 +52,9 @@ namespace CleanGame.Game.Util
         }
         public void AddBackgroundMusic(string song)
         {
-            if (!backgroundMusic.Contains(song))
-                backgroundMusic.Add(song);
+            if (File.Exists(App.Path + "Sound\\Music\\" + song))
+                if (!backgroundMusic.Contains(song))
+                    backgroundMusic.Add(song);
         }
         public void PlayRand()
         {
