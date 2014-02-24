@@ -135,6 +135,25 @@ namespace CleanGame.Game.Core.Systems
 
                         }
 
+                        if (e.HasComponent<KnockbackComponent>())
+                        {
+                            KnockbackComponent kn = e.GetComponent<KnockbackComponent>();
+                            //Move back entity by dt*distance, subtract dt from ticks
+                            //if dt > ticks, then move back by ticks, and remove the KnockbackComponent.
+                            if (dt > kn.ticks)
+                            {
+                                bodyDictionary[e.Id].ApplyLinearImpulse(kn.direction * kn.distance * kn.ticks);
+                                e.RemoveComponent(kn);
+                            }
+                            else
+                            {
+                                bodyDictionary[e.Id].ApplyLinearImpulse(kn.direction * kn.distance * dt);
+                                kn.ticks -= dt;
+                            }
+
+                            
+                        }
+
 
 						if (PhysicsDebug)
 						{
@@ -315,7 +334,12 @@ namespace CleanGame.Game.Core.Systems
 
 								game.weaponSystem.DealDamage(proj.GetComponent<ProjectileComponent>().weapon, hit);
 								//hit.GetComponent<HealthComponent>().CurrentHealth -= proj.GetComponent<ProjectileComponent>().damage;
-								hitBody.Body.ApplyLinearImpulse(proj.GetComponent<ProjectileComponent>().direction * 10);
+                                //PBS: Create KnockbackComponent, inject data, add:
+                                KnockbackComponent kn = new KnockbackComponent(proj.GetComponent<ProjectileComponent>().direction, 1000, 10000);
+
+                                hit.AddComponent(kn);
+								//hitBody.Body.ApplyLinearImpulse(proj.GetComponent<ProjectileComponent>().direction * 10);
+                                
 								World.DestroyEntity(proj);
 							}
 							else if (hit.HasComponent<BorderComponent>())//hit map bounds, remove
@@ -351,8 +375,10 @@ namespace CleanGame.Game.Core.Systems
                                     if (mc.Owner.HasComponent<SpatialComponent>())
                                     {
                                         Vector2 a = hit.GetComponent<SpatialComponent>().Position - mc.Owner.GetComponent<SpatialComponent>().Position;
-                                        a.Normalize();
-                                        hitBody.Body.ApplyLinearImpulse(a * 100);
+                                        KnockbackComponent kn = new KnockbackComponent(a, 100, 10);
+                                        hit.AddComponent(kn);
+
+                                        //hitBody.Body.ApplyLinearImpulse(a * 100);
                                     }
                                     
 								}
