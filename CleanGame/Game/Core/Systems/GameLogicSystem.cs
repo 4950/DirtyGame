@@ -112,6 +112,7 @@ namespace CleanGame.Game.Core.Systems
             e = game.entityFactory.CreateSpawner(100, 300, new Rectangle(0, 0, 46, 46), "RangedMonster", "Monsterbow", numRanged / 2, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
             spawners.Add(e);
+
             e = game.entityFactory.CreateSpawner(300, 640, new Rectangle(0, 0, 46, 46), "MeleeMonster", "Monstersword", numMelee / 2, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
             spawners.Add(e);

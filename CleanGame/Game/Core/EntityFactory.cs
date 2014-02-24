@@ -208,10 +208,8 @@ namespace CleanGame.Game.Core
         {
             Entity e = entityMgr.CreateEntity();
             SpatialComponent spatial = new SpatialComponent();
-            spatial.Position = new Vector2(150, 150);
-
+            spatial.Position = new Vector2(150, 150); 
             InventoryComponent ic = new InventoryComponent();
-
             SpriteComponent sprite = new SpriteComponent();
             sprite.RenderLayer = RenderLayer.BACKGROUND;
             sprite.AnchorPoint = new Vector2(.25f, .25f);
@@ -223,7 +221,6 @@ namespace CleanGame.Game.Core
             s.BaseHealth = 100;
             s.HealthScale = 1;
             s.CurrentHealth = s.MaxHealth;
-
 
             //Direction Component
             DirectionComponent direction = new DirectionComponent();

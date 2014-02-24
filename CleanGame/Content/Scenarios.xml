@@ -444,7 +444,7 @@
             difficultyScore="0.50"
             map="Forest.tmx"
             playerX="950"
-            playerY="300">
+            playerY="200">
     <spawner xPosition="300"
              yPosition="100"
              rectangleValue1="0"
@@ -484,7 +484,7 @@
             difficultyScore="0.50"
             map="Forest.tmx"
             playerX="1050"
-            playerY="300">
+            playerY="200">
     <spawner xPosition="300"
              yPosition="100"
              rectangleValue1="0"
