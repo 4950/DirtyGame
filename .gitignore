@@ -4,3 +4,5 @@ obj/
 UpgradeLog*
 _UpgradeReport_Files/
 CleanGame/CleanGame.csproj.Debug.cachefile
+*.cachefile
+*.user
