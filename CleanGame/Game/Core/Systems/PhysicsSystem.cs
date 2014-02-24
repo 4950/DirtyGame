@@ -73,7 +73,7 @@ namespace CleanGame.Game.Core.Systems
                         }
 
 						spatial.Position = ConvertUnits.ToDisplayUnits(bodyDictionary[e.Id].Position) - spatial.Size * pc.Origin;
-						if (spatial.ConstantRotation > 0 && !e.HasComponent<LaserComponent>())
+						if (spatial.ConstantRotation != 0 && !e.HasComponent<LaserComponent>())
 						{
 							spatial.Rotation += spatial.ConstantRotation * dt;
 							bodyDictionary[e.Id].Rotation = spatial.Rotation;
@@ -326,6 +326,9 @@ namespace CleanGame.Game.Core.Systems
 					}
 					else if (A.HasComponent<MeleeComponent>() || B.HasComponent<MeleeComponent>())//Melee
 					{
+
+                        Collide = false;
+
 						Entity melee = A.HasComponent<MeleeComponent>() ? A : B;
 						Entity hit = melee == A ? B : A;
 
@@ -343,6 +346,8 @@ namespace CleanGame.Game.Core.Systems
 									mc.targetsHit.Add(hit);
 
 									game.weaponSystem.DealDamage(mc.Weapon, hit);
+
+                                    
 								}
 							}
 						}

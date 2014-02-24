@@ -145,6 +145,9 @@ namespace CleanGame.Game.Core
             DirectionComponent direction = new DirectionComponent();
             direction.Heading = owner.GetComponent<DirectionComponent>().Heading;
 
+            PhysicsComponent pc = new PhysicsComponent();
+            
+
             SpatialComponent spatial = new SpatialComponent();
             float xOffset = 0.0f;
             float yOffset = 0.0f;
@@ -152,30 +155,50 @@ namespace CleanGame.Game.Core
             {
                 case "Up":
                     xOffset = 0.0f;
-                    yOffset = -20.0f;
+                    yOffset = 10.0f;
                     spatial.Height = 20;
                     spatial.Width = 40;
+                    if (owner.HasComponent<PlayerComponent>())
+                    {
+                        pc.Origin = new Vector2(0, 0);
+                        spatial.ConstantRotation = 11f;
+                    }
                     break;
 
                 case "Down":
                     xOffset = 0.0f;
-                    yOffset = 50.0f;
+                    yOffset = 25.0f;
                     spatial.Height = 20;
                     spatial.Width = 40;
+                    if (owner.HasComponent<PlayerComponent>())
+                    {
+                        pc.Origin = new Vector2(0,0);
+                        spatial.ConstantRotation = -11f;
+                    }
                     break;
 
                 case "Right":
-                    xOffset = 40.0f;
-                    yOffset = 0.0f;
-                    spatial.Height = 40;
+                    xOffset = 0.0f;
+                    yOffset = 15.0f;
+                    spatial.Height = 60;
                     spatial.Width = 20;
+                    if (owner.HasComponent<PlayerComponent>())
+                    {
+                        pc.Origin = new Vector2(0,0);
+                        spatial.ConstantRotation = -2f;
+                    }
                     break;
 
                 case "Left":
                     xOffset = -15.0f;
-                    yOffset = 0.0f;
+                    yOffset = 20.0f;
                     spatial.Height = 40;
                     spatial.Width = 20;
+                    if (owner.HasComponent<PlayerComponent>())
+                    {
+                        pc.Origin = new Vector2(0, 0);
+                        spatial.ConstantRotation = 6f;
+                    }
                     break;
             }
             spatial.Position = new Vector2(ownerLocation.X + xOffset, ownerLocation.Y + yOffset);
@@ -192,6 +215,8 @@ namespace CleanGame.Game.Core
             mc.Weapon = weapon;
             mc.Owner = owner;
 
+            
+
             //Adding the components to the melee entity
             meleeEntity.AddComponent(spatial);
             meleeEntity.AddComponent(direction);
@@ -199,7 +224,7 @@ namespace CleanGame.Game.Core
             meleeEntity.AddComponent(sprite);
             meleeEntity.AddComponent(mc);
             meleeEntity.AddComponent(new MovementComponent());
-            meleeEntity.AddComponent(new PhysicsComponent());
+            meleeEntity.AddComponent(pc);
 
             return meleeEntity;
         }
