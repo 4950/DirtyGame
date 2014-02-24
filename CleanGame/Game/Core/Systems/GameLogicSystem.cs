@@ -19,10 +19,14 @@ using CleanGame.Game.Core.GameStates;
 using CoreUI;
 using Microsoft.Xna.Framework.Graphics;
 
+
 namespace CleanGame.Game.Core.Systems
 {
     public class GameLogicSystem : EntitySystem
     {
+        private const float damagePnlMaxTime = .5f;
+        private const byte damagePnlMaxAlpha = 128;
+
         private List<ProgressBar> mPBs;
         private Panel pbDisplay;
         private CoreUIEngine UIEngine;
@@ -34,12 +38,15 @@ namespace CleanGame.Game.Core.Systems
         private Label ActionLabel;
         private Panel ActionLabelBack;
         private Label HitLabel;
+        private Panel DamagePanel;
+        private float damagePnlTime;
         private float roundLblTime;
         private float roundTime;
         private float roundStartTime;
         private bool cheatEndRound = false;
         private int PlayerHits;
         private float playerHitTime;
+        private List<Label> textFloaters = new List<Label>();
 
         private List<Entity> spawners = new List<Entity>();
 
@@ -68,11 +75,24 @@ namespace CleanGame.Game.Core.Systems
             {
                 game.world.DestroyEntity(ee);
             }
-            game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += monstersdefeated;
+            //game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += monstersdefeated;
             monstersdefeated = 0;
 
             //restore player health
             game.player.GetComponent<StatsComponent>().CurrentHealth = game.player.GetComponent<StatsComponent>().MaxHealth;
+        }
+        public void AddTextFloater(string val)
+        {
+            Label floater = new Label();
+            SpriteFont f = game.resourceManager.GetResource<SpriteFont>("HitsSmall");
+            floater.mFontInt = new MonoGameFont(f);
+            floater.Size = new System.Drawing.Point(200, 50);
+            floater.Position = new System.Drawing.Point(game.currrentDisplayMode.Width/2, game.currrentDisplayMode.Height/2);
+            floater.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.White);
+            floater.TextPosition = TextPosition.Center;
+            floater.Text = val;
+            game.UIEngine.Children.AddElement(floater);
+            textFloaters.Add(floater);
         }
         public void SetupNextRound()
         {
@@ -103,7 +123,7 @@ namespace CleanGame.Game.Core.Systems
             Entity e = game.entityFactory.CreateSpawner(600, 600, new Rectangle(0, 0, 46, 46), "LandmineDropper", "LandmineWeapon", numMelee + 1, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
             spawners.Add(e);
-            
+
             e = game.entityFactory.CreateSpawner(300, 100, new Rectangle(0, 0, 46, 46), "MeleeMonster", "Monstersword", numMelee / 2, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
             spawners.Add(e);
@@ -150,6 +170,16 @@ namespace CleanGame.Game.Core.Systems
         }
         public void PlayerTookDamage()
         {
+            ResetHitCounter();
+            (DamagePanel.Background as MonoGameColor).color.A = damagePnlMaxAlpha;
+            DamagePanel.Visibility = Visibility.Visible;
+            damagePnlTime = damagePnlMaxTime;
+        }
+        private void ResetHitCounter()
+        {
+            int mul = (int)Math.Floor(PlayerHits / 10.0d);
+            game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += PlayerHits * mul;
+            AddTextFloater("+" + PlayerHits * mul);
             playerHitTime = 0;
             PlayerHits = 0;
             HitLabel.Visibility = Visibility.Hidden;
@@ -317,6 +347,8 @@ namespace CleanGame.Game.Core.Systems
 
         public void setupScenario(Scenario scenario)
         {
+            game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value++;
+
             Entity e;
 
             game.player.GetComponent<SpatialComponent>().Position = scenario.PlayerSpawn;
@@ -376,14 +408,17 @@ namespace CleanGame.Game.Core.Systems
 
                 if (e.HasComponent<MonsterComponent>())
                 {
-                    if (roundTime > 0)
-                    {
+                    //if (roundTime > 0)
+                    //{
                         monstersdefeated++;
-                        game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += 50;
+
+                        AddTextFloater("+" + (50 + PlayerHits));
+                        game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += 50 + PlayerHits;
                         game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").value += 10;
+                        game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += 1;
 
                         GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MonsterKilled, e.GetComponent<MonsterComponent>().data.Type);
-                    }
+                    //}
                     if (--monstersalive == 0)
                     {
                         /*
@@ -396,23 +431,51 @@ namespace CleanGame.Game.Core.Systems
 
                         GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundEnded, game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value.ToString());
                         GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundHealth, game.player.GetComponent<StatsComponent>().CurrentHealth.ToString());
-                        //next game round
-                        //AdvanceLevel();
-                        game.ClearField = true;
-                        //start next round in 5
-                        roundStartTime = 5f;
-                        ActionLabel.Text = "Get Ready";
-                        ActionLabel.Position = new System.Drawing.Point(-ActionLabel.Size.X / 2, ActionLabel.Position.Y);
-                        ActionLabelBack.Visibility = CoreUI.Visibility.Visible;
 
+                        StartPreRound();
                     }
                 }
             }
 
         }
-
+        public void StartPreRound()
+        {
+            //next game round
+            //AdvanceLevel();
+            game.ClearField = true;
+            //start next round in 5
+            roundStartTime = 5f;
+            ActionLabel.Text = "Get Ready";
+            ActionLabel.Position = new System.Drawing.Point(-ActionLabel.Size.X / 2, ActionLabel.Position.Y);
+            ActionLabelBack.Visibility = CoreUI.Visibility.Visible;
+        }
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
         {
+            for(int i = 0; i < textFloaters.Count; i++)
+            {
+                Label floater = textFloaters[i];
+                System.Drawing.Point pos = floater.Position;
+                pos.X += (int)(dt * 300);
+                pos.Y -= (int)(dt * 300);
+                floater.Position = pos;
+
+                if (pos.Y <= 0)
+                {
+                    textFloaters.Remove(floater);
+                    game.UIEngine.Children.RemoveElement(floater);
+                    i--;
+                }
+            }
+            if (damagePnlTime > 0)
+            {
+                (DamagePanel.Background as MonoGameColor).color.A = (byte)(damagePnlMaxAlpha * (damagePnlTime / damagePnlMaxTime));
+                damagePnlTime -= dt;
+                if (damagePnlTime <= 0)
+                {
+                    damagePnlTime = 0;
+                    DamagePanel.Visibility = Visibility.Hidden;
+                }
+            }
             if (roundLblTime > 0)
             {
                 roundLblTime -= dt;
@@ -426,9 +489,7 @@ namespace CleanGame.Game.Core.Systems
                 playerHitTime -= dt;
                 if (playerHitTime <= 0)
                 {
-                    playerHitTime = 0;
-                    PlayerHits = 0;
-                    HitLabel.Visibility = Visibility.Hidden;
+                    ResetHitCounter();
                 }
             }
             if (roundStartTime > 0)
@@ -443,7 +504,7 @@ namespace CleanGame.Game.Core.Systems
                 else if (Math.Floor(roundStartTime) == 1 && Math.Round(roundStartTime) == 1)
                 {
                     ActionLabel.Text = "Go!";
-                    ActionLabel.Position = new System.Drawing.Point(-ActionLabel.Size.X , ActionLabel.Position.Y);
+                    ActionLabel.Position = new System.Drawing.Point(-ActionLabel.Size.X, ActionLabel.Position.Y);
                 }
                 else if (roundStartTime < 1 && roundStartTime > .5f)
                 {
@@ -455,12 +516,17 @@ namespace CleanGame.Game.Core.Systems
                     roundStartTime = 0;
 
                     ActionLabelBack.Visibility = Visibility.Hidden;
-                    SetupNextRound();
-                    //Setting the movePlayer flag in the physics component of the player
-                    //game.player.GetComponent<PhysicsComponent>().movePlayer = true;
-                    ////TODO need to have the map name here
-                    //setupScenario(randomScenario(game.mapName));
-                    //game.player.Refresh();
+                    if (game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value == 0)
+                    {
+                        //Setting the movePlayer flag in the physics component of the player
+                        game.player.GetComponent<PhysicsComponent>().movePlayer = true;
+                        //TODO need to have the map name here
+                        setupScenario(randomScenario(game.mapName));
+                        game.player.Refresh();
+                    }
+                    else
+                        AdvanceLevel();
+
                 }
             }
             //if (roundTime > 0)
@@ -521,6 +587,7 @@ namespace CleanGame.Game.Core.Systems
                         }
                         else
                         {
+
                             World.DestroyEntity(e);
                             i--;
                         }
@@ -555,6 +622,14 @@ namespace CleanGame.Game.Core.Systems
         {
             monstersdefeated = 0;
 
+            DamagePanel = new Panel();
+            DamagePanel.SizeMode = SizeMode.Fill;
+            Color tr = Microsoft.Xna.Framework.Color.Red;
+            tr.A = damagePnlMaxAlpha;
+            DamagePanel.Background = new MonoGameColor(tr);
+            DamagePanel.Visibility = CoreUI.Visibility.Hidden;
+            game.UIEngine.Children.AddElement(DamagePanel);
+
             roundLabel = new Label();
             roundLabel.Size = new System.Drawing.Point(200, 40);
             roundLabel.Position = new System.Drawing.Point(200, 0);
@@ -567,7 +642,9 @@ namespace CleanGame.Game.Core.Systems
             ActionLabelBack = new Panel();
             ActionLabelBack.Size = new System.Drawing.Point(game.currrentDisplayMode.Width, 100);
             ActionLabelBack.Position = new System.Drawing.Point(0, game.currrentDisplayMode.Height / 2 - 50);
-            ActionLabelBack.Background = new MonoGameColor(Microsoft.Xna.Framework.Color.Black);
+            Color trans =  Microsoft.Xna.Framework.Color.Black;
+            trans.A = 200;
+            ActionLabelBack.Background = new MonoGameColor(trans);
             ActionLabelBack.Visibility = CoreUI.Visibility.Hidden;
             game.UIEngine.Children.AddElement(ActionLabelBack);
 
@@ -582,7 +659,6 @@ namespace CleanGame.Game.Core.Systems
 
             HitLabel = new Label();
             SpriteFont f = game.resourceManager.GetResource<SpriteFont>("Hits");
-            f.Spacing = 0;
             HitLabel.mFontInt = new MonoGameFont(f);
             HitLabel.Size = new System.Drawing.Point(200, 50);
             HitLabel.Position = new System.Drawing.Point(50, 100);

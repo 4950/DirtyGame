@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
 
-
-
-  <!-- Weapon Section -->
   <!-- Weapon Section -->
   <Entity name="Monsterbow">
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="WeaponComponent">
@@ -251,6 +248,9 @@
       <Ammo>-1</Ammo>
     </Component>
   </Entity>
+  
+  
+  
   <!-- Monster Section -->
   <Entity name="MeleeMonster" data="true">
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="MonsterComponent">

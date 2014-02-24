@@ -11,6 +11,7 @@ using CleanGame.Game.Core.Components;
 using Microsoft.Xna.Framework.Input;
 using CleanGame.Game.Util;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 
 namespace CleanGame.Game.Core.GameStates
@@ -67,15 +68,20 @@ namespace CleanGame.Game.Core.GameStates
             if (monsterHUD == null)
             {
                 monsterHUD = new Panel();
-                monsterHUD.Size = new System.Drawing.Point(120, 145);
+                monsterHUD.Size = new System.Drawing.Point(150, 145);
                 monsterHUD.Position = new System.Drawing.Point(680, 0);
-                monsterHUD.Background = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.Black);
+                //monsterHUD.Background = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.Black);
                 monsterHUD.Visibility = Visibility.Hidden;
 
+                SpriteFont f = game.resourceManager.GetResource<SpriteFont>("HitsSmall");
+                
+
                 scoreLbl = new Label();
-                scoreLbl.Size = new System.Drawing.Point(120, 25);
-                scoreLbl.Position = new System.Drawing.Point(680, 0);
+                scoreLbl.Size = new System.Drawing.Point(190, 25);
+                scoreLbl.Position = new System.Drawing.Point(590, 0);
                 scoreLbl.Foreground = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.White);
+                scoreLbl.TextPosition = TextPosition.Right;
+                scoreLbl.mFontInt = new MonoGameFont(f);
                 scoreLbl.Text = "Score: 0";
                 monsterHUD.AddElement(scoreLbl);
 
@@ -84,30 +90,37 @@ namespace CleanGame.Game.Core.GameStates
                 cashLbl.Position = new System.Drawing.Point(680, 25);
                 cashLbl.Foreground = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.White);
                 cashLbl.Text = "Cash: 0";
+                cashLbl.Visibility = Visibility.Hidden;
                 monsterHUD.AddElement(cashLbl);
 
                 roundLbl = new Label();
-                roundLbl.Size = new System.Drawing.Point(120, 25);
-                roundLbl.Position = new System.Drawing.Point(680, 70);
+                roundLbl.Size = new System.Drawing.Point(190, 25);
+                roundLbl.Position = new System.Drawing.Point(590, 50);
                 roundLbl.Foreground = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.White);
-                roundLbl.Text = "Round: 1";
+                roundLbl.TextPosition = TextPosition.Right;
+                roundLbl.mFontInt = new MonoGameFont(f);
+                roundLbl.Text = "Round: 0";
                 monsterHUD.AddElement(roundLbl);
 
                 killLbl = new Label();
-                killLbl.Size = new System.Drawing.Point(120, 25);
-                killLbl.Position = new System.Drawing.Point(680, 95);
+                killLbl.Size = new System.Drawing.Point(190, 25);
+                killLbl.Position = new System.Drawing.Point(590, 25);
                 killLbl.Foreground = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.White);
+                killLbl.TextPosition = TextPosition.Right;
+                killLbl.mFontInt = new MonoGameFont(f);
+                killLbl.Text = "Kills: 0";
                 monsterHUD.AddElement(killLbl);
 
                 aliveLbl = new Label();
                 aliveLbl.Size = new System.Drawing.Point(120, 25);
                 aliveLbl.Position = new System.Drawing.Point(680, 120);
                 aliveLbl.Foreground = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.White);
+                aliveLbl.Visibility = Visibility.Hidden;
                 monsterHUD.AddElement(aliveLbl);
 
                 playerStuff = new Window();
                 playerStuff.Size = new System.Drawing.Point(200, 100);
-                playerStuff.Position = new System.Drawing.Point(0, 400);
+                playerStuff.Position = new System.Drawing.Point(0, game.currrentDisplayMode.Height - 100);
                 playerStuff.Style = Window.WindowStyle.None;
                 playerStuff.Background = new MonoGameColor(new Microsoft.Xna.Framework.Color(0, 0, 0, .5f));
 
@@ -187,7 +200,10 @@ namespace CleanGame.Game.Core.GameStates
             }
 
             aliveLbl.Text = "Monsters Left: " + game.gLogicSystem.monstersalive;
-            killLbl.Text = "Monsters Killed: " + game.gLogicSystem.monstersdefeated;
+            
+
+            if (game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").IsModified)
+                killLbl.Text = "Kills: " + game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value;
 
             if (game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").IsModified)
                 roundLbl.Text = "Round: " + game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value;

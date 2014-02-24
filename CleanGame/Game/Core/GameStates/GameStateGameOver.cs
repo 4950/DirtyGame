@@ -22,7 +22,7 @@ namespace CleanGame.Game.Core.GameStates
             if(game.GameWon)
                 MessageBox.Show("You Won!\nGame Will Now Exit", "Game Over", MessageBox.MessageBoxButttons.Ok).DialogResult += endGame;
             else
-                MessageBox.Show("You Lost! Loser...\nGame Will Now Exit", "Game Over", MessageBox.MessageBoxButttons.Ok).DialogResult += endGame;
+                MessageBox.Show("Your journey has ended.\nBetter luck next time!", "Game Over", MessageBox.MessageBoxButttons.Ok).DialogResult += endGame;
         }
 
         private void endGame(object sender, MessageBox.MessageBoxResultButtons ResultButton)
