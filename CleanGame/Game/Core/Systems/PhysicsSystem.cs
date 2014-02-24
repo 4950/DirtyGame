@@ -331,6 +331,7 @@ namespace CleanGame.Game.Core.Systems
 
 						Entity melee = A.HasComponent<MeleeComponent>() ? A : B;
 						Entity hit = melee == A ? B : A;
+                        Fixture hitBody = melee == A ? fixtureB : fixtureA;
 
 						MeleeComponent mc = melee.GetComponent<MeleeComponent>();
 						if (mc.Owner != hit)//don't hit owner (later this needs to be don't hit team to turn off friendly fire)
@@ -346,7 +347,13 @@ namespace CleanGame.Game.Core.Systems
 									mc.targetsHit.Add(hit);
 
 									game.weaponSystem.DealDamage(mc.Weapon, hit);
-
+                                    //PBS: determine knockback direction
+                                    if (mc.Owner.HasComponent<SpatialComponent>())
+                                    {
+                                        Vector2 a = hit.GetComponent<SpatialComponent>().Position - mc.Owner.GetComponent<SpatialComponent>().Position;
+                                        a.Normalize();
+                                        hitBody.Body.ApplyLinearImpulse(a * 100);
+                                    }
                                     
 								}
 							}
