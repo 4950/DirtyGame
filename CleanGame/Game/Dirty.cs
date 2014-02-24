@@ -147,7 +147,6 @@ namespace CleanGame
             weaponSystem = new WeaponSystem(this);
             world.AddSystem(weaponSystem);
             world.AddSystem(new CameraUpdateSystem(renderer));
-            world.AddSystem(new MapBoundarySystem(renderer));
             world.AddSystem(new SpawnerSystem(entityFactory, this));
             world.AddSystem(new ProjectileSystem(this));
             world.AddSystem(new GrenadeSystem(this));

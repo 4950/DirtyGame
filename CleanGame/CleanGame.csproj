@@ -141,7 +141,6 @@
     <Compile Include="Game\Core\Systems\AOESystem.cs" />
     <Compile Include="Game\Core\Systems\GameLogicSystem.cs" />
     <Compile Include="Game\Core\Systems\GrenadeSystem.cs" />
-    <Compile Include="Game\Core\Systems\MapBoundarySystem.cs" />
     <Compile Include="Game\Core\Systems\Monster\AISystem.cs" />
     <Compile Include="Game\Core\Systems\Monster\SeparationSystem.cs" />
     <Compile Include="Game\Core\Systems\Movement\MovementSystem.cs" />
