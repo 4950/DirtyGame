@@ -309,91 +309,11 @@ namespace CleanGame.Game.Core.Systems.Monster
                             int goalTileX = (int)Math.Floor(e.GetComponent<SpatialComponent>().Center.X / 32);
                             int goalTileY = (int)Math.Floor(e.GetComponent<SpatialComponent>().Center.Y / 32);
 
-                            LinkedList<Node> openList = new LinkedList<Node>();
-                            //Dictionary<int, int> closedList = new Dictionary<int, int>();
-
-                            bool[,] closedList = new bool[mapWidth, mapHeight];
-
-                            Node start = new Node(renderer);
-                            start.xPos = monsterTileX;
-                            start.yPos = monsterTileY;
-                            start.gScore = 0;
-                            start.fScore = (float)getDistance(start.xPos, start.yPos, goalTileX, goalTileY) + start.gScore;
-                            start.cameFrom = null;
-
-                            openList.AddFirst(start);
-                            chaseVector = null;
-                            while (openList.Count != 0)
-                            {
-                                Node current = null;
-                                //Find best node to evaluate
-                                foreach (Node n in openList)
-                                {
-                                    if (current == null)
-                                    {
-                                        current = n;
-                                    }
-                                    else
-                                    {
-
-                                        if (current.fScore > n.fScore)
-                                        {
-                                            current = n;
-                                        }
-                                    }
-                                }
-
-                                
-
-                                //Finish if we find goal node
-                                if (current.xPos == goalTileX && current.yPos == goalTileY)
-                                {
-                                    //Generate Vector
-                                    Node next = current.getPath();
-                                    chaseVector = getChaseVector(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, next.xPos * 32, next.yPos * 32);
-                                }
-
-                                //Update open/closed list
-                                openList.Remove(current);
-                                closedList[current.xPos, current.yPos] = true;
-
-                                foreach (Node n in current.neighbors())
-                                {
-                                    if (closedList[n.xPos, n.yPos])
-                                    {
-                                        continue;
-                                    }
-
-                                    float tentativeGScore = current.gScore + (float)getDistance(current.xPos, current.yPos, n.xPos, n.yPos);
-
-                                    LinkedListNode<Node> old = openList.Find(n);
-                                    if (old != null)
-                                    {
-                                        Node oldN = old.Value;
-                                        
-                                        if (tentativeGScore < oldN.gScore)
-                                        {
-                                            openList.Remove(n);
-                                            n.cameFrom = current;
-                                            n.gScore = tentativeGScore;
-                                            n.fScore = n.gScore + (float)getDistance(n.xPos, n.yPos, goalTileX, goalTileY)*5;
-                                            openList.AddFirst(n);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        n.cameFrom = current;
-                                        n.gScore = tentativeGScore;
-                                        n.fScore = n.gScore + (float)getDistance(n.xPos, n.yPos, goalTileX, goalTileY)*5;
-                                        openList.AddFirst(n);
-                                    }
-                                }
-                            }
-
-                            return chaseVector;
+                            chaseVector = aStarPath(monsterTileX, monsterTileY, goalTileX, goalTileY, mapWidth, mapHeight, m);
                         }
                         else
                         {
+                            //chaseVector = flee(otherX, otherY, m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y);
                             chaseVector = getChaseVector(otherX, otherY, m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y);
                         }
                         return chaseVector;
@@ -401,6 +321,12 @@ namespace CleanGame.Game.Core.Systems.Monster
                 }
             }
             return new double[2];
+        }
+
+        private double[] flee(int playerX, int playerY, float monsterX, float monsterY)
+        {
+            double[] pToM = getChaseVector(playerX, playerY, monsterX, monsterY);
+            throw new NotImplementedException();
         }
         private void setDirection(double[] vel, Entity m)
         {
@@ -1139,6 +1065,92 @@ namespace CleanGame.Game.Core.Systems.Monster
                 }
                 return n;
             }
+        }
+        private double[] aStarPath(int monsterTileX, int monsterTileY, int goalTileX, int goalTileY, int mapWidth, int mapHeight, Entity m)
+        {
+            double[] chaseVector = new double[2];
+            LinkedList<Node> openList = new LinkedList<Node>();
+            //Dictionary<int, int> closedList = new Dictionary<int, int>();
+
+            bool[,] closedList = new bool[mapWidth, mapHeight];
+
+            Node start = new Node(renderer);
+            start.xPos = monsterTileX;
+            start.yPos = monsterTileY;
+            start.gScore = 0;
+            start.fScore = (float)getDistance(start.xPos, start.yPos, goalTileX, goalTileY) + start.gScore;
+            start.cameFrom = null;
+
+            openList.AddFirst(start);
+            chaseVector = null;
+            while (openList.Count != 0)
+            {
+                Node current = null;
+                //Find best node to evaluate
+                foreach (Node n in openList)
+                {
+                    if (current == null)
+                    {
+                        current = n;
+                    }
+                    else
+                    {
+
+                        if (current.fScore > n.fScore)
+                        {
+                            current = n;
+                        }
+                    }
+                }
+
+
+
+                //Finish if we find goal node
+                if (current.xPos == goalTileX && current.yPos == goalTileY)
+                {
+                    //Generate Vector
+                    Node next = current.getPath();
+                    chaseVector = getChaseVector(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, next.xPos * 32, next.yPos * 32);
+                }
+
+                //Update open/closed list
+                openList.Remove(current);
+                closedList[current.xPos, current.yPos] = true;
+
+                foreach (Node n in current.neighbors())
+                {
+                    if (closedList[n.xPos, n.yPos])
+                    {
+                        continue;
+                    }
+
+                    float tentativeGScore = current.gScore + (float)getDistance(current.xPos, current.yPos, n.xPos, n.yPos);
+
+                    LinkedListNode<Node> old = openList.Find(n);
+                    if (old != null)
+                    {
+                        Node oldN = old.Value;
+
+                        if (tentativeGScore < oldN.gScore)
+                        {
+                            openList.Remove(n);
+                            n.cameFrom = current;
+                            n.gScore = tentativeGScore;
+                            n.fScore = n.gScore + (float)getDistance(n.xPos, n.yPos, goalTileX, goalTileY);
+                            openList.AddFirst(n);
+                        }
+                    }
+                    else
+                    {
+                        n.cameFrom = current;
+                        n.gScore = tentativeGScore;
+                        n.fScore = n.gScore + (float)getDistance(n.xPos, n.yPos, goalTileX, goalTileY);
+                        openList.AddFirst(n);
+                    }
+                }
+            }
+
+            return chaseVector;
         }
     }
 }
