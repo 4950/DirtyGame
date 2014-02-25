@@ -209,7 +209,6 @@ namespace CleanGame.Game.Core.Systems
 
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
         {
-
             collMap = renderer.ActiveMap.getPassabilityMap();
 
             foreach (Entity e in entities)
@@ -221,6 +220,10 @@ namespace CleanGame.Game.Core.Systems
                 MovementComponent movement = e.GetComponent<MovementComponent>();
                 SpriteComponent sprite = e.GetComponent<SpriteComponent>();
                 StatsComponent s = e.GetComponent<StatsComponent>();
+
+                //Debugging code
+            //    String debugString = "" + spatial.Position;
+            //    Console.Out.WriteLine(debugString);
 
                 int monsterX = (int)((e.GetComponent<SpatialComponent>().Position.X) / 32);
                 int monsterY = (int)((e.GetComponent<SpatialComponent>().Position.Y + 32) / 32);
