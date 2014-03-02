@@ -108,7 +108,7 @@
       <ProjectileSprite>invisibleSwordMeleeSpriteSheet</ProjectileSprite>
       <SpriteXml>Content\MeleeAnimation.xml</SpriteXml>
       <ProjectileSpeed>0</ProjectileSpeed>
-      <Cooldown>.5</Cooldown>
+      <Cooldown>.3</Cooldown>
       <LastFire>0</LastFire>
       <Price>100</Price>
       <AmmoPrice>2</AmmoPrice>
@@ -163,7 +163,7 @@
       <Type>Ranged</Type>
       <ProjectileSprite>arrow</ProjectileSprite>
       <ProjectileSpeed>10</ProjectileSpeed>
-      <Cooldown>.1</Cooldown>
+      <Cooldown>.5</Cooldown>
       <LastFire>0</LastFire>
       <Price>100</Price>
       <AmmoPrice>10</AmmoPrice>
