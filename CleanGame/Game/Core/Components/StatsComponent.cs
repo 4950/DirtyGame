@@ -14,6 +14,7 @@ namespace CleanGame.Game.Core.Components
         public int BaseMoveSpeed { get; set; }
         public int BaseDamage { get; set; }
         public int BaseHealth { get; set; }
+        public String MonsterName { get; set; }
 
         //Stat Scale
         public float HealthScale { get; set; }

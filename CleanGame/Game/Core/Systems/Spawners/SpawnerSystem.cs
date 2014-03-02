@@ -105,6 +105,8 @@ namespace EntityFramework.Systems
                         //else
                         //    monster = entityFactory.CreateBasicMonster(pos, e.GetComponent<SpawnerComponent>().sprite.SpriteSheet, data);
 
+                  
+
                         monster.Refresh();
                     }
                 }

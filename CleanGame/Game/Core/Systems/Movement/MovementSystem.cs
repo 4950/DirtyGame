@@ -32,51 +32,98 @@ namespace EntityFramework.Systems
             totalTime = totalTime + new TimeSpan(0, 0, 0, 0, elapsed);
 
             Random r = new Random();
+            TimeSpan at = new TimeSpan(0, 0, 0, 0, 500);
             TimeSpan t = new TimeSpan(0, 0, 0, 0, 100);
 
             foreach (Entity e in entities)
             {
                 SpatialComponent mySpatial = e.GetComponent<SpatialComponent>();
                 StatsComponent s = e.GetComponent<StatsComponent>();
+                MonsterComponent m = e.GetComponent<MonsterComponent>();
                 //Check for entities with an AI movement component
-                if (e.HasComponent<MonsterComponent>())
+                if (m != null)
                 {
-                    //Console.WriteLine("found one");
-                    if (e.GetComponent<TimeComponent>().timeOfLastDraw + t <= totalTime)
+                    String monsterName = s.MonsterName;
+                    if(monsterName == "WallHugger")
                     {
-                        e.GetComponent<TimeComponent>().timeOfLastDraw = totalTime;
-                        Vector2 moveVector = aiSystem.calculateMoveVector(entities, e, dt);
-
-                        //float f = (float) (moveVector[0] * 10.0 * (s.MoveSpeed / 100));
-                        e.GetComponent<MovementComponent>().Horizontal = moveVector.X;
-                        e.GetComponent<MovementComponent>().Vertical = moveVector.Y;
-
-                        //e.GetComponent<SpatialComponent>().MoveTo( e.GetComponent<SpatialComponent>().Position.X + (float)(moveVector[0] * 10.0), e.GetComponent<Spatial>().Position.Y + (float)(moveVector[1] * 10.0));
-                        DirectionComponent direction = e.GetComponent<DirectionComponent>();
-                        if (Math.Abs(moveVector.X) > Math.Abs(moveVector.Y))
+                        //Console.WriteLine("found one");
+                        if (e.GetComponent<TimeComponent>().timeOfLastDraw + t <= totalTime)
                         {
-                            if (moveVector.X > 0)
+                            e.GetComponent<TimeComponent>().timeOfLastDraw = totalTime;
+                            Vector2 moveVector = aiSystem.calculateMoveVector(entities, e, dt);
+
+                            //float f = (float) (moveVector[0] * 10.0 * (s.MoveSpeed / 100));
+                            e.GetComponent<MovementComponent>().Horizontal = moveVector.X;
+                            e.GetComponent<MovementComponent>().Vertical = moveVector.Y;
+
+                            //e.GetComponent<SpatialComponent>().MoveTo( e.GetComponent<SpatialComponent>().Position.X + (float)(moveVector[0] * 10.0), e.GetComponent<Spatial>().Position.Y + (float)(moveVector[1] * 10.0));
+                            DirectionComponent direction = e.GetComponent<DirectionComponent>();
+                            if (Math.Abs(moveVector.X) > Math.Abs(moveVector.Y))
                             {
-                                direction.Heading = "Right";
-                                //e.GetComponent<MovementComponent>().Horizontal = 1;
+                                if (moveVector.X > 0)
+                                {
+                                    direction.Heading = "Right";
+                                    //e.GetComponent<MovementComponent>().Horizontal = 1;
+                                }
+                                else if (moveVector.X < 0)
+                                {
+                                    direction.Heading = "Left";
+                                    //e.GetComponent<MovementComponent>().Horizontal = -1;
+                                }
                             }
-                            else if (moveVector.X < 0)
+                            else
                             {
-                                direction.Heading = "Left";
-                                //e.GetComponent<MovementComponent>().Horizontal = -1;
+                                if (moveVector.Y > 0)
+                                {
+                                    direction.Heading = "Down";
+                                    //e.GetComponent<MovementComponent>().Vertical = 1;
+                                }
+                                else if (moveVector.Y < 0)
+                                {
+                                    direction.Heading = "Up";
+                                    //e.GetComponent<MovementComponent>().Vertical = -1;
+                                }
                             }
                         }
-                        else
+                    }
+                    else
+                    {
+                        if (e.GetComponent<TimeComponent>().timeOfLastDraw + at <= totalTime)
                         {
-                            if (moveVector.Y > 0)
+                            e.GetComponent<TimeComponent>().timeOfLastDraw = totalTime;
+                            Vector2 moveVector = aiSystem.calculateMoveVector(entities, e, dt);
+
+                            //float f = (float) (moveVector[0] * 10.0 * (s.MoveSpeed / 100));
+                            e.GetComponent<MovementComponent>().Horizontal = moveVector.X;
+                            e.GetComponent<MovementComponent>().Vertical = moveVector.Y;
+
+                            //e.GetComponent<SpatialComponent>().MoveTo( e.GetComponent<SpatialComponent>().Position.X + (float)(moveVector[0] * 10.0), e.GetComponent<Spatial>().Position.Y + (float)(moveVector[1] * 10.0));
+                            DirectionComponent direction = e.GetComponent<DirectionComponent>();
+                            if (Math.Abs(moveVector.X) > Math.Abs(moveVector.Y))
                             {
-                                direction.Heading = "Down";
-                                //e.GetComponent<MovementComponent>().Vertical = 1;
+                                if (moveVector.X > 0)
+                                {
+                                    direction.Heading = "Right";
+                                    //e.GetComponent<MovementComponent>().Horizontal = 1;
+                                }
+                                else if (moveVector.X < 0)
+                                {
+                                    direction.Heading = "Left";
+                                    //e.GetComponent<MovementComponent>().Horizontal = -1;
+                                }
                             }
-                            else if (moveVector.Y < 0)
+                            else
                             {
-                                direction.Heading = "Up";
-                                //e.GetComponent<MovementComponent>().Vertical = -1;
+                                if (moveVector.Y > 0)
+                                {
+                                    direction.Heading = "Down";
+                                    //e.GetComponent<MovementComponent>().Vertical = 1;
+                                }
+                                else if (moveVector.Y < 0)
+                                {
+                                    direction.Heading = "Up";
+                                    //e.GetComponent<MovementComponent>().Vertical = -1;
+                                }
                             }
                         }
                     }

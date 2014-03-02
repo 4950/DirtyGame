@@ -1028,6 +1028,7 @@
       <BaseHealth>25</BaseHealth>
       <HealthScale>1</HealthScale>
       <CurrentHealth>25</CurrentHealth>
+	  <MonsterName>WallHugger</MonsterName>
     </Component>
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="MovementComponent">
       <Name>MovementComponent</Name>
