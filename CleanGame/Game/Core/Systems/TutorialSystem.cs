@@ -47,13 +47,12 @@ namespace CleanGame.Game.Core.Systems
         private InputContext ctx;
         private Label tutorialLbl;
         private Panel tutorialPnl;
-        private TutorialState currentState = TutorialState.Fire;
+        private TutorialState currentState = TutorialState.Start;
         private bool stateTransitioning;
         private float transitionTimer;
         private float stateEndTimer;
         private bool stateEnded = true;
         private int monsterCount;
-        private MouseState prevMS;
 
         public TutorialSystem(Dirty game)
             : base(SystemDescriptions.TutorialSystem.Aspect, SystemDescriptions.TutorialSystem.Priority)
@@ -155,17 +154,17 @@ namespace CleanGame.Game.Core.Systems
                     e.Refresh();
                     break;
                 case TutorialState.Tower:
-                    tutorialLbl.Text = "The Flametower can only be destroyed by sword or spear";
+                    tutorialLbl.Text = "The Flametower can only be destroyed by\nsword or spear";
                     e = game.entityFactory.CreateSpawner(500, 200, new Rectangle(0, 0, 46, 46), "Flametower", "FlametowerWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
                     e.Refresh();
                     break;
                 case TutorialState.Wallhugger:
-                    tutorialLbl.Text = "Wallhuggers are fast, and only take damage from swords";
+                    tutorialLbl.Text = "Wallhuggers are fast, and only take damage\nfrom swords";
                     e = game.entityFactory.CreateSpawner(500, 200, new Rectangle(0, 0, 46, 46), "WallHugger", "WallHuggerWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
                     e.Refresh();
                     break;
                 case TutorialState.Landmine:
-                    tutorialLbl.Text = "Landmine Droppers are passive, but don't step on the mines!";
+                    tutorialLbl.Text = "Landmine Droppers are passive, but don't\nstep on the mines!";
                     e = game.entityFactory.CreateSpawner(500, 200, new Rectangle(0, 0, 46, 46), "LandmineDropper", "LandmineWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
                     e.Refresh();
                     break;
