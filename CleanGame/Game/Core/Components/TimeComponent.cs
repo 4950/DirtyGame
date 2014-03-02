@@ -13,5 +13,6 @@ namespace EntityFramework
         public TimeSpan timeBetweenDraw;
         public float timeWander;
         public float timeofLock;
+        public float timeDrawn;
     }
 }
