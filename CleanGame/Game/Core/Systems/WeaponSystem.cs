@@ -136,7 +136,7 @@ namespace CleanGame.Game.Core.Systems
 
                     if (wc.WeaponName == "Scattershot")
                     {
-                        SetShootAnimation(Owner, "Shoot");
+                        SetShootAnimation(Owner, "Shoot", setShootAnimationDirection(dir, Owner));
 
                         for (float f = -.5f; f <= .5f; f += .25f)
                         {
@@ -165,7 +165,7 @@ namespace CleanGame.Game.Core.Systems
                     }
                     else
                     {
-                        SetShootAnimation(Owner, "Shoot");
+                        SetShootAnimation(Owner, "Shoot", setShootAnimationDirection(dir, Owner));
                         Entity proj = game.entityFactory.CreateProjectile(Owner, spatial.Center, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, Weapon);
                         proj.Refresh();
                     }
@@ -210,6 +210,66 @@ namespace CleanGame.Game.Core.Systems
                 ac = Owner.GetComponent<AnimationComponent>();
                 ac.CurrentAnimation = attack + Owner.GetComponent<DirectionComponent>().Heading;
             }
+        }
+
+        private static void SetShootAnimation(Entity Owner, string attack, string heading)
+        {
+            AnimationComponent ac;
+            if (!Owner.HasComponent<AnimationComponent>())
+            {
+                ac = new AnimationComponent();
+                ac.CurrentAnimation = attack + heading;
+
+                Owner.AddComponent(ac);
+                Owner.Refresh();
+            }
+            else
+            {
+                ac = Owner.GetComponent<AnimationComponent>();
+                ac.CurrentAnimation = attack + heading;
+            }
+        }
+
+        private string setShootAnimationDirection(Vector2 floatDir, Entity m)
+        {
+            DirectionComponent direction = m.GetComponent<DirectionComponent>();
+            string directionHeading;
+            directionHeading = direction.Heading;
+            double[] dir = new double[2]; 
+
+            double angle = Math.Atan2(floatDir.Y, floatDir.X); // This is opposite y angle.
+            dir[0] = Math.Cos(angle);
+            dir[1] = Math.Sin(angle);
+
+                if (Math.Abs(dir[0]) > Math.Abs(dir[1]))
+                {
+                    if (dir[0] > 0)
+                    {
+                        directionHeading = "Right";
+
+                    }
+                    else if (dir[0] < 0)
+                    {
+                        directionHeading = "Left";
+
+                    }
+                }
+
+                else
+                {
+                    if (dir[1] > 0)
+                    {
+                        directionHeading = "Down";
+
+                    }
+                    else if (dir[1] < 0)
+                    {
+                        directionHeading = "Up";
+
+                    }
+                }
+
+                return directionHeading;
         }
 
         private double getDistance(double x, double y, double ox, double oy)
