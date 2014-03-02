@@ -316,6 +316,7 @@ namespace CleanGame
         {
             world.AddSystem(new TutorialSystem(this));
             StartSession("Cave.tmx");
+            gLogicSystem.SetupTutorial();
         }
         public void StartSession(string mapname)
         {

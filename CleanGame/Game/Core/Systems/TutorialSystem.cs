@@ -31,6 +31,14 @@ namespace CleanGame.Game.Core.Systems
         Cycle,
         Switch,
         Fire,
+        MeleeMonster,
+        RangedMonster,
+        SuicideBomber,
+        Genadier,
+        Sniper,
+        Wallhugger,
+        Tower,
+        Landmine,
         End
     };
     class TutorialSystem : EntitySystem
@@ -39,11 +47,12 @@ namespace CleanGame.Game.Core.Systems
         private InputContext ctx;
         private Label tutorialLbl;
         private Panel tutorialPnl;
-        private TutorialState currentState = TutorialState.Start;
+        private TutorialState currentState = TutorialState.Fire;
         private bool stateTransitioning;
         private float transitionTimer;
         private float stateEndTimer;
-        private bool stateEnded;
+        private bool stateEnded = true;
+        private int monsterCount;
         private MouseState prevMS;
 
         public TutorialSystem(Dirty game)
@@ -57,7 +66,7 @@ namespace CleanGame.Game.Core.Systems
             tutorialPnl.Size = new System.Drawing.Point(game.currrentDisplayMode.Width, 100);
             tutorialPnl.Position = new System.Drawing.Point(0, 0);
             Color trans = Microsoft.Xna.Framework.Color.Black;
-            trans.A = 200;
+            trans.A = 128;
             tutorialPnl.Background = new MonoGameColor(trans);
             tutorialPnl.Visibility = CoreUI.Visibility.Visible;
             game.UIEngine.Children.AddElement(tutorialPnl);
@@ -84,7 +93,7 @@ namespace CleanGame.Game.Core.Systems
             tutorialLbl.Visibility = Visibility.Visible;
             tutorialLbl.Text = "";
             currentState++;
-
+            Entity e;
             switch (currentState)
             {
                 case TutorialState.Welcome:
@@ -124,6 +133,46 @@ namespace CleanGame.Game.Core.Systems
                 case TutorialState.Fire:
                     tutorialLbl.Text = "Press [Space] or use mouse buttorns to fire your weapon!";
                     ctx.RegisterHandler(Keys.Space, EndState, null);
+                    break;
+                case TutorialState.MeleeMonster:
+                    tutorialLbl.Text = "Melee monsters only use swords\nKill them any way you like";
+                    e = game.entityFactory.CreateSpawner(500, 200, new Rectangle(0, 0, 46, 46), "MeleeMonster", "Monstersword", 2, new TimeSpan(0, 0, 0, 0, 500));
+                    e.Refresh();
+                    break;
+                case TutorialState.RangedMonster:
+                    tutorialLbl.Text = "Ranged monsters shoot arrows. Watch out!";
+                    e = game.entityFactory.CreateSpawner(500, 200, new Rectangle(0, 0, 46, 46), "RangedMonster", "Monsterbow", 1, new TimeSpan(0, 0, 0, 0, 500));
+                    e.Refresh();
+                    break;
+                case TutorialState.SuicideBomber:
+                    tutorialLbl.Text = "Suicide bombers will run at you and explode\nTry to outrun them";
+                    e = game.entityFactory.CreateSpawner(500, 75, new Rectangle(0, 0, 46, 46), "SuicideBomber", "BomberWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
+                    e.Refresh();
+                    break;
+                case TutorialState.Sniper:
+                    tutorialLbl.Text = "Don't let the sniper's laser lock on!";
+                    e = game.entityFactory.CreateSpawner(500, 200, new Rectangle(0, 0, 46, 46), "SnipMonster", "SnipWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
+                    e.Refresh();
+                    break;
+                case TutorialState.Tower:
+                    tutorialLbl.Text = "The Flametower can only be destroyed by sword or spear";
+                    e = game.entityFactory.CreateSpawner(500, 200, new Rectangle(0, 0, 46, 46), "Flametower", "FlametowerWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
+                    e.Refresh();
+                    break;
+                case TutorialState.Wallhugger:
+                    tutorialLbl.Text = "Wallhuggers are fast, and only take damage from swords";
+                    e = game.entityFactory.CreateSpawner(500, 200, new Rectangle(0, 0, 46, 46), "WallHugger", "WallHuggerWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
+                    e.Refresh();
+                    break;
+                case TutorialState.Landmine:
+                    tutorialLbl.Text = "Landmine Droppers are passive, but don't step on the mines!";
+                    e = game.entityFactory.CreateSpawner(500, 200, new Rectangle(0, 0, 46, 46), "LandmineDropper", "LandmineWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
+                    e.Refresh();
+                    break;
+                case TutorialState.Genadier:
+                    tutorialLbl.Text = "Avoid the Grenadier's grenades";
+                    e = game.entityFactory.CreateSpawner(500, 200, new Rectangle(0, 0, 46, 46), "Grenadier", "GrenadeLauncher", 1, new TimeSpan(0, 0, 0, 0, 500));
+                    e.Refresh();
                     break;
                 case TutorialState.End:
                     tutorialLbl.Text = "You have completed the tutorial. Press [Esc] end";
@@ -170,6 +219,21 @@ namespace CleanGame.Game.Core.Systems
                     if (ms.RightButton == ButtonState.Pressed || ms.LeftButton == ButtonState.Pressed)//right mouse down or left mouse
                         EndState(Keys.None);
                     break;
+                case TutorialState.MeleeMonster:
+                case TutorialState.RangedMonster:
+                case TutorialState.Genadier:
+                case TutorialState.Landmine:
+                case TutorialState.Sniper:
+                case TutorialState.SuicideBomber:
+                case TutorialState.Tower:
+                case TutorialState.Wallhugger:
+                    if (monsterCount == 0)
+                    {
+                        stateEnded = true;
+                        //restore player health
+                        game.player.GetComponent<StatsComponent>().CurrentHealth = game.player.GetComponent<StatsComponent>().MaxHealth;
+                    }
+                    break;
                 case TutorialState.Welcome:
                     if (stateEndTimer == 0)
                         stateEnded = true;
@@ -212,12 +276,14 @@ namespace CleanGame.Game.Core.Systems
 
         public override void OnEntityAdded(Entity e)
         {
-
+            if (e.HasComponent<MonsterComponent>())
+                monsterCount++;
         }
 
         public override void OnEntityRemoved(Entity e)
         {
-
+            if (e.HasComponent<MonsterComponent>())
+                monsterCount--;
         }
     }
 }

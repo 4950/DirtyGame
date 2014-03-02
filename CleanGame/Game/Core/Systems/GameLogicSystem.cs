@@ -46,6 +46,7 @@ namespace CleanGame.Game.Core.Systems
         private bool cheatEndRound = false;
         private int PlayerHits;
         private float playerHitTime;
+        private bool tutorialMode;
         private List<Label> textFloaters = new List<Label>();
 
         private List<Entity> spawners = new List<Entity>();
@@ -87,12 +88,21 @@ namespace CleanGame.Game.Core.Systems
             SpriteFont f = game.resourceManager.GetResource<SpriteFont>("HitsSmall");
             floater.mFontInt = new MonoGameFont(f);
             floater.Size = new System.Drawing.Point(200, 50);
-            floater.Position = new System.Drawing.Point(game.currrentDisplayMode.Width/2, game.currrentDisplayMode.Height/2);
+            floater.Position = new System.Drawing.Point(game.currrentDisplayMode.Width / 2, game.currrentDisplayMode.Height / 2);
             floater.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.White);
             floater.TextPosition = TextPosition.Center;
             floater.Text = val;
             game.UIEngine.Children.AddElement(floater);
             textFloaters.Add(floater);
+        }
+        public void SetupTutorial()
+        {
+            ActionLabelBack.Visibility = Visibility.Hidden;
+            resetRound();
+            tutorialMode = true;
+            game.player.GetComponent<PhysicsComponent>().movePlayer = true;
+            game.player.GetComponent<SpatialComponent>().Position = new Vector2(200, 200);
+            game.player.Refresh();
         }
         public void SetupNextRound()
         {
@@ -128,7 +138,7 @@ namespace CleanGame.Game.Core.Systems
             e.Refresh();
             spawners.Add(e);
 
-      
+
             e = game.entityFactory.CreateSpawner(100, 300, new Rectangle(0, 0, 46, 46), "RangedMonster", "Monsterbow", numRanged / 2, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
             spawners.Add(e);
@@ -149,7 +159,7 @@ namespace CleanGame.Game.Core.Systems
             spawners.Add(e);
             e = game.entityFactory.CreateSpawner(300, 200, new Rectangle(0, 0, 46, 46), "Grenadier", "GrenadeLauncher", 1, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
-            spawners.Add(e); 
+            spawners.Add(e);
 
             e = game.entityFactory.CreateSpawner(300, 200, new Rectangle(0, 0, 46, 46), "WallHugger", "WallHuggerWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
@@ -414,16 +424,16 @@ namespace CleanGame.Game.Core.Systems
                 {
                     //if (roundTime > 0)
                     //{
-                        monstersdefeated++;
+                    monstersdefeated++;
 
-                        AddTextFloater("+" + (50 + PlayerHits));
-                        game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += 50 + PlayerHits;
-                        game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").value += 10;
-                        game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += 1;
+                    AddTextFloater("+" + (50 + PlayerHits));
+                    game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += 50 + PlayerHits;
+                    game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").value += 10;
+                    game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += 1;
 
-                        GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MonsterKilled, e.GetComponent<MonsterComponent>().data.Type);
+                    GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MonsterKilled, e.GetComponent<MonsterComponent>().data.Type);
                     //}
-                    if (--monstersalive == 0)
+                    if (--monstersalive == 0 && !tutorialMode)
                     {
                         /*
                         game.GameWon = true;
@@ -455,7 +465,7 @@ namespace CleanGame.Game.Core.Systems
         }
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
         {
-            for(int i = 0; i < textFloaters.Count; i++)
+            for (int i = 0; i < textFloaters.Count; i++)
             {
                 Label floater = textFloaters[i];
                 System.Drawing.Point pos = floater.Position;
@@ -496,7 +506,7 @@ namespace CleanGame.Game.Core.Systems
                     ResetHitCounter();
                 }
             }
-            if (roundStartTime > 0)
+            if (roundStartTime > 0 && !tutorialMode)
             {
                 roundStartTime -= dt;
 
@@ -646,7 +656,7 @@ namespace CleanGame.Game.Core.Systems
             ActionLabelBack = new Panel();
             ActionLabelBack.Size = new System.Drawing.Point(game.currrentDisplayMode.Width, 100);
             ActionLabelBack.Position = new System.Drawing.Point(0, game.currrentDisplayMode.Height / 2 - 50);
-            Color trans =  Microsoft.Xna.Framework.Color.Black;
+            Color trans = Microsoft.Xna.Framework.Color.Black;
             trans.A = 200;
             ActionLabelBack.Background = new MonoGameColor(trans);
             ActionLabelBack.Visibility = CoreUI.Visibility.Hidden;
