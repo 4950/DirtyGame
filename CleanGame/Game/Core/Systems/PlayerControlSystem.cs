@@ -245,55 +245,34 @@ namespace CleanGame.Game.Core.Systems
                         case MoveDirection.Up:
                             movement.Vertical = -MoveSpeed;
                             direction.Heading = "Up";
-                            if (!e.HasComponent<AnimationComponent>())
-                            {
-                                AnimationComponent animation = new AnimationComponent();
-                                animation.CurrentAnimation = anim + direction.Heading;
-                                e.AddComponent(animation);
-                                e.Refresh();
-                            }
                             break;
                         case MoveDirection.Down:
                             movement.Vertical = MoveSpeed;
                             direction.Heading = "Down";
-                            if (!e.HasComponent<AnimationComponent>())
-                            {
-                                AnimationComponent animation = new AnimationComponent();
-                                animation.CurrentAnimation = anim + direction.Heading;
-                                e.AddComponent(animation);
-                                e.Refresh();
-                            }
                             break;
                         case MoveDirection.Left:
                             movement.Horizontal = -MoveSpeed;
                             direction.Heading = "Left";
-                            if (!e.HasComponent<AnimationComponent>())
-                            {
-                                AnimationComponent animation = new AnimationComponent();
-                                animation.CurrentAnimation = anim + direction.Heading;
-                                e.AddComponent(animation);
-                                e.Refresh();
-                            }
                             break;
                         case MoveDirection.Right:
                             movement.Horizontal = MoveSpeed;
                             direction.Heading = "Right";
-                            if (!e.HasComponent<AnimationComponent>())
-                            {
-                                AnimationComponent animation = new AnimationComponent();
-                                animation.CurrentAnimation = anim + direction.Heading;
-                                e.AddComponent(animation);
-                                e.Refresh();
-                            }
                             break;
-                        case MoveDirection.Idle:
-
-                            break;
+                    }
+                    if (currentDirection != MoveDirection.Idle)
+                    {
+                        if (!e.HasComponent<AnimationComponent>())
+                        {
+                            AnimationComponent animation = new AnimationComponent();
+                            animation.CurrentAnimation = anim + direction.Heading;
+                            e.AddComponent(animation);
+                            e.Refresh();
+                        }
                     }
                 }
 
-                int mapWidth = renderer.ActiveMap.getPixelWidth();
-                int mapHeight = renderer.ActiveMap.getPixelHeight();
+                //int mapWidth = renderer.ActiveMap.getPixelWidth();
+                //int mapHeight = renderer.ActiveMap.getPixelHeight();
 
                 //calcualte position of sprite using anchorpoint
                 //Vector2 size = new Vector2(sprite.SrcRect.Width, sprite.SrcRect.Height) * sprite.Scale;
@@ -301,33 +280,33 @@ namespace CleanGame.Game.Core.Systems
 
                 // This is kinda hacked. The first run, this works like it should. 
                 // After a "Quit to Menu", there is some other vodoo system that does a similar thing, but not as clean (aka drifting health bars).
-                while (spatial.Position.X >= mapWidth - 64)
-                {
-                    spatial.Position = new Vector2(mapWidth - 65, spatial.Position.Y);
-                    movement.Horizontal = -1;
-                    directionChanged = true;
-                }
+                //while (spatial.Position.X >= mapWidth - 64)
+                //{
+                //    spatial.Position = new Vector2(mapWidth - 65, spatial.Position.Y);
+                //    movement.Horizontal = -1;
+                //    directionChanged = true;
+                //}
 
-                while (spatial.Position.X <= 0)
-                {
-                    spatial.Position = new Vector2(1, spatial.Position.Y);
-                    movement.Horizontal = 1;
-                    directionChanged = true;
-                }
+                //while (spatial.Position.X <= 0)
+                //{
+                //    spatial.Position = new Vector2(1, spatial.Position.Y);
+                //    movement.Horizontal = 1;
+                //    directionChanged = true;
+                //}
 
-                while (spatial.Position.Y <= 0)
-                {
-                    spatial.Position = new Vector2(spatial.Position.X, 1);
-                    movement.Vertical = 1;
-                    directionChanged = true;
-                }
+                //while (spatial.Position.Y <= 0)
+                //{
+                //    spatial.Position = new Vector2(spatial.Position.X, 1);
+                //    movement.Vertical = 1;
+                //    directionChanged = true;
+                //}
 
-                while (spatial.Position.Y >= mapHeight - 64)
-                {
-                    spatial.Position = new Vector2(spatial.Position.X, mapHeight - 65);
-                    movement.Vertical = -1;
-                    directionChanged = true;
-                }
+                //while (spatial.Position.Y >= mapHeight - 64)
+                //{
+                //    spatial.Position = new Vector2(spatial.Position.X, mapHeight - 65);
+                //    movement.Vertical = -1;
+                //    directionChanged = true;
+                //}
 
                 //System.Diagnostics.Debug.Write("monsterX: " + monsterX + " monsterY: " + monsterY + "\n");
                 //System.Diagnostics.Debug.Write("mapHeight: " + mapHeight + "playerY: " + spatial.Position.Y);

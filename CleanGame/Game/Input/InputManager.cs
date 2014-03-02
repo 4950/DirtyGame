@@ -33,7 +33,7 @@ namespace CleanGame.Game.Input
             {
                 if (context.Dispatch(key, state))
                 {                    
-                    return;
+                    //return;
                 }
             }
         }

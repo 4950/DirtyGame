@@ -178,8 +178,12 @@ namespace CleanGame.Game.Core.Systems
         private void ResetHitCounter()
         {
             int mul = (int)Math.Floor(PlayerHits / 10.0d);
-            game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += PlayerHits * mul;
-            AddTextFloater("+" + PlayerHits * mul);
+            mul = PlayerHits * mul;
+            if (mul > 0)
+            {
+                game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += mul;
+                AddTextFloater("+" + mul);
+            }
             playerHitTime = 0;
             PlayerHits = 0;
             HitLabel.Visibility = Visibility.Hidden;
@@ -455,8 +459,8 @@ namespace CleanGame.Game.Core.Systems
             {
                 Label floater = textFloaters[i];
                 System.Drawing.Point pos = floater.Position;
-                pos.X += (int)(dt * 300);
-                pos.Y -= (int)(dt * 300);
+                pos.X += (int)(dt * 150);
+                pos.Y -= (int)(dt * 150);
                 floater.Position = pos;
 
                 if (pos.Y <= 0)
