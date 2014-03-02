@@ -30,7 +30,7 @@ namespace CleanGame.Game.Core.Systems
     private Physics physics;
     private FarseerPhysics.Dynamics.World physicsWorld;
     private Renderer renderer;
-    private bool PhysicsDebug = true;
+    private bool PhysicsDebug = false;
     uint playerId;
     private Dirty game;
 
@@ -191,9 +191,22 @@ namespace CleanGame.Game.Core.Systems
 					{
 
 						MovementComponent movement = e.GetComponent<MovementComponent>();
+              
                         if (bodyDictionary[e.Id].IsStatic == false)
                         {
                             bodyDictionary[e.Id].LinearVelocity = movement.Velocity;
+                            if (e.HasComponent<MeleeComponent>())
+                            {
+                                Entity owner = e.GetComponent<MeleeComponent>().Owner;
+
+                                if (bodyDictionary.ContainsKey(owner.Id))
+                                {
+
+                                    bodyDictionary[e.Id].Position = bodyDictionary[owner.Id].Position;
+                                }
+                                
+
+                            }
                         }
 
 					}
@@ -208,7 +221,7 @@ namespace CleanGame.Game.Core.Systems
 
 	public override void OnEntityAdded(Entity e)
 			{
-
+                
 				Body Body = new Body(physicsWorld);
 
 				if (e.HasComponent<PlayerComponent>())
