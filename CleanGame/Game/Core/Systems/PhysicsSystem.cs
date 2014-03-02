@@ -30,7 +30,7 @@ namespace CleanGame.Game.Core.Systems
     private Physics physics;
     private FarseerPhysics.Dynamics.World physicsWorld;
     private Renderer renderer;
-    private bool PhysicsDebug = false;
+    private bool PhysicsDebug = true;
     uint playerId;
     private Dirty game;
 
@@ -73,6 +73,12 @@ namespace CleanGame.Game.Core.Systems
                         }
 
 						spatial.Position = ConvertUnits.ToDisplayUnits(bodyDictionary[e.Id].Position) - spatial.Size * pc.Origin;
+
+                        if (spatial.ShouldRotate == false)
+                        {
+                            bodyDictionary[e.Id].Rotation = spatial.Rotation;
+                        }
+
 						if (spatial.ConstantRotation != 0 && !e.HasComponent<LaserComponent>())
 						{
 							spatial.Rotation += spatial.ConstantRotation * dt;

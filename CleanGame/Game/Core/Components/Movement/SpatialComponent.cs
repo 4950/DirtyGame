@@ -12,10 +12,12 @@ namespace CleanGame.Game.Core.Components
 
         
         private float defaultRotationCons;
+        public Boolean ShouldRotate;
 
         #region Constructors
         public SpatialComponent()
         {
+            ShouldRotate = false;
             defaultRotationCons = 0;
             Position = new Vector2(0, 0);
             Bounds = new Rectangle();
@@ -38,6 +40,7 @@ namespace CleanGame.Game.Core.Components
                 Bounds = new Rectangle((int)value.X, (int)value.Y, Bounds.Width, Bounds.Height);
             }
         }
+
         /// <summary>
         /// Size of the spatial
         /// </summary>
