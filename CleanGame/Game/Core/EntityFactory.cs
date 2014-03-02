@@ -146,62 +146,80 @@ namespace CleanGame.Game.Core
             direction.Heading = owner.GetComponent<DirectionComponent>().Heading;
 
             PhysicsComponent pc = new PhysicsComponent();
-            
+
+            MeleeComponent mc = new MeleeComponent();
+            mc.Weapon = weapon;
+            mc.Owner = owner;
 
             SpatialComponent spatial = new SpatialComponent();
-            float xOffset = 0.0f;
-            float yOffset = 0.0f;
+            
             switch (direction.Heading)
             {
                 case "Up":
-                    xOffset = 0.0f;
-                    yOffset = 10.0f;
+                    
                     spatial.Height = 20;
                     spatial.Width = 40;
                     if (owner.HasComponent<PlayerComponent>())
                     {
+                        
+                        spatial.Height = 20;
+                        spatial.Width = 60;
+                        mc.TimePresent = .3f;
                         pc.Origin = new Vector2(0, 0);
-                        spatial.ConstantRotation = 11f;
+                        spatial.ConstantRotation = 16f;
+                        spatial.Rotation = .75f;
                     }
                     break;
 
                 case "Down":
-                    xOffset = 0.0f;
-                    yOffset = 25.0f;
+                    
                     spatial.Height = 20;
                     spatial.Width = 40;
                     if (owner.HasComponent<PlayerComponent>())
                     {
-                        pc.Origin = new Vector2(0,0);
-                        spatial.ConstantRotation = -11f;
+
+                        spatial.Height = 25;
+                        spatial.Width = 60;
+                        mc.TimePresent = .3f;
+                        pc.Origin = new Vector2(0, 0);
+                        spatial.ConstantRotation = -9.5f;
+                        spatial.Rotation = 2.8f;
                     }
+                   
                     break;
 
                 case "Right":
-                    xOffset = 0.0f;
-                    yOffset = 15.0f;
-                    spatial.Height = 60;
-                    spatial.Width = 20;
-                    if (owner.HasComponent<PlayerComponent>())
-                    {
-                        pc.Origin = new Vector2(0,0);
-                        spatial.ConstantRotation = -2f;
-                    }
-                    break;
-
-                case "Left":
-                    xOffset = -15.0f;
-                    yOffset = 20.0f;
+                    
                     spatial.Height = 40;
                     spatial.Width = 20;
                     if (owner.HasComponent<PlayerComponent>())
                     {
+                        spatial.Height = 70;
+                        spatial.Width = 20;
+                        mc.TimePresent = .2f;
+                        pc.Origin = new Vector2(0,0);
+                        spatial.ConstantRotation = -4.8f;
+                        spatial.Rotation = -.1f;
+                    }
+                    break;
+
+                case "Left":
+                    
+                    spatial.Height = 40;
+                    spatial.Width = 20;
+                    if (owner.HasComponent<PlayerComponent>())
+                    {
+                        
+                        spatial.Height = 70;
+                        spatial.Width = 20;
+                        mc.TimePresent = .2f;
                         pc.Origin = new Vector2(0, 0);
-                        spatial.ConstantRotation = 6f;
+                        spatial.ConstantRotation = 8f;
+                        spatial.Rotation = .1f;
                     }
                     break;
             }
-            spatial.Position = new Vector2(ownerLocation.X + xOffset, ownerLocation.Y + yOffset);
+            spatial.Position = new Vector2(ownerLocation.X, ownerLocation.Y);
 
             AnimationComponent animation = new AnimationComponent();
             animation.CurrentAnimation = "Attack" + direction.Heading;
@@ -211,17 +229,13 @@ namespace CleanGame.Game.Core
             sprite.setSpritesheet(wc.ProjectileSprite, wc.SpriteXml, resourceMgr);
             //sprite.SpriteSheet = wc.MeleeSheet;
 
-            MeleeComponent mc = new MeleeComponent();
-            mc.Weapon = weapon;
-            mc.Owner = owner;
-
             
-
             //Adding the components to the melee entity
             meleeEntity.AddComponent(spatial);
             meleeEntity.AddComponent(direction);
             meleeEntity.AddComponent(animation);
             meleeEntity.AddComponent(sprite);
+            meleeEntity.AddComponent(new TimeComponent());
             meleeEntity.AddComponent(mc);
             meleeEntity.AddComponent(new MovementComponent());
             meleeEntity.AddComponent(pc);

@@ -12,10 +12,11 @@ namespace CleanGame.Game.Core.Components
     {
         [XmlIgnoreAttribute]
         private Entity meleeEntity;
+        public float TimePresent;
 
         public MeleeComponent()
         {
-
+            TimePresent = .3f;
         }
 
         [XmlIgnoreAttribute]
