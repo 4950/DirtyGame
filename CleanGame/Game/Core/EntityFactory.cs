@@ -69,6 +69,7 @@ namespace CleanGame.Game.Core
             spatial.Position = new Vector2(origin.X, origin.Y);
             spatial.Width = 6;
             spatial.Height = 400;
+            spatial.ShouldRotate = true;
             spatial.DefaultRotationCons = 1f;
             spatial.ConstantRotation = 1f;
 
@@ -78,10 +79,10 @@ namespace CleanGame.Game.Core
             else
                 sc.setSprite(sprite, resourceMgr);
             sc.Angle = (float)Math.Atan2(direction.X, -direction.Y);
-            // sc.AnchorPoint = new Vector2(1f, 0);
+           
             sc.origin = new Vector2(.5f, 0);
             sc.Scale = range;
-            //sc.AnchorPoint = new Vector2(0, .25f);
+            
 
             PhysicsComponent pc = new PhysicsComponent();
             pc.Origin = new Vector2(0, 0);
@@ -152,7 +153,7 @@ namespace CleanGame.Game.Core
             mc.Owner = owner;
 
             SpatialComponent spatial = new SpatialComponent();
-            
+            spatial.ShouldRotate = true;
             switch (direction.Heading)
             {
                 case "Up":
@@ -252,6 +253,7 @@ namespace CleanGame.Game.Core
             SpriteComponent sprite = new SpriteComponent();
             sprite.RenderLayer = RenderLayer.BACKGROUND;
             sprite.AnchorPoint = new Vector2(.25f, .25f);
+            
 
             //stats component
             StatsComponent s = new StatsComponent();
@@ -268,7 +270,8 @@ namespace CleanGame.Game.Core
             sprite.setSpritesheet("playerSheet", "Content\\PlayerAnimation.xml", resourceMgr);
             //sprite.SpriteSheet = spriteSheet;// new SpriteSheet(resourceMgr.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
             //sprite.SrcRect = sprite.SpriteSheet.Animation["Idle" + direction.Heading][0];
-
+            spatial.Height = (int)(sprite.SrcRect.Height * sprite.Scale / 1.5);
+            spatial.Width = (int)(sprite.SrcRect.Width * sprite.Scale / 2.5);
             //sprite.SpriteSheet = new SpriteSheet(resourceMgr.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
             //Creating an Animation component
             AnimationComponent animation = new AnimationComponent();
@@ -293,8 +296,7 @@ namespace CleanGame.Game.Core
             //   e.AddComponent(animation);
             e.AddComponent(direction);
             e.AddComponent(new MovementComponent());
-            e.GetComponent<SpatialComponent>().Height = 20;
-            e.GetComponent<SpatialComponent>().Width = 20;
+            
             return e;
         }
         public Entity CreateAOEField(Entity owner, Vector2 origin, Vector2 size, String spritesheet, string xmlName, int ticks, float tickInterval, float ConstantRotation, Entity Weapon)
@@ -307,6 +309,11 @@ namespace CleanGame.Game.Core
             spatial.Position = origin + spatial.Size / 2;
 
             spatial.ConstantRotation = ConstantRotation;
+
+            if (spatial.ConstantRotation > 0)
+            {
+                spatial.ShouldRotate = true;
+            }
 
             AnimationComponent animation = new AnimationComponent();
             animation.CurrentAnimation = "Idle";
@@ -491,8 +498,8 @@ namespace CleanGame.Game.Core
             monster.AddComponent(direction);
             //     monster.AddComponent(new AnimationComponent());
             monster.AddComponent(new SeparationComponent());
-            monster.GetComponent<SpatialComponent>().Height = (int)(monsterSprite.SrcRect.Height * monsterSprite.Scale / 2);
-            monster.GetComponent<SpatialComponent>().Width = (int)(monsterSprite.SrcRect.Width * monsterSprite.Scale / 2);
+            spatial.Height = (int)(monsterSprite.SrcRect.Height * monsterSprite.Scale / 1.5);
+            spatial.Width = (int)(monsterSprite.SrcRect.Width * monsterSprite.Scale / 2.5);
 
             return monster;		
 		}
