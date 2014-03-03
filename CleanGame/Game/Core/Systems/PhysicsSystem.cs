@@ -332,7 +332,18 @@ namespace CleanGame.Game.Core.Systems
 								if (pc.owner.HasComponent<PlayerComponent>())
 									GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerWeaponFirstHit, pc.weapon.GetComponent<WeaponComponent>().WeaponName);
 
-								game.weaponSystem.DealDamage(proj.GetComponent<ProjectileComponent>().weapon, hit);
+								// Deal damage. If proj is a landmine, explode instead
+								WeaponComponent wc = pc.weapon.GetComponent<WeaponComponent>();
+								if (wc.WeaponName != "LandmineWeapon")
+								{
+									game.weaponSystem.DealDamage(proj.GetComponent<ProjectileComponent>().weapon, hit);
+								}
+								else
+								{
+									Entity explosion = game.entityFactory.CreateAOEField(pc.weapon, pc.origin, new Vector2(128, 128), "BombExplosion", wc.SpriteXml, 1, 1, 0, pc.weapon);
+									explosion.Refresh();
+								}
+
 								//hit.GetComponent<HealthComponent>().CurrentHealth -= proj.GetComponent<ProjectileComponent>().damage;
 								hitBody.Body.ApplyLinearImpulse(proj.GetComponent<ProjectileComponent>().direction * 10);
 								World.DestroyEntity(proj);
