@@ -34,13 +34,11 @@ namespace CleanGame.Game.Core.Systems
         public int monstersdefeated;
         public int monstersalive;
         private Dirty game;
-        private Label roundLabel;
         private Label ActionLabel;
         private Panel ActionLabelBack;
         private Label HitLabel;
         private Panel DamagePanel;
         private float damagePnlTime;
-        private float roundLblTime;
         private float roundTime;
         private float roundStartTime;
         private bool cheatEndRound = false;
@@ -76,6 +74,7 @@ namespace CleanGame.Game.Core.Systems
             {
                 game.world.DestroyEntity(ee);
             }
+            spawners.Clear();
             //game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += monstersdefeated;
             monstersdefeated = 0;
 
@@ -109,10 +108,6 @@ namespace CleanGame.Game.Core.Systems
             resetRound();
 
             int CurrentLevel = game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value;
-
-            roundLabel.Text = "~Round " + CurrentLevel + "~";
-            roundLabel.Visibility = CoreUI.Visibility.Visible;
-            roundLblTime = 3f;
 
             int numRanged = 2 + 2 * CurrentLevel;
             int numMelee = 2 + 2 * CurrentLevel;
@@ -435,12 +430,9 @@ namespace CleanGame.Game.Core.Systems
                     //}
                     if (--monstersalive == 0 && !tutorialMode)
                     {
-                        /*
-                        game.GameWon = true;
-
-                        Event gamestate = new Event();
-                        gamestate.name = "GameStateGameOver";
-                        EventManager.Instance.TriggerEvent(gamestate);*/
+                        foreach (Entity sp in spawners)//make sure there aren't more monsters spawning
+                            if (sp.GetComponent<SpawnerComponent>().numMobs != 0)
+                                return;
 
 
                         GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundEnded, game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value.ToString());
@@ -489,14 +481,6 @@ namespace CleanGame.Game.Core.Systems
                 {
                     damagePnlTime = 0;
                     DamagePanel.Visibility = Visibility.Hidden;
-                }
-            }
-            if (roundLblTime > 0)
-            {
-                roundLblTime -= dt;
-                if (roundLblTime <= 0)
-                {
-                    roundLblTime = 0;
                 }
             }
             if (playerHitTime > 0)
@@ -568,6 +552,7 @@ namespace CleanGame.Game.Core.Systems
             if (cheatEndRound)
             {
                 cheatEndRound = false;
+                resetRound();
                 for (int i = 0; i < entities.Count(); i++)
                 {
                     Entity e = entities.ElementAt(i);
@@ -577,6 +562,7 @@ namespace CleanGame.Game.Core.Systems
                         i--;
                     }
                 }
+                
             }
             else
             {
@@ -644,15 +630,6 @@ namespace CleanGame.Game.Core.Systems
             DamagePanel.Background = new MonoGameColor(tr);
             DamagePanel.Visibility = CoreUI.Visibility.Hidden;
             game.UIEngine.Children.AddElement(DamagePanel);
-
-            roundLabel = new Label();
-            roundLabel.Size = new System.Drawing.Point(200, 40);
-            roundLabel.Position = new System.Drawing.Point(200, 0);
-            roundLabel.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.Red);
-            roundLabel.Background = new MonoGameColor(Microsoft.Xna.Framework.Color.Black);
-            roundLabel.TextPosition = TextPosition.Center;
-            roundLabel.Visibility = CoreUI.Visibility.Hidden;
-            game.UIEngine.Children.AddElement(roundLabel);
 
             ActionLabelBack = new Panel();
             ActionLabelBack.Size = new System.Drawing.Point(game.currrentDisplayMode.Width, 100);
