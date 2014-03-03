@@ -68,6 +68,9 @@ namespace CleanGame.Game.Core.Systems
                 }
             }
         }
+        /// <summary>
+        /// Resets a round and clears spawners
+        /// </summary>
         private void resetRound()
         {
             foreach (Entity ee in spawners)//clear old spawners
@@ -94,6 +97,9 @@ namespace CleanGame.Game.Core.Systems
             game.UIEngine.Children.AddElement(floater);
             textFloaters.Add(floater);
         }
+        /// <summary>
+        /// Sets Tutorial state
+        /// </summary>
         public void SetupTutorial()
         {
             ActionLabelBack.Visibility = Visibility.Hidden;
@@ -103,6 +109,9 @@ namespace CleanGame.Game.Core.Systems
             game.player.GetComponent<SpatialComponent>().Position = new Vector2(200, 200);
             game.player.Refresh();
         }
+        /// <summary>
+        /// Starts a round using the old round system
+        /// </summary>
         public void SetupNextRound()
         {
             resetRound();
@@ -193,49 +202,12 @@ namespace CleanGame.Game.Core.Systems
             PlayerHits = 0;
             HitLabel.Visibility = Visibility.Hidden;
         }
-        private void SetupBoss()
-        {
-            /*resetRound();
 
-            int CurrentLevel = gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value;
 
-            roundLabel.Text = "~Boss Battle~";
-            roundLabel.Visibility = CoreUI.Visibility.Visible;
-            roundLblTime = 3f;
-
-            Entity monsterWeapon = game.entityFactory.CreateRangedWeaponEntity("Monsterbow", "bow", "bow", 400, 20 + 20 * (CurrentLevel / 5f), 10, "arrow", -1, 3f, 100, 0);
-            monsterWeapon.Refresh();
-            MonsterData rangedData = MonsterData.RangedMonster;
-            rangedData.weapon = monsterWeapon;
-            rangedData.scale = 3;
-            rangedData.Health = (int)(500 * (CurrentLevel / 4f));
-
-            Entity monsterMelee = game.entityFactory.CreateMeleeWeaponEntity("Monstersword", "sword", 50, 15 + 15 * (CurrentLevel / 5f), -1, 2f, 100, 0, game.resourceManager.GetResource<SpriteSheet>("SwordMeleeSpriteSheet"));
-            monsterMelee.Refresh();
-            MonsterData meleeData = MonsterData.BasicMonster;
-            meleeData.weapon = monsterMelee;
-            meleeData.Health += (int)(meleeData.Health * (CurrentLevel / 5f));
-
-            Entity e = game.entityFactory.CreateSpawner(100, 100, game.resourceManager.GetResource<SpriteSheet>("playerSheet"), new Rectangle(0, 0, 46, 46), rangedData, 1, new TimeSpan(0, 0, 0, 0, 1000));
-            e.Refresh();
-            spawners.Add(e);*/
-        }
-        private void AdvanceLevel()
-        {
-            game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value++;
-            //if (gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value % 4 == 0)
-            //    SetupBoss();
-            //else
-            SetupNextRound();
-        }
-        private void BuyPhase()
-        {
-            Events.Event buy = new Events.Event();
-            buy.name = "GameStateBuy";
-            EventManager.Instance.TriggerEvent(buy);
-        }
-
-        //Decoding the XML code for the scenarios.
+        /// <summary>
+        /// Decoding the XML code for the scenarios.
+        /// </summary>
+        /// <param name="xmlFile"></param>
         public void decodeScenariosXML(string xmlFile)
         {
             //Setting up the XML reader
@@ -337,23 +309,20 @@ namespace CleanGame.Game.Core.Systems
             }
         }
 
-        public void setupScenario(string scenarioName, Entity player)
+        /// <summary>
+        /// Starts a specific scenario
+        /// </summary>
+        /// <param name="scenarioName"></param>
+        /// <param name="player"></param>
+        public void setupScenario(string scenarioName)
         {
             Scenario tempScenario = scenarios[scenarioName];
-            Entity e;
-
-            player.GetComponent<SpatialComponent>().Position = tempScenario.PlayerSpawn;
-
-            //resetRound();
-
-            foreach (Spawner s in tempScenario.Spawners)
-            {
-                e = game.entityFactory.CreateSpawner(s);
-                e.Refresh();
-                spawners.Add(e);
-            }
+            setupScenario(tempScenario);
         }
-
+        /// <summary>
+        /// Starts a specific scenario
+        /// </summary>
+        /// <param name="scenario"></param>
         public void setupScenario(Scenario scenario)
         {
             game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value++;
@@ -361,9 +330,7 @@ namespace CleanGame.Game.Core.Systems
             Entity e;
 
             game.player.GetComponent<SpatialComponent>().Position = scenario.PlayerSpawn;
-            //    player.RemoveComponent(player.GetComponent<PhysicsComponent>());
-            //    player.AddComponent(new PhysicsComponent());
-            //resetRound();
+
             if (scenario.Spawners != null)
             {
                 foreach (Spawner s in scenario.Spawners)
@@ -444,6 +411,9 @@ namespace CleanGame.Game.Core.Systems
             }
 
         }
+        /// <summary>
+        /// Shows the round label and sets up a timer to the next round
+        /// </summary>
         public void StartPreRound()
         {
             resetRound();
@@ -515,16 +485,16 @@ namespace CleanGame.Game.Core.Systems
                     roundStartTime = 0;
 
                     ActionLabelBack.Visibility = Visibility.Hidden;
-                    if (game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value == 0)
-                    {
-                        //Setting the movePlayer flag in the physics component of the player
-                        game.player.GetComponent<PhysicsComponent>().movePlayer = true;
-                        //TODO need to have the map name here
-                        setupScenario(randomScenario(game.mapName));
-                        game.player.Refresh();
-                    }
-                    else
-                        AdvanceLevel();
+                    //if (game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value == 0)
+                    //{
+                    //Setting the movePlayer flag in the physics component of the player
+                    game.player.GetComponent<PhysicsComponent>().movePlayer = true;
+                    //TODO need to have the map name here
+                    setupScenario(randomScenario(game.mapName));
+                    game.player.Refresh();
+                    //}
+                    //else
+                    //    AdvanceLevel();
 
                 }
             }
@@ -562,7 +532,7 @@ namespace CleanGame.Game.Core.Systems
                         i--;
                     }
                 }
-                
+
             }
             else
             {
