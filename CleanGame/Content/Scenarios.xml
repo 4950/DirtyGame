@@ -2,30 +2,100 @@
 <root id="Scenarios">
   <!--
   Monsters
-  monsterType="MeleeMonster" monsterWeapon="Monstersword"
-  monsterType="SuicideBomber" monsterWeapon="BomberWeapon"
-  monsterType="Flametower" monsterWeapon="FlametowerWeapon"
-  monsterType="Grenadier" monsterWeapon="GrenadeLauncher"
-  monsterType="RangedMonster" monsterWeapon="Monsterbow"
-  monsterType="SnipMonster" monsterWeapon="SnipWeapon"
-  monsterType="WallHugger" monsterWeapon="WallHuggerWeapon"
-  monsterType="" monsterWeapon=""
-  monsterType="" monsterWeapon=""
+  monsterType="MeleeMonster"      monsterWeapon="Monstersword"
+  monsterType="SuicideBomber"     monsterWeapon="BomberWeapon"
+  monsterType="Flametower"        monsterWeapon="FlametowerWeapon"
+  monsterType="Grenadier"         monsterWeapon="GrenadeLauncher"
+  monsterType="RangedMonster"     monsterWeapon="Monsterbow"
+  monsterType="SnipMonster"       monsterWeapon="SnipWeapon"
+  monsterType="WallHugger"        monsterWeapon="WallHuggerWeapon"
+  monsterType="LandmineDropper"   monsterWeapon="LandmineWeapon"
+  monsterType=""                  monsterWeapon=""
   -->
-  <scenario name="scenario1"
+
+  <!--Player Spawn Points
+    Cave.tmx
+      x=100, y=100
+      x=500, y=400
+      x=300, y=900
+      x=700, y=800
+      x=800, y=100
+
+    Forest.tmx
+      x=208, y=1424
+      x=176, y=528
+      x=688, y=240
+      x=1424, y=432
+      x=720, y=752
+      x=944, y=1488
+
+    Arena.tmx
+      x=496, y=496
+      x=784, y=496
+      x=784, y=784
+      x=496, y=784
+  -->
+
+  <!--Monster Spawn Points
+    Cave.tmx
+      x=500, y=150
+      x=800, y=450
+      x=875, y=750
+      x=500, y=650
+      x=200, y=500
+
+    Forest.tmx
+      x=432, y=1104
+      x=240, y=816
+      x=176, y=304
+      x=397, y=176
+      x=976, y=176
+      x=1296, y=176
+      x=1261, y=688
+      x=912, y=848
+      x=560, y=592
+      x=976, y=1136
+      x=1392, y=1232
+
+    Arena.tmx
+      x=624, y=1072
+      x=848, y=1008
+      x=1072, y=1040
+      x=1040, y=816
+      x=1072, y=624
+      x=976, y=432
+      x=752, y=336
+      x=496, y=304
+      x=336, y=240
+      x=272, y=400
+      x=176, y=624
+      x=208, y=880
+      x=176, y=1040
+      x=400, y=1008
+  -->
+
+  <!--Monsters: Melee-6
+                Suicide-0
+                Flame-0
+                Grenadier-0
+                Ranged-3
+                Snip-0
+                WallHug-0
+                Landmine-0 -->
+  <scenario name="Cave_scenario_VeryEasy"
             difficultyScore="0.50"
             map="Cave.tmx"
             playerX="100"
-            playerY="300">
+            playerY="100">
     <spawner xPosition="500"
-             yPosition="100"
+             yPosition="150"
              rectangleValue1="0"
              rectangleValue2="0"
              rectangleValue3="46"
              rectangleValue4="46"
              monsterType="MeleeMonster"
              monsterWeapon="Monstersword"
-             numberOfMonsters="1"
+             numberOfMonsters="6"
              timeSpanDays="0"
              timeSpanHours="0"
              timeSpanMinutes="0"
@@ -34,15 +104,32 @@
              healthUpModifier="1"
              damageUpModifier="1">
     </spawner>
-    <spawner xPosition="500"
-             yPosition="100"
+    <spawner xPosition="800"
+             yPosition="450"
              rectangleValue1="0"
              rectangleValue2="0"
              rectangleValue3="46"
              rectangleValue4="46"
              monsterType="SuicideBomber"
              monsterWeapon="BomberWeapon"
-             numberOfMonsters="1"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="875"
+             yPosition="750"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="Flametower"
+             monsterWeapon="FlametowerWeapon"
+             numberOfMonsters="0"
              timeSpanDays="0"
              timeSpanHours="0"
              timeSpanMinutes="0"
@@ -52,7 +139,292 @@
              damageUpModifier="1">
     </spawner>
     <spawner xPosition="500"
-             yPosition="100"
+             yPosition="650"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="Grenadier"
+             monsterWeapon="GrenadeLauncher"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="200"
+             yPosition="500"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="RangedMonster"
+             monsterWeapon="Monsterbow"
+             numberOfMonsters="3"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="800"
+             yPosition="450"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SnipMonster"
+             monsterWeapon="SnipWeapon"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="500"
+             yPosition="650"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="WallHugger"
+             monsterWeapon="WallHuggerWeapon"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="500"
+             yPosition="150"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="LandmineDropper"
+             monsterWeapon="LandmineWeapon"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+  </scenario>
+
+  <!--Monsters: Melee-6
+                Suicide-0
+                Flame-0
+                Grenadier-0
+                Ranged-3
+                Snip-0
+                WallHug-0
+                Landmine-2 -->
+  <scenario name="Cave_scenario_Easy"
+            difficultyScore="0.50"
+            map="Cave.tmx"
+            playerX="500"
+            playerY="400">
+    <spawner xPosition="500"
+             yPosition="150"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="MeleeMonster"
+             monsterWeapon="Monstersword"
+             numberOfMonsters="6"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="800"
+             yPosition="450"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SuicideBomber"
+             monsterWeapon="BomberWeapon"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="875"
+             yPosition="750"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="Flametower"
+             monsterWeapon="FlametowerWeapon"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="500"
+             yPosition="650"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="Grenadier"
+             monsterWeapon="GrenadeLauncher"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="200"
+             yPosition="500"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="RangedMonster"
+             monsterWeapon="Monsterbow"
+             numberOfMonsters="3"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="800"
+             yPosition="450"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SnipMonster"
+             monsterWeapon="SnipWeapon"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="500"
+             yPosition="650"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="WallHugger"
+             monsterWeapon="WallHuggerWeapon"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="500"
+             yPosition="150"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="LandmineDropper"
+             monsterWeapon="LandmineWeapon"
+             numberOfMonsters="2"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+  </scenario>
+
+  <!--Monsters: Melee-6
+                Suicide-0
+                Flame-1
+                Grenadier-1
+                Ranged-3
+                Snip-0
+                WallHug-1
+                Landmine-2 -->
+  <scenario name="Cave_scenario_Medium"
+            difficultyScore="0.50"
+            map="Cave.tmx"
+            playerX="300"
+            playerY="900">
+    <spawner xPosition="500"
+             yPosition="150"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="MeleeMonster"
+             monsterWeapon="Monstersword"
+             numberOfMonsters="6"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="800"
+             yPosition="450"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SuicideBomber"
+             monsterWeapon="BomberWeapon"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+   </spawner>
+    <spawner xPosition="875"
+             yPosition="750"
              rectangleValue1="0"
              rectangleValue2="0"
              rectangleValue3="46"
@@ -69,7 +441,7 @@
              damageUpModifier="1">
     </spawner>
     <spawner xPosition="500"
-             yPosition="100"
+             yPosition="650"
              rectangleValue1="0"
              rectangleValue2="0"
              rectangleValue3="46"
@@ -85,15 +457,32 @@
              healthUpModifier="1"
              damageUpModifier="1">
     </spawner>
-    <spawner xPosition="500"
-             yPosition="100"
+    <spawner xPosition="200"
+             yPosition="500"
              rectangleValue1="0"
              rectangleValue2="0"
              rectangleValue3="46"
              rectangleValue4="46"
              monsterType="RangedMonster"
              monsterWeapon="Monsterbow"
-             numberOfMonsters="1"
+             numberOfMonsters="3"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="800"
+             yPosition="450"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SnipMonster"
+             monsterWeapon="SnipWeapon"
+             numberOfMonsters="0"
              timeSpanDays="0"
              timeSpanHours="0"
              timeSpanMinutes="0"
@@ -103,30 +492,7 @@
              damageUpModifier="1">
     </spawner>
     <spawner xPosition="500"
-             yPosition="100"
-             rectangleValue1="0"
-             rectangleValue2="0"
-             rectangleValue3="46"
-             rectangleValue4="46"
-             monsterType="SnipMonster"
-             monsterWeapon="SnipWeapon"
-             numberOfMonsters="1"
-             timeSpanDays="0"
-             timeSpanHours="0"
-             timeSpanMinutes="0"
-             timeSpanSeconds="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-  </scenario>
-  <scenario name="scenario2"
-            difficultyScore="0.50"
-            map="Forest.tmx"
-            playerX="150"
-            playerY="300">
-    <spawner xPosition="300"
-             yPosition="100"
+             yPosition="650"
              rectangleValue1="0"
              rectangleValue2="0"
              rectangleValue3="46"
@@ -142,15 +508,15 @@
              healthUpModifier="1"
              damageUpModifier="1">
     </spawner>
-    <spawner xPosition="300"
-             yPosition="100"
+    <spawner xPosition="500"
+             yPosition="150"
              rectangleValue1="0"
              rectangleValue2="0"
              rectangleValue3="46"
              rectangleValue4="46"
-             monsterType="MeleeMonster"
-             monsterWeapon="Monstersword"
-             numberOfMonsters="1"
+             monsterType="LandmineDropper"
+             monsterWeapon="LandmineWeapon"
+             numberOfMonsters="2"
              timeSpanDays="0"
              timeSpanHours="0"
              timeSpanMinutes="0"
@@ -160,19 +526,62 @@
              damageUpModifier="1">
     </spawner>
   </scenario>
-  <scenario name="scenario3"
+
+  <!--Monsters: Melee-6
+                Suicide-2
+                Flame-1
+                Grenadier-2
+                Ranged-3
+                Snip-1
+                WallHug-1
+                Landmine-2 -->
+  <scenario name="Cave_scenario_Hard"
             difficultyScore="0.50"
-            map="Forest.tmx"
-            playerX="250"
-            playerY="300">
-    <spawner xPosition="300"
-             yPosition="100"
+            map="Cave.tmx"
+            playerX="700"
+            playerY="800">
+    <spawner xPosition="500"
+             yPosition="150"
              rectangleValue1="0"
              rectangleValue2="0"
              rectangleValue3="46"
              rectangleValue4="46"
              monsterType="MeleeMonster"
              monsterWeapon="Monstersword"
+             numberOfMonsters="6"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="800"
+             yPosition="450"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SuicideBomber"
+             monsterWeapon="BomberWeapon"
+             numberOfMonsters="2"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="875"
+             yPosition="750"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="Flametower"
+             monsterWeapon="FlametowerWeapon"
              numberOfMonsters="1"
              timeSpanDays="0"
              timeSpanHours="0"
@@ -182,15 +591,83 @@
              healthUpModifier="1"
              damageUpModifier="1">
     </spawner>
-    <spawner xPosition="300"
-             yPosition="100"
+    <spawner xPosition="500"
+             yPosition="650"
              rectangleValue1="0"
              rectangleValue2="0"
              rectangleValue3="46"
              rectangleValue4="46"
-             monsterType="MeleeMonster"
-             monsterWeapon="Monstersword"
+             monsterType="Grenadier"
+             monsterWeapon="GrenadeLauncher"
+             numberOfMonsters="2"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="200"
+             yPosition="500"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="RangedMonster"
+             monsterWeapon="Monsterbow"
+             numberOfMonsters="3"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="800"
+             yPosition="450"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SnipMonster"
+             monsterWeapon="SnipWeapon"
              numberOfMonsters="1"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="500"
+             yPosition="650"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="WallHugger"
+             monsterWeapon="WallHuggerWeapon"
+             numberOfMonsters="1"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="500"
+             yPosition="150"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="LandmineDropper"
+             monsterWeapon="LandmineWeapon"
+             numberOfMonsters="2"
              timeSpanDays="0"
              timeSpanHours="0"
              timeSpanMinutes="0"
@@ -200,19 +677,62 @@
              damageUpModifier="1">
     </spawner>
   </scenario>
-  <scenario name="scenario4"
+
+  <!--Monsters: Melee-8
+                Suicide-2
+                Flame-1
+                Grenadier-4
+                Ranged-6
+                Snip-2
+                WallHug-2
+                Landmine-4 -->
+  <scenario name="Cave_scenario_VeryHard"
             difficultyScore="0.50"
-            map="Forest.tmx"
-            playerX="350"
-            playerY="300">
-    <spawner xPosition="300"
-             yPosition="100"
+            map="Cave.tmx"
+            playerX="800"
+            playerY="100">
+    <spawner xPosition="500"
+             yPosition="150"
              rectangleValue1="0"
              rectangleValue2="0"
              rectangleValue3="46"
              rectangleValue4="46"
              monsterType="MeleeMonster"
              monsterWeapon="Monstersword"
+             numberOfMonsters="8"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="800"
+             yPosition="450"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SuicideBomber"
+             monsterWeapon="BomberWeapon"
+             numberOfMonsters="2"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="875"
+             yPosition="750"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="Flametower"
+             monsterWeapon="FlametowerWeapon"
              numberOfMonsters="1"
              timeSpanDays="0"
              timeSpanHours="0"
@@ -222,15 +742,83 @@
              healthUpModifier="1"
              damageUpModifier="1">
     </spawner>
-    <spawner xPosition="300"
-             yPosition="100"
+    <spawner xPosition="500"
+             yPosition="650"
              rectangleValue1="0"
              rectangleValue2="0"
              rectangleValue3="46"
              rectangleValue4="46"
-             monsterType="MeleeMonster"
-             monsterWeapon="Monstersword"
-             numberOfMonsters="1"
+             monsterType="Grenadier"
+             monsterWeapon="GrenadeLauncher"
+             numberOfMonsters="4"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="200"
+             yPosition="500"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="RangedMonster"
+             monsterWeapon="Monsterbow"
+             numberOfMonsters="6"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="800"
+             yPosition="450"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SnipMonster"
+             monsterWeapon="SnipWeapon"
+             numberOfMonsters="2"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="500"
+             yPosition="650"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="WallHugger"
+             monsterWeapon="WallHuggerWeapon"
+             numberOfMonsters="2"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="500"
+             yPosition="150"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="LandmineDropper"
+             monsterWeapon="LandmineWeapon"
+             numberOfMonsters="4"
              timeSpanDays="0"
              timeSpanHours="0"
              timeSpanMinutes="0"
@@ -240,20 +828,29 @@
              damageUpModifier="1">
     </spawner>
   </scenario>
-  <scenario name="scenario5"
+  
+  <!--Monsters: Melee-6
+                Suicide-0
+                Flame-0
+                Grenadier-0
+                Ranged-3
+                Snip-0
+                WallHug-0
+                Landmine-0 -->
+  <scenario name="Forest_scenario_VeryEasy"
             difficultyScore="0.50"
             map="Forest.tmx"
-            playerX="450"
-            playerY="300">
-    <spawner xPosition="300"
-             yPosition="100"
+            playerX="208"
+            playerY="1424">
+    <spawner xPosition="432"
+             yPosition="1104"
              rectangleValue1="0"
              rectangleValue2="0"
              rectangleValue3="46"
              rectangleValue4="46"
              monsterType="MeleeMonster"
              monsterWeapon="Monstersword"
-             numberOfMonsters="1"
+             numberOfMonsters="6"
              timeSpanDays="0"
              timeSpanHours="0"
              timeSpanMinutes="0"
@@ -262,15 +859,117 @@
              healthUpModifier="1"
              damageUpModifier="1">
     </spawner>
-    <spawner xPosition="300"
-             yPosition="100"
+    <spawner xPosition="240"
+             yPosition="816"
              rectangleValue1="0"
              rectangleValue2="0"
              rectangleValue3="46"
              rectangleValue4="46"
-             monsterType="MeleeMonster"
-             monsterWeapon="Monstersword"
-             numberOfMonsters="1"
+             monsterType="SuicideBomber"
+             monsterWeapon="BomberWeapon"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="176"
+             yPosition="304"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="Flametower"
+             monsterWeapon="FlametowerWeapon"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="397"
+             yPosition="176"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="Grenadier"
+             monsterWeapon="GrenadeLauncher"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="976"
+             yPosition="176"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="RangedMonster"
+             monsterWeapon="Monsterbow"
+             numberOfMonsters="3"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="1296"
+             yPosition="176"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SnipMonster"
+             monsterWeapon="SnipWeapon"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="1261"
+             yPosition="688"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="WallHugger"
+             monsterWeapon="WallHuggerWeapon"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="912"
+             yPosition="848"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="LandmineDropper"
+             monsterWeapon="LandmineWeapon"
+             numberOfMonsters="0"
              timeSpanDays="0"
              timeSpanHours="0"
              timeSpanMinutes="0"
@@ -280,19 +979,62 @@
              damageUpModifier="1">
     </spawner>
   </scenario>
-  <scenario name="scenario6"
+
+  <!--Monsters: Melee-6
+                Suicide-0
+                Flame-1
+                Grenadier-0
+                Ranged-3
+                Snip-0
+                WallHug-0
+                Landmine-2 -->
+  <scenario name="Forest_scenario_Easy"
             difficultyScore="0.50"
             map="Forest.tmx"
-            playerX="550"
-            playerY="300">
-    <spawner xPosition="300"
-             yPosition="100"
+            playerX="176"
+            playerY="528">
+    <spawner xPosition="432"
+             yPosition="1104"
              rectangleValue1="0"
              rectangleValue2="0"
              rectangleValue3="46"
              rectangleValue4="46"
              monsterType="MeleeMonster"
              monsterWeapon="Monstersword"
+             numberOfMonsters="6"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="240"
+             yPosition="816"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SuicideBomber"
+             monsterWeapon="BomberWeapon"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="176"
+             yPosition="304"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="Flametower"
+             monsterWeapon="FlametowerWeapon"
              numberOfMonsters="1"
              timeSpanDays="0"
              timeSpanHours="0"
@@ -302,15 +1044,83 @@
              healthUpModifier="1"
              damageUpModifier="1">
     </spawner>
-    <spawner xPosition="300"
-             yPosition="100"
+    <spawner xPosition="397"
+             yPosition="176"
              rectangleValue1="0"
              rectangleValue2="0"
              rectangleValue3="46"
              rectangleValue4="46"
-             monsterType="MeleeMonster"
-             monsterWeapon="Monstersword"
-             numberOfMonsters="1"
+             monsterType="Grenadier"
+             monsterWeapon="GrenadeLauncher"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="976"
+             yPosition="176"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="RangedMonster"
+             monsterWeapon="Monsterbow"
+             numberOfMonsters="3"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="1296"
+             yPosition="176"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SnipMonster"
+             monsterWeapon="SnipWeapon"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="1261"
+             yPosition="688"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="WallHugger"
+             monsterWeapon="WallHuggerWeapon"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="912"
+             yPosition="848"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="LandmineDropper"
+             monsterWeapon="LandmineWeapon"
+             numberOfMonsters="2"
              timeSpanDays="0"
              timeSpanHours="0"
              timeSpanMinutes="0"
@@ -320,19 +1130,62 @@
              damageUpModifier="1">
     </spawner>
   </scenario>
-  <scenario name="scenario7"
+
+  <!--Monsters: Melee-8
+                Suicide-0
+                Flame-1
+                Grenadier-0
+                Ranged-5
+                Snip-1
+                WallHug-1
+                Landmine-2 -->
+  <scenario name="Forest_scenario_Medium"
             difficultyScore="0.50"
             map="Forest.tmx"
-            playerX="650"
-            playerY="300">
-    <spawner xPosition="300"
-             yPosition="100"
+            playerX="688"
+            playerY="240">
+    <spawner xPosition="432"
+             yPosition="1104"
              rectangleValue1="0"
              rectangleValue2="0"
              rectangleValue3="46"
              rectangleValue4="46"
              monsterType="MeleeMonster"
              monsterWeapon="Monstersword"
+             numberOfMonsters="8"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="240"
+             yPosition="816"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SuicideBomber"
+             monsterWeapon="BomberWeapon"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="176"
+             yPosition="304"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="Flametower"
+             monsterWeapon="FlametowerWeapon"
              numberOfMonsters="1"
              timeSpanDays="0"
              timeSpanHours="0"
@@ -342,15 +1195,83 @@
              healthUpModifier="1"
              damageUpModifier="1">
     </spawner>
-    <spawner xPosition="300"
-             yPosition="100"
+    <spawner xPosition="397"
+             yPosition="176"
              rectangleValue1="0"
              rectangleValue2="0"
              rectangleValue3="46"
              rectangleValue4="46"
-             monsterType="MeleeMonster"
-             monsterWeapon="Monstersword"
+             monsterType="Grenadier"
+             monsterWeapon="GrenadeLauncher"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="976"
+             yPosition="176"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="RangedMonster"
+             monsterWeapon="Monsterbow"
+             numberOfMonsters="5"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="1296"
+             yPosition="176"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SnipMonster"
+             monsterWeapon="SnipWeapon"
              numberOfMonsters="1"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="1261"
+             yPosition="688"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="WallHugger"
+             monsterWeapon="WallHuggerWeapon"
+             numberOfMonsters="1"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="912"
+             yPosition="848"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="LandmineDropper"
+             monsterWeapon="LandmineWeapon"
+             numberOfMonsters="2"
              timeSpanDays="0"
              timeSpanHours="0"
              timeSpanMinutes="0"
@@ -360,19 +1281,62 @@
              damageUpModifier="1">
     </spawner>
   </scenario>
-  <scenario name="scenario8"
+
+  <!--Monsters: Melee-8
+                Suicide-2
+                Flame-1
+                Grenadier-2
+                Ranged-5
+                Snip-1
+                WallHug-1
+                Landmine-2 -->
+  <scenario name="Forest_scenario_Hard"
             difficultyScore="0.50"
             map="Forest.tmx"
-            playerX="750"
-            playerY="300">
-    <spawner xPosition="300"
-             yPosition="100"
+            playerX="1424"
+            playerY="432">
+    <spawner xPosition="432"
+             yPosition="1104"
              rectangleValue1="0"
              rectangleValue2="0"
              rectangleValue3="46"
              rectangleValue4="46"
              monsterType="MeleeMonster"
              monsterWeapon="Monstersword"
+             numberOfMonsters="8"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="240"
+             yPosition="816"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SuicideBomber"
+             monsterWeapon="BomberWeapon"
+             numberOfMonsters="2"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="176"
+             yPosition="304"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="Flametower"
+             monsterWeapon="FlametowerWeapon"
              numberOfMonsters="1"
              timeSpanDays="0"
              timeSpanHours="0"
@@ -382,15 +1346,83 @@
              healthUpModifier="1"
              damageUpModifier="1">
     </spawner>
-    <spawner xPosition="300"
-             yPosition="100"
+    <spawner xPosition="397"
+             yPosition="176"
              rectangleValue1="0"
              rectangleValue2="0"
              rectangleValue3="46"
              rectangleValue4="46"
-             monsterType="MeleeMonster"
-             monsterWeapon="Monstersword"
+             monsterType="Grenadier"
+             monsterWeapon="GrenadeLauncher"
+             numberOfMonsters="2"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="976"
+             yPosition="176"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="RangedMonster"
+             monsterWeapon="Monsterbow"
+             numberOfMonsters="5"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="1296"
+             yPosition="176"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SnipMonster"
+             monsterWeapon="SnipWeapon"
              numberOfMonsters="1"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="1261"
+             yPosition="688"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="WallHugger"
+             monsterWeapon="WallHuggerWeapon"
+             numberOfMonsters="1"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="912"
+             yPosition="848"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="LandmineDropper"
+             monsterWeapon="LandmineWeapon"
+             numberOfMonsters="2"
              timeSpanDays="0"
              timeSpanHours="0"
              timeSpanMinutes="0"
@@ -400,19 +1432,62 @@
              damageUpModifier="1">
     </spawner>
   </scenario>
-  <scenario name="scenario9"
+
+  <!--Monsters: Melee-10
+                Suicide-2
+                Flame-1
+                Grenadier-3
+                Ranged-7
+                Snip-2
+                WallHug-1
+                Landmine-3 -->
+  <scenario name="Forest_scenario_VeryHard"
             difficultyScore="0.50"
             map="Forest.tmx"
-            playerX="850"
-            playerY="300">
-    <spawner xPosition="300"
-             yPosition="100"
+            playerX="720"
+            playerY="752">
+    <spawner xPosition="432"
+             yPosition="1104"
              rectangleValue1="0"
              rectangleValue2="0"
              rectangleValue3="46"
              rectangleValue4="46"
              monsterType="MeleeMonster"
              monsterWeapon="Monstersword"
+             numberOfMonsters="10"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="240"
+             yPosition="816"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SuicideBomber"
+             monsterWeapon="BomberWeapon"
+             numberOfMonsters="2"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="176"
+             yPosition="304"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="Flametower"
+             monsterWeapon="FlametowerWeapon"
              numberOfMonsters="1"
              timeSpanDays="0"
              timeSpanHours="0"
@@ -422,15 +1497,83 @@
              healthUpModifier="1"
              damageUpModifier="1">
     </spawner>
-    <spawner xPosition="300"
-             yPosition="100"
+    <spawner xPosition="397"
+             yPosition="176"
              rectangleValue1="0"
              rectangleValue2="0"
              rectangleValue3="46"
              rectangleValue4="46"
-             monsterType="MeleeMonster"
-             monsterWeapon="Monstersword"
+             monsterType="Grenadier"
+             monsterWeapon="GrenadeLauncher"
+             numberOfMonsters="3"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="976"
+             yPosition="176"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="RangedMonster"
+             monsterWeapon="Monsterbow"
+             numberOfMonsters="7"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="1296"
+             yPosition="176"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SnipMonster"
+             monsterWeapon="SnipWeapon"
+             numberOfMonsters="2"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="1261"
+             yPosition="688"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="WallHugger"
+             monsterWeapon="WallHuggerWeapon"
              numberOfMonsters="1"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="912"
+             yPosition="848"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="LandmineDropper"
+             monsterWeapon="LandmineWeapon"
+             numberOfMonsters="3"
              timeSpanDays="0"
              timeSpanHours="0"
              timeSpanMinutes="0"
@@ -440,20 +1583,29 @@
              damageUpModifier="1">
     </spawner>
   </scenario>
-  <scenario name="scenario10"
+
+  <!--Monsters: Melee-4
+                Suicide-0
+                Flame-0
+                Grenadier-0
+                Ranged-2
+                Snip-0
+                WallHug-0
+                Landmine-0 -->
+  <scenario name="Arena_scenario_VeryEasy"
             difficultyScore="0.50"
-            map="Forest.tmx"
-            playerX="950"
-            playerY="200">
-    <spawner xPosition="300"
-             yPosition="100"
+            map="Arena.tmx"
+            playerX="496"
+            playerY="496">
+    <spawner xPosition="624"
+             yPosition="1072"
              rectangleValue1="0"
              rectangleValue2="0"
              rectangleValue3="46"
              rectangleValue4="46"
              monsterType="MeleeMonster"
              monsterWeapon="Monstersword"
-             numberOfMonsters="1"
+             numberOfMonsters="4"
              timeSpanDays="0"
              timeSpanHours="0"
              timeSpanMinutes="0"
@@ -462,15 +1614,117 @@
              healthUpModifier="1"
              damageUpModifier="1">
     </spawner>
-    <spawner xPosition="300"
-             yPosition="100"
+    <spawner xPosition="848"
+             yPosition="1008"
              rectangleValue1="0"
              rectangleValue2="0"
              rectangleValue3="46"
              rectangleValue4="46"
-             monsterType="MeleeMonster"
-             monsterWeapon="Monstersword"
-             numberOfMonsters="1"
+             monsterType="SuicideBomber"
+             monsterWeapon="BomberWeapon"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="1072"
+             yPosition="1040"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="Flametower"
+             monsterWeapon="FlametowerWeapon"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="1040"
+             yPosition="816"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="Grenadier"
+             monsterWeapon="GrenadeLauncher"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="1072"
+             yPosition="624"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="RangedMonster"
+             monsterWeapon="Monsterbow"
+             numberOfMonsters="2"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="976"
+             yPosition="432"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SnipMonster"
+             monsterWeapon="SnipWeapon"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="752"
+             yPosition="336"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="WallHugger"
+             monsterWeapon="WallHuggerWeapon"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="496"
+             yPosition="304"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="LandmineDropper"
+             monsterWeapon="LandmineWeapon"
+             numberOfMonsters="0"
              timeSpanDays="0"
              timeSpanHours="0"
              timeSpanMinutes="0"
@@ -480,19 +1734,62 @@
              damageUpModifier="1">
     </spawner>
   </scenario>
-  <scenario name="scenario11"
+
+  <!--Monsters: Melee-4
+                Suicide-0
+                Flame-1
+                Grenadier-0
+                Ranged-2
+                Snip-0
+                WallHug-1
+                Landmine-0 -->
+  <scenario name="Arena_scenario_Easy"
             difficultyScore="0.50"
-            map="Forest.tmx"
-            playerX="1050"
-            playerY="200">
-    <spawner xPosition="300"
-             yPosition="100"
+            map="Arena.tmx"
+            playerX="784"
+            playerY="496">
+    <spawner xPosition="624"
+             yPosition="1072"
              rectangleValue1="0"
              rectangleValue2="0"
              rectangleValue3="46"
              rectangleValue4="46"
              monsterType="MeleeMonster"
              monsterWeapon="Monstersword"
+             numberOfMonsters="4"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="848"
+             yPosition="1008"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SuicideBomber"
+             monsterWeapon="BomberWeapon"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="1072"
+             yPosition="1040"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="Flametower"
+             monsterWeapon="FlametowerWeapon"
              numberOfMonsters="1"
              timeSpanDays="0"
              timeSpanHours="0"
@@ -502,15 +1799,536 @@
              healthUpModifier="1"
              damageUpModifier="1">
     </spawner>
-    <spawner xPosition="300"
-             yPosition="100"
+    <spawner xPosition="1040"
+             yPosition="816"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="Grenadier"
+             monsterWeapon="GrenadeLauncher"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="1072"
+             yPosition="624"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="RangedMonster"
+             monsterWeapon="Monsterbow"
+             numberOfMonsters="2"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="976"
+             yPosition="432"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SnipMonster"
+             monsterWeapon="SnipWeapon"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="752"
+             yPosition="336"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="WallHugger"
+             monsterWeapon="WallHuggerWeapon"
+             numberOfMonsters="1"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="496"
+             yPosition="304"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="LandmineDropper"
+             monsterWeapon="LandmineWeapon"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+  </scenario>
+
+  <!--Monsters: Melee-4
+                Suicide-1
+                Flame-1
+                Grenadier-2
+                Ranged-2
+                Snip-0
+                WallHug-1
+                Landmine-0 -->
+  <scenario name="Arena_scenario_Medium"
+            difficultyScore="0.50"
+            map="Arena.tmx"
+            playerX="784"
+            playerY="784">
+    <spawner xPosition="624"
+             yPosition="1072"
              rectangleValue1="0"
              rectangleValue2="0"
              rectangleValue3="46"
              rectangleValue4="46"
              monsterType="MeleeMonster"
              monsterWeapon="Monstersword"
+             numberOfMonsters="4"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="848"
+             yPosition="1008"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SuicideBomber"
+             monsterWeapon="BomberWeapon"
              numberOfMonsters="1"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="1072"
+             yPosition="1040"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="Flametower"
+             monsterWeapon="FlametowerWeapon"
+             numberOfMonsters="1"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="1040"
+             yPosition="816"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="Grenadier"
+             monsterWeapon="GrenadeLauncher"
+             numberOfMonsters="2"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="1072"
+             yPosition="624"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="RangedMonster"
+             monsterWeapon="Monsterbow"
+             numberOfMonsters="2"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="976"
+             yPosition="432"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SnipMonster"
+             monsterWeapon="SnipWeapon"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="752"
+             yPosition="336"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="WallHugger"
+             monsterWeapon="WallHuggerWeapon"
+             numberOfMonsters="1"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="496"
+             yPosition="304"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="LandmineDropper"
+             monsterWeapon="LandmineWeapon"
+             numberOfMonsters="0"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+  </scenario>
+
+  <!--Monsters: Melee-4
+                Suicide-1
+                Flame-1
+                Grenadier-2
+                Ranged-2
+                Snip-1
+                WallHug-1
+                Landmine-2 -->
+  <scenario name="Arena_scenario_Hard"
+            difficultyScore="0.50"
+            map="Arena.tmx"
+            playerX="496"
+            playerY="784">
+    <spawner xPosition="624"
+             yPosition="1072"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="MeleeMonster"
+             monsterWeapon="Monstersword"
+             numberOfMonsters="4"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="848"
+             yPosition="1008"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SuicideBomber"
+             monsterWeapon="BomberWeapon"
+             numberOfMonsters="1"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="1072"
+             yPosition="1040"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="Flametower"
+             monsterWeapon="FlametowerWeapon"
+             numberOfMonsters="1"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="1040"
+             yPosition="816"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="Grenadier"
+             monsterWeapon="GrenadeLauncher"
+             numberOfMonsters="2"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="1072"
+             yPosition="624"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="RangedMonster"
+             monsterWeapon="Monsterbow"
+             numberOfMonsters="2"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="976"
+             yPosition="432"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SnipMonster"
+             monsterWeapon="SnipWeapon"
+             numberOfMonsters="1"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="752"
+             yPosition="336"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="WallHugger"
+             monsterWeapon="WallHuggerWeapon"
+             numberOfMonsters="1"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="496"
+             yPosition="304"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="LandmineDropper"
+             monsterWeapon="LandmineWeapon"
+             numberOfMonsters="2"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+  </scenario>
+
+  <!--Monsters: Melee-6
+                Suicide-2
+                Flame-1
+                Grenadier-3
+                Ranged-4
+                Snip-2
+                WallHug-1
+                Landmine-4 -->
+  <scenario name="Arena_scenario_VeryHard"
+            difficultyScore="0.50"
+            map="Arena.tmx"
+            playerX="496"
+            playerY="784">
+    <spawner xPosition="624"
+             yPosition="1072"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="MeleeMonster"
+             monsterWeapon="Monstersword"
+             numberOfMonsters="6"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="848"
+             yPosition="1008"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SuicideBomber"
+             monsterWeapon="BomberWeapon"
+             numberOfMonsters="2"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="1072"
+             yPosition="1040"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="Flametower"
+             monsterWeapon="FlametowerWeapon"
+             numberOfMonsters="1"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="1040"
+             yPosition="816"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="Grenadier"
+             monsterWeapon="GrenadeLauncher"
+             numberOfMonsters="3"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="1072"
+             yPosition="624"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="RangedMonster"
+             monsterWeapon="Monsterbow"
+             numberOfMonsters="4"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="976"
+             yPosition="432"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="SnipMonster"
+             monsterWeapon="SnipWeapon"
+             numberOfMonsters="2"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="752"
+             yPosition="336"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="WallHugger"
+             monsterWeapon="WallHuggerWeapon"
+             numberOfMonsters="1"
+             timeSpanDays="0"
+             timeSpanHours="0"
+             timeSpanMinutes="0"
+             timeSpanSeconds="0"
+             timeSpanMilliseconds="1000"
+             healthUpModifier="1"
+             damageUpModifier="1">
+    </spawner>
+    <spawner xPosition="496"
+             yPosition="304"
+             rectangleValue1="0"
+             rectangleValue2="0"
+             rectangleValue3="46"
+             rectangleValue4="46"
+             monsterType="LandmineDropper"
+             monsterWeapon="LandmineWeapon"
+             numberOfMonsters="4"
              timeSpanDays="0"
              timeSpanHours="0"
              timeSpanMinutes="0"

@@ -91,7 +91,16 @@ namespace EntityFramework.Systems
                         ic.addWeapon(weapon, monster);
                         monster.AddComponent(ic);
 
-                        monster.GetComponent<SpatialComponent>().Position = pos;
+                        SpatialComponent monsterSpatial = monster.GetComponent<SpatialComponent>();
+                        monsterSpatial.Position = pos;
+
+                        if (spawner.MonsterType != "Flametower")
+                        {
+                            
+                            SpriteComponent monsterSprite = monster.GetComponent<SpriteComponent>();
+                            monsterSpatial.Height = (int)(monsterSprite.SrcRect.Height * monsterSprite.Scale / 1.5);
+                            monsterSpatial.Width = (int)(monsterSprite.SrcRect.Width * monsterSprite.Scale / 2.5);
+                        }
                         // }
                         //else
                         //    monster = entityFactory.CreateBasicMonster(pos, e.GetComponent<SpawnerComponent>().sprite.SpriteSheet, data);

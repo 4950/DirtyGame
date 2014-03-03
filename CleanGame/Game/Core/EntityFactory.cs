@@ -69,6 +69,7 @@ namespace CleanGame.Game.Core
             spatial.Position = new Vector2(origin.X, origin.Y);
             spatial.Width = 6;
             spatial.Height = 400;
+            spatial.ShouldRotate = true;
             spatial.DefaultRotationCons = 1f;
             spatial.ConstantRotation = 1f;
 
@@ -78,10 +79,10 @@ namespace CleanGame.Game.Core
             else
                 sc.setSprite(sprite, resourceMgr);
             sc.Angle = (float)Math.Atan2(direction.X, -direction.Y);
-            // sc.AnchorPoint = new Vector2(1f, 0);
+           
             sc.origin = new Vector2(.5f, 0);
             sc.Scale = range;
-            //sc.AnchorPoint = new Vector2(0, .25f);
+            
 
             PhysicsComponent pc = new PhysicsComponent();
             pc.Origin = new Vector2(0, 0);
@@ -146,62 +147,80 @@ namespace CleanGame.Game.Core
             direction.Heading = owner.GetComponent<DirectionComponent>().Heading;
 
             PhysicsComponent pc = new PhysicsComponent();
-            
+
+            MeleeComponent mc = new MeleeComponent();
+            mc.Weapon = weapon;
+            mc.Owner = owner;
 
             SpatialComponent spatial = new SpatialComponent();
-            float xOffset = 0.0f;
-            float yOffset = 0.0f;
+            spatial.ShouldRotate = true;
             switch (direction.Heading)
             {
                 case "Up":
-                    xOffset = 0.0f;
-                    yOffset = 10.0f;
+                    
                     spatial.Height = 20;
                     spatial.Width = 40;
                     if (owner.HasComponent<PlayerComponent>())
                     {
+                        
+                        spatial.Height = 20;
+                        spatial.Width = 60;
+                        mc.TimePresent = .3f;
                         pc.Origin = new Vector2(0, 0);
-                        spatial.ConstantRotation = 11f;
+                        spatial.ConstantRotation = 16f;
+                        spatial.Rotation = .75f;
                     }
                     break;
 
                 case "Down":
-                    xOffset = 0.0f;
-                    yOffset = 25.0f;
+                    
                     spatial.Height = 20;
                     spatial.Width = 40;
                     if (owner.HasComponent<PlayerComponent>())
                     {
-                        pc.Origin = new Vector2(0,0);
-                        spatial.ConstantRotation = -11f;
+
+                        spatial.Height = 25;
+                        spatial.Width = 60;
+                        mc.TimePresent = .3f;
+                        pc.Origin = new Vector2(0, 0);
+                        spatial.ConstantRotation = -9.5f;
+                        spatial.Rotation = 2.8f;
                     }
+                   
                     break;
 
                 case "Right":
-                    xOffset = 0.0f;
-                    yOffset = 15.0f;
-                    spatial.Height = 60;
-                    spatial.Width = 20;
-                    if (owner.HasComponent<PlayerComponent>())
-                    {
-                        pc.Origin = new Vector2(0,0);
-                        spatial.ConstantRotation = -2f;
-                    }
-                    break;
-
-                case "Left":
-                    xOffset = -15.0f;
-                    yOffset = 20.0f;
+                    
                     spatial.Height = 40;
                     spatial.Width = 20;
                     if (owner.HasComponent<PlayerComponent>())
                     {
+                        spatial.Height = 70;
+                        spatial.Width = 20;
+                        mc.TimePresent = .2f;
+                        pc.Origin = new Vector2(0,0);
+                        spatial.ConstantRotation = -4.8f;
+                        spatial.Rotation = -.1f;
+                    }
+                    break;
+
+                case "Left":
+                    
+                    spatial.Height = 40;
+                    spatial.Width = 20;
+                    if (owner.HasComponent<PlayerComponent>())
+                    {
+                        
+                        spatial.Height = 70;
+                        spatial.Width = 20;
+                        mc.TimePresent = .2f;
                         pc.Origin = new Vector2(0, 0);
-                        spatial.ConstantRotation = 6f;
+                        spatial.ConstantRotation = 8f;
+                        spatial.Rotation = .1f;
                     }
                     break;
             }
-            spatial.Position = new Vector2(ownerLocation.X + xOffset, ownerLocation.Y + yOffset);
+            spatial.Position = new Vector2(ownerLocation.X, ownerLocation.Y);
 
             AnimationComponent animation = new AnimationComponent();
             animation.CurrentAnimation = "Attack" + direction.Heading;
@@ -211,17 +230,13 @@ namespace CleanGame.Game.Core
             sprite.setSpritesheet(wc.ProjectileSprite, wc.SpriteXml, resourceMgr);
             //sprite.SpriteSheet = wc.MeleeSheet;
 
-            MeleeComponent mc = new MeleeComponent();
-            mc.Weapon = weapon;
-            mc.Owner = owner;
-
             
-
             //Adding the components to the melee entity
             meleeEntity.AddComponent(spatial);
             meleeEntity.AddComponent(direction);
             meleeEntity.AddComponent(animation);
             meleeEntity.AddComponent(sprite);
+            meleeEntity.AddComponent(new TimeComponent());
             meleeEntity.AddComponent(mc);
             meleeEntity.AddComponent(new MovementComponent());
             meleeEntity.AddComponent(pc);
@@ -238,6 +253,7 @@ namespace CleanGame.Game.Core
             SpriteComponent sprite = new SpriteComponent();
             sprite.RenderLayer = RenderLayer.BACKGROUND;
             sprite.AnchorPoint = new Vector2(.25f, .25f);
+            
 
             //stats component
             StatsComponent s = new StatsComponent();
@@ -254,7 +270,8 @@ namespace CleanGame.Game.Core
             sprite.setSpritesheet("playerSheet", "Content\\PlayerAnimation.xml", resourceMgr);
             //sprite.SpriteSheet = spriteSheet;// new SpriteSheet(resourceMgr.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
             //sprite.SrcRect = sprite.SpriteSheet.Animation["Idle" + direction.Heading][0];
-
+            spatial.Height = (int)(sprite.SrcRect.Height * sprite.Scale / 1.5);
+            spatial.Width = (int)(sprite.SrcRect.Width * sprite.Scale / 2.5);
             //sprite.SpriteSheet = new SpriteSheet(resourceMgr.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
             //Creating an Animation component
             AnimationComponent animation = new AnimationComponent();
@@ -279,8 +296,7 @@ namespace CleanGame.Game.Core
             //   e.AddComponent(animation);
             e.AddComponent(direction);
             e.AddComponent(new MovementComponent());
-            e.GetComponent<SpatialComponent>().Height = 20;
-            e.GetComponent<SpatialComponent>().Width = 20;
+            
             return e;
         }
         public Entity CreateAOEField(Entity owner, Vector2 origin, Vector2 size, String spritesheet, string xmlName, int ticks, float tickInterval, float ConstantRotation, Entity Weapon)
@@ -293,6 +309,11 @@ namespace CleanGame.Game.Core
             spatial.Position = origin + spatial.Size / 2;
 
             spatial.ConstantRotation = ConstantRotation;
+
+            if (spatial.ConstantRotation > 0)
+            {
+                spatial.ShouldRotate = true;
+            }
 
             AnimationComponent animation = new AnimationComponent();
             animation.CurrentAnimation = "Idle";
@@ -477,8 +498,8 @@ namespace CleanGame.Game.Core
             monster.AddComponent(direction);
             //     monster.AddComponent(new AnimationComponent());
             monster.AddComponent(new SeparationComponent());
-            monster.GetComponent<SpatialComponent>().Height = (int)(monsterSprite.SrcRect.Height * monsterSprite.Scale / 2);
-            monster.GetComponent<SpatialComponent>().Width = (int)(monsterSprite.SrcRect.Width * monsterSprite.Scale / 2);
+            spatial.Height = (int)(monsterSprite.SrcRect.Height * monsterSprite.Scale / 1.5);
+            spatial.Width = (int)(monsterSprite.SrcRect.Width * monsterSprite.Scale / 2.5);
 
             return monster;		
 		}

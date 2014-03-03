@@ -73,6 +73,12 @@ namespace CleanGame.Game.Core.Systems
                         }
 
 						spatial.Position = ConvertUnits.ToDisplayUnits(bodyDictionary[e.Id].Position) - spatial.Size * pc.Origin;
+
+                        if (spatial.ShouldRotate == false)
+                        {
+                            bodyDictionary[e.Id].Rotation = spatial.Rotation;
+                        }
+
 						if (spatial.ConstantRotation != 0 && !e.HasComponent<LaserComponent>())
 						{
 							spatial.Rotation += spatial.ConstantRotation * dt;
@@ -185,9 +191,22 @@ namespace CleanGame.Game.Core.Systems
 					{
 
 						MovementComponent movement = e.GetComponent<MovementComponent>();
+              
                         if (bodyDictionary[e.Id].IsStatic == false)
                         {
                             bodyDictionary[e.Id].LinearVelocity = movement.Velocity;
+                            if (e.HasComponent<MeleeComponent>())
+                            {
+                                Entity owner = e.GetComponent<MeleeComponent>().Owner;
+
+                                if (bodyDictionary.ContainsKey(owner.Id))
+                                {
+
+                                    bodyDictionary[e.Id].Position = bodyDictionary[owner.Id].Position;
+                                }
+                                
+
+                            }
                         }
 
 					}
@@ -202,7 +221,7 @@ namespace CleanGame.Game.Core.Systems
 
 	public override void OnEntityAdded(Entity e)
 			{
-
+                
 				Body Body = new Body(physicsWorld);
 
 				if (e.HasComponent<PlayerComponent>())

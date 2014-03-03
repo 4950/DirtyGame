@@ -157,6 +157,7 @@ namespace CleanGame
             world.AddSystem(new MovementSystem(aiSystem));
             world.AddSystem(new AOESystem(this));
             world.AddSystem(new SeparationSystem());
+            world.AddSystem(new MeleeSystem(this));
             world.AddSystem(new PropertySystem());
         }
         private void InitUI()

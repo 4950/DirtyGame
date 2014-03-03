@@ -14,6 +14,9 @@ namespace CleanGame.Game.Core.Systems.Util
         public static SystemParams SpriteRenderSystem =
             new SystemParams(Aspect.CreateAspectFor(new List<Type> {typeof (SpriteComponent), typeof (SpatialComponent)}), 1000);
 
+        public static SystemParams MeleeSystem =
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MeleeComponent) , typeof(TimeComponent)}), 1);
+
         public static SystemParams PhysicsSystem =
             new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(PhysicsComponent) }), 1);
 
