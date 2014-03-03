@@ -454,6 +454,7 @@ namespace CleanGame.Game.Core.Systems
         }
         public void StartPreRound()
         {
+            resetRound();
             //next game round
             //AdvanceLevel();
             game.ClearField = true;
