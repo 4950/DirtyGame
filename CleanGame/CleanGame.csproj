@@ -153,6 +153,7 @@
     <Compile Include="Game\Core\Systems\Render\CameraUpdateSystem.cs" />
     <Compile Include="Game\Core\Systems\Render\SpriteRenderSystem.cs" />
     <Compile Include="Game\Core\Systems\Spawners\SpawnerSystem.cs" />
+    <Compile Include="Game\Core\Systems\TutorialSystem.cs" />
     <Compile Include="Game\Core\Systems\Util\SystemDescriptions.cs" />
     <Compile Include="Game\Core\Systems\Util\SystemParams.cs" />
     <Compile Include="Game\Core\Systems\WeaponSystem.cs" />

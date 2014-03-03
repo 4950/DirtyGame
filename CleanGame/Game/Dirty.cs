@@ -311,7 +311,13 @@ namespace CleanGame
             graphics.ApplyChanges();
 
             IsMouseVisible = true;
-            
+            Window.Title = "Tower Offense";
+        }
+        public void StartTutorial()
+        {
+            world.AddSystem(new TutorialSystem(this));
+            StartSession("Cave.tmx");
+            gLogicSystem.SetupTutorial();
         }
         public void StartSession(string mapname)
         {
@@ -332,6 +338,10 @@ namespace CleanGame
             SoundSystem.Instance.Loop = false;
             SoundSystem.Instance.RemoveBackgroundMusic("DST-ChordLesson01.mp3");
             SoundSystem.Instance.PlayRand();
+
+            CleanGame.Game.Core.Events.Event startGame = new CleanGame.Game.Core.Events.Event();
+            startGame.name = "GameStateGame";
+            EventManager.Instance.TriggerEvent(startGame);
         }
         public void LoadScenario(string mapName)
         {

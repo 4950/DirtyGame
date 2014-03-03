@@ -40,22 +40,29 @@ namespace CleanGame.Game.Core.GameStates
                 p.SizeMode = SizeMode.Fill;
                 menu.Content = p;
 
+                CoreUI.Elements.Button b1 = new CoreUI.Elements.Button();
+                b1.Position = new System.Drawing.Point(10, 10);
+                b1.Size = new System.Drawing.Point(280, 50);
+                b1.Text = "New Game";
+                b1.Click += startGame;
+                p.AddElement(b1);
+
                 CoreUI.Elements.Button b2 = new CoreUI.Elements.Button();
-                b2.Position = new System.Drawing.Point(10, 10);
+                b2.Position = new System.Drawing.Point(10, 70);
                 b2.Size = new System.Drawing.Point(280, 50);
-                b2.Text = "New Game";
-                b2.Click += startGame;
+                b2.Text = "Tutorial";
+                b2.Click += startTutorial;
                 p.AddElement(b2);
 
                 CoreUI.Elements.Button b3 = new CoreUI.Elements.Button();
-                b3.Position = new System.Drawing.Point(10, 70);
+                b3.Position = new System.Drawing.Point(10, 190);
                 b3.Size = new System.Drawing.Point(280, 50);
                 b3.Text = "Options";
                 b3.Click += options;
                 p.AddElement(b3);
 
                 CoreUI.Elements.Button b4 = new CoreUI.Elements.Button();
-                b4.Position = new System.Drawing.Point(10, 190);
+                b4.Position = new System.Drawing.Point(10, 250);
                 b4.Size = new System.Drawing.Point(280, 50);
                 b4.Text = "Exit";
                 b4.Click += endGame;
@@ -189,10 +196,10 @@ namespace CleanGame.Game.Core.GameStates
         {
             int index = (int)((Panel)sender).Tag;
             game.StartSession(maps[index] + ".tmx");
-
-            Events.Event startGame = new Events.Event();
-            startGame.name = "GameStateGame";
-            EventManager.Instance.TriggerEvent(startGame);
+        }
+        void startTutorial(object sender)
+        {
+            game.StartTutorial();
         }
         void back(object sender)
         {
