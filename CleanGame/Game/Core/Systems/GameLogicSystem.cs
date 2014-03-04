@@ -245,8 +245,6 @@ namespace CleanGame.Game.Core.Systems
                 //Monster Spawner Location
                 int xPosition;
                 int yPosition;
-                //? ? ? ? ?
-                Rectangle spawnerRectangle;
                 //Monster Type
                 string monsterType;
                 //Monster Weapon
@@ -284,22 +282,14 @@ namespace CleanGame.Game.Core.Systems
 
                     xPosition = Convert.ToInt32(scenarioReader.GetAttribute("xPosition"));
                     yPosition = Convert.ToInt32(scenarioReader.GetAttribute("yPosition"));
-                    spawnerRectangle = new Rectangle(Convert.ToInt32(scenarioReader.GetAttribute("rectangleValue1")),
-                                                     Convert.ToInt32(scenarioReader.GetAttribute("rectangleValue2")),
-                                                     Convert.ToInt32(scenarioReader.GetAttribute("rectangleValue3")),
-                                                     Convert.ToInt32(scenarioReader.GetAttribute("rectangleValue4")));
                     monsterType = scenarioReader.GetAttribute("monsterType");
                     monsterWeapon = scenarioReader.GetAttribute("monsterWeapon");
                     numberOfMonsters = Convert.ToInt32(scenarioReader.GetAttribute("numberOfMonsters"));
-                    timePerSpawn = new TimeSpan(Convert.ToInt32(scenarioReader.GetAttribute("timeSpanDays")),
-                                                Convert.ToInt32(scenarioReader.GetAttribute("timeSpanHours")),
-                                                Convert.ToInt32(scenarioReader.GetAttribute("timeSpanMinutes")),
-                                                Convert.ToInt32(scenarioReader.GetAttribute("timeSpanSeconds")),
-                                                Convert.ToInt32(scenarioReader.GetAttribute("timeSpanMilliseconds")));
+                    timePerSpawn = new TimeSpan(0, 0, 0, 0, Convert.ToInt32(scenarioReader.GetAttribute("timeSpanMilliseconds")));
                     healthUpModifier = Convert.ToInt32(scenarioReader.GetAttribute("healthUpModifier"));
                     damageUpModifier = Convert.ToInt32(scenarioReader.GetAttribute("damageUpModifier"));
 
-                    spawners.Add(new Spawner(xPosition, yPosition, spawnerRectangle, monsterType, monsterWeapon,
+                    spawners.Add(new Spawner(xPosition, yPosition, monsterType, monsterWeapon,
                                              numberOfMonsters, timePerSpawn, healthUpModifier, damageUpModifier));
                 } while (scenarioReader.ReadToNextSibling("spawner"));
 
