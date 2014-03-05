@@ -200,15 +200,15 @@ namespace CleanGame
             e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("Doomsbow"));
             e.Refresh();
             player.GetComponent<InventoryComponent>().addWeapon(e, player);
-            e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("Spear"));
-            e.Refresh();
-            player.GetComponent<InventoryComponent>().addWeapon(e, player);
-            e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("Scattershot"));
-            e.Refresh();
-            player.GetComponent<InventoryComponent>().addWeapon(e, player);
-            e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("Sniper"));
-            e.Refresh();
-            player.GetComponent<InventoryComponent>().addWeapon(e, player);
+            //e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("Spear"));
+            //e.Refresh();
+            //player.GetComponent<InventoryComponent>().addWeapon(e, player);
+            //e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("Scattershot"));
+            //e.Refresh();
+            //player.GetComponent<InventoryComponent>().addWeapon(e, player);
+            //e = entityFactory.CloneEntity(world.EntityMgr.GetEntityByName("Sniper"));
+            //e.Refresh();
+            //player.GetComponent<InventoryComponent>().addWeapon(e, player);
         }
         private void InitSound()
         {
