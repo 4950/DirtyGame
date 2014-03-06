@@ -15,6 +15,7 @@ namespace GameEventTester
     class Program
     {
         static String Cookies = "";
+        static bool LoggedIn = false;
 
         [DllImport("wininet.dll", CharSet = CharSet.Auto, SetLastError = true)]
         static extern bool InternetGetCookieEx(string pchURL, string pchCookieName, StringBuilder pchCookieData, ref uint pcchCookieData, int dwFlags, IntPtr lpReserved);
@@ -37,7 +38,7 @@ namespace GameEventTester
         [STAThread]
         static void Main(string[] args)
         {
-            
+
             //while(true)
             //{
             //    Thread.Sleep(50);
@@ -51,11 +52,11 @@ namespace GameEventTester
             //        }
             //    }
             //}
-            Thread th = new Thread(new ThreadStart(MainLoop));
-            th.Start();
-            ShowBrowser();
+            //Thread th = new Thread(new ThreadStart(MainLoop));
+            //th.Start();
+            //ShowBrowser();
+            MainLoop();
 
-            
         }
         static void MainLoop()
         {
@@ -64,6 +65,14 @@ namespace GameEventTester
             //Uri uri = new Uri("https://toweroffense.azurewebsites.net/odata");
             GameEventService.Container container = new GameEventService.Container(uri);
 
+            container.ReceivingResponse += (s, e) =>
+            {
+                HttpWebResponse wr = ((HttpWebResponseMessage)e.ResponseMessage).Response;
+                if(!wr.ContentType.Contains("application/atom+xml"))
+                {
+                    LoggedIn = false;
+                }
+            };
             container.SendingRequest2 += (s, e) =>
             {
                 HttpWebRequest wr = ((HttpWebRequestMessage)e.RequestMessage).HttpWebRequest;
@@ -73,7 +82,6 @@ namespace GameEventTester
             };
 
             bool done = false;
-            bool loggedIn = false;
             char[] delims = { ' ', ':' };
             String line;
             while (!done)
@@ -81,35 +89,49 @@ namespace GameEventTester
                 line = Console.ReadLine();
                 string[] lARgs = line.Split(delims);
 
-                switch (lARgs[0].ToLower())
+                if(!LoggedIn)
                 {
-                    case "quit":
-                    case "exit":
-                        done = true;
-                        break;
-                    case "login":
-                        if (System.Web.Security.Membership.ValidateUser(lARgs[1], lARgs[2]))
-                        {
-                            loggedIn = true;
-                            Console.WriteLine("Login successful");
-                        }
-                        else
-                        {
-                            loggedIn = false;
-                            Console.WriteLine("Login failed");
-                        }
-                        break;
-                    case "listall":
-                        ListAllEvents(container);
-                        break;
-                    case "add":
-                        GameEventService.GameEventModel ge = new GameEventService.GameEventModel();
-                        ge.SessionId = int.Parse(lARgs[1]);
-                        ge.Timestamp = DateTime.Now;
-                        ge.Type = lARgs[2];
-                        ge.Data = lARgs[3];
-                        AddEvent(container, ge);
-                        break;
+                    ShowBrowser();
+                }
+                try
+                {
+                    switch (lARgs[0].ToLower())
+                    {
+                        case "quit":
+                        case "exit":
+                            done = true;
+                            break;
+                        case "login":
+                            if (System.Web.Security.Membership.ValidateUser(lARgs[1], lARgs[2]))
+                            {
+                                LoggedIn = true;
+                                Console.WriteLine("Login successful");
+                            }
+                            else
+                            {
+                                LoggedIn = false;
+                                Console.WriteLine("Login failed");
+                            }
+                            break;
+                        case "listall":
+                            ListAllEvents(container);
+                            break;
+                        case "add":
+                            GameEventService.GameEventModel ge = new GameEventService.GameEventModel();
+                            ge.SessionId = int.Parse(lARgs[1]);
+                            ge.Timestamp = DateTime.Now;
+                            ge.Type = lARgs[2];
+                            ge.Data = lARgs[3];
+                            AddEvent(container, ge);
+                            break;
+                        case "clearcookie":
+                            Cookies = "";
+                            break;
+                    }
+                }
+                catch(Exception)
+                {
+                    Console.WriteLine("Command Failed");
                 }
             }
         }
@@ -131,6 +153,12 @@ namespace GameEventTester
         {
             WebBrowser b = sender as WebBrowser;
             Cookies = GetGlobalCookies(b.Document.Url.AbsoluteUri);
+            if(Cookies.Contains(".AspNet.ApplicationCookie"))
+            {
+                LoggedIn = true;
+                Form f = b.Parent as Form;
+                f.Hide();
+            }
         }
         static void DisplayEvent(GameEventService.GameEventModel ge)
         {
