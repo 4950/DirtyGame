@@ -34,7 +34,14 @@ namespace TowerSite.Controllers
         [Queryable]
         public IQueryable<GameEventModel> GetGameEvent()
         {
-            return db.GameEventModels;
+            String UserID = User.Identity.GetUserId();
+            int? sessionID = null;
+            IQueryable<GameSession> q = db.GameSessions.Where(gs => gs.UserID == UserID).OrderByDescending(gs => gs.SessionID);
+            if (q.Count() > 0)
+                sessionID = q.First().SessionID;
+            if (sessionID != null)
+                return db.GameEventModels.Where(ge => ge.SessionId == sessionID);
+            return null;
         }
 
         // GET odata/GameEvent(5)

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarseerPhysicsMonoGame", "F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanGame", "CleanGame\CleanGame.csproj", "{E21B3337-9138-4CD9-BD9D-8482B9FDBB63}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameService", "GameService\GameService.csproj", "{14F828BD-BEB0-4415-8E2F-A680E0E0DB66}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		64 bit|Any CPU = 64 bit|Any CPU
@@ -69,7 +71,8 @@ Global
 		{43EDC16E-8B0E-4F58-AD04-A71A1C492161}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{43EDC16E-8B0E-4F58-AD04-A71A1C492161}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{43EDC16E-8B0E-4F58-AD04-A71A1C492161}.Release|x64.ActiveCfg = Release|Any CPU
-		{43EDC16E-8B0E-4F58-AD04-A71A1C492161}.Release|x86.ActiveCfg = Release|Any CPU
+		{43EDC16E-8B0E-4F58-AD04-A71A1C492161}.Release|x86.ActiveCfg = Release|x86
+		{43EDC16E-8B0E-4F58-AD04-A71A1C492161}.Release|x86.Build.0 = Release|x86
 		{16FF8368-DD70-4C57-BB08-2C9A236C6013}.64 bit|Any CPU.ActiveCfg = Debug|Any CPU
 		{16FF8368-DD70-4C57-BB08-2C9A236C6013}.64 bit|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{16FF8368-DD70-4C57-BB08-2C9A236C6013}.64 bit|x64.ActiveCfg = Debug|Any CPU
@@ -118,6 +121,24 @@ Global
 		{E21B3337-9138-4CD9-BD9D-8482B9FDBB63}.Release|x64.ActiveCfg = Release|x86
 		{E21B3337-9138-4CD9-BD9D-8482B9FDBB63}.Release|x86.ActiveCfg = Release|x86
 		{E21B3337-9138-4CD9-BD9D-8482B9FDBB63}.Release|x86.Build.0 = Release|x86
+		{14F828BD-BEB0-4415-8E2F-A680E0E0DB66}.64 bit|Any CPU.ActiveCfg = Release|x86
+		{14F828BD-BEB0-4415-8E2F-A680E0E0DB66}.64 bit|Mixed Platforms.ActiveCfg = Release|x86
+		{14F828BD-BEB0-4415-8E2F-A680E0E0DB66}.64 bit|Mixed Platforms.Build.0 = Release|x86
+		{14F828BD-BEB0-4415-8E2F-A680E0E0DB66}.64 bit|x64.ActiveCfg = Release|x86
+		{14F828BD-BEB0-4415-8E2F-A680E0E0DB66}.64 bit|x86.ActiveCfg = Release|x86
+		{14F828BD-BEB0-4415-8E2F-A680E0E0DB66}.64 bit|x86.Build.0 = Release|x86
+		{14F828BD-BEB0-4415-8E2F-A680E0E0DB66}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{14F828BD-BEB0-4415-8E2F-A680E0E0DB66}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{14F828BD-BEB0-4415-8E2F-A680E0E0DB66}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{14F828BD-BEB0-4415-8E2F-A680E0E0DB66}.Debug|x64.ActiveCfg = Debug|x86
+		{14F828BD-BEB0-4415-8E2F-A680E0E0DB66}.Debug|x86.ActiveCfg = Debug|x86
+		{14F828BD-BEB0-4415-8E2F-A680E0E0DB66}.Debug|x86.Build.0 = Debug|x86
+		{14F828BD-BEB0-4415-8E2F-A680E0E0DB66}.Release|Any CPU.ActiveCfg = Release|x86
+		{14F828BD-BEB0-4415-8E2F-A680E0E0DB66}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{14F828BD-BEB0-4415-8E2F-A680E0E0DB66}.Release|Mixed Platforms.Build.0 = Release|x86
+		{14F828BD-BEB0-4415-8E2F-A680E0E0DB66}.Release|x64.ActiveCfg = Release|x86
+		{14F828BD-BEB0-4415-8E2F-A680E0E0DB66}.Release|x86.ActiveCfg = Release|x86
+		{14F828BD-BEB0-4415-8E2F-A680E0E0DB66}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

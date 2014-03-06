@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CleanGame</RootNamespace>
     <AssemblyName>CleanGame</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
     <XnaProfile>HiDef</XnaProfile>
@@ -175,7 +176,7 @@
     <Compile Include="Game\SGraphics\RenderLayer.cs" />
     <Compile Include="Game\SGraphics\SortKey.cs" />
     <Compile Include="Game\SGraphics\SpriteSheet.cs" />
-    <Compile Include="Game\Util\GameplayDataCaptureSystem.cs" />
+    <None Include="Game\Util\GameplayDataCaptureSystem.cs" />
     <Compile Include="Game\Util\Logger.cs" />
     <Compile Include="Game\Util\Settings.cs" />
     <Compile Include="Game\Util\Singleton.cs" />
@@ -278,6 +279,10 @@
       <Project>{16FF8368-DD70-4C57-BB08-2C9A236C6013}</Project>
       <Name>GameContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
+    </ProjectReference>
+    <ProjectReference Include="..\GameService\GameService.csproj">
+      <Project>{14f828bd-beb0-4415-8e2f-a680e0e0db66}</Project>
+      <Name>GameService</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

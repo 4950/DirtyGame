@@ -11,6 +11,7 @@ using CleanGame.Game.Core.Systems.Util;
 using CleanGame.Game.Core;
 using CleanGame;
 using CleanGame.Game.Util;
+using GameService;
 
 namespace EntityFramework.Systems
 {

@@ -88,7 +88,7 @@ namespace TowerSite.Controllers
                 return BadRequest(ModelState);
             }
             gamesession.UserID = User.Identity.GetUserId();
-            IQueryable<GameSession> q = db.GameSessions.Where(gs => gs.UserID == gamesession.UserID).OrderByDescending(gs => gs.SessionID);
+            IQueryable<GameSession> q = db.GameSessions.OrderByDescending(gs => gs.SessionID);
             if (q.Count() > 0)
                 gamesession.SessionID = q.First().SessionID + 1;
             else

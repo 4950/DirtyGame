@@ -18,6 +18,7 @@ using System.Xml;
 using CleanGame.Game.Core.GameStates;
 using CoreUI;
 using Microsoft.Xna.Framework.Graphics;
+using GameService;
 
 
 namespace CleanGame.Game.Core.Systems
