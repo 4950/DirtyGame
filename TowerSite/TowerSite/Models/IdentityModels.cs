@@ -13,5 +13,7 @@ namespace TowerSite.Models
             : base("DefaultConnection")
         {
         }
+
+        public System.Data.Entity.DbSet<TowerSite.Models.GameEventModel> GameEventModels { get; set; }
     }
 }

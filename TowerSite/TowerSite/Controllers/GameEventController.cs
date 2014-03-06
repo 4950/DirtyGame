@@ -26,7 +26,7 @@ namespace TowerSite.Controllers
     */
     public class GameEventController : ODataController
     {
-        private TowerSiteContext db = new TowerSiteContext();
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET odata/GameEvent
         [Queryable]

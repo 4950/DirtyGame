@@ -3,20 +3,72 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Threading;
+using System.Web.ClientServices;
+using System.Net;
+using System.Data.Services.Client;
+using System.Runtime.InteropServices;
 
 namespace GameEventTester
 {
     class Program
     {
+        static String Cookies = "";
 
+        [DllImport("wininet.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        static extern bool InternetGetCookieEx(string pchURL, string pchCookieName, StringBuilder pchCookieData, ref uint pcchCookieData, int dwFlags, IntPtr lpReserved);
+        const int INTERNET_COOKIE_HTTPONLY = 0x00002000;
 
+        public static string GetGlobalCookies(string uri)
+        {
+            uint datasize = 1024;
+            StringBuilder cookieData = new StringBuilder((int)datasize);
+            if (InternetGetCookieEx(uri, null, cookieData, ref datasize, INTERNET_COOKIE_HTTPONLY, IntPtr.Zero)
+                && cookieData.Length > 0)
+            {
+                return cookieData.ToString().Replace(';', ',');
+            }
+            else
+            {
+                return null;
+            }
+        }
+        [STAThread]
         static void Main(string[] args)
+        {
+            
+            //while(true)
+            //{
+            //    Thread.Sleep(50);
+            //    if(browse.Document!= null && browse.Document.Cookie != null)
+            //    {
+            //        string cookieStr = browse.Document.Cookie;
+            //        string[] cookstr = cookieStr.Split(';');
+            //        foreach (string str in cookstr)
+            //        {
+            //            Console.WriteLine(str);
+            //        }
+            //    }
+            //}
+            Thread th = new Thread(new ThreadStart(MainLoop));
+            th.Start();
+            ShowBrowser();
+
+            
+        }
+        static void MainLoop()
         {
             System.Net.ServicePointManager.ServerCertificateValidationCallback = ((sender, certificate, chain, sslPolicyErrors) => true);
             Uri uri = new Uri("https://localhost:44300/odata");
+            //Uri uri = new Uri("https://toweroffense.azurewebsites.net/odata");
             GameEventService.Container container = new GameEventService.Container(uri);
+
             container.SendingRequest2 += (s, e) =>
             {
+                HttpWebRequest wr = ((HttpWebRequestMessage)e.RequestMessage).HttpWebRequest;
+                wr.CookieContainer = new CookieContainer();
+                wr.CookieContainer.SetCookies(uri, Cookies);
                 Console.WriteLine("{0} {1}", e.RequestMessage.Method, e.RequestMessage.Url);
             };
 
@@ -60,6 +112,25 @@ namespace GameEventTester
                         break;
                 }
             }
+        }
+        [STAThread]
+        static void ShowBrowser()
+        {
+            Form loginWindow = new Form();
+
+            WebBrowser browse = new WebBrowser();
+            browse.Dock = DockStyle.Fill;
+            browse.Url = new Uri("https://localhost:44300/Account/Login");
+            browse.DocumentCompleted += browse_DocumentCompleted;
+            loginWindow.Controls.Add(browse);
+
+            loginWindow.ShowDialog();
+        }
+
+        static void browse_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            WebBrowser b = sender as WebBrowser;
+            Cookies = GetGlobalCookies(b.Document.Url.AbsoluteUri);
         }
         static void DisplayEvent(GameEventService.GameEventModel ge)
         {
