@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -169,7 +170,7 @@ namespace GameService
             return true;
         }
         /// <summary>
-        /// Wrties all pending data to server
+        /// Wrties all pending data to server. Shows a window
         /// </summary>
         /// <returns>True on success</returns>
         public bool FlushData()
@@ -179,12 +180,35 @@ namespace GameService
             if (!LoggedIn)//Failed to log in
                 return false;
 
+            Form f = new Form();
+            f.Size = new System.Drawing.Size(100, 50);
+            f.FormBorderStyle = FormBorderStyle.None;
+            f.StartPosition = FormStartPosition.CenterScreen;
+            f.TopMost = true;
+
+            Label l = new Label();
+            l.Dock = DockStyle.Fill;
+            l.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            l.Text = "Sending data...";
+            l.ForeColor = System.Drawing.Color.Red;
+            f.Controls.Add(l);
+
+            f.Show();
+            f.Activate();
+
+            Thread.Sleep(100);
+
             var serviceResponse = serviceContainer.SaveChanges();
             foreach (var operationResponse in serviceResponse)
             {
                 if (operationResponse.StatusCode != 201)
+                {
+                    f.Hide();
                     return false;
+                }
             }
+            f.Hide();
+
             return true;
         }
         /// <summary>
