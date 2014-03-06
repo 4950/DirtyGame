@@ -73,6 +73,10 @@ namespace GameService
             Form loginWindow = new Form();
             loginWindow.Size = new System.Drawing.Size(300, 850);
             loginWindow.FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            loginWindow.StartPosition = FormStartPosition.CenterScreen;
+            loginWindow.Text = "Tower Offense";
+            loginWindow.ControlBox = false;
+            loginWindow.FormClosing += loginWindow_FormClosing;
 
             Label l = new Label();
             l.Dock = DockStyle.Fill;
@@ -94,6 +98,12 @@ namespace GameService
             
 
             loginWindow.ShowDialog();
+        }
+
+        void loginWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+                e.Cancel = true;
         }
 
         void browse_Navigating(object sender, WebBrowserNavigatingEventArgs e)
