@@ -72,9 +72,9 @@ namespace CleanGame.Game.Core.Systems
             game.baseContext.RegisterHandler(Keys.K, move, idle);
 
             // weapon cycling
-            game.baseContext.RegisterHandler(Keys.T, changeWeapon, null);
-            game.baseContext.RegisterHandler(Keys.Y, changeWeapon, null);
-            game.baseContext.RegisterHandler(Keys.I, changeWeapon, null);
+            //game.baseContext.RegisterHandler(Keys.T, changeWeapon, null);
+            //game.baseContext.RegisterHandler(Keys.Y, changeWeapon, null);
+            //game.baseContext.RegisterHandler(Keys.I, changeWeapon, null);
 
             // right handed controls
             // movement
@@ -84,19 +84,19 @@ namespace CleanGame.Game.Core.Systems
             game.baseContext.RegisterHandler(Keys.D, move, idle);
 
             // weapon cycling
-            game.baseContext.RegisterHandler(Keys.Tab, changeWeapon, null);
-            game.baseContext.RegisterHandler(Keys.Q, changeWeapon, null);
-            game.baseContext.RegisterHandler(Keys.E, changeWeapon, null);
+            //game.baseContext.RegisterHandler(Keys.Tab, changeWeapon, null);
+            //game.baseContext.RegisterHandler(Keys.Q, changeWeapon, null);
+            //game.baseContext.RegisterHandler(Keys.E, changeWeapon, null);
 
             // weapon quick access
-            for (int i = 0; i <= 9; i++)
-            {
-                Keys k = (Keys)Enum.Parse(typeof(Keys), "D" + i);
-                game.baseContext.RegisterHandler(k, changeWeapon, null);
-            }
+            //for (int i = 0; i <= 9; i++)
+            //{
+            //    Keys k = (Keys)Enum.Parse(typeof(Keys), "D" + i);
+            //    game.baseContext.RegisterHandler(k, changeWeapon, null);
+            //}
 
             //Weapon fire
-            game.baseContext.RegisterHandler(Keys.Space, fire, null);
+            //game.baseContext.RegisterHandler(Keys.Space, fire, null);
 
         }
         private void fire(Keys key)
@@ -157,55 +157,55 @@ namespace CleanGame.Game.Core.Systems
                 currentDirection = previousDirection;*/
         }
 
-        private void changeWeapon(Keys key)
-        {
-            InventoryComponent ic = game.player.GetComponent<InventoryComponent>();
-            var weapons = ic.WeaponList;
+        //private void changeWeapon(Keys key)
+        //{
+        //    InventoryComponent ic = game.player.GetComponent<InventoryComponent>();
+        //    var weapons = ic.WeaponList;
 
-            if (ic.CurrentWeapon == null)
-            {
-                if (weapons.Count > 0)
-                    ic.setCurrentWeapon(weapons[0]);
-            }
+        //    if (ic.CurrentWeapon == null)
+        //    {
+        //        if (weapons.Count > 0)
+        //            ic.setCurrentWeapon(weapons[0]);
+        //    }
 
-            int i = weapons.IndexOf(ic.CurrentWeapon);
-            switch (key)
-            {
-                case Keys.T:
-                case Keys.I:
-                case Keys.E:
-                case Keys.Tab:
-                    i++;
-                    if (i >= weapons.Count)
-                        i = 0;
+        //    int i = weapons.IndexOf(ic.CurrentWeapon);
+        //    switch (key)
+        //    {
+        //        case Keys.T:
+        //        case Keys.I:
+        //        case Keys.E:
+        //        case Keys.Tab:
+        //            i++;
+        //            if (i >= weapons.Count)
+        //                i = 0;
 
-                    break;
-                case Keys.Y:
-                case Keys.Q:
-                    i--;
-                    if (i < 0)
-                        i = weapons.Count - 1;
-                    break;
-                default:
-                    if (int.TryParse(key.ToString()[1].ToString(), out i))
-                    {
-                        i--;
-                        if (i >= weapons.Count)
-                        {
-                            i = i - weapons.Count;
-                        }
+        //            break;
+        //        case Keys.Y:
+        //        case Keys.Q:
+        //            i--;
+        //            if (i < 0)
+        //                i = weapons.Count - 1;
+        //            break;
+        //        default:
+        //            if (int.TryParse(key.ToString()[1].ToString(), out i))
+        //            {
+        //                i--;
+        //                if (i >= weapons.Count)
+        //                {
+        //                    i = i - weapons.Count;
+        //                }
 
-                        if (i < 0)
-                            i = weapons.Count - 1;
+        //                if (i < 0)
+        //                    i = weapons.Count - 1;
 
-                    }
-                    break;
+        //            }
+        //            break;
 
-            }
+        //    }
 
-            ic.setCurrentWeapon(weapons[i]);
+        //    ic.setCurrentWeapon(weapons[i]);
 
-        }
+        //}
 
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
         {
@@ -343,16 +343,24 @@ namespace CleanGame.Game.Core.Systems
                 //        break;
                 //}
 
+                InventoryComponent ic = e.GetComponent<InventoryComponent>();
+                var weapons = ic.WeaponList;
 
                 //Attacking with the mouse
                 prevMS = ms;
                 ms = Mouse.GetState();
                 if (prevMS == null)
                     prevMS = ms;
-                if ((ms.RightButton == ButtonState.Pressed && prevMS.RightButton == ButtonState.Released) || (ms.LeftButton == ButtonState.Pressed && prevMS.LeftButton == ButtonState.Released))//right mouse down or left mouse
+                if (ms.RightButton == ButtonState.Pressed && prevMS.RightButton == ButtonState.Released) //right mouse down
                 {
+                    ic.setCurrentWeapon(weapons[1]);
                     fire(Keys.None);
 
+                }
+                if (ms.LeftButton == ButtonState.Pressed && prevMS.LeftButton == ButtonState.Released) //left mouse down
+                {
+                    ic.setCurrentWeapon(weapons[0]);
+                    fire(Keys.None);
                 }
             }
         }
