@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define LOCAL
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +11,12 @@ using System.Web.ClientServices;
 using System.Net;
 using System.Data.Services.Client;
 using System.Runtime.InteropServices;
+
+#if (LOCAL)
+using GameEvent = GameEventTester.GameEventServiceLocal;
+#else
+using GameEvent = GameEventTester.GameEventService;
+#endif
 
 namespace GameEventTester
 {
@@ -61,9 +69,12 @@ namespace GameEventTester
         static void MainLoop()
         {
             System.Net.ServicePointManager.ServerCertificateValidationCallback = ((sender, certificate, chain, sslPolicyErrors) => true);
+#if (LOCAL)
             Uri uri = new Uri("https://localhost:44300/odata");
-            //Uri uri = new Uri("https://toweroffense.azurewebsites.net/odata");
-            GameEventService.Container container = new GameEventService.Container(uri);
+#else
+            Uri uri = new Uri("https://toweroffense.azurewebsites.net/odata");
+#endif
+            GameEvent.Container container = new GameEvent.Container(uri);
 
             container.ReceivingResponse += (s, e) =>
             {
@@ -117,7 +128,7 @@ namespace GameEventTester
                             ListAllEvents(container);
                             break;
                         case "add":
-                            GameEventService.GameEventModel ge = new GameEventService.GameEventModel();
+                            GameEvent.GameEventModel ge = new GameEvent.GameEventModel();
                             ge.SessionId = int.Parse(lARgs[1]);
                             ge.Timestamp = DateTime.Now;
                             ge.Type = lARgs[2];
@@ -139,10 +150,16 @@ namespace GameEventTester
         static void ShowBrowser()
         {
             Form loginWindow = new Form();
+            loginWindow.Size = new System.Drawing.Size(300, 850);
+            loginWindow.FormBorderStyle = FormBorderStyle.FixedToolWindow;
 
             WebBrowser browse = new WebBrowser();
             browse.Dock = DockStyle.Fill;
+#if (LOCAL)
             browse.Url = new Uri("https://localhost:44300/Account/Login");
+#else
+            browse.Url = new Uri("https://toweroffense.azurewebsites.net/Account/Login");
+#endif
             browse.DocumentCompleted += browse_DocumentCompleted;
             loginWindow.Controls.Add(browse);
 
@@ -153,25 +170,25 @@ namespace GameEventTester
         {
             WebBrowser b = sender as WebBrowser;
             Cookies = GetGlobalCookies(b.Document.Url.AbsoluteUri);
-            if(Cookies.Contains(".AspNet.ApplicationCookie"))
+            if(Cookies != null && Cookies.Contains(".AspNet.ApplicationCookie"))
             {
                 LoggedIn = true;
                 Form f = b.Parent as Form;
                 f.Hide();
             }
         }
-        static void DisplayEvent(GameEventService.GameEventModel ge)
+        static void DisplayEvent(GameEvent.GameEventModel ge)
         {
             Console.WriteLine("{0} {1} {2} {3}", ge.SessionId, ge.Timestamp, ge.Type, ge.Data);
         }
-        static void ListAllEvents(GameEventService.Container container)
+        static void ListAllEvents(GameEvent.Container container)
         {
             foreach (var p in container.GameEvent)
             {
                 DisplayEvent(p);
             }
         }
-        static void AddEvent(GameEventService.Container container, GameEventService.GameEventModel ge)
+        static void AddEvent(GameEvent.Container container, GameEvent.GameEventModel ge)
         {
             container.AddToGameEvent(ge);
             var serviceResponse = container.SaveChanges();

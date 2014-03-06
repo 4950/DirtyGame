@@ -11,7 +11,9 @@ using System.Web.Http;
 using System.Web.Http.ModelBinding;
 using System.Web.Http.OData;
 using System.Web.Http.OData.Routing;
+using System.Web.Security;
 using TowerSite.Models;
+using Microsoft.AspNet.Identity;
 
 namespace TowerSite.Controllers
 {
@@ -83,7 +85,8 @@ namespace TowerSite.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            string i = User.Identity.GetUserId();
+            //gameeventmodel.Data = User.Identity.Name.
             db.GameEventModels.Add(gameeventmodel);
             await db.SaveChangesAsync();
 

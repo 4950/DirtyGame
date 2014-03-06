@@ -9,8 +9,8 @@
 //------------------------------------------------------------------------------
 
 // Original file name:
-// Generation date: 3/5/2014 7:12:57 PM
-namespace GameEventTester.GameEventService
+// Generation date: 3/5/2014 7:31:46 PM
+namespace GameEventTester.GameEventServiceLocal
 {
     
     /// <summary>
@@ -39,7 +39,7 @@ namespace GameEventTester.GameEventService
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         protected global::System.Type ResolveTypeFromName(string typeName)
         {
-            global::System.Type resolvedType = this.DefaultResolveType(typeName, "TowerSite.Models", "GameEventTester.GameEventService");
+            global::System.Type resolvedType = this.DefaultResolveType(typeName, "TowerSite.Models", "GameEventTester.GameEventServiceLocal");
             if ((resolvedType != null))
             {
                 return resolvedType;
@@ -54,7 +54,7 @@ namespace GameEventTester.GameEventService
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         protected string ResolveNameFromType(global::System.Type clientType)
         {
-            if (clientType.Namespace.Equals("GameEventTester.GameEventService", global::System.StringComparison.Ordinal))
+            if (clientType.Namespace.Equals("GameEventTester.GameEventServiceLocal", global::System.StringComparison.Ordinal))
             {
                 return string.Concat("TowerSite.Models.", clientType.Name);
             }
