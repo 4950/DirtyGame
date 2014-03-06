@@ -73,24 +73,43 @@ namespace GameService
             loginWindow.Size = new System.Drawing.Size(300, 850);
             loginWindow.FormBorderStyle = FormBorderStyle.FixedToolWindow;
 
+            Label l = new Label();
+            l.Dock = DockStyle.Fill;
+            l.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            l.Text = "Loading...";
+            l.Visible = false;
+            l.Cursor = Cursors.WaitCursor;
+            loginWindow.Controls.Add(l);
+
             WebBrowser browse = new WebBrowser();
             browse.Dock = DockStyle.Fill;
 
             browse.Url = BrowseUri;
 
             browse.DocumentCompleted += browse_DocumentCompleted;
+            browse.Navigating += browse_Navigating;
             loginWindow.Controls.Add(browse);
 
+            
+
             loginWindow.ShowDialog();
+        }
+
+        void browse_Navigating(object sender, WebBrowserNavigatingEventArgs e)
+        {
+            WebBrowser b = sender as WebBrowser;
+            Form f = b.Parent as Form;
+            f.Controls[0].Visible = true;
         }
         private void browse_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             WebBrowser b = sender as WebBrowser;
+            Form f = b.Parent as Form;
+            f.Controls[0].Visible = false;
             Cookies = GetGlobalCookies(b.Document.Url.AbsoluteUri);
             if (Cookies != null && Cookies.Contains(".AspNet.ApplicationCookie"))
             {
                 LoggedIn = true;
-                Form f = b.Parent as Form;
                 f.Hide();
             }
         }
