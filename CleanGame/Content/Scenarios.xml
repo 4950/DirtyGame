@@ -956,7 +956,7 @@
                 Snip-0
                 WallHug-0
                 Landmine-0 -->
-  <scenario name="Arena_scenario_VeryEasy"
+  <scenario name="Arena_scenario_VeryEasy_1"
             difficultyScore="0.50"
             map="Arena.tmx"
             playerX="496"
@@ -1043,7 +1043,7 @@
                 Snip-0
                 WallHug-1
                 Landmine-0 -->
-  <scenario name="Arena_scenario_Easy"
+  <scenario name="Arena_scenario_Easy_2"
             difficultyScore="0.50"
             map="Arena.tmx"
             playerX="784"
@@ -1130,7 +1130,7 @@
                 Snip-0
                 WallHug-1
                 Landmine-0 -->
-  <scenario name="Arena_scenario_Medium"
+  <scenario name="Arena_scenario_Medium_3"
             difficultyScore="0.50"
             map="Arena.tmx"
             playerX="784"
@@ -1217,7 +1217,7 @@
                 Snip-1
                 WallHug-1
                 Landmine-2 -->
-  <scenario name="Arena_scenario_Hard"
+  <scenario name="Arena_scenario_Hard_4"
             difficultyScore="0.50"
             map="Arena.tmx"
             playerX="496"
@@ -1304,7 +1304,7 @@
                 Snip-2
                 WallHug-1
                 Landmine-4 -->
-  <scenario name="Arena_scenario_VeryHard"
+  <scenario name="Arena_scenario_VeryHard_5"
             difficultyScore="0.50"
             map="Arena.tmx"
             playerX="496"

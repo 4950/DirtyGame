@@ -45,6 +45,8 @@ namespace CleanGame.Game.Core.Systems
         private int PlayerHits;
         private float playerHitTime;
         private bool tutorialMode;
+        public bool ScenarioChanged = false;
+        public string CurrentScenario;
         private List<Label> textFloaters = new List<Label>();
 
         private List<Entity> spawners = new List<Entity>();
@@ -480,7 +482,11 @@ namespace CleanGame.Game.Core.Systems
                     //Setting the movePlayer flag in the physics component of the player
                     game.player.GetComponent<PhysicsComponent>().movePlayer = true;
                     //TODO need to have the map name here
-                    setupScenario(randomScenario(game.mapName));
+                    
+                    Scenario temp = randomScenario(game.mapName);
+                    CurrentScenario = temp.Name;
+                    ScenarioChanged = true;
+                    setupScenario(temp);
                     game.player.Refresh();
                     //}
                     //else

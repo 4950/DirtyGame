@@ -32,7 +32,7 @@ namespace CleanGame.Game.Core.GameStates
         private Label weaponDamage;
         private ProgressBar weaponAmmo;
         private Label weaponAmmoLabel;
-
+        private Label curScenario;
         private EntityRef curWeapon;
 
         public GamePlay()
@@ -65,6 +65,7 @@ namespace CleanGame.Game.Core.GameStates
 
             //curWeapon = game.player.GetComponent<InventoryComponent>().CurrentWeapon;
             this.game = game;
+            
             if (monsterHUD == null)
             {
                 monsterHUD = new Panel();
@@ -162,6 +163,13 @@ namespace CleanGame.Game.Core.GameStates
                 weaponAmmoLabel.TextPosition = TextPosition.Center;
                 windowCont.AddElement(weaponAmmoLabel);
 
+                curScenario = new Label();
+                curScenario.Size = new System.Drawing.Point(100, 20);
+                curScenario.Position = new System.Drawing.Point(42, 70);
+                curScenario.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.White);
+                curScenario.TextPosition = TextPosition.Left;
+                windowCont.AddElement(curScenario);
+
             }
             if (monsterHUD.Parent == null)
                 game.UIEngine.Children.AddElement(monsterHUD);
@@ -213,6 +221,15 @@ namespace CleanGame.Game.Core.GameStates
 
             if (game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").IsModified)
                 scoreLbl.Text = "Score: " + game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value;
+
+            if (game.gLogicSystem.ScenarioChanged)
+            {
+              string[] parse =  game.gLogicSystem.CurrentScenario.Split('_');
+
+              curScenario.Text = parse[3];
+              game.gLogicSystem.ScenarioChanged = false;
+
+            }
 
             WeaponComponent wc = curWeapon == null || curWeapon.entity == null ? null : curWeapon.entity.GetComponent<WeaponComponent>();
             if (curWeapon == null || curWeapon.entity == null || curWeapon.entity != game.player.GetComponent<InventoryComponent>().CurrentWeapon)
