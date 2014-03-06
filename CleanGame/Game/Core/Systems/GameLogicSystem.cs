@@ -34,18 +34,17 @@ namespace CleanGame.Game.Core.Systems
         public int monstersdefeated;
         public int monstersalive;
         private Dirty game;
-        private Label roundLabel;
         private Label ActionLabel;
         private Panel ActionLabelBack;
         private Label HitLabel;
         private Panel DamagePanel;
         private float damagePnlTime;
-        private float roundLblTime;
         private float roundTime;
         private float roundStartTime;
         private bool cheatEndRound = false;
         private int PlayerHits;
         private float playerHitTime;
+        private bool tutorialMode;
         private List<Label> textFloaters = new List<Label>();
 
         private List<Entity> spawners = new List<Entity>();
@@ -69,12 +68,16 @@ namespace CleanGame.Game.Core.Systems
                 }
             }
         }
+        /// <summary>
+        /// Resets a round and clears spawners
+        /// </summary>
         private void resetRound()
         {
             foreach (Entity ee in spawners)//clear old spawners
             {
                 game.world.DestroyEntity(ee);
             }
+            spawners.Clear();
             //game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += monstersdefeated;
             monstersdefeated = 0;
 
@@ -87,22 +90,33 @@ namespace CleanGame.Game.Core.Systems
             SpriteFont f = game.resourceManager.GetResource<SpriteFont>("HitsSmall");
             floater.mFontInt = new MonoGameFont(f);
             floater.Size = new System.Drawing.Point(200, 50);
-            floater.Position = new System.Drawing.Point(game.currrentDisplayMode.Width/2, game.currrentDisplayMode.Height/2);
+            floater.Position = new System.Drawing.Point(game.currrentDisplayMode.Width / 2, game.currrentDisplayMode.Height / 2);
             floater.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.White);
             floater.TextPosition = TextPosition.Center;
             floater.Text = val;
             game.UIEngine.Children.AddElement(floater);
             textFloaters.Add(floater);
         }
+        /// <summary>
+        /// Sets Tutorial state
+        /// </summary>
+        public void SetupTutorial()
+        {
+            ActionLabelBack.Visibility = Visibility.Hidden;
+            resetRound();
+            tutorialMode = true;
+            game.player.GetComponent<PhysicsComponent>().movePlayer = true;
+            game.player.GetComponent<SpatialComponent>().Position = new Vector2(200, 200);
+            game.player.Refresh();
+        }
+        /// <summary>
+        /// Starts a round using the old round system
+        /// </summary>
         public void SetupNextRound()
         {
             resetRound();
 
             int CurrentLevel = game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value;
-
-            roundLabel.Text = "~Round " + CurrentLevel + "~";
-            roundLabel.Visibility = CoreUI.Visibility.Visible;
-            roundLblTime = 3f;
 
             int numRanged = 2 + 2 * CurrentLevel;
             int numMelee = 2 + 2 * CurrentLevel;
@@ -128,7 +142,7 @@ namespace CleanGame.Game.Core.Systems
             e.Refresh();
             spawners.Add(e);
 
-      
+
             e = game.entityFactory.CreateSpawner(100, 300, new Rectangle(0, 0, 46, 46), "RangedMonster", "Monsterbow", numRanged / 2, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
             spawners.Add(e);
@@ -149,7 +163,7 @@ namespace CleanGame.Game.Core.Systems
             spawners.Add(e);
             e = game.entityFactory.CreateSpawner(300, 200, new Rectangle(0, 0, 46, 46), "Grenadier", "GrenadeLauncher", 1, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
-            spawners.Add(e); 
+            spawners.Add(e);
 
             e = game.entityFactory.CreateSpawner(300, 200, new Rectangle(0, 0, 46, 46), "WallHugger", "WallHuggerWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
             e.Refresh();
@@ -178,55 +192,22 @@ namespace CleanGame.Game.Core.Systems
         private void ResetHitCounter()
         {
             int mul = (int)Math.Floor(PlayerHits / 10.0d);
-            game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += PlayerHits * mul;
-            AddTextFloater("+" + PlayerHits * mul);
+            mul = PlayerHits * mul;
+            if (mul > 0)
+            {
+                game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += mul;
+                AddTextFloater("+" + mul);
+            }
             playerHitTime = 0;
             PlayerHits = 0;
             HitLabel.Visibility = Visibility.Hidden;
         }
-        private void SetupBoss()
-        {
-            /*resetRound();
 
-            int CurrentLevel = gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value;
 
-            roundLabel.Text = "~Boss Battle~";
-            roundLabel.Visibility = CoreUI.Visibility.Visible;
-            roundLblTime = 3f;
-
-            Entity monsterWeapon = game.entityFactory.CreateRangedWeaponEntity("Monsterbow", "bow", "bow", 400, 20 + 20 * (CurrentLevel / 5f), 10, "arrow", -1, 3f, 100, 0);
-            monsterWeapon.Refresh();
-            MonsterData rangedData = MonsterData.RangedMonster;
-            rangedData.weapon = monsterWeapon;
-            rangedData.scale = 3;
-            rangedData.Health = (int)(500 * (CurrentLevel / 4f));
-
-            Entity monsterMelee = game.entityFactory.CreateMeleeWeaponEntity("Monstersword", "sword", 50, 15 + 15 * (CurrentLevel / 5f), -1, 2f, 100, 0, game.resourceManager.GetResource<SpriteSheet>("SwordMeleeSpriteSheet"));
-            monsterMelee.Refresh();
-            MonsterData meleeData = MonsterData.BasicMonster;
-            meleeData.weapon = monsterMelee;
-            meleeData.Health += (int)(meleeData.Health * (CurrentLevel / 5f));
-
-            Entity e = game.entityFactory.CreateSpawner(100, 100, game.resourceManager.GetResource<SpriteSheet>("playerSheet"), new Rectangle(0, 0, 46, 46), rangedData, 1, new TimeSpan(0, 0, 0, 0, 1000));
-            e.Refresh();
-            spawners.Add(e);*/
-        }
-        private void AdvanceLevel()
-        {
-            game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value++;
-            //if (gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value % 4 == 0)
-            //    SetupBoss();
-            //else
-            SetupNextRound();
-        }
-        private void BuyPhase()
-        {
-            Events.Event buy = new Events.Event();
-            buy.name = "GameStateBuy";
-            EventManager.Instance.TriggerEvent(buy);
-        }
-
-        //Decoding the XML code for the scenarios.
+        /// <summary>
+        /// Decoding the XML code for the scenarios.
+        /// </summary>
+        /// <param name="xmlFile"></param>
         public void decodeScenariosXML(string xmlFile)
         {
             //Setting up the XML reader
@@ -264,8 +245,6 @@ namespace CleanGame.Game.Core.Systems
                 //Monster Spawner Location
                 int xPosition;
                 int yPosition;
-                //? ? ? ? ?
-                Rectangle spawnerRectangle;
                 //Monster Type
                 string monsterType;
                 //Monster Weapon
@@ -303,22 +282,14 @@ namespace CleanGame.Game.Core.Systems
 
                     xPosition = Convert.ToInt32(scenarioReader.GetAttribute("xPosition"));
                     yPosition = Convert.ToInt32(scenarioReader.GetAttribute("yPosition"));
-                    spawnerRectangle = new Rectangle(Convert.ToInt32(scenarioReader.GetAttribute("rectangleValue1")),
-                                                     Convert.ToInt32(scenarioReader.GetAttribute("rectangleValue2")),
-                                                     Convert.ToInt32(scenarioReader.GetAttribute("rectangleValue3")),
-                                                     Convert.ToInt32(scenarioReader.GetAttribute("rectangleValue4")));
                     monsterType = scenarioReader.GetAttribute("monsterType");
                     monsterWeapon = scenarioReader.GetAttribute("monsterWeapon");
                     numberOfMonsters = Convert.ToInt32(scenarioReader.GetAttribute("numberOfMonsters"));
-                    timePerSpawn = new TimeSpan(Convert.ToInt32(scenarioReader.GetAttribute("timeSpanDays")),
-                                                Convert.ToInt32(scenarioReader.GetAttribute("timeSpanHours")),
-                                                Convert.ToInt32(scenarioReader.GetAttribute("timeSpanMinutes")),
-                                                Convert.ToInt32(scenarioReader.GetAttribute("timeSpanSeconds")),
-                                                Convert.ToInt32(scenarioReader.GetAttribute("timeSpanMilliseconds")));
+                    timePerSpawn = new TimeSpan(0, 0, 0, 0, Convert.ToInt32(scenarioReader.GetAttribute("timeSpanMilliseconds")));
                     healthUpModifier = Convert.ToInt32(scenarioReader.GetAttribute("healthUpModifier"));
                     damageUpModifier = Convert.ToInt32(scenarioReader.GetAttribute("damageUpModifier"));
 
-                    spawners.Add(new Spawner(xPosition, yPosition, spawnerRectangle, monsterType, monsterWeapon,
+                    spawners.Add(new Spawner(xPosition, yPosition, monsterType, monsterWeapon,
                                              numberOfMonsters, timePerSpawn, healthUpModifier, damageUpModifier));
                 } while (scenarioReader.ReadToNextSibling("spawner"));
 
@@ -328,23 +299,20 @@ namespace CleanGame.Game.Core.Systems
             }
         }
 
-        public void setupScenario(string scenarioName, Entity player)
+        /// <summary>
+        /// Starts a specific scenario
+        /// </summary>
+        /// <param name="scenarioName"></param>
+        /// <param name="player"></param>
+        public void setupScenario(string scenarioName)
         {
             Scenario tempScenario = scenarios[scenarioName];
-            Entity e;
-
-            player.GetComponent<SpatialComponent>().Position = tempScenario.PlayerSpawn;
-
-            //resetRound();
-
-            foreach (Spawner s in tempScenario.Spawners)
-            {
-                e = game.entityFactory.CreateSpawner(s);
-                e.Refresh();
-                spawners.Add(e);
-            }
+            setupScenario(tempScenario);
         }
-
+        /// <summary>
+        /// Starts a specific scenario
+        /// </summary>
+        /// <param name="scenario"></param>
         public void setupScenario(Scenario scenario)
         {
             game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value++;
@@ -352,9 +320,7 @@ namespace CleanGame.Game.Core.Systems
             Entity e;
 
             game.player.GetComponent<SpatialComponent>().Position = scenario.PlayerSpawn;
-            //    player.RemoveComponent(player.GetComponent<PhysicsComponent>());
-            //    player.AddComponent(new PhysicsComponent());
-            //resetRound();
+
             if (scenario.Spawners != null)
             {
                 foreach (Spawner s in scenario.Spawners)
@@ -410,23 +376,20 @@ namespace CleanGame.Game.Core.Systems
                 {
                     //if (roundTime > 0)
                     //{
-                        monstersdefeated++;
+                    monstersdefeated++;
 
-                        AddTextFloater("+" + (50 + PlayerHits));
-                        game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += 50 + PlayerHits;
-                        game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").value += 10;
-                        game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += 1;
+                    AddTextFloater("+" + (50 + PlayerHits));
+                    game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += 50 + PlayerHits;
+                    game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").value += 10;
+                    game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += 1;
 
-                        GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MonsterKilled, e.GetComponent<MonsterComponent>().data.Type);
+                    GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MonsterKilled, e.GetComponent<MonsterComponent>().data.Type);
                     //}
-                    if (--monstersalive == 0)
+                    if (--monstersalive == 0 && !tutorialMode)
                     {
-                        /*
-                        game.GameWon = true;
-
-                        Event gamestate = new Event();
-                        gamestate.name = "GameStateGameOver";
-                        EventManager.Instance.TriggerEvent(gamestate);*/
+                        foreach (Entity sp in spawners)//make sure there aren't more monsters spawning
+                            if (sp.GetComponent<SpawnerComponent>().numMobs != 0)
+                                return;
 
 
                         GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundEnded, game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value.ToString());
@@ -438,8 +401,12 @@ namespace CleanGame.Game.Core.Systems
             }
 
         }
+        /// <summary>
+        /// Shows the round label and sets up a timer to the next round
+        /// </summary>
         public void StartPreRound()
         {
+            resetRound();
             //next game round
             //AdvanceLevel();
             game.ClearField = true;
@@ -451,12 +418,12 @@ namespace CleanGame.Game.Core.Systems
         }
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
         {
-            for(int i = 0; i < textFloaters.Count; i++)
+            for (int i = 0; i < textFloaters.Count; i++)
             {
                 Label floater = textFloaters[i];
                 System.Drawing.Point pos = floater.Position;
-                pos.X += (int)(dt * 300);
-                pos.Y -= (int)(dt * 300);
+                pos.X += (int)(dt * 150);
+                pos.Y -= (int)(dt * 150);
                 floater.Position = pos;
 
                 if (pos.Y <= 0)
@@ -476,14 +443,6 @@ namespace CleanGame.Game.Core.Systems
                     DamagePanel.Visibility = Visibility.Hidden;
                 }
             }
-            if (roundLblTime > 0)
-            {
-                roundLblTime -= dt;
-                if (roundLblTime <= 0)
-                {
-                    roundLblTime = 0;
-                }
-            }
             if (playerHitTime > 0)
             {
                 playerHitTime -= dt;
@@ -492,7 +451,7 @@ namespace CleanGame.Game.Core.Systems
                     ResetHitCounter();
                 }
             }
-            if (roundStartTime > 0)
+            if (roundStartTime > 0 && !tutorialMode)
             {
                 roundStartTime -= dt;
 
@@ -516,16 +475,16 @@ namespace CleanGame.Game.Core.Systems
                     roundStartTime = 0;
 
                     ActionLabelBack.Visibility = Visibility.Hidden;
-                    if (game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value == 0)
-                    {
-                        //Setting the movePlayer flag in the physics component of the player
-                        game.player.GetComponent<PhysicsComponent>().movePlayer = true;
-                        //TODO need to have the map name here
-                        setupScenario(randomScenario(game.mapName));
-                        game.player.Refresh();
-                    }
-                    else
-                        AdvanceLevel();
+                    //if (game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value == 0)
+                    //{
+                    //Setting the movePlayer flag in the physics component of the player
+                    game.player.GetComponent<PhysicsComponent>().movePlayer = true;
+                    //TODO need to have the map name here
+                    setupScenario(randomScenario(game.mapName));
+                    game.player.Refresh();
+                    //}
+                    //else
+                    //    AdvanceLevel();
 
                 }
             }
@@ -553,6 +512,7 @@ namespace CleanGame.Game.Core.Systems
             if (cheatEndRound)
             {
                 cheatEndRound = false;
+                resetRound();
                 for (int i = 0; i < entities.Count(); i++)
                 {
                     Entity e = entities.ElementAt(i);
@@ -562,6 +522,7 @@ namespace CleanGame.Game.Core.Systems
                         i--;
                     }
                 }
+
             }
             else
             {
@@ -630,19 +591,10 @@ namespace CleanGame.Game.Core.Systems
             DamagePanel.Visibility = CoreUI.Visibility.Hidden;
             game.UIEngine.Children.AddElement(DamagePanel);
 
-            roundLabel = new Label();
-            roundLabel.Size = new System.Drawing.Point(200, 40);
-            roundLabel.Position = new System.Drawing.Point(200, 0);
-            roundLabel.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.Red);
-            roundLabel.Background = new MonoGameColor(Microsoft.Xna.Framework.Color.Black);
-            roundLabel.TextPosition = TextPosition.Center;
-            roundLabel.Visibility = CoreUI.Visibility.Hidden;
-            game.UIEngine.Children.AddElement(roundLabel);
-
             ActionLabelBack = new Panel();
             ActionLabelBack.Size = new System.Drawing.Point(game.currrentDisplayMode.Width, 100);
             ActionLabelBack.Position = new System.Drawing.Point(0, game.currrentDisplayMode.Height / 2 - 50);
-            Color trans =  Microsoft.Xna.Framework.Color.Black;
+            Color trans = Microsoft.Xna.Framework.Color.Black;
             trans.A = 200;
             ActionLabelBack.Background = new MonoGameColor(trans);
             ActionLabelBack.Visibility = CoreUI.Visibility.Hidden;

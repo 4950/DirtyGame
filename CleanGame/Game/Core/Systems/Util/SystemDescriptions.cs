@@ -38,6 +38,9 @@ namespace CleanGame.Game.Core.Systems.Util
         public static SystemParams GameLogicSystem =
             new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(StatsComponent) }), 1);
 
+        public static SystemParams TutorialSystem =
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(StatsComponent) }), 1);
+
         public static SystemParams MonsterSystem =
             new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(MonsterComponent), typeof(TimeComponent), typeof(SpatialComponent), typeof(SpriteComponent), typeof(DirectionComponent) }), 1);
 
