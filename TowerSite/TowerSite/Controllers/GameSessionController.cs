@@ -11,7 +11,6 @@ using System.Web.Http;
 using System.Web.Http.ModelBinding;
 using System.Web.Http.OData;
 using System.Web.Http.OData.Routing;
-using System.Web.Security;
 using TowerSite.Models;
 using Microsoft.AspNet.Identity;
 
@@ -23,41 +22,44 @@ namespace TowerSite.Controllers
     using System.Web.Http.OData.Builder;
     using TowerSite.Models;
     ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-    builder.EntitySet<GameEventModel>("GameEvent");
+    builder.EntitySet<GameSession>("GameSession");
     config.Routes.MapODataRoute("odata", "odata", builder.GetEdmModel());
     */
-    public class GameEventController : ODataController
+    public class GameSessionController : ODataController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET odata/GameEvent
+        // GET odata/GameSession
         [Queryable]
-        public IQueryable<GameEventModel> GetGameEvent()
+        public IQueryable<GameSession> GetGameSession()
         {
-            return db.GameEventModels;
+            String userID = User.Identity.GetUserId();
+            if (userID == null)
+                return null;
+            return db.GameSessions.Where(gamesession => gamesession.UserID == userID).OrderBy(gamesession => gamesession.SessionID);
         }
 
-        // GET odata/GameEvent(5)
+        // GET odata/GameSession(5)
         [Queryable]
-        public SingleResult<GameEventModel> GetGameEventModel([FromODataUri] int key)
+        public SingleResult<GameSession> GetGameSession([FromODataUri] int key)
         {
-            return SingleResult.Create(db.GameEventModels.Where(gameeventmodel => gameeventmodel.ID == key));
+            return SingleResult.Create(db.GameSessions.Where(gamesession => gamesession.ID == key).OrderBy(gamesession => gamesession.SessionID));
         }
 
-        // PUT odata/GameEvent(5)
-        public async Task<IHttpActionResult> Put([FromODataUri] int key, GameEventModel gameeventmodel)
+        // PUT odata/GameSession(5)
+        public async Task<IHttpActionResult> Put([FromODataUri] int key, GameSession gamesession)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (key != gameeventmodel.ID)
+            if (key != gamesession.ID)
             {
                 return BadRequest();
             }
 
-            db.Entry(gameeventmodel).State = EntityState.Modified;
+            db.Entry(gamesession).State = EntityState.Modified;
 
             try
             {
@@ -65,7 +67,7 @@ namespace TowerSite.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!GameEventModelExists(key))
+                if (!GameSessionExists(key))
                 {
                     return NotFound();
                 }
@@ -75,39 +77,44 @@ namespace TowerSite.Controllers
                 }
             }
 
-            return Updated(gameeventmodel);
+            return Updated(gamesession);
         }
 
-        // POST odata/GameEvent
-        public async Task<IHttpActionResult> Post(GameEventModel gameeventmodel)
+        // POST odata/GameSession
+        public async Task<IHttpActionResult> Post(GameSession gamesession)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            db.GameEventModels.Add(gameeventmodel);
+            gamesession.UserID = User.Identity.GetUserId();
+            IQueryable<GameSession> q = db.GameSessions.Where(gs => gs.UserID == gamesession.UserID).OrderByDescending(gs => gs.SessionID);
+            if (q.Count() > 0)
+                gamesession.SessionID = q.First().SessionID + 1;
+            else
+                gamesession.SessionID = 0;
+            db.GameSessions.Add(gamesession);
             await db.SaveChangesAsync();
 
-            return Created(gameeventmodel);
+            return Created(gamesession);
         }
 
-        // PATCH odata/GameEvent(5)
+        // PATCH odata/GameSession(5)
         [AcceptVerbs("PATCH", "MERGE")]
-        public async Task<IHttpActionResult> Patch([FromODataUri] int key, Delta<GameEventModel> patch)
+        public async Task<IHttpActionResult> Patch([FromODataUri] int key, Delta<GameSession> patch)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            GameEventModel gameeventmodel = await db.GameEventModels.FindAsync(key);
-            if (gameeventmodel == null)
+            GameSession gamesession = await db.GameSessions.FindAsync(key);
+            if (gamesession == null)
             {
                 return NotFound();
             }
 
-            patch.Patch(gameeventmodel);
+            patch.Patch(gamesession);
 
             try
             {
@@ -115,7 +122,7 @@ namespace TowerSite.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!GameEventModelExists(key))
+                if (!GameSessionExists(key))
                 {
                     return NotFound();
                 }
@@ -125,19 +132,19 @@ namespace TowerSite.Controllers
                 }
             }
 
-            return Updated(gameeventmodel);
+            return Updated(gamesession);
         }
 
-        // DELETE odata/GameEvent(5)
+        // DELETE odata/GameSession(5)
         public async Task<IHttpActionResult> Delete([FromODataUri] int key)
         {
-            GameEventModel gameeventmodel = await db.GameEventModels.FindAsync(key);
-            if (gameeventmodel == null)
+            GameSession gamesession = await db.GameSessions.FindAsync(key);
+            if (gamesession == null)
             {
                 return NotFound();
             }
 
-            db.GameEventModels.Remove(gameeventmodel);
+            db.GameSessions.Remove(gamesession);
             await db.SaveChangesAsync();
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -152,9 +159,9 @@ namespace TowerSite.Controllers
             base.Dispose(disposing);
         }
 
-        private bool GameEventModelExists(int key)
+        private bool GameSessionExists(int key)
         {
-            return db.GameEventModels.Count(e => e.ID == key) > 0;
+            return db.GameSessions.Count(e => e.ID == key) > 0;
         }
     }
 }

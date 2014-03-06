@@ -11,10 +11,19 @@
         <Property Name="Type" Type="Edm.String" />
         <Property Name="Data" Type="Edm.String" />
       </EntityType>
+      <EntityType Name="GameSession">
+        <Key>
+          <PropertyRef Name="ID" />
+        </Key>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false" />
+        <Property Name="UserID" Type="Edm.String" />
+        <Property Name="SessionID" Type="Edm.Int32" Nullable="false" />
+      </EntityType>
     </Schema>
     <Schema Namespace="Default" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
       <EntityContainer Name="Container" m:IsDefaultEntityContainer="true">
         <EntitySet Name="GameEvent" EntityType="TowerSite.Models.GameEventModel" />
+        <EntitySet Name="GameSession" EntityType="TowerSite.Models.GameSession" />
       </EntityContainer>
     </Schema>
   </edmx:DataServices>

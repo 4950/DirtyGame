@@ -14,6 +14,7 @@ namespace TowerSite
 
             ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
             builder.EntitySet<GameEventModel>("GameEvent");
+            builder.EntitySet<GameSession>("GameSession");
             config.Routes.MapODataRoute("odata", "odata", builder.GetEdmModel());
         }
     }

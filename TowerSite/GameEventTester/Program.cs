@@ -1,4 +1,4 @@
-﻿#define LOCAL
+﻿//#define LOCAL
 
 using System;
 using System.Collections.Generic;
@@ -13,9 +13,9 @@ using System.Data.Services.Client;
 using System.Runtime.InteropServices;
 
 #if (LOCAL)
-using GameEvent = GameEventTester.GameEventServiceLocal;
+using GameService = GameEventTester.GameServiceLocal;
 #else
-using GameEvent = GameEventTester.GameEventService;
+using GameService = GameEventTester.GameService;
 #endif
 
 namespace GameEventTester
@@ -24,6 +24,7 @@ namespace GameEventTester
     {
         static String Cookies = "";
         static bool LoggedIn = false;
+        static int CurrentSession = 0;
 
         [DllImport("wininet.dll", CharSet = CharSet.Auto, SetLastError = true)]
         static extern bool InternetGetCookieEx(string pchURL, string pchCookieName, StringBuilder pchCookieData, ref uint pcchCookieData, int dwFlags, IntPtr lpReserved);
@@ -74,7 +75,7 @@ namespace GameEventTester
 #else
             Uri uri = new Uri("https://toweroffense.azurewebsites.net/odata");
 #endif
-            GameEvent.Container container = new GameEvent.Container(uri);
+            GameService.Container container = new GameService.Container(uri);
 
             container.ReceivingResponse += (s, e) =>
             {
@@ -124,16 +125,26 @@ namespace GameEventTester
                                 Console.WriteLine("Login failed");
                             }
                             break;
-                        case "listall":
+                        case "listevents":
                             ListAllEvents(container);
                             break;
+                        case "listsessions":
+                            ListAllSessions(container);
+                            break;
+                        case "newsession":
+                            GameService.GameSession gs = new GameService.GameSession();
+                            AddSession(container, gs);
+                            break;
                         case "add":
-                            GameEvent.GameEventModel ge = new GameEvent.GameEventModel();
-                            ge.SessionId = int.Parse(lARgs[1]);
+                            GameService.GameEventModel ge = new GameService.GameEventModel();
+                            ge.SessionId = CurrentSession;
                             ge.Timestamp = DateTime.Now;
-                            ge.Type = lARgs[2];
-                            ge.Data = lARgs[3];
+                            ge.Type = lARgs[1];
+                            ge.Data = lARgs[2];
                             AddEvent(container, ge);
+                            break;
+                        case "printsession":
+                            Console.WriteLine("Current session: " + CurrentSession);
                             break;
                         case "clearcookie":
                             Cookies = "";
@@ -177,21 +188,44 @@ namespace GameEventTester
                 f.Hide();
             }
         }
-        static void DisplayEvent(GameEvent.GameEventModel ge)
+        static void DisplayEvent(GameService.GameEventModel ge)
         {
-            Console.WriteLine("{0} {1} {2} {3}", ge.SessionId, ge.Timestamp, ge.Type, ge.Data);
+            Console.WriteLine("{0} {1} {2} {3} {4}", ge.ID, ge.SessionId, ge.Timestamp, ge.Type, ge.Data);
         }
-        static void ListAllEvents(GameEvent.Container container)
+
+        static void ListAllEvents(GameService.Container container)
         {
             foreach (var p in container.GameEvent)
             {
                 DisplayEvent(p);
             }
         }
-        static void AddEvent(GameEvent.Container container, GameEvent.GameEventModel ge)
+        static void DisplaySession(GameService.GameSession ge)
+        {
+            Console.WriteLine("{0} {1} {2}", ge.ID, ge.UserID, ge.SessionID);
+        }
+        static void ListAllSessions(GameService.Container container)
+        {
+            foreach (var p in container.GameSession)
+            {
+                DisplaySession(p);
+            }
+        }
+        static void AddSession(GameService.Container container, GameService.GameSession ge)
+        {
+            container.AddToGameSession(ge);
+            var serviceResponse = container.SaveChanges();
+            CurrentSession = ge.SessionID;
+            foreach (var operationResponse in serviceResponse)
+            {
+                Console.WriteLine(operationResponse.StatusCode);
+            }
+        }
+        static void AddEvent(GameService.Container container, GameService.GameEventModel ge)
         {
             container.AddToGameEvent(ge);
             var serviceResponse = container.SaveChanges();
+
             foreach (var operationResponse in serviceResponse)
             {
                 Console.WriteLine(operationResponse.StatusCode);

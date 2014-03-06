@@ -8,6 +8,7 @@ namespace TowerSite.Models
     public class GameSession
     {
         public int ID { get; set; }
-        public int UserID { get; set; }
+        public String UserID { get; set; }
+        public int SessionID { get; set; }
     }
 }

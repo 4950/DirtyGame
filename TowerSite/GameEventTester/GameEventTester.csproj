@@ -62,12 +62,12 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service References\GameEventServiceLocal\Reference.cs">
+    <Compile Include="Service References\GameServiceLocal\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.datasvcmap</DependentUpon>
     </Compile>
-    <Compile Include="Service References\GameEventService\Reference.cs">
+    <Compile Include="Service References\GameService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.datasvcmap</DependentUpon>
@@ -76,28 +76,28 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="Service References\GameEventServiceLocal\service.edmx" />
-    <None Include="Service References\GameEventService\service.edmx" />
+    <None Include="Service References\GameServiceLocal\service.edmx" />
+    <None Include="Service References\GameService\service.edmx" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ServiceReferenceMetadataStorage Include="Service References\GameEventServiceLocal\">
+    <ServiceReferenceMetadataStorage Include="Service References\GameServiceLocal\">
       <Type>datasvcmap</Type>
     </ServiceReferenceMetadataStorage>
-    <ServiceReferenceMetadataStorage Include="Service References\GameEventService\">
+    <ServiceReferenceMetadataStorage Include="Service References\GameService\">
       <Type>datasvcmap</Type>
     </ServiceReferenceMetadataStorage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\GameEventService\Reference.datasvcmap">
+    <None Include="Service References\GameServiceLocal\Reference.datasvcmap">
       <Generator>DataServicesCoreClientGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\GameEventServiceLocal\Reference.datasvcmap">
+    <None Include="Service References\GameService\Reference.datasvcmap">
       <Generator>DataServicesCoreClientGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
