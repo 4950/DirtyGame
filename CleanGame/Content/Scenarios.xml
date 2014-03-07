@@ -1382,4 +1382,274 @@
              damageUpModifier="1">
     </spawner>
   </scenario>
+
+    
+<!--________________________Initial testing scenarios__________________________________-->
+    
+    <!-- player x=652, y=784 -->
+    
+    <!-- 1: upper-left, 2: lower-left, 3: lower-right -->
+    <!-- 1: x=336, y=240 -->
+    <!-- 2: x=176, y=1040 -->
+    <!-- 3: x=1112, y=1040 -->
+    <!-- 1 2 3 3 1 2 3-->
+
+    <!--Monsters: Melee-6
+                  Ranged-4
+                  Suicide-2 -->
+    <scenario name="Arena_scenario_M6_R4_S2"
+              difficultyScore="0.50"
+              map="Arena.tmx"
+              playerX="652"
+              playerY="784">
+        <spawner xPosition="336"
+                 yPosition="240"
+                 monsterType="MeleeMonster"
+                 monsterWeapon="Monstersword"
+                 numberOfMonsters="6"
+                 timeSpanMilliseconds="1000"
+                 healthUpModifier="1"
+                 damageUpModifier="1">
+        </spawner>
+        <spawner xPosition="336"
+                 yPosition="240"
+                 monsterType="RangedMonster"
+                 monsterWeapon="Monsterbow"
+                 numberOfMonsters="4"
+                 timeSpanMilliseconds="1000"
+                 healthUpModifier="1"
+                 damageUpModifier="1">
+        </spawner>
+        <spawner xPosition="336"
+                 yPosition="240"
+                 monsterType="SuicideBomber"
+                 monsterWeapon="BomberWeapon"
+                 numberOfMonsters="2"
+                 timeSpanMilliseconds="1000"
+                 healthUpModifier="1"
+                 damageUpModifier="1">
+        </spawner>
+    </scenario>
+
+    <!--Monsters: Melee-6
+                  Ranged-2
+                  Suicide-4 -->
+    <scenario name="Arena_scenario_M6_R2_S4"
+              difficultyScore="0.50"
+              map="Arena.tmx"
+              playerX="652"
+              playerY="784">
+        <spawner xPosition="176"
+                 yPosition="1040"
+                 monsterType="MeleeMonster"
+                 monsterWeapon="Monstersword"
+                 numberOfMonsters="6"
+                 timeSpanMilliseconds="1000"
+                 healthUpModifier="1"
+                 damageUpModifier="1">
+        </spawner>
+        <spawner xPosition="176"
+                 yPosition="1040"
+                 monsterType="RangedMonster"
+                 monsterWeapon="Monsterbow"
+                 numberOfMonsters="2"
+                 timeSpanMilliseconds="1000"
+                 healthUpModifier="1"
+                 damageUpModifier="1">
+        </spawner>
+        <spawner xPosition="176"
+                 yPosition="1040"
+                 monsterType="SuicideBomber"
+                 monsterWeapon="BomberWeapon"
+                 numberOfMonsters="4"
+                 timeSpanMilliseconds="1000"
+                 healthUpModifier="1"
+                 damageUpModifier="1">
+        </spawner>
+    </scenario>
+    
+    <!--Monsters: Melee-4
+                  Ranged-6
+                  Suicide-2 -->
+    <scenario name="Arena_scenario_M4_R6_S2"
+              difficultyScore="0.50"
+              map="Arena.tmx"
+              playerX="652"
+              playerY="784">
+        <spawner xPosition="1112"
+                 yPosition="1040"
+                 monsterType="MeleeMonster"
+                 monsterWeapon="Monstersword"
+                 numberOfMonsters="4"
+                 timeSpanMilliseconds="1000"
+                 healthUpModifier="1"
+                 damageUpModifier="1">
+        </spawner>
+        <spawner xPosition="1112"
+                 yPosition="1040"
+                 monsterType="RangedMonster"
+                 monsterWeapon="Monsterbow"
+                 numberOfMonsters="6"
+                 timeSpanMilliseconds="1000"
+                 healthUpModifier="1"
+                 damageUpModifier="1">
+        </spawner>
+        <spawner xPosition="1112"
+                 yPosition="1040"
+                 monsterType="SuicideBomber"
+                 monsterWeapon="BomberWeapon"
+                 numberOfMonsters="2"
+                 timeSpanMilliseconds="1000"
+                 healthUpModifier="1"
+                 damageUpModifier="1">
+        </spawner>
+    </scenario>
+    
+    <!--Monsters: Melee-2
+                  Ranged-6
+                  Suicide-4 -->
+    <scenario name="Arena_scenario_M2_R6_S4"
+              difficultyScore="0.50"
+              map="Arena.tmx"
+              playerX="652"
+              playerY="784">
+        <spawner xPosition="1112"
+                 yPosition="1040"
+                 monsterType="MeleeMonster"
+                 monsterWeapon="Monstersword"
+                 numberOfMonsters="2"
+                 timeSpanMilliseconds="1000"
+                 healthUpModifier="1"
+                 damageUpModifier="1">
+        </spawner>
+        <spawner xPosition="1112"
+                 yPosition="1040"
+                 monsterType="RangedMonster"
+                 monsterWeapon="Monsterbow"
+                 numberOfMonsters="6"
+                 timeSpanMilliseconds="1000"
+                 healthUpModifier="1"
+                 damageUpModifier="1">
+        </spawner>
+        <spawner xPosition="1112"
+                 yPosition="1040"
+                 monsterType="SuicideBomber"
+                 monsterWeapon="BomberWeapon"
+                 numberOfMonsters="4"
+                 timeSpanMilliseconds="1000"
+                 healthUpModifier="1"
+                 damageUpModifier="1">
+        </spawner>
+    </scenario>
+    
+    <!--Monsters: Melee-4
+                  Ranged-2
+                  Suicide-6 -->
+    <scenario name="Arena_scenario_M4_R2_S6"
+              difficultyScore="0.50"
+              map="Arena.tmx"
+              playerX="652"
+              playerY="784">
+        <spawner xPosition="336"
+                 yPosition="240"
+                 monsterType="MeleeMonster"
+                 monsterWeapon="Monstersword"
+                 numberOfMonsters="4"
+                 timeSpanMilliseconds="1000"
+                 healthUpModifier="1"
+                 damageUpModifier="1">
+        </spawner>
+        <spawner xPosition="336"
+                 yPosition="240"
+                 monsterType="RangedMonster"
+                 monsterWeapon="Monsterbow"
+                 numberOfMonsters="2"
+                 timeSpanMilliseconds="1000"
+                 healthUpModifier="1"
+                 damageUpModifier="1">
+        </spawner>
+        <spawner xPosition="336"
+                 yPosition="240"
+                 monsterType="SuicideBomber"
+                 monsterWeapon="BomberWeapon"
+                 numberOfMonsters="6"
+                 timeSpanMilliseconds="1000"
+                 healthUpModifier="1"
+                 damageUpModifier="1">
+        </spawner>
+    </scenario>
+    
+    <!--Monsters: Melee-2
+                  Ranged-4
+                  Suicide-6 -->
+    <scenario name="Arena_scenario_M2_R4_S6"
+              difficultyScore="0.50"
+              map="Arena.tmx"
+              playerX="652"
+              playerY="784">
+        <spawner xPosition="176"
+                 yPosition="1040"
+                 monsterType="MeleeMonster"
+                 monsterWeapon="Monstersword"
+                 numberOfMonsters="2"
+                 timeSpanMilliseconds="1000"
+                 healthUpModifier="1"
+                 damageUpModifier="1">
+        </spawner>
+        <spawner xPosition="176"
+                 yPosition="1040"
+                 monsterType="RangedMonster"
+                 monsterWeapon="Monsterbow"
+                 numberOfMonsters="4"
+                 timeSpanMilliseconds="1000"
+                 healthUpModifier="1"
+                 damageUpModifier="1">
+        </spawner>
+        <spawner xPosition="176"
+                 yPosition="1040"
+                 monsterType="SuicideBomber"
+                 monsterWeapon="BomberWeapon"
+                 numberOfMonsters="6"
+                 timeSpanMilliseconds="1000"
+                 healthUpModifier="1"
+                 damageUpModifier="1">
+        </spawner>
+    </scenario>
+
+    <!--Monsters: Melee-4
+                  Ranged-4
+                  Suicide-4 -->
+    <scenario name="Arena_scenario_M4_R4_S4"
+              difficultyScore="0.50"
+              map="Arena.tmx"
+              playerX="652"
+              playerY="784">
+        <spawner xPosition="1112"
+                 yPosition="1040"
+                 monsterType="MeleeMonster"
+                 monsterWeapon="Monstersword"
+                 numberOfMonsters="4"
+                 timeSpanMilliseconds="1000"
+                 healthUpModifier="1"
+                 damageUpModifier="1">
+        </spawner>
+        <spawner xPosition="1112"
+                 yPosition="1040"
+                 monsterType="RangedMonster"
+                 monsterWeapon="Monsterbow"
+                 numberOfMonsters="4"
+                 timeSpanMilliseconds="1000"
+                 healthUpModifier="1"
+                 damageUpModifier="1">
+        </spawner>
+        <spawner xPosition="1112"
+                 yPosition="1040"
+                 monsterType="SuicideBomber"
+                 monsterWeapon="BomberWeapon"
+                 numberOfMonsters="4"
+                 timeSpanMilliseconds="1000"
+                 healthUpModifier="1"
+                 damageUpModifier="1">
+        </spawner>
+    </scenario>
 </root>
