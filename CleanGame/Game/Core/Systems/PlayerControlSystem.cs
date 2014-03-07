@@ -91,8 +91,12 @@ namespace CleanGame.Game.Core.Systems
             // weapon quick access
             for (int i = 0; i <= 9; i++)
             {
-                Keys k = (Keys)Enum.Parse(typeof(Keys), "D" + i);
-                game.baseContext.RegisterHandler(k, changeWeapon, null);
+                // terrible hack for only two weapon prune
+                if (i == 1 || i == 2 || i == 6 || i == 7)
+                {
+                    Keys k = (Keys)Enum.Parse(typeof(Keys), "D" + i);
+                    game.baseContext.RegisterHandler(k, changeWeapon, null);
+                }
             }
 
             //Weapon fire
@@ -162,6 +166,9 @@ namespace CleanGame.Game.Core.Systems
             InventoryComponent ic = game.player.GetComponent<InventoryComponent>();
             var weapons = ic.WeaponList;
 
+            // another cheap hack to "disable" additional weapons
+            int weaponsCount = 2; // should be weapons.Count
+
             if (ic.CurrentWeapon == null)
             {
                 if (weapons.Count > 0)
@@ -176,7 +183,7 @@ namespace CleanGame.Game.Core.Systems
                 case Keys.E:
                 case Keys.Tab:
                     i++;
-                    if (i >= weapons.Count)
+                    if (i >= weaponsCount)
                         i = 0;
 
                     break;
@@ -184,7 +191,7 @@ namespace CleanGame.Game.Core.Systems
                 case Keys.Q:
                     i--;
                     if (i < 0)
-                        i = weapons.Count - 1;
+                        i = weaponsCount - 1;
                     break;
                 default:
                     if (int.TryParse(key.ToString()[1].ToString(), out i))

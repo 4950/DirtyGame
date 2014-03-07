@@ -18,7 +18,8 @@ namespace CleanGame.Game.Core.GameStates
         private CheckBox full;
         private CheckBox cap;
         private bool isMapWindowShown = false;
-        string[] maps = { "Cave", "Forest", "Arena" };
+        //string[] maps = { "Cave", "Forest", "Arena" };
+        string[] maps = { "Arena" };
 
         public MainMenuState()
         {
@@ -135,11 +136,12 @@ namespace CleanGame.Game.Core.GameStates
                 p.AddElement(title);
 
                 
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < maps.Length; i++)
                 {
                     Panel mp = new Panel();
                     mp.Size = new System.Drawing.Point(90, 90);
-                    mp.Position = new System.Drawing.Point(10 + i * 100, 25);
+                   // mp.Position = new System.Drawing.Point(10 + i * 100, 25);
+                    mp.Position = new System.Drawing.Point(10 + 100, 25);
                     mp.Background = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.Red);
                     mp.Tag = i;
                     mp.MouseDown += startMap;
@@ -154,7 +156,8 @@ namespace CleanGame.Game.Core.GameStates
 
                     Label mapname = new Label();
                     mapname.Size = new System.Drawing.Point(90, 25);
-                    mapname.Position = new System.Drawing.Point(10 + i * 100, 70);
+                    //mapname.Position = new System.Drawing.Point(10 + i * 100, 70);
+                    mapname.Position = new System.Drawing.Point(10 + 100, 70);
                     //title.Foreground = new CoreUI.DrawEngines.MonoGameColor(Microsoft.Xna.Framework.Color.White);
                     mapname.Text = maps[i];
                     mapname.TextPosition = TextPosition.Center;

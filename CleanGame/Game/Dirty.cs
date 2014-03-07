@@ -318,7 +318,7 @@ namespace CleanGame
         public void StartTutorial()
         {
             world.AddSystem(new TutorialSystem(this));
-            StartSession("Cave.tmx");
+            StartSession("Arena.tmx");
             gLogicSystem.SetupTutorial();
         }
         public void StartSession(string mapname)
