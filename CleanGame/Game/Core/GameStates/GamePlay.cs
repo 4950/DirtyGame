@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Input;
 using CleanGame.Game.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using GameService;
 
 
 namespace CleanGame.Game.Core.GameStates
@@ -216,7 +217,7 @@ namespace CleanGame.Game.Core.GameStates
             if (game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").IsModified)
             {
                 roundLbl.Text = "Round: " + game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value;
-                curScenario.Text = GameplayDataCaptureSystem.Instance.defaultSession.sessionID.ToString();
+                curScenario.Text = GameplayDataCaptureSystem.Instance.SessionID.ToString();
             }
             if (game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").IsModified)
                 cashLbl.Text = "Cash: " + game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").value;

@@ -49,6 +49,8 @@ namespace GameService
         private int CurrentSessionID = -1;
         private bool sending = false;
 
+        public int SessionID { get { return CurrentSessionID; } }
+
         [DllImport("wininet.dll", CharSet = CharSet.Auto, SetLastError = true)]
         static extern bool InternetGetCookieEx(string pchURL, string pchCookieName, StringBuilder pchCookieData, ref uint pcchCookieData, int dwFlags, IntPtr lpReserved);
         const int INTERNET_COOKIE_HTTPONLY = 0x00002000;
