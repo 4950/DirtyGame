@@ -32,6 +32,7 @@ using CleanGame.Game.Core.Systems.Movement;
 using CleanGame.Game.Core.Components.Render;
 using CleanGame.Game.Core.Components.Movement;
 using CleanGame.Game.Core.Events;
+using GameService;
 
 
 
@@ -119,7 +120,7 @@ namespace CleanGame
         public void ResetToMainMenu()
         {
             //clear old stuff
-            GameplayDataCaptureSystem.Instance.FlushSessions();
+            GameplayDataCaptureSystem.Instance.FlushData();
             world.RemoveAllSystems();
             world.EntityMgr.RemoveAllEntities();
             baseContext.RemoveAllHandlers();
@@ -262,7 +263,8 @@ namespace CleanGame
         }
         public Dirty()
         {
-            GameplayDataCaptureSystem.Instance.CreateSession(true);
+            GameplayDataCaptureSystem.Instance.InitContext();
+            GameplayDataCaptureSystem.Instance.Login();
             Settings.Instance.LoadSettings();
 
             CreateInputContext();
@@ -353,7 +355,7 @@ namespace CleanGame
         }
         private void LoadMap(string mapname)
         {
-            GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MapSelected, mapname);
+            
 
             map.LoadMap(mapname, graphics.GraphicsDevice, Content);
             renderer.ActiveMap = map;
@@ -369,7 +371,7 @@ namespace CleanGame
         {
             base.OnDeactivated(sender, args);
 
-            if (gameStateManager.CurrentState.GetType() == typeof(GamePlay))//if in game, pause
+            if (gameStateManager != null && gameStateManager.CurrentState.GetType() == typeof(GamePlay))//if in game, pause
             {
                 Event startGame = new Event();
                 startGame.name = "GameStateGameMenu";
@@ -400,7 +402,7 @@ namespace CleanGame
 
         protected override void UnloadContent()
         {
-            GameplayDataCaptureSystem.Instance.FlushSessions();
+            GameplayDataCaptureSystem.Instance.FlushData();
             Settings.Instance.SaveSettings();
         }
         public bool GameWon
