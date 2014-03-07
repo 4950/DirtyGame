@@ -408,6 +408,11 @@ namespace CleanGame.Game.Core.Systems
         public void StartPreRound()
         {
             resetRound();
+
+            //Log
+            GameplayDataCaptureSystem.Instance.NewSession();
+            GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MapSelected, game.mapName);
+
             //next game round
             //AdvanceLevel();
             game.ClearField = true;

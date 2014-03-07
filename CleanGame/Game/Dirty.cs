@@ -264,7 +264,7 @@ namespace CleanGame
         public Dirty()
         {
             GameplayDataCaptureSystem.Instance.InitContext();
-            GameplayDataCaptureSystem.Instance.NewSession();
+            GameplayDataCaptureSystem.Instance.Login();
             Settings.Instance.LoadSettings();
 
             CreateInputContext();
@@ -355,7 +355,7 @@ namespace CleanGame
         }
         private void LoadMap(string mapname)
         {
-            GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MapSelected, mapname);
+            
 
             map.LoadMap(mapname, graphics.GraphicsDevice, Content);
             renderer.ActiveMap = map;
