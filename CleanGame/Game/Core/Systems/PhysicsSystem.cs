@@ -19,6 +19,7 @@ using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.Collision;
 using CleanGame.Game.Util;
 using CleanGame.Game.Core.Components.Render;
+using GameService;
 
 namespace CleanGame.Game.Core.Systems
 {

@@ -11,6 +11,7 @@ using CleanGame.Game.Core.Systems.Util;
 using CleanGame.Game.Core;
 using CleanGame;
 using CleanGame.Game.Util;
+using GameService;
 
 namespace EntityFramework.Systems
 {
@@ -47,7 +48,7 @@ namespace EntityFramework.Systems
 
                     if (((spawner.timeOfLastSpawn + spawner.timePerSpawn) <= totalTime) && (spawner.numMobs != 0))
                     {
-                        GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MonsterSpawned, spawner.MonsterWeapon);
+                        GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MonsterSpawned, spawner.MonsterType);
 
                         //Reset spawner timeOfLstSpawn
                         //int seconds = (int) Math.Floor(dt);
