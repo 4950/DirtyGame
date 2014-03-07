@@ -13,8 +13,6 @@ namespace CleanGame.Game.Core.GameStates
         //Location
         private int xPosition;
         private int yPosition;
-        //? ? ? ? ?
-        private Rectangle spawnerRectangle;
         //Monster Type
         private string monsterType;
         //Monster Weapon
@@ -49,17 +47,6 @@ namespace CleanGame.Game.Core.GameStates
             set
             {
                 yPosition = value;
-            }
-        }
-        public Rectangle SpawnerRectangle
-        {
-            get
-            {
-                return spawnerRectangle;
-            }
-            set
-            {
-                spawnerRectangle = value;
             }
         }
         public string MonsterType
@@ -136,11 +123,10 @@ namespace CleanGame.Game.Core.GameStates
         public Spawner()
         {
         }
-        public Spawner(int xPos, int yPos, Rectangle spawnerRec, string mType, string mWeapon, int numMonsters, TimeSpan tPerSpawn, float healthUpModifier, float damageUpModifier)
+        public Spawner(int xPos, int yPos, string mType, string mWeapon, int numMonsters, TimeSpan tPerSpawn, float healthUpModifier, float damageUpModifier)
         {
             this.xPosition = xPos;
             this.yPosition = yPos;
-            this.spawnerRectangle = spawnerRec;
             this.monsterType = mType;
             this.monsterWeapon = mWeapon;
             this.numberOfMonsters = numMonsters;
