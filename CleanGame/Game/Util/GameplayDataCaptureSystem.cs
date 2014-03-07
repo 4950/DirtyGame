@@ -32,7 +32,7 @@ namespace CleanGame.Game.Util
         private DataContext db;
 
         [Table(Name="Sessions")]
-        private class Session
+        public class Session
         {
             [Column(IsPrimaryKey = true, IsDbGenerated = true)]
             public int Id { get; set; }
@@ -44,7 +44,7 @@ namespace CleanGame.Game.Util
         }
 
         [Table(Name = "Events")]
-        private class Event
+        public class Event
         {
             [Column(IsPrimaryKey = true, IsDbGenerated = true)]
             public int Id { get; set; }
@@ -63,7 +63,7 @@ namespace CleanGame.Game.Util
 
             public static string CreateCommand = "CREATE TABLE IF NOT EXISTS Events ( Id INTEGER PRIMARY KEY, SessionId INTEGER, Time INTEGER, Type TEXT, Data TEXT )";
         }
-        private class CaptureSession
+        public class CaptureSession
         {
             internal Table<Event> sessionTable;
 
@@ -84,7 +84,7 @@ namespace CleanGame.Game.Util
         }
 
         private Dictionary<Guid, CaptureSession> sessions = new Dictionary<Guid, CaptureSession>();
-        private CaptureSession defaultSession;
+        public CaptureSession defaultSession;
         /// <summary>
         /// Creates a new logging session
         /// </summary>
