@@ -45,15 +45,6 @@ namespace CleanGame.Game.Core.Systems
             int Damage; //Ling's bad code
             CaptureEventType t; //Ling's bad code
 
-            if (wc.WeaponName == "LandmineWeapon") //Ling's code
-            {
-                Damage = 23;//TODO: Make this get the value from the xml
-                hc.CurrentHealth -= Damage;
-                t = Target.HasComponent<PlayerComponent>() ? CaptureEventType.PlayerDamageTaken : CaptureEventType.MonsterDamageTaken;
-                GameplayDataCaptureSystem.Instance.LogEvent(t, Damage.ToString());
-                return;
-            }
-
             if (wc == null || wc.Owner == null)
                 return;
 
