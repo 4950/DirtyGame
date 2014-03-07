@@ -316,6 +316,7 @@ namespace CleanGame.Game.Core.Systems
         /// <param name="scenario"></param>
         public void setupScenario(Scenario scenario)
         {
+            GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.ScenarioName, scenario.Name);
             game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value++;
 
             Entity e;

@@ -36,7 +36,8 @@ namespace GameService
         RoundEnded,
         RoundHealth,
         PlayerDiedWithScore,
-        MonsterSpawned
+        MonsterSpawned,
+        ScenarioName
     }
     public class GameplayDataCaptureSystem : Singleton<GameplayDataCaptureSystem>
     {
