@@ -73,13 +73,13 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Service References\GameService\service.edmx" />
+  </ItemGroup>
+  <ItemGroup>
     <ServiceReferenceMetadataStorage Include="Service References\GameService\">
       <Type>datasvcmap</Type>
     </ServiceReferenceMetadataStorage>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-    <None Include="Service References\GameService\service.edmx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\GameService\Reference.datasvcmap">

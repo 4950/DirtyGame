@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="b799c5a5-f19a-4e47-8e22-7658187d6c15" xmlns="urn:schemas-microsoft-com:xml-dataservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="4b5d0d66-220e-405f-a603-d277fd37e8f1" xmlns="urn:schemas-microsoft-com:xml-dataservicemap">
   <MetadataSources>
     <MetadataSource Address="https://toweroffense.azurewebsites.net/odata" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.edmx" MetadataType="Edmx" ID="6a2844ba-1726-427e-94d6-026e99907d47" SourceId="1" SourceUrl="https://toweroffense.azurewebsites.net/odata" />
+    <MetadataFile FileName="service.edmx" MetadataType="Edmx" ID="deb480cc-3bdc-4386-8a35-473ea4fd4656" SourceId="1" SourceUrl="https://toweroffense.azurewebsites.net/odata" />
   </Metadata>
   <Extensions />
   <Parameters>

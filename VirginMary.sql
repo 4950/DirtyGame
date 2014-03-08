@@ -1,12 +1,3 @@
-/*create function dbo.InlineMaxF(@val1 float, @val2 float) returns float
-AS
-begin
-  if @val1 > @val2
-    return @val1
-  return isnull(@val2,@val1)
-end*/
-GO
-
 DECLARE @Session INT;
 SET @Session = 34;
 DECLARE @HitRate FLOAT;
@@ -70,8 +61,11 @@ SET @HealthRemaining = 0;*/
 DECLARE @PlayerScore FLOAT;
 SET @PlayerScore = (dbo.InlineMaxF(3 * (@HitRate), .01) + 2 * @DamageDealt + 2 * @KillRate + 4 * @HealthRemaining) / (3 * (1) + 2 * 1 + 2 * 1 + 4 * 0);
 
-PRINT 'Hit Rate: ' + CAST(@HitRate AS VARCHAR)
+/*PRINT 'Hit Rate: ' + CAST(@HitRate AS VARCHAR)
 PRINT 'Kill Rate: ' + CAST(@KillRate AS VARCHAR)
 PRINT 'Health Remaining: ' + CAST(@HealthRemaining AS VARCHAR)
 PRINT 'DamageDealt: ' + CAST(@DamageDealt AS VARCHAR)
-PRINT 'Player Score: ' + CAST(@PlayerScore AS VARCHAR)
+PRINT 'Player Score: ' + CAST(@PlayerScore AS VARCHAR)*/
+
+UPDATE GameSessions SET HitRate = @HitRate, KillRate = @KillRate, HealthRemaining = @HealthRemaining, DamageDealt = @DamageDealt, SessionScore = @PlayerScore WHERE SessionID = @Session;
+SELECT * FROM GameSessions WHERE SessionID = @Session;
