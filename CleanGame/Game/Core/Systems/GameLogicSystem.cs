@@ -45,13 +45,16 @@ namespace CleanGame.Game.Core.Systems
         private bool cheatEndRound = false;
         private int PlayerHits;
         private float playerHitTime;
+        private bool roundover = false;
         private bool tutorialMode;
         private List<Label> textFloaters = new List<Label>();
+        private int ScenarioPtr = 15;
 
         private List<Entity> spawners = new List<Entity>();
 
         //Dictionary that contains a set of scenario objects
-        private Dictionary<string, Scenario> scenarios = new Dictionary<string, Scenario>();
+       // private Dictionary<string, Scenario> scenarios = new Dictionary<string, Scenario>();
+        private Dictionary<int, Scenario> scenarios = new Dictionary<int, Scenario>();
 
         public override void OnEntityAdded(Entity e)
         {
@@ -226,11 +229,12 @@ namespace CleanGame.Game.Core.Systems
             //int spawnerCount = 0;
 
             //Parse the XML for the Scenarios
+            int scenarioCount = 0;
             while (scenarioReader.ReadToFollowing("scenario"))
             {
 
                 //scenarioCount++;
-
+                
                 //MAP VARIABLES
                 //Temporary Variables
                 //Scenario name
@@ -294,8 +298,9 @@ namespace CleanGame.Game.Core.Systems
                                              numberOfMonsters, timePerSpawn, healthUpModifier, damageUpModifier));
                 } while (scenarioReader.ReadToNextSibling("spawner"));
 
-                scenarios.Add(scenarioName, new Scenario(scenarioName, difficultyScore, mapName, spawners, playerSpawnPoint));
-
+                //scenarios.Add(scenarioName, new Scenario(scenarioName, difficultyScore, mapName, spawners, playerSpawnPoint));
+                scenarios.Add(scenarioCount, new Scenario(scenarioName, difficultyScore, mapName, spawners, playerSpawnPoint));
+                scenarioCount++;
                 //spawnerCount = 0;
             }
         }
@@ -305,11 +310,11 @@ namespace CleanGame.Game.Core.Systems
         /// </summary>
         /// <param name="scenarioName"></param>
         /// <param name="player"></param>
-        public void setupScenario(string scenarioName)
-        {
-            Scenario tempScenario = scenarios[scenarioName];
-            setupScenario(tempScenario);
-        }
+        //public void setupScenario(string scenarioName)
+        //{
+        //    Scenario tempScenario = scenarios[scenarioName];
+        //    setupScenario(tempScenario);
+        //}
         /// <summary>
         /// Starts a specific scenario
         /// </summary>
@@ -344,20 +349,24 @@ namespace CleanGame.Game.Core.Systems
             Scenario playScenario = new Scenario();
 
             //Making sure that the scenario is made for the map
-            foreach (var scenario in scenarios.Values)
-            {
-                //break out if the random number scenario for that map
-                if (count == randomScenario)
-                {
-                    break;
-                }
-                //found a map with the same name
-                if (scenario.MapName.Equals(mapName))
-                {
-                    playScenario = (Scenario)scenario;
-                    count++;
-                }
-            }
+            //HardCode Scenarios start with 15 to 21
+            //foreach (var scenario in scenarios.Values)
+            //{
+            //    //break out if the random number scenario for that map
+            //    if (count == randomScenario)
+            //    {
+            //        break;
+            //    }
+            //    //found a map with the same name
+            //    if (scenario.MapName.Equals(mapName))
+            //    {
+            //        playScenario = (Scenario)scenario;
+            //        count++;
+            //    }
+            //}
+
+            playScenario = scenarios[ScenarioPtr];
+            ScenarioPtr++;
 
             return playScenario;
         }
@@ -378,14 +387,19 @@ namespace CleanGame.Game.Core.Systems
                 {
                     //if (roundTime > 0)
                     //{
-                    monstersdefeated++;
 
-                    AddTextFloater("+" + (50 + PlayerHits));
-                    game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += 50 + PlayerHits;
-                    game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").value += 10;
-                    game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += 1;
+                    if (!roundover)
+                    {
+                        
+                        monstersdefeated++;
 
-                    GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MonsterKilled, e.GetComponent<MonsterComponent>().data.Type);
+                        AddTextFloater("+" + (50 + PlayerHits));
+                        game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value += 50 + PlayerHits;
+                        game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").value += 10;
+                        game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += 1;
+
+                        GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MonsterKilled, e.GetComponent<MonsterComponent>().data.Type);
+                    }
                     //}
                     if (--monstersalive == 0 && !tutorialMode)
                     {
@@ -397,6 +411,7 @@ namespace CleanGame.Game.Core.Systems
                         GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundEnded, game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value.ToString());
                         GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundHealth, game.player.GetComponent<StatsComponent>().CurrentHealth.ToString());
 
+                        roundover = false;
                         StartPreRound();
                     }
                 }
@@ -487,6 +502,7 @@ namespace CleanGame.Game.Core.Systems
                     //Setting the movePlayer flag in the physics component of the player
                     game.player.GetComponent<PhysicsComponent>().movePlayer = true;
                     //TODO need to have the map name here
+                    
                     setupScenario(randomScenario(game.mapName));
                     game.player.Refresh();
                     //}
@@ -545,12 +561,29 @@ namespace CleanGame.Game.Core.Systems
                         {
 
                             GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerDiedWithScore, "");
-
+                            roundover = true;
                             game.GameWon = false;
+                            resetRound();
+                            for (int j = 0; j < entities.Count(); j++)
+                            {
+                                Entity entity = entities.ElementAt(j);
+                                if (entity.HasComponent<MonsterComponent>())
+                                {
+                                    World.DestroyEntity(entity);
+                                    j--;
+                                }
+                            }
 
-                            Event gamestate = new Event();
-                            gamestate.name = "GameStateGameOver";
-                            EventManager.Instance.TriggerEvent(gamestate);
+                            if (ScenarioPtr == 22)
+                            {
+
+                                game.GameWon = false;
+
+                                Event gamestate = new Event();
+                                gamestate.name = "GameStateGameOver";
+                                EventManager.Instance.TriggerEvent(gamestate);
+
+                            }
 
                         }
                         else
