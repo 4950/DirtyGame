@@ -88,6 +88,8 @@ namespace TowerSite.Controllers
         // POST odata/GameEvent
         public async Task<IHttpActionResult> Post(GameEventModel gameeventmodel)
         {
+            db.Configuration.AutoDetectChangesEnabled = false;
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -95,6 +97,8 @@ namespace TowerSite.Controllers
 
             db.GameEventModels.Add(gameeventmodel);
             await db.SaveChangesAsync();
+
+            db.Configuration.AutoDetectChangesEnabled = true;
 
             return Created(gameeventmodel);
         }
