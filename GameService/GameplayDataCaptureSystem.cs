@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.Objects;
+using Microsoft.Data.OData;
 
 namespace GameService
 {
@@ -134,20 +136,19 @@ namespace GameService
         public void InitContext()
         {
             serviceContainer = new GameService.Container(DataUri);
+            serviceContainer.SaveChangesDefaultOptions = SaveChangesOptions.Batch;
 
             serviceContainer.ReceivingResponse += (s, e) =>
             {
-                HttpWebResponse wr = ((HttpWebResponseMessage)e.ResponseMessage).Response;
-                if (!wr.ContentType.Contains("application/atom+xml"))
+                String ContentType = e.ResponseMessage.GetHeader("Content-Type");
+                if (!(ContentType.Contains("application/atom+xml") || ContentType.Contains("multipart/mixed")))
                 {
                     LoggedIn = false;
                 }
             };
             serviceContainer.SendingRequest2 += (s, e) =>
             {
-                HttpWebRequest wr = ((HttpWebRequestMessage)e.RequestMessage).HttpWebRequest;
-                wr.CookieContainer = new CookieContainer();
-                wr.CookieContainer.SetCookies(DataUri, Cookies);
+                e.RequestMessage.SetHeader("Cookie", Cookies);
             };
         }
 

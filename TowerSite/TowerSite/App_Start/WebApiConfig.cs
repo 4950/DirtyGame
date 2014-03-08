@@ -1,6 +1,7 @@
 ﻿using TowerSite.Models;
 using System.Web.Http;
 using System.Web.Http.OData.Builder;
+using System.Web.Http.OData.Batch;
 
 namespace TowerSite
 {
@@ -15,7 +16,7 @@ namespace TowerSite
             ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
             builder.EntitySet<GameEventModel>("GameEvent");
             builder.EntitySet<GameSession>("GameSession");
-            config.Routes.MapODataRoute("odata", "odata", builder.GetEdmModel());
+            config.Routes.MapODataRoute("odata", "odata", builder.GetEdmModel(), new DefaultODataBatchHandler(GlobalConfiguration.DefaultServer));
         }
     }
 }
