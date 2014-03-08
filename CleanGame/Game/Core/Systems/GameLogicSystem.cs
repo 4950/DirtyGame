@@ -18,6 +18,7 @@ using System.Xml;
 using CleanGame.Game.Core.GameStates;
 using CoreUI;
 using Microsoft.Xna.Framework.Graphics;
+using GameService;
 
 
 namespace CleanGame.Game.Core.Systems
@@ -315,6 +316,7 @@ namespace CleanGame.Game.Core.Systems
         /// <param name="scenario"></param>
         public void setupScenario(Scenario scenario)
         {
+            GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.ScenarioName, scenario.Name);
             game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value++;
 
             Entity e;
@@ -407,6 +409,11 @@ namespace CleanGame.Game.Core.Systems
         public void StartPreRound()
         {
             resetRound();
+
+            //Log
+            GameplayDataCaptureSystem.Instance.NewSession();
+            GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MapSelected, game.mapName);
+
             //next game round
             //AdvanceLevel();
             game.ClearField = true;

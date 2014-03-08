@@ -12,6 +12,7 @@ using CleanGame.Game.SGraphics;
 using CleanGame.Game.Util;
 using CleanGame.Game.Core.Events;
 using CleanGame.Game.Core.Components.Render;
+using GameService;
 
 namespace CleanGame.Game.Core.Systems
 {

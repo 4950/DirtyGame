@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Input;
 using CleanGame.Game.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using GameService;
 
 
 namespace CleanGame.Game.Core.GameStates
@@ -32,6 +33,7 @@ namespace CleanGame.Game.Core.GameStates
         private Label weaponDamage;
         private ProgressBar weaponAmmo;
         private Label weaponAmmoLabel;
+        private Label curScenario;
 
         private EntityRef curWeapon;
 
@@ -162,6 +164,13 @@ namespace CleanGame.Game.Core.GameStates
                 weaponAmmoLabel.TextPosition = TextPosition.Center;
                 windowCont.AddElement(weaponAmmoLabel);
 
+                curScenario = new Label();
+                curScenario.Size = new System.Drawing.Point(200, 20);
+                curScenario.Position = new System.Drawing.Point(10, 70);
+                curScenario.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.White);
+                curScenario.TextPosition = TextPosition.Left;
+                windowCont.AddElement(curScenario);
+
             }
             if (monsterHUD.Parent == null)
                 game.UIEngine.Children.AddElement(monsterHUD);
@@ -206,8 +215,10 @@ namespace CleanGame.Game.Core.GameStates
                 killLbl.Text = "Kills: " + game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value;
 
             if (game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").IsModified)
+            {
                 roundLbl.Text = "Round: " + game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value;
-
+                curScenario.Text = GameplayDataCaptureSystem.Instance.SessionID.ToString();
+            }
             if (game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").IsModified)
                 cashLbl.Text = "Cash: " + game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").value;
 
