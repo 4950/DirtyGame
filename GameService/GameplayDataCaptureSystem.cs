@@ -6,6 +6,7 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
+using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.Objects;
@@ -138,11 +139,12 @@ namespace GameService
         {
             serviceContainer = new GameService.Container(DataUri);
             serviceContainer.SaveChangesDefaultOptions = SaveChangesOptions.Batch;
+            serviceContainer.MergeOption = System.Data.Services.Client.MergeOption.PreserveChanges;
 
             serviceContainer.ReceivingResponse += (s, e) =>
             {
                 String ContentType = e.ResponseMessage.GetHeader("Content-Type");
-                if (!(ContentType.Contains("application/atom+xml") || ContentType.Contains("multipart/mixed")))
+                if (ContentType != null && !(ContentType.Contains("application/atom+xml") || ContentType.Contains("multipart/mixed")))
                 {
                     LoggedIn = false;
                 }
@@ -203,7 +205,10 @@ namespace GameService
                 CurrentSessionID = -1;
 
                 gs.Completed = true;
+                serviceContainer.UpdateObject(gs);
                 serviceContainer.SaveChanges();
+
+                gs = serviceContainer.GameSession.Where(gamesession => gamesession.SessionID == gs.SessionID).FirstOrDefault();
 
                 return gs;
             }

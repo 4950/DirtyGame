@@ -13,6 +13,7 @@ using System.Web.Http.OData;
 using System.Web.Http.OData.Routing;
 using TowerSite.Models;
 using Microsoft.AspNet.Identity;
+using System.Diagnostics;
 
 namespace TowerSite.Controllers
 {
@@ -103,6 +104,7 @@ namespace TowerSite.Controllers
         [AcceptVerbs("PATCH", "MERGE")]
         public async Task<IHttpActionResult> Patch([FromODataUri] int key, Delta<GameSession> patch)
         {
+            Trace.WriteLine("Patch");
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -133,21 +135,34 @@ namespace TowerSite.Controllers
             }
 
             if (gamesession.Completed)
-                RunScoreCalculations(gamesession);
-            
+            {
+                await RunScoreCalculations(gamesession);
+                await db.Entry(gamesession).ReloadAsync();
+                gamesession.HitRate = .5f;
+            }
+
             return Updated(gamesession);
         }
 
-        private async void RunScoreCalculations(GameSession gs)
+        private async Task RunScoreCalculations(GameSession gs)
         {
-            await db.Database.ExecuteSqlCommandAsync(@"
+            Trace.WriteLine("Starting query");
+            try
+            {
+                var res = await db.Database.ExecuteSqlCommandAsync(@"
 DECLARE @Session INT;
-SET @Session = {0};
+SET @Session = @p0;
 DECLARE @HitRate FLOAT;
 DECLARE @KillRate FLOAT;
 DECLARE @RoundHealth FLOAT;
 DECLARE @HealthRemaining FLOAT;
-SET @HitRate = CAST((SELECT COUNT(*) FROM GameEventModels WHERE (SessionId = @Session AND Type = 'PlayerWeaponFirstHit')) AS FLOAT) / (SELECT COUNT(*) FROM GameEventModels WHERE (SessionId = @Session AND Type = 'PlayerWeaponFired'));
+DECLARE @WepFired INT;
+
+/*Hit Rate*/
+SET @WepFired = (SELECT COUNT(*) FROM GameEventModels WHERE (SessionId = @Session AND Type = 'PlayerWeaponFired'));
+IF @WepFired = 0 SET @HitRate = 0;
+ELSE SET @HitRate = CAST((SELECT COUNT(*) FROM GameEventModels WHERE (SessionId = @Session AND Type = 'PlayerWeaponFirstHit')) AS FLOAT) / @WepFired;
+
 SET @KillRate = CAST((SELECT COUNT(*) FROM GameEventModels WHERE (SessionId = @Session AND Type = 'MonsterKilled')) AS FLOAT) / (SELECT COUNT(*) FROM GameEventModels WHERE (SessionId = @Session AND Type = 'MonsterSpawned'));
 SELECT @RoundHealth = Data FROM GameEventModels WHERE (SessionId = @Session AND Type = 'RoundHealth')
 SET @HealthRemaining = @RoundHealth / 100
@@ -211,7 +226,17 @@ PRINT 'DamageDealt: ' + CAST(@DamageDealt AS VARCHAR)
 PRINT 'Player Score: ' + CAST(@PlayerScore AS VARCHAR)*/
 
 UPDATE GameSessions SET HitRate = @HitRate, KillRate = @KillRate, HealthRemaining = @HealthRemaining, DamageDealt = @DamageDealt, SessionScore = @PlayerScore WHERE SessionID = @Session;
+SELECT * FROM GameSessions WHERE SessionID = @Session;
             ", gs.SessionID);
+
+                await db.Entry(gs).ReloadAsync();
+                Trace.WriteLine(gs.SessionScore.ToString());
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.Message);
+            }
+            Trace.WriteLine("Ended query");
         }
 
         // DELETE odata/GameSession(5)
