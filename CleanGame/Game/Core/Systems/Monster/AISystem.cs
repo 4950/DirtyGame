@@ -303,15 +303,71 @@ namespace CleanGame.Game.Core.Systems.Monster
 
                         if (seek)
                         {
-                            //Monster Tile Position
-                            int monsterTileX = (int)Math.Floor(m.GetComponent<SpatialComponent>().Center.X / 32);
-                            int monsterTileY = (int)Math.Floor(m.GetComponent<SpatialComponent>().Center.Y / 32);
+                            // A*
+                            ////Monster Tile Position
+                            //int monsterTileX = (int)Math.Floor(m.GetComponent<SpatialComponent>().Center.X / 32);
+                            //int monsterTileY = (int)Math.Floor(m.GetComponent<SpatialComponent>().Center.Y / 32);
 
-                            //Player Tile Position
-                            int goalTileX = (int)Math.Floor(e.GetComponent<SpatialComponent>().Center.X / 32);
-                            int goalTileY = (int)Math.Floor(e.GetComponent<SpatialComponent>().Center.Y / 32);
+                            ////Player Tile Position
+                            //int goalTileX = (int)Math.Floor(e.GetComponent<SpatialComponent>().Center.X / 32);
+                            //int goalTileY = (int)Math.Floor(e.GetComponent<SpatialComponent>().Center.Y / 32);
 
-                            chaseVector = aStarPath(monsterTileX, monsterTileY, goalTileX, goalTileY, mapWidth, mapHeight, m);
+                            //chaseVector = aStarPath(monsterTileX, monsterTileY, goalTileX, goalTileY, mapWidth, mapHeight, m);
+                            bool wall = false;
+                            List<Entity> rayCast = physics.RayCast(new Vector2(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y), new Vector2(otherX, otherY));
+                            foreach (Entity w in rayCast)
+                            {
+                                if (w.GetComponent<BorderComponent>() != null)
+                                {
+                                    wall = true;
+                                    break;
+                                }
+                                else
+                                {
+
+
+                                }
+                            }
+
+                            chaseVector = getChaseVector(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, otherX, otherY);
+                            //if (m.GetComponent<MovementComponent>().prevHorizontal != 0)
+                            //{
+                            //    m.GetComponent<MovementComponent>().prevVelocity = new Vector2(0, 0);
+                            //}
+                            MovementComponent oldVector = m.GetComponent<MovementComponent>();
+
+                            if (wall)
+                            {
+                                if (Math.Abs(chaseVector[0]) > Math.Abs(chaseVector[1]))
+                                {
+                                    if (chaseVector[1] > 0)
+                                    {
+                                        chaseVector = WalkAroundWallVertical(m, oldVector, "up");
+                                    }
+                                    else
+                                    {
+                                        chaseVector = WalkAroundWallVertical(m, oldVector, "down");
+                                    }
+
+                                }
+                                else
+                                {
+                                    if (chaseVector[0] > 0)
+                                    {
+                                        chaseVector = WalkAroundWallHorizontal(m, oldVector, "left");
+
+                                    }
+                                    else
+                                    {
+                                        chaseVector = WalkAroundWallHorizontal(m, oldVector, "right");
+                                    }
+                                }
+                            }
+                            else
+                            {
+
+                            }
+                        
                         }
                         else
                         {
@@ -1218,580 +1274,5 @@ namespace CleanGame.Game.Core.Systems.Monster
             return chaseVector;
         }
 
-        private class HeapSort
-        {
-            static int size = 0;
-            public static void MinHeapify(Node[] a, int i)
-            {
-                Node temp;
-                int left = Left(a, i);
-                int right = Right(a, i);
-                /* System.out.println("i: " + i);
-                 System.out.println("L: " + left);
-                 System.out.println("R: " + right);
-                 System.out.println("len: " + a.length);
-                 System.out.println("");*/
-                if ((left < (a.Length + size)) && (right < (a.Length + size)))
-                {
-                    if ((a[left] > a[i]) && (a[right] > a[i]))
-                    {
-
-                    }
-                    else
-                    {
-                        if (a[left] < a[right])
-                        {
-                            temp = a[i];
-                            a[i] = a[left];
-                            a[left] = temp;
-                            MinHeapify(a, left);
-                        }
-                        else
-                        {
-                            temp = a[i];
-                            a[i] = a[right];
-                            a[right] = temp;
-                            MinHeapify(a, right);
-                        }
-                    }
-                }
-                else
-                {
-                    if ((left >= a.Length + size) && (right >= a.Length + size))
-                    {
-
-                    }
-                    else
-                    {
-                        if ((left >= a.Length + size))
-                        {
-                            if (a[right] < a[i])
-                            {
-                                temp = a[i];
-                                a[i] = a[right];
-                                a[right] = temp;
-                                MinHeapify(a, right);
-                            }
-                        }
-                        else
-                        {
-                            if (a[left] < a[i])
-                            {
-                                temp = a[i];
-                                a[i] = a[left];
-                                a[left] = temp;
-                                MinHeapify(a, left);
-                            }
-                        }
-                    }
-                }
-            }
-
-            public static void BuildMinHeap(Node[] a)
-            {
-                for (int i = (int)Math.Floor(a.Length / 2.0); i >= 1; i--)
-                {
-                    MinHeapify(a, i);
-                }
-            }
-
-            public static void HS(Node[] a)
-            {
-                Node[] b = Body(a);
-                for (int i = 0; i < a.Length; i++)
-                {
-                    a[i] = b[b.Length - 1 - i];
-                }
-            }
-            public static Node[] Body(Node[] a)
-            {
-                Node[] b = new Node[a.Length + 1];
-                Node temp;
-                int i;
-                for (i = 0; i < a.Length; i++)
-                {
-                    b[i + 1] = a[i];
-                }
-                BuildMinHeap(b);
-                for (i = b.Length - 1; i >= 2; i--)
-                {
-                    temp = b[1];
-                    b[1] = b[i];
-                    b[i] = temp;
-                    size--;
-                    MinHeapify(b, 1);
-                }
-                MinHeapify(b, 1);
-                return b;
-            }
-
-            private static int Parent(Node[] a, int i)
-            {
-                if (i == 1)
-                {
-                    return i;
-                }
-                else
-                {
-                    return (int)Math.Floor(i / 2.0);
-                }
-            }
-
-            private static int Right(Node[] a, int i)
-            {
-                if ((2 * i) + 1 > a.Length)
-                {
-                    return Int32.MaxValue;
-                }
-                else
-                {
-                    return (2 * i) + 1;
-                }
-            }
-
-            private static int Left(Node[] a, int i)
-            {
-                if (2 * i > a.Length)
-                {
-                    return Int32.MaxValue;
-                }
-                else
-                {
-                    return 2 * i;
-                }
-            }
-        }
-
-        private class MaxHeapQueue
-        {
-            public class MaxHeapNode {
-
-                public Node data;
-                public MaxHeapNode left = null;
-                public MaxHeapNode right = null;
-                public MaxHeapNode parent = null;
-
-                public MaxHeapNode(Node d) {
-                    this.data = d;
-                }
-
-                public MaxHeapNode(Node d, MaxHeapNode p) {
-                    //Set data = d, parent = p, and have
-                    //this node be p.left if p.left is empty,
-                    //or else p.right.
-                    this.data = d;
-                    this.parent = p;
-                    if(p.left==null)
-                    {
-                        p.left = this;
-                    }
-                    else
-                    {
-                        p.right = this;
-                    }
-        
-                }
-
-                public void setLeft(MaxHeapNode l) {
-                    left = l;
-                }
-
-                public void setRight(MaxHeapNode r) {
-                    right = r;
-                }
-
-                public void heapify() {
-                    Node temp = this.data;
-            //        this.printSubTree(0);
-            //        System.out.println("");
-                    if(this.left!=null && this.right!=null)
-                    {
-                        if(this.data>this.left.data && this.data>this.right.data)
-                        {}
-                        else
-                        {
-                            if(this.left.data>=this.right.data)
-                            {
-                                this.data = this.left.data;
-                                this.left.data = temp;
-                                this.left.heapify();
-                            }
-                            else
-                            {
-                                this.data = this.right.data;
-                                this.right.data = temp;
-                                this.right.heapify();
-                            } 
-                        }
-                    }
-                    else
-                    {
-                        if(this.left==null && this.right==null)
-                        {}
-                        else
-                        {
-                            if(this.left==null)
-                            {
-                                if(this.data>this.right.data)
-                                {}
-                                else
-                                {
-                                    this.data = this.right.data;
-                                    this.right.data = temp;
-                                    this.right.heapify();
-                                }
-                            }
-                            else
-                            {
-                                if(this.right==null)
-                                {
-                                    if(this.data>this.left.data)
-                                    {}
-                                    else
-                                    {
-                                        this.data = this.left.data;
-                                        this.left.data = temp;
-                                        this.left.heapify();
-                                    }
-                                }
-                            }
-                        }
-                    }        //Determine which value is the largest: this node,
-                    //The left node, or the right node. If a child is larger,
-                    //Swap the value of the parent and the largest child, then
-                    //heapify on the child node.
-                }
-
-                public void promote(Node v) 
-                {
-                    this.data = v;
-                    if(this.parent == null)
-                    {
-                        this.heapify();
-                    }
-                    else
-                    {
-                        if(v>this.parent.data)
-                        {
-                            this.data = this.parent.data;
-                            this.parent.data = v;
-            //                System.out.println("parent: " + this.parent.data);
-                            heapifyUp(this.parent);
-                        }
-                        else
-                        {
-            
-                        }   
-                    }
-                    //Increase the data value of this node to v. Then, compare it to the parent node.
-                    //if the new data value is higher than the parent data value, swap them.
-                    //Continue swapping with higher parents until you've reached the top
-                    //Or your parent is a larger value than you.
-                }
-
-                public void heapifyUp(MaxHeapNode node)
-                {
-                    if(node.parent != null)
-                    {
-                        if(node.data > node.parent.data)
-                        {
-                            node.parent.heapify();
-                            heapifyUp(node.parent);
-                        }
-                        else
-                        {
-                            node.heapify();
-                        }
-                    }
-                    else
-                    {
-                        node.heapify();
-                    }
-                }
-    
-                public void printSubTree(int depth) {
-                    //Prints the node and its children, using the style developed by Baylor.
-                    for (int i = 1; i < depth; i++) {
-                        Console.Write("    ");
-                    }
-                    if (depth != 0) {
-                        Console.Write("|~~~");
-                    }
-                    Console.WriteLine(this.data);
-                    if (left != null) {
-                        left.printSubTree(depth + 1);
-                    }
-                    if (right != null) {
-                        right.printSubTree(depth + 1);
-                    }
-                }
-
-                public Boolean isFull() 
-                {
-                    return (this.left!=null && this.right!=null);
-                }
-
-                public Boolean isLeaf()
-                {
-                    if (left == null && right ==null)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-    
-                
-                public override String ToString()
-                {
-                    String s = "";
-                    s+=this.data;
-                    return s;
-                }
-            }
-
-            MaxHeapNode top = null;
-            Queue<MaxHeapNode> q = new Queue<MaxHeapNode>();
-            int Size = 0;
-            MaxHeapNode addNode;
-            private int tempHeight = 0;
-            MaxHeapNode[] BF;
-
-
-            public MaxHeapQueue()
-            {
-            }
-
-            public MaxHeapQueue(Node[] values) 
-            {
-                foreach(Node n in values)
-                {
-                    this.push(n);
-                }
-            }
-
-            public void push(Node n) {
-                //Find the correct node to add to, using getAddNode(). Make the new node a 
-                //child of addNode with an initial data value of Integer.MIN_VALUE.
-                //Then, promote the new node to data value v.
-                if(top == null)
-                {
-                    top = new MaxHeapNode(n);
-                    Size++;
-                }
-                else
-                {
-                    MaxHeapNode parent = this.getAddNode();
-                    //System.out.println("addNode:" + parent.data);
-                    MaxHeapNode newNode = new MaxHeapNode(new Node(), parent);
-                    newNode.promote(n);
-                    Size++;
-                }
-            }
-
-            public Node peek()
-            {
-                if (top == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return top.data;
-                }
-            }
-
-            public Node pop()
-            {
-                if (top == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    if (top.isLeaf())
-                    {
-                        Node pop = top.data;
-                        top = null;
-                        Size--;
-                        return pop;
-                    }
-                    else
-                    {
-                        if (top.right == null)
-                        {
-                            Node pop = top.data;
-                            MaxHeapNode temp = top.left;
-                            top.left = null;
-                            temp.parent = null;
-                            top = temp;
-                            Size--;
-                            return pop;
-                        }
-                        else
-                        {
-                            if (getHeight(top) == 1)
-                            {
-                                Node pop = top.data;
-                                MaxHeapNode temp = popLast();
-                                if (temp == top.left)
-                                {
-                                    top.left = null;
-                                }
-                                if (temp == top.right)
-                                {
-                                    top.right = null;
-                                }
-                                temp.left = top.left;
-                                temp.right = top.right;
-                                top = temp;
-                                top.heapify();
-                                Size--;
-                                return pop;
-                            }
-                            else
-                            {
-                                Node pop = top.data;
-                                MaxHeapNode temp = popLast();
-                                temp.left = top.left;
-                                temp.right = top.right;
-                                top = temp;
-                                top.heapify();
-                                Size--;
-                                return pop;
-                            }
-                        }
-                    }
-                }
-
-                //Save the value of top.data. Remove the last node from the bottom of the heap,
-                //and place its value at the top of the heap. Heapify to fix any issues with
-                //Removing the top value.
-            }
-
-            public MaxHeapNode popLast() {
-                //Breadth-first search of the heap. Works just like BF search of a binary tree.
-                //Using a queue, push the first HeapNode into the queue. While the queue isn't empty,
-                //add the children of each node. The last node to leave the queue is the last node in
-                //the heap. Remove the parent references to that node and return it.
-                //System.out.println("pop last");
-                MaxHeapNode last = new MaxHeapNode(new Node());
-                q.Clear();
-                q.Enqueue(top);
-                while(q.Count!=0)
-                {
-                    if(q.Peek().left!= null)
-                    {
-                        q.Enqueue(q.Peek().left);
-                    }
-                    if(q.Peek().right!=null)
-                    {
-                        q.Enqueue(q.Peek().right);
-                    }
-                    last = q.Dequeue();
-                }
-                if(last == last.parent.left)
-                {
-                    last.parent.left = null;
-                }
-                if(last == last.parent.right)
-                {
-                    last.parent.right = null;
-                }
-                last.parent = null;
-        //        System.out.println(last.parent);
-        //        System.out.println(this.top.left);
-        //        System.out.println(this.top.right);
-                return last;
-            }
-
-            public MaxHeapNode getAddNode() {
-                //The addNode is the node under which newly pushed nodes should be added.
-                //To find this node, do a breadth-first search of the heap, and return the
-                //first node that does not have BOTH its left and right children.
-                MaxHeapNode addNode = new MaxHeapNode(new Node());
-                q.Clear();
-                q.Enqueue(top);
-                while(q.Count != 0)
-                {
-                    Console.WriteLine(q.ToString());
-                    if(!q.Peek().isFull())
-                    {
-                        addNode = q.Peek();
-                        break;
-                    }
-                    if(q.Peek().left!= null)
-                    {
-                        q.Enqueue(q.Peek().left);
-                    }
-                    if(q.Peek().right!=null)
-                    {
-                        q.Enqueue(q.Peek().right);
-                    }
-                    q.Dequeue();
-                }
-                return addNode;
-            }
-
-            public int size()
-            {
-                return Size;
-            }
-
-            public void clear()
-            {
-                top = null;
-            }
-
-            public Boolean isEmpty()
-            {
-                //A method you should be somewhat familiar with.
-                //Returns true if there's nothing in the HeapQueue.
-                if (top != null)
-                {
-                    return false;
-                }
-                return true;
-            }
-
-            public void printHeap() {
-                //Prints the entire heap recursively.
-                if (isEmpty()) {
-                    return;
-                }
-                top.printSubTree(0);
-                Console.WriteLine();
-            }
-
-            public int getHeight(MaxHeapNode node)
-            {
-                MaxHeapNode current = node;
-                heightHelper(current, tempHeight);
-                int returnHeight = tempHeight;
-                tempHeight = 0;
-                return returnHeight;
-            }
-
-            private void heightHelper(MaxHeapNode current, int h)
-            {
-                if (current == null)
-                {
-                    if (h > tempHeight)
-                    {
-                        tempHeight = h - 1;
-                    }
-                }
-                else
-                {
-                    heightHelper(current.left, h + 1);
-
-                    heightHelper(current.right, h + 1);
-                }
-            }
-
-
-        }
     }
 }
