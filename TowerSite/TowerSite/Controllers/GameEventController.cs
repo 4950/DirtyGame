@@ -14,6 +14,7 @@ using System.Web.Http.OData.Routing;
 using System.Web.Security;
 using TowerSite.Models;
 using Microsoft.AspNet.Identity;
+using System.Diagnostics;
 
 namespace TowerSite.Controllers
 {

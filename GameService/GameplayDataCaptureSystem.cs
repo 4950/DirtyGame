@@ -6,6 +6,7 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
+using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.Objects;
@@ -49,6 +50,7 @@ namespace GameService
         private String Cookies = "";
         private bool LoggedIn = false;
         private int CurrentSessionID = -1;
+        private GameService.GameSession CurrentSession;
         private bool sending = false;
 
         public int SessionID { get { return CurrentSessionID; } }
@@ -137,11 +139,12 @@ namespace GameService
         {
             serviceContainer = new GameService.Container(DataUri);
             serviceContainer.SaveChangesDefaultOptions = SaveChangesOptions.Batch;
+            serviceContainer.MergeOption = System.Data.Services.Client.MergeOption.PreserveChanges;
 
             serviceContainer.ReceivingResponse += (s, e) =>
             {
                 String ContentType = e.ResponseMessage.GetHeader("Content-Type");
-                if (!(ContentType.Contains("application/atom+xml") || ContentType.Contains("multipart/mixed")))
+                if (ContentType != null && !(ContentType.Contains("application/atom+xml") || ContentType.Contains("multipart/mixed")))
                 {
                     LoggedIn = false;
                 }
@@ -171,11 +174,14 @@ namespace GameService
                 Login();
             if (!LoggedIn)//Failed to log in
                 return false;
+            if (CurrentSession != null)
+                EndSession();
 
             GameService.GameSession gs = new GameService.GameSession();
             serviceContainer.AddToGameSession(gs);
             var serviceResponse = serviceContainer.SaveChanges();
             CurrentSessionID = gs.SessionID;
+            CurrentSession = gs;
             foreach (var operationResponse in serviceResponse)
             {
                 if (operationResponse.StatusCode != 201)
@@ -183,6 +189,34 @@ namespace GameService
             }
             return true;
         }
+
+        /// <summary>
+        /// Ends the current session and returns session data
+        /// </summary>
+        /// <returns></returns>
+        public GameService.GameSession EndSession()
+        {
+            FlushData();
+
+            if (CurrentSession != null)
+            {
+                var gs = CurrentSession;
+                CurrentSession = null;
+                CurrentSessionID = -1;
+
+                gs.Completed = true;
+                serviceContainer.UpdateObject(gs);
+                serviceContainer.SaveChanges();
+
+                gs = serviceContainer.GameSession.Where(gamesession => gamesession.SessionID == gs.SessionID).FirstOrDefault();
+
+                MessageBox.Show("Session ID: " + gs.SessionID + "\n\nAccuracy: " + (gs.HitRate * 100) + "%\nPlayerScore: " + gs.SessionScore, "Round Results");
+
+                return gs;
+            }
+            return null;
+        }
+
         /// <summary>
         /// Wrties all pending data to server. Shows a window
         /// </summary>

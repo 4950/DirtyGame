@@ -20,6 +20,7 @@ namespace CleanGame.Game.Core.Systems.Monster
         public float totaltime;
         private Physics physics;
         public Renderer renderer;
+        
 
         //Current goal: Make monsters of different types rush towards each other.
         // If no monster of another type is nearby... wander.
@@ -285,6 +286,8 @@ namespace CleanGame.Game.Core.Systems.Monster
 
         private double[] seekPlayer(IEnumerable<Entity> entities, Entity m, int minrange, int maxrange, bool seek)
         {
+            int mapWidth = renderer.ActiveMap.getPixelWidth() / 32;
+            int mapHeight = renderer.ActiveMap.getPixelHeight() / 32;
             foreach (Entity e in entities)
             {
                 if (e.HasComponent<PlayerComponent>())
@@ -292,6 +295,7 @@ namespace CleanGame.Game.Core.Systems.Monster
 
                     int otherX = (int)e.GetComponent<SpatialComponent>().Position.X;
                     int otherY = (int)e.GetComponent<SpatialComponent>().Position.Y;
+                    //bool inSight = !WallCheck(physics.RayCast(new Vector2(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y), new Vector2(otherX, otherY)));
                     if (getDistance(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, otherX, otherY) < maxrange &&
                         getDistance(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, otherX, otherY) > minrange)
                     {
@@ -299,6 +303,16 @@ namespace CleanGame.Game.Core.Systems.Monster
 
                         if (seek)
                         {
+                            // A*
+                            ////Monster Tile Position
+                            //int monsterTileX = (int)Math.Floor(m.GetComponent<SpatialComponent>().Center.X / 32);
+                            //int monsterTileY = (int)Math.Floor(m.GetComponent<SpatialComponent>().Center.Y / 32);
+
+                            ////Player Tile Position
+                            //int goalTileX = (int)Math.Floor(e.GetComponent<SpatialComponent>().Center.X / 32);
+                            //int goalTileY = (int)Math.Floor(e.GetComponent<SpatialComponent>().Center.Y / 32);
+
+                            //chaseVector = aStarPath(monsterTileX, monsterTileY, goalTileX, goalTileY, mapWidth, mapHeight, m);
                             bool wall = false;
                             List<Entity> rayCast = physics.RayCast(new Vector2(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y), new Vector2(otherX, otherY));
                             foreach (Entity w in rayCast)
@@ -353,17 +367,24 @@ namespace CleanGame.Game.Core.Systems.Monster
                             {
 
                             }
+                        
                         }
                         else
                         {
+                            //chaseVector = flee(otherX, otherY, m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y);
                             chaseVector = getChaseVector(otherX, otherY, m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y);
                         }
                         return chaseVector;
                     }
                 }
             }
-
             return new double[2];
+        }
+
+        private double[] flee(int playerX, int playerY, float monsterX, float monsterY)
+        {
+            double[] pToM = getChaseVector(playerX, playerY, monsterX, monsterY);
+            throw new NotImplementedException();
         }
         private void setDirection(double[] vel, Entity m)
         {
@@ -545,6 +566,11 @@ namespace CleanGame.Game.Core.Systems.Monster
                 );
         }
 
+        private double getManhattanDistance(double x, double y, double ox, double oy)
+        {
+            return Math.Abs(ox - x) + Math.Abs(oy - y);
+        }
+
         private double[] getChaseVector(double x, double y, double ox, double oy)
         {
             double[] vect = new double[2];
@@ -556,6 +582,7 @@ namespace CleanGame.Game.Core.Systems.Monster
             return vect;
         }
 
+        //depricated
         private double[] WalkAroundWallVertical(Entity m, MovementComponent oldVector, string direction)
         {
             double[] chaseVector = new double[2];
@@ -594,7 +621,7 @@ namespace CleanGame.Game.Core.Systems.Monster
 
             return chaseVector;
         }
-
+        //depricated
         private double[] WalkAroundWallHorizontal(Entity m, MovementComponent oldVector, string direction)
         {
             double[] chaseVector = new double[2];
@@ -1023,5 +1050,229 @@ namespace CleanGame.Game.Core.Systems.Monster
             }
             return false;
         }
+
+        private class Node
+        {
+            public int xPos;
+            public int yPos;
+            public float gScore;
+            public float fScore;
+            public Node cameFrom;
+            private Renderer renderer;
+
+            public Node(int xPos, int yPos, float gScore, float fScore, Node cameFrom)
+            {
+                this.xPos = xPos;
+                this.yPos = yPos;
+                this.gScore = gScore;
+                this.fScore = fScore;
+                this.cameFrom = cameFrom;
+            }
+
+            public Node(Renderer r)
+            {
+                renderer = r;
+            }
+
+            public Node()
+            {
+
+            }
+
+            public Node(int xPos, int yPos, Node cameFrom, Renderer renderer)
+            {
+                this.xPos = xPos;
+                this.yPos = yPos;
+                this.cameFrom = cameFrom;
+                this.renderer = renderer;
+            }
+
+            public LinkedList<Node> neighbors()
+            {
+                LinkedList<Node> neighbors = new LinkedList<Node>();
+                Map.Map map = renderer.ActiveMap;
+                bool [,] collMap = map.getPassabilityMap();
+
+                for (int i = -1; i<=1; i++)
+                {
+                    for (int j = -1; j <= 1; j++)
+                    {
+                        if(i== 0 && j==0)
+                        {
+
+                        }
+                        else if ((this.xPos + i < map.getPixelHeight() / 32) && (this.yPos + j < map.getPixelWidth() / 32))
+                        {
+                            if (!collMap[this.xPos + i, this.yPos + j])
+                            {
+                                neighbors.AddLast(new Node(this.xPos + i, this.yPos + j, this, renderer));
+                                
+                            }
+                        }
+                    }
+                }
+
+                return neighbors;
+            }
+
+            public override bool Equals(object obj)
+            {
+                Node n = (Node) obj;
+                if (n.xPos != this.xPos || n.yPos != this.yPos)
+                {
+                    return false;
+                }
+                return true;
+            }
+
+            //int IComparer<Node>.Compare(object a, object b)
+            //{
+            //    Node n1 = (Node)a;
+            //    Node n2 = (Node)b;
+
+            //    if (n1.fScore > n2.fScore)
+            //        return 1;
+
+            //    if (n1.fScore < n2.fScore)
+            //        return -1;
+
+            //    else
+            //        return 0;
+            //}
+
+            public static Boolean operator >(Node n1, Node n2)
+            {
+                if (n1.fScore > n2.fScore)
+                {
+                    return true;
+                }
+                return false;
+            }
+
+            public static Boolean operator >=(Node n1, Node n2)
+            {
+                if (n1.fScore >= n2.fScore)
+                {
+                    return true;
+                }
+                return false;
+            }
+
+            public static Boolean operator <(Node n1, Node n2)
+            {
+                if (n1.fScore < n2.fScore)
+                {
+                    return true;
+                }
+                return false;
+            }
+
+            public static Boolean operator <=(Node n1, Node n2)
+            {
+                if (n1.fScore <= n2.fScore)
+                {
+                    return true;
+                }
+                return false;
+            }
+
+            public Node getPath()
+            {
+                Node n = this;
+                while (n.cameFrom.cameFrom != null)
+                {
+                    n = n.cameFrom;
+                }
+                return n;
+            }
+        }
+
+        private double[] aStarPath(int monsterTileX, int monsterTileY, int goalTileX, int goalTileY, int mapWidth, int mapHeight, Entity m)
+        {
+            double[] chaseVector = new double[2];
+            LinkedList<Node> openList = new LinkedList<Node>();
+            //Dictionary<int, int> closedList = new Dictionary<int, int>();
+
+            bool[,] closedList = new bool[mapWidth, mapHeight];
+
+            Node start = new Node(renderer);
+            start.xPos = monsterTileX;
+            start.yPos = monsterTileY;
+            start.gScore = 0;
+            start.fScore = (float)getManhattanDistance(start.xPos, start.yPos, goalTileX, goalTileY) + start.gScore;
+            start.cameFrom = null;
+
+            openList.AddFirst(start);
+            chaseVector = null;
+            while (openList.Count != 0)
+            {
+                Node current = null;
+                //Find best node to evaluate
+                foreach (Node n in openList)
+                {
+                    if (current == null)
+                    {
+                        current = n;
+                    }
+                    else
+                    {
+
+                        if (current.fScore > n.fScore)
+                        {
+                            current = n;
+                        }
+                    }
+                }
+
+
+
+                //Finish if we find goal node
+                if (current.xPos == goalTileX && current.yPos == goalTileY)
+                {
+                    //Generate Vector
+                    Node next = current.getPath();
+                    chaseVector = getChaseVector(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, next.xPos * 32, next.yPos * 32);
+                }
+
+                //Update open/closed list
+                openList.Remove(current);
+                closedList[current.xPos, current.yPos] = true;
+
+                foreach (Node n in current.neighbors())
+                {
+                    if (closedList[n.xPos, n.yPos])
+                    {
+                        continue;
+                    }
+
+                    float tentativeGScore = current.gScore + (float)getManhattanDistance(current.xPos, current.yPos, n.xPos, n.yPos);
+
+                    LinkedListNode<Node> old = openList.Find(n);
+                    if (old != null)
+                    {
+                        Node oldN = old.Value;
+
+                        if (tentativeGScore < oldN.gScore)
+                        {
+                            openList.Remove(n);
+                            n.cameFrom = current;
+                            n.gScore = tentativeGScore;
+                            n.fScore = n.gScore + (float)getManhattanDistance(n.xPos, n.yPos, goalTileX, goalTileY);
+                            openList.AddFirst(n);
+                        }
+                    }
+                    else
+                    {
+                        n.cameFrom = current;
+                        n.gScore = tentativeGScore;
+                        n.fScore = n.gScore + (float)getManhattanDistance(n.xPos, n.yPos, goalTileX, goalTileY);
+                        openList.AddFirst(n);
+                    }
+                }
+            }
+
+            return chaseVector;
+        }
+
     }
 }

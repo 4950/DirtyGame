@@ -202,7 +202,7 @@ namespace GameEventTester
         }
         static void DisplaySession(GameService.GameSession ge)
         {
-            Console.WriteLine("{0} {1} {2}", ge.ID, ge.UserID, ge.SessionID);
+            Console.WriteLine("{0} {1} {2} {3}", ge.ID, ge.UserID, ge.SessionID, ge.SessionScore);
         }
         static void ListAllSessions(GameService.Container container)
         {
