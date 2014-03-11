@@ -43,7 +43,9 @@ namespace GameService
         PlayerDiedWithScore,
         MonsterSpawned,
         ScenarioName,
-        VersionNumber
+        VersionNumber,
+        ComboEndValue,
+        ComboEndReason
     }
     public class GameplayDataCaptureSystem : Singleton<GameplayDataCaptureSystem>
     {

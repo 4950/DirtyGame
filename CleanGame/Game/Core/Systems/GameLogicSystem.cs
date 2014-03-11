@@ -53,7 +53,7 @@ namespace CleanGame.Game.Core.Systems
         private List<Entity> spawners = new List<Entity>();
 
         //Dictionary that contains a set of scenario objects
-       // private Dictionary<string, Scenario> scenarios = new Dictionary<string, Scenario>();
+        // private Dictionary<string, Scenario> scenarios = new Dictionary<string, Scenario>();
         private Dictionary<int, Scenario> scenarios = new Dictionary<int, Scenario>();
 
         public override void OnEntityAdded(Entity e)
@@ -188,13 +188,18 @@ namespace CleanGame.Game.Core.Systems
         }
         public void PlayerTookDamage()
         {
-            ResetHitCounter();
+            ResetHitCounter(false);
             (DamagePanel.Background as MonoGameColor).color.A = damagePnlMaxAlpha;
             DamagePanel.Visibility = Visibility.Visible;
             damagePnlTime = damagePnlMaxTime;
         }
-        private void ResetHitCounter()
+        private void ResetHitCounter(bool timeout)
         {
+            if (PlayerHits > 0)
+            {
+                GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.ComboEndValue, PlayerHits.ToString());
+                GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.ComboEndReason, timeout ? "Timeout" : "Damage");
+            }
             int mul = (int)Math.Floor(PlayerHits / 10.0d);
             mul = PlayerHits * mul;
             if (mul > 0)
@@ -234,7 +239,7 @@ namespace CleanGame.Game.Core.Systems
             {
 
                 //scenarioCount++;
-                
+
                 //MAP VARIABLES
                 //Temporary Variables
                 //Scenario name
@@ -390,7 +395,7 @@ namespace CleanGame.Game.Core.Systems
 
                     if (!roundover)
                     {
-                        
+
                         monstersdefeated++;
 
                         AddTextFloater("+" + (50 + PlayerHits));
@@ -470,7 +475,7 @@ namespace CleanGame.Game.Core.Systems
                 playerHitTime -= dt;
                 if (playerHitTime <= 0)
                 {
-                    ResetHitCounter();
+                    ResetHitCounter(true);
                 }
             }
             if (roundStartTime > 0 && !tutorialMode)
@@ -502,7 +507,7 @@ namespace CleanGame.Game.Core.Systems
                     //Setting the movePlayer flag in the physics component of the player
                     game.player.GetComponent<PhysicsComponent>().movePlayer = true;
                     //TODO need to have the map name here
-                    
+
                     setupScenario(randomScenario(game.mapName));
                     game.player.Refresh();
                     //}
