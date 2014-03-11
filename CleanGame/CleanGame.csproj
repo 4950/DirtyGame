@@ -195,7 +195,6 @@
     <Compile Include="Game\SGraphics\SortKey.cs" />
     <Compile Include="Game\SGraphics\SpriteSheet.cs" />
     <None Include="CleanGame_TemporaryKey.pfx" />
-    <None Include="Game\Util\GameplayDataCaptureSystem.cs" />
     <Compile Include="Game\Util\Logger.cs" />
     <Compile Include="Game\Util\Settings.cs" />
     <Compile Include="Game\Util\Singleton.cs" />

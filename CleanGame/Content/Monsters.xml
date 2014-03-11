@@ -356,7 +356,7 @@
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="PropertyComponentOfString">
       <Name>MonsterType</Name>
       <IsModified>true</IsModified>
-      <value />
+      <value>MeleeMonster</value>
     </Component>
   </Entity>
   <Entity name="SuicideBomber" data="true">
@@ -570,7 +570,7 @@
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="PropertyComponentOfString">
       <Name>MonsterType</Name>
       <IsModified>true</IsModified>
-      <value />
+      <value>LandmineDropper</value>
     </Component>
   </Entity>
   <Entity name="RangedMonster" data="true">
@@ -677,7 +677,7 @@
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="PropertyComponentOfString">
       <Name>MonsterType</Name>
       <IsModified>true</IsModified>
-      <value />
+      <value>RangedMonster</value>
     </Component>
   </Entity>
   <Entity name="Grenadier" data="true">
@@ -784,7 +784,7 @@
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="PropertyComponentOfString">
       <Name>MonsterType</Name>
       <IsModified>true</IsModified>
-      <value />
+      <value>Grenadier</value>
     </Component>
   </Entity>
   
