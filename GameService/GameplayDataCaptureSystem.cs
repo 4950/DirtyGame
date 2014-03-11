@@ -49,8 +49,8 @@ namespace GameService
     }
     public class GameplayDataCaptureSystem : Singleton<GameplayDataCaptureSystem>
     {
-        static Uri BrowseUri = new Uri("https://toweroffense.azurewebsites.net/Account/Login");
-        static Uri DataUri = new Uri("https://toweroffense.azurewebsites.net/odata");
+        static Uri BrowseUri = new Uri("https://csci4950.azurewebsites.net/Account/Login");
+        static Uri DataUri = new Uri("https://csci4950.azurewebsites.net/odata");
         GameService.Container serviceContainer;
         private String Cookies = "";
         private bool LoggedIn = false;
@@ -87,7 +87,7 @@ namespace GameService
             loginWindow.Size = new System.Drawing.Size(300, 850);
             loginWindow.FormBorderStyle = FormBorderStyle.FixedToolWindow;
             loginWindow.StartPosition = FormStartPosition.CenterScreen;
-            loginWindow.Text = "Tower Offense";
+            loginWindow.Text = "CSCI 4950 Project";
             loginWindow.ControlBox = false;
             loginWindow.FormClosing += loginWindow_FormClosing;
 
