@@ -263,7 +263,7 @@ namespace CleanGame
         }
         public Dirty()
         {
-            GameplayDataCaptureSystem.Instance.InitContext();
+            GameplayDataCaptureSystem.Instance.InitContext(App.PublishVersion);
             GameplayDataCaptureSystem.Instance.Login();
             Settings.Instance.LoadSettings();
 

@@ -35,12 +35,15 @@ namespace GameService
         MonsterDamageTaken,
         PlayerDamageTaken,
         PlayerWeaponFirstHit,
+        PlayerHitByWeapon,
+        MonsterHitByWeapon,
         MonsterKilled,
         RoundEnded,
         RoundHealth,
         PlayerDiedWithScore,
         MonsterSpawned,
-        ScenarioName
+        ScenarioName,
+        VersionNumber
     }
     public class GameplayDataCaptureSystem : Singleton<GameplayDataCaptureSystem>
     {
@@ -52,6 +55,7 @@ namespace GameService
         private int CurrentSessionID = -1;
         private GameService.GameSession CurrentSession;
         private bool sending = false;
+        private string Version;
 
         public int SessionID { get { return CurrentSessionID; } }
 
@@ -135,8 +139,10 @@ namespace GameService
         /// <summary>
         /// Inits the Data Context and readies for logging
         /// </summary>
-        public void InitContext()
+        public void InitContext(String Version)
         {
+            this.Version = Version;
+
             serviceContainer = new GameService.Container(DataUri);
             serviceContainer.SaveChangesDefaultOptions = SaveChangesOptions.Batch;
             serviceContainer.MergeOption = System.Data.Services.Client.MergeOption.PreserveChanges;
@@ -187,6 +193,9 @@ namespace GameService
                 if (operationResponse.StatusCode != 201)
                     return false;
             }
+
+            LogEvent(CaptureEventType.VersionNumber, Version);
+
             return true;
         }
 

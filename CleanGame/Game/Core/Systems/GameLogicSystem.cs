@@ -560,7 +560,7 @@ namespace CleanGame.Game.Core.Systems
                         if (e.HasComponent<PlayerComponent>())//player died
                         {
 
-                            GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerDiedWithScore, "");
+                            GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerDiedWithScore, game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value.ToString());
                             roundover = true;
                             game.GameWon = false;
                             //resetRound();
