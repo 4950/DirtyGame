@@ -221,7 +221,11 @@ namespace GameService
 
                 gs = serviceContainer.GameSession.Where(gamesession => gamesession.SessionID == gs.SessionID).FirstOrDefault();
 
+#if DEBUG
                 MessageBox.Show("Session ID: " + gs.SessionID + "\n\nAccuracy: " + (gs.HitRate * 100) + "%\nPlayerScore: " + gs.SessionScore, "Round Results");
+#else
+                MessageBox.Show("Continue to next round", "Round Finished");
+#endif
 
                 return gs;
             }
