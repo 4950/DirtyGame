@@ -349,10 +349,10 @@ namespace CleanGame.Game.Core.Systems
         public Scenario randomScenario(string mapName)
         {
             //random scenario to return
-            Random random = new Random();
-            int randomScenario = random.Next(0, scenarios.Count);
-            int count = -1;
-            Scenario playScenario = new Scenario();
+            //Random random = new Random();
+            //int randomScenario = random.Next(0, scenarios.Count);
+            //int count = -1;
+            Scenario playScenario;// = new Scenario();
 
             //Making sure that the scenario is made for the map
             //HardCode Scenarios start with 15 to 21
@@ -371,8 +371,9 @@ namespace CleanGame.Game.Core.Systems
             //    }
             //}
 
-            playScenario = scenarios[ScenarioPtr];
+            playScenario = scenarios[15 + ((ScenarioPtr - 15) % 7)];
             ScenarioPtr++;
+
 
             return playScenario;
         }
@@ -418,6 +419,18 @@ namespace CleanGame.Game.Core.Systems
                         GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundHealth, game.player.GetComponent<StatsComponent>().CurrentHealth.ToString());
 
                         roundover = false;
+
+                        if (ScenarioPtr == 36)
+                        {
+
+                            game.GameWon = false;
+
+                            Event gamestate = new Event();
+                            gamestate.name = "GameStateGameOver";
+                            EventManager.Instance.TriggerEvent(gamestate);
+
+                        }
+
                         StartPreRound();
                     }
                 }
@@ -580,16 +593,7 @@ namespace CleanGame.Game.Core.Systems
                                 }
                             }
 
-                            if (ScenarioPtr == 22)
-                            {
 
-                                game.GameWon = false;
-
-                                Event gamestate = new Event();
-                                gamestate.name = "GameStateGameOver";
-                                EventManager.Instance.TriggerEvent(gamestate);
-
-                            }
 
                         }
                         else
@@ -665,7 +669,9 @@ namespace CleanGame.Game.Core.Systems
             HitLabel.Visibility = CoreUI.Visibility.Hidden;
             game.UIEngine.Children.AddElement(HitLabel);
 
+#if DEBUG
             game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.OemTilde, CheatEndRound, null);
+#endif
         }
 
         private void CheatEndRound(Microsoft.Xna.Framework.Input.Keys key)
