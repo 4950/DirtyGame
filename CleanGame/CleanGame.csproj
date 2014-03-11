@@ -20,7 +20,7 @@
     <ApplicationIcon>Game.ico</ApplicationIcon>
     <Thumbnail>GameThumbnail.png</Thumbnail>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>C:\Users\Adeeb\Desktop\gamepub\TowerOffense\</PublishUrl>
+    <PublishUrl>C:\Users\Adeeb\Desktop\gamepub\4950\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -31,8 +31,8 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>1</ApplicationRevision>
-    <ApplicationVersion>0.2.1.%2a</ApplicationVersion>
+    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationVersion>0.2.2.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
