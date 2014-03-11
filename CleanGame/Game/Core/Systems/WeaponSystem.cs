@@ -82,6 +82,11 @@ namespace CleanGame.Game.Core.Systems
             Damage = (int)Math.Floor(wc.BaseDamage * (os.Damage / 100.0f));
 
             hc.CurrentHealth -= Damage;
+            if (hc.CurrentHealth < 0)
+            {
+                Damage += (int)hc.CurrentHealth;
+                hc.CurrentHealth = 0;
+            }
 
             t = Target.HasComponent<PlayerComponent>() ? CaptureEventType.PlayerDamageTaken : CaptureEventType.MonsterDamageTaken;
             GameplayDataCaptureSystem.Instance.LogEvent(t, Damage.ToString());

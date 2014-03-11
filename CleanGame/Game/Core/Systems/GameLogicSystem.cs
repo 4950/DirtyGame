@@ -398,7 +398,7 @@ namespace CleanGame.Game.Core.Systems
                         game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").value += 10;
                         game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += 1;
 
-                        GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MonsterKilled, e.GetComponent<MonsterComponent>().data.Type);
+                        GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MonsterKilled, e.GetComponent<PropertyComponent<String>>("MonsterType").value);
                     }
                     //}
                     if (--monstersalive == 0 && !tutorialMode)
@@ -563,7 +563,7 @@ namespace CleanGame.Game.Core.Systems
                             GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerDiedWithScore, "");
                             roundover = true;
                             game.GameWon = false;
-                            resetRound();
+                            //resetRound();
                             for (int j = 0; j < entities.Count(); j++)
                             {
                                 Entity entity = entities.ElementAt(j);
