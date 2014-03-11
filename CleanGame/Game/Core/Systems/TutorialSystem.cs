@@ -96,7 +96,7 @@ namespace CleanGame.Game.Core.Systems
             switch (currentState)
             {
                 case TutorialState.Welcome:
-                    tutorialLbl.Text = "Welcome to Tower Offense!";
+                    tutorialLbl.Text = "Welcome to CSCI 4950 Project!";
                     stateEndTimer = 3;
                     break;
                 case TutorialState.Move:
