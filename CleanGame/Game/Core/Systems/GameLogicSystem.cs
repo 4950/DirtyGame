@@ -112,6 +112,7 @@ namespace CleanGame.Game.Core.Systems
             game.player.GetComponent<PhysicsComponent>().movePlayer = true;
             game.player.GetComponent<SpatialComponent>().Position = new Vector2(200, 200);
             game.player.Refresh();
+            GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.ScenarioName, "Tutorial");
         }
         /// <summary>
         /// Starts a round using the old round system

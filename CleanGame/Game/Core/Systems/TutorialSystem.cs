@@ -34,12 +34,12 @@ namespace CleanGame.Game.Core.Systems
         MeleeMonster,
         RangedMonster,
         SuicideBomber,
+        End,
         Genadier,
         Sniper,
         Wallhugger,
         Tower,
         Landmine,
-        End
     };
     class TutorialSystem : EntitySystem
     {
@@ -145,7 +145,7 @@ namespace CleanGame.Game.Core.Systems
                     break;
                 case TutorialState.SuicideBomber:
                     tutorialLbl.Text = "Suicide bombers will run at you and explode\nTry to outrun them";
-                    e = game.entityFactory.CreateSpawner(500, 75, new Rectangle(0, 0, 46, 46), "SuicideBomber", "BomberWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
+                    e = game.entityFactory.CreateSpawner(500, 200, new Rectangle(0, 0, 46, 46), "SuicideBomber", "BomberWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
                     e.Refresh();
                     break;
                 case TutorialState.Sniper:
