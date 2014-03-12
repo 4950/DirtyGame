@@ -66,7 +66,7 @@ namespace CleanGame
                 Debug.WriteLine(tmp);
                 msg += tmp + "\n";
             }
-            MessageBox.Show(e.Message + "\n" + e.StackTrace + "\n" + msg, "TowerOffense Error");
+            MessageBox.Show(e.Message + "\n" + e.StackTrace + "\n" + msg, "Game Error");
         }
     }
 #endif
