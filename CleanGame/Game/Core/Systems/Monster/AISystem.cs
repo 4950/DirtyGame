@@ -60,7 +60,7 @@ namespace CleanGame.Game.Core.Systems.Monster
                         }
                     }
 
-                    else if (wc.WeaponName == "GrenadeLauncher")
+                    else if (wc.WeaponName == "GrenadeLauncher" || wc.WeaponName == "Monsterbow")
                     {
                         double dist = getDistance(monsterPos.X, monsterPos.Y, playerPos.X, playerPos.Y);
                         if (dist < wc.Range)

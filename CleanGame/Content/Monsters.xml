@@ -7,11 +7,11 @@
       <Name>WeaponComponent</Name>
       <WeaponName>Monsterbow</WeaponName>
       <Portrait>bow</Portrait>
-      <BaseDamage>30</BaseDamage>
-      <Range>400</Range>
+      <BaseDamage>12.5</BaseDamage>
+      <Range>450</Range>
       <Type>Ranged</Type>
       <ProjectileSprite>arrow</ProjectileSprite>
-      <ProjectileSpeed>7</ProjectileSpeed>
+      <ProjectileSpeed>10</ProjectileSpeed>
       <FireSound>BowFire</FireSound>
       <Cooldown>3</Cooldown>
       <LastFire>0</LastFire>
@@ -125,7 +125,7 @@
       <Range>400</Range>
       <Type>Ranged</Type>
       <ProjectileSprite>arrow</ProjectileSprite>
-      <ProjectileSpeed>7</ProjectileSpeed>
+      <ProjectileSpeed>10</ProjectileSpeed>
       <Cooldown>.25</Cooldown>
       <LastFire>0</LastFire>
       <Price>100</Price>

@@ -30,7 +30,7 @@ namespace CleanGame.Game.Core.Systems
                 if (pc.weapon.GetComponent<WeaponComponent>().WeaponName == "LandmineWeapon")
                 {
                     oldLandmines.Add(e);
-                    Console.WriteLine(oldLandmines.Count());
+                    //Console.WriteLine(oldLandmines.Count());
 
                 }
 
