@@ -159,9 +159,9 @@ DECLARE @HealthRemaining FLOAT;
 DECLARE @WepFired INT;
 
 /*Hit Rate*/
-SET @WepFired = (SELECT COUNT(*) FROM GameEventModels WHERE (SessionId = @Session AND Type = 'PlayerWeaponFired'));
+SET @WepFired = (SELECT COUNT(*) FROM GameEventModels WHERE (SessionId = @Session AND Type = 'MonsterWeaponFired'));
 IF @WepFired = 0 SET @HitRate = 0;
-ELSE SET @HitRate = CAST((SELECT COUNT(*) FROM GameEventModels WHERE (SessionId = @Session AND Type = 'PlayerWeaponFirstHit')) AS FLOAT) / @WepFired;
+ELSE SET @HitRate = CAST((SELECT COUNT(*) FROM GameEventModels WHERE (SessionId = @Session AND Type = 'PlayerDamageTaken')) AS FLOAT) / @WepFired;
 
 SET @KillRate = CAST((SELECT COUNT(*) FROM GameEventModels WHERE (SessionId = @Session AND Type = 'MonsterKilled')) AS FLOAT) / (SELECT COUNT(*) FROM GameEventModels WHERE (SessionId = @Session AND Type = 'MonsterSpawned'));
 SELECT @RoundHealth = Data FROM GameEventModels WHERE (SessionId = @Session AND Type = 'RoundHealth')
@@ -217,7 +217,7 @@ SET @KillRate = 0;
 SET @HealthRemaining = 0;*/
 
 DECLARE @PlayerScore FLOAT;
-SET @PlayerScore = (dbo.InlineMaxF(3 * (@HitRate), .01) + 2 * @DamageDealt + 2 * @KillRate + 4 * @HealthRemaining) / (3 * (1) + 2 * 1 + 2 * 1 + 4 * 0);
+SET @PlayerScore = (dbo.InlineMaxF(3 * (1 - @HitRate), .01) + 2 * @DamageDealt + 2 * @KillRate + 4 * @HealthRemaining) / (3 * (1 - .25) + 2 * 1 + 2 * 1 + 4 * 0);
 
 /*PRINT 'Hit Rate: ' + CAST(@HitRate AS VARCHAR)
 PRINT 'Kill Rate: ' + CAST(@KillRate AS VARCHAR)

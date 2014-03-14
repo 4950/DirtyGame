@@ -16,7 +16,7 @@ namespace TowerSite.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "About Tower Offense";
+            ViewBag.Message = "About Our Project";
 
             return View();
         }

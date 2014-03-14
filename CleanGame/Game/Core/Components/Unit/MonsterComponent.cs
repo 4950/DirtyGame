@@ -9,45 +9,7 @@ using System.Xml.Serialization;
 
 namespace EntityFramework
 {
-    public struct MonsterData
-    {
-        public int Health;
-        public float scale;
-        public String Type;
-        //public WeaponComponent.WeaponType 
-        [XmlIgnoreAttribute]
-        public Entity weapon;
-         
-        public MonsterData(int health, float scale)
-        {
-            this.Health = health;
-            this.scale = scale;
-            this.weapon = null;
-            this.Type = "";
-        }
-
-        public static MonsterData BasicMonster
-        {
-            get
-            {
-                MonsterData m = new MonsterData(200, 1);
-                return m;
-            }
-        }
-
-        public static MonsterData RangedMonster
-        {
-            get
-            {
-                MonsterData m = new MonsterData(100, 1);
-                return m;
-            }
-        }
-    }
     public class MonsterComponent : UnitComponent
     {
-        [XmlIgnoreAttribute]
-        public MonsterData data { get; set; }
-        //public string monsterType;
     }
 }
