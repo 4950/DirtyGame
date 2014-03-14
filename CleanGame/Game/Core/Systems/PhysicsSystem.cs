@@ -335,7 +335,7 @@ namespace CleanGame.Game.Core.Systems
 
 								game.weaponSystem.DealDamage(proj.GetComponent<ProjectileComponent>().weapon, hit);
 								//hit.GetComponent<HealthComponent>().CurrentHealth -= proj.GetComponent<ProjectileComponent>().damage;
-								hitBody.Body.ApplyLinearImpulse(proj.GetComponent<ProjectileComponent>().direction * 10);
+								hitBody.Body.ApplyLinearImpulse(proj.GetComponent<ProjectileComponent>().direction * 1.5f);
 								World.DestroyEntity(proj);
 							}
 							else if (hit.HasComponent<BorderComponent>())//hit map bounds, remove
@@ -351,6 +351,7 @@ namespace CleanGame.Game.Core.Systems
 
 						Entity melee = A.HasComponent<MeleeComponent>() ? A : B;
 						Entity hit = melee == A ? B : A;
+                        Fixture hitBody = melee == A ? fixtureB : fixtureA;
 
 						MeleeComponent mc = melee.GetComponent<MeleeComponent>();
 						if (mc.Owner != hit)//don't hit owner (later this needs to be don't hit team to turn off friendly fire)
@@ -366,7 +367,11 @@ namespace CleanGame.Game.Core.Systems
 									mc.targetsHit.Add(hit);
 
 									game.weaponSystem.DealDamage(mc.Weapon, hit);
-
+                                    double[] dir = new double[2];
+                                    dir = getDirection(melee.GetComponent<SpatialComponent>().Center.X, melee.GetComponent<SpatialComponent>().Center.Y,
+                                                                          hit.GetComponent<SpatialComponent>().Center.X, hit.GetComponent<SpatialComponent>().Center.Y);
+                                    Vector2 direction = new Vector2((float)dir[0], (float)dir[1]);
+                                    hitBody.Body.ApplyLinearImpulse(direction * 6f);
                                     
 								}
 							}
@@ -527,6 +532,17 @@ namespace CleanGame.Game.Core.Systems
                     body.CollidesWith = Category.Cat1;
                 }
             }
+        }
+
+        private double[] getDirection(double x, double y, double ox, double oy)
+        {
+            double[] vect = new double[2];
+            double dx = ox - x;
+            double dy = oy - y;
+            double angle = Math.Atan2(dy, dx); // This is opposite y angle.
+            vect[0] = Math.Cos(angle);
+            vect[1] = Math.Sin(angle);
+            return vect;
         }
 
 
