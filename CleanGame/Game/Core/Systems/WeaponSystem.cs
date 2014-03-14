@@ -93,6 +93,39 @@ namespace CleanGame.Game.Core.Systems
             t = Target.HasComponent<PlayerComponent>() ? CaptureEventType.PlayerHitByWeapon : CaptureEventType.MonsterHitByWeapon;
             GameplayDataCaptureSystem.Instance.LogEvent(t, wc.WeaponName);
         }
+
+        public void DealDamage(int Damage, Entity Target)
+        {
+            if (Target == null)
+                return;
+
+            
+            StatsComponent hc = Target.GetComponent<StatsComponent>();
+            CaptureEventType t; 
+
+
+            if (hc == null)
+                return;
+
+            
+            
+            if (Target == game.player)
+               game.gLogicSystem.PlayerTookDamage();
+
+            
+
+            hc.CurrentHealth -= Damage;
+            if (hc.CurrentHealth < 0)
+            {
+                Damage += (int)hc.CurrentHealth;
+                hc.CurrentHealth = 0;
+            }
+
+            t = Target.HasComponent<PlayerComponent>() ? CaptureEventType.PlayerDamageTaken : CaptureEventType.MonsterDamageTaken;
+            GameplayDataCaptureSystem.Instance.LogEvent(t, Damage.ToString());
+            
+        }
+
         public void FireWeapon(Entity Weapon, Entity Owner, Vector2 Target)
         {
             if (Weapon == null || Owner == null)
@@ -181,22 +214,24 @@ namespace CleanGame.Game.Core.Systems
                 else if (wc.Type == WeaponComponent.WeaponType.Melee)
                 {
 
-                    Entity meleeEntity;
+                    //Entity meleeEntity;
 
                     if (wc.Owner.HasComponent<PlayerComponent>()) //Owned by player
                     {
+                        Entity meleeEntity;
                         SetShootAnimation(Owner, "BigSlash");
                         meleeEntity = game.entityFactory.CreateMeleeEntity(Owner, Weapon);
+                        meleeEntity.Refresh();
                         
                     }
                     else
                     {
-                        SetShootAnimation(Owner, "Attack");
-                        meleeEntity = game.entityFactory.CreateMeleeEntity(Owner, Weapon);
+                        //SetShootAnimation(Owner, "Attack");
+                        //meleeEntity = game.entityFactory.CreateMeleeEntity(Owner, Weapon);
                         
                     }
 
-                    meleeEntity.Refresh();
+                    //meleeEntity.Refresh();
                 }
        
             }

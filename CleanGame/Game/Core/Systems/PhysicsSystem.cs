@@ -294,6 +294,13 @@ namespace CleanGame.Game.Core.Systems
 
 				Body.OnCollision += BodyOnCollision;
 
+                if (e.HasComponent<PropertyComponent<String>>())
+                {
+                    if (e.GetComponent<PropertyComponent<String>>("MonsterType").value == "MeleeMonster")
+                    {
+                        Body.OnSeparation += BodyOnSeparation;
+                    }
+                }
 				CollisionCategory(e, Body);
 
 				entityDictionary.Add(Body.BodyId, e);
@@ -302,6 +309,25 @@ namespace CleanGame.Game.Core.Systems
 
                 
 			}
+
+    void BodyOnSeparation(Fixture fixtureA, Fixture fixtureB)
+    {
+
+        if (entityDictionary.ContainsKey(fixtureA.Body.BodyId) && entityDictionary.ContainsKey(fixtureB.Body.BodyId))
+        {
+
+            Entity A = entityDictionary[fixtureA.Body.BodyId];
+            Entity B = entityDictionary[fixtureB.Body.BodyId];
+
+            if (A.HasComponent<PlayerComponent>() || B.HasComponent<PlayerComponent>())
+            {
+                Entity player = A.HasComponent<PlayerComponent>() ? A : B;
+                Entity hit = player == A ? B : A;
+
+                hit.GetComponent<PhysicsComponent>().collidingWithPlayer = false;
+            }
+        }
+    }
 			
 	private bool BodyOnCollision(Fixture fixtureA, Fixture fixtureB, FarseerPhysics.Dynamics.Contacts.Contact contact)
 			{
@@ -435,6 +461,25 @@ namespace CleanGame.Game.Core.Systems
                     Fixture hitBody = player == A ? fixtureB : fixtureA;
                     Fixture playerBody = hitBody == fixtureA ? fixtureB : fixtureA;
 
+                    if (hit.HasComponent<PropertyComponent<String>>())
+                    {
+                        if (hit.GetComponent<PropertyComponent<String>>("MonsterType").value == "MeleeMonster")
+                        {
+                            if (!hit.GetComponent<PhysicsComponent>().collidingWithPlayer)
+                            {
+                                int Damage = hit.GetComponent<StatsComponent>().BaseDamage;
+                                hit.GetComponent<PhysicsComponent>().collidingWithPlayer = true;
+
+                                game.weaponSystem.DealDamage(Damage, player);
+
+                                double[] dir = new double[2];
+                                dir = getDirection(hit.GetComponent<SpatialComponent>().Center.X, hit.GetComponent<SpatialComponent>().Center.Y,
+                                                                      player.GetComponent<SpatialComponent>().Center.X, player.GetComponent<SpatialComponent>().Center.Y);
+                                Vector2 direction = new Vector2((float)dir[0], (float)dir[1]);
+                                playerBody.Body.ApplyLinearImpulse(direction * 10f);
+                            }
+                        }
+                    }
                     if (player.HasComponent<WeaponComponent>())
                     {
 
