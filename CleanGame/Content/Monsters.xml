@@ -102,7 +102,7 @@
       <Name>WeaponComponent</Name>
       <WeaponName>Basic Sword</WeaponName>
       <Portrait>sword</Portrait>
-      <BaseDamage>50</BaseDamage>
+      <BaseDamage>80</BaseDamage>
       <Range>64</Range>
       <Type>Melee</Type>
       <ProjectileSprite>invisibleSwordMeleeSpriteSheet</ProjectileSprite>
@@ -121,7 +121,7 @@
       <Name>WeaponComponent</Name>
       <WeaponName>Doomsbow</WeaponName>
       <Portrait>bow</Portrait>
-      <BaseDamage>40</BaseDamage>
+      <BaseDamage>30</BaseDamage>
       <Range>400</Range>
       <Type>Ranged</Type>
       <ProjectileSprite>arrow</ProjectileSprite>
