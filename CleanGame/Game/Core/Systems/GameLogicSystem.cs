@@ -416,6 +416,7 @@ namespace CleanGame.Game.Core.Systems
 
 
                         GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundEnded, game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value.ToString());
+                        GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundScore, game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value.ToString());
                         GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundHealth, game.player.GetComponent<StatsComponent>().CurrentHealth.ToString());
 
                         roundover = false;
@@ -579,7 +580,7 @@ namespace CleanGame.Game.Core.Systems
                         if (e.HasComponent<PlayerComponent>())//player died
                         {
 
-                            GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerDiedWithScore, game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value.ToString());
+                            GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerDied, "");
                             roundover = true;
                             game.GameWon = false;
                             //resetRound();
