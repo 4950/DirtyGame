@@ -53,7 +53,7 @@ namespace CleanGame.Game.Core.Systems
         private List<Entity> spawners = new List<Entity>();
 
         //Dictionary that contains a set of scenario objects
-       // private Dictionary<string, Scenario> scenarios = new Dictionary<string, Scenario>();
+        // private Dictionary<string, Scenario> scenarios = new Dictionary<string, Scenario>();
         private Dictionary<int, Scenario> scenarios = new Dictionary<int, Scenario>();
 
         public override void OnEntityAdded(Entity e)
@@ -112,6 +112,7 @@ namespace CleanGame.Game.Core.Systems
             game.player.GetComponent<PhysicsComponent>().movePlayer = true;
             game.player.GetComponent<SpatialComponent>().Position = new Vector2(200, 200);
             game.player.Refresh();
+            GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.ScenarioName, "Tutorial");
         }
         /// <summary>
         /// Starts a round using the old round system
@@ -188,13 +189,18 @@ namespace CleanGame.Game.Core.Systems
         }
         public void PlayerTookDamage()
         {
-            ResetHitCounter();
+            ResetHitCounter(false);
             (DamagePanel.Background as MonoGameColor).color.A = damagePnlMaxAlpha;
             DamagePanel.Visibility = Visibility.Visible;
             damagePnlTime = damagePnlMaxTime;
         }
-        private void ResetHitCounter()
+        private void ResetHitCounter(bool timeout)
         {
+            if (PlayerHits > 0)
+            {
+                GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.ComboEndValue, PlayerHits.ToString());
+                GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.ComboEndReason, timeout ? "Timeout" : "Damage");
+            }
             int mul = (int)Math.Floor(PlayerHits / 10.0d);
             mul = PlayerHits * mul;
             if (mul > 0)
@@ -234,7 +240,7 @@ namespace CleanGame.Game.Core.Systems
             {
 
                 //scenarioCount++;
-                
+
                 //MAP VARIABLES
                 //Temporary Variables
                 //Scenario name
@@ -343,10 +349,10 @@ namespace CleanGame.Game.Core.Systems
         public Scenario randomScenario(string mapName)
         {
             //random scenario to return
-            Random random = new Random();
-            int randomScenario = random.Next(0, scenarios.Count);
-            int count = -1;
-            Scenario playScenario = new Scenario();
+            //Random random = new Random();
+            //int randomScenario = random.Next(0, scenarios.Count);
+            //int count = -1;
+            Scenario playScenario;// = new Scenario();
 
             //Making sure that the scenario is made for the map
             //HardCode Scenarios start with 15 to 21
@@ -365,8 +371,9 @@ namespace CleanGame.Game.Core.Systems
             //    }
             //}
 
-            playScenario = scenarios[ScenarioPtr];
+            playScenario = scenarios[15 + ((ScenarioPtr - 15) % 7)];
             ScenarioPtr++;
+
 
             return playScenario;
         }
@@ -390,7 +397,7 @@ namespace CleanGame.Game.Core.Systems
 
                     if (!roundover)
                     {
-                        
+
                         monstersdefeated++;
 
                         AddTextFloater("+" + (50 + PlayerHits));
@@ -398,7 +405,7 @@ namespace CleanGame.Game.Core.Systems
                         game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameCash").value += 10;
                         game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += 1;
 
-                        GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MonsterKilled, e.GetComponent<MonsterComponent>().data.Type);
+                        GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MonsterKilled, e.GetComponent<PropertyComponent<String>>("MonsterType").value);
                     }
                     //}
                     if (--monstersalive == 0 && !tutorialMode)
@@ -412,6 +419,18 @@ namespace CleanGame.Game.Core.Systems
                         GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundHealth, game.player.GetComponent<StatsComponent>().CurrentHealth.ToString());
 
                         roundover = false;
+
+                        if (ScenarioPtr == 36)
+                        {
+
+                            game.GameWon = false;
+
+                            Event gamestate = new Event();
+                            gamestate.name = "GameStateGameOver";
+                            EventManager.Instance.TriggerEvent(gamestate);
+
+                        }
+
                         StartPreRound();
                     }
                 }
@@ -470,7 +489,7 @@ namespace CleanGame.Game.Core.Systems
                 playerHitTime -= dt;
                 if (playerHitTime <= 0)
                 {
-                    ResetHitCounter();
+                    ResetHitCounter(true);
                 }
             }
             if (roundStartTime > 0 && !tutorialMode)
@@ -502,7 +521,7 @@ namespace CleanGame.Game.Core.Systems
                     //Setting the movePlayer flag in the physics component of the player
                     game.player.GetComponent<PhysicsComponent>().movePlayer = true;
                     //TODO need to have the map name here
-                    
+
                     setupScenario(randomScenario(game.mapName));
                     game.player.Refresh();
                     //}
@@ -560,10 +579,10 @@ namespace CleanGame.Game.Core.Systems
                         if (e.HasComponent<PlayerComponent>())//player died
                         {
 
-                            GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerDiedWithScore, "");
+                            GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerDiedWithScore, game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value.ToString());
                             roundover = true;
                             game.GameWon = false;
-                            resetRound();
+                            //resetRound();
                             for (int j = 0; j < entities.Count(); j++)
                             {
                                 Entity entity = entities.ElementAt(j);
@@ -574,16 +593,7 @@ namespace CleanGame.Game.Core.Systems
                                 }
                             }
 
-                            if (ScenarioPtr == 22)
-                            {
 
-                                game.GameWon = false;
-
-                                Event gamestate = new Event();
-                                gamestate.name = "GameStateGameOver";
-                                EventManager.Instance.TriggerEvent(gamestate);
-
-                            }
 
                         }
                         else
@@ -659,7 +669,9 @@ namespace CleanGame.Game.Core.Systems
             HitLabel.Visibility = CoreUI.Visibility.Hidden;
             game.UIEngine.Children.AddElement(HitLabel);
 
+#if DEBUG
             game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.OemTilde, CheatEndRound, null);
+#endif
         }
 
         private void CheatEndRound(Microsoft.Xna.Framework.Input.Keys key)

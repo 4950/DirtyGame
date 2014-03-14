@@ -82,9 +82,16 @@ namespace CleanGame.Game.Core.Systems
             Damage = (int)Math.Floor(wc.BaseDamage * (os.Damage / 100.0f));
 
             hc.CurrentHealth -= Damage;
+            if (hc.CurrentHealth < 0)
+            {
+                Damage += (int)hc.CurrentHealth;
+                hc.CurrentHealth = 0;
+            }
 
             t = Target.HasComponent<PlayerComponent>() ? CaptureEventType.PlayerDamageTaken : CaptureEventType.MonsterDamageTaken;
             GameplayDataCaptureSystem.Instance.LogEvent(t, Damage.ToString());
+            t = Target.HasComponent<PlayerComponent>() ? CaptureEventType.PlayerHitByWeapon : CaptureEventType.MonsterHitByWeapon;
+            GameplayDataCaptureSystem.Instance.LogEvent(t, wc.WeaponName);
         }
         public void FireWeapon(Entity Weapon, Entity Owner, Vector2 Target)
         {

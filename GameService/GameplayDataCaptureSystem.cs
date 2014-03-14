@@ -35,23 +35,29 @@ namespace GameService
         MonsterDamageTaken,
         PlayerDamageTaken,
         PlayerWeaponFirstHit,
+        PlayerHitByWeapon,
+        MonsterHitByWeapon,
         MonsterKilled,
         RoundEnded,
         RoundHealth,
         PlayerDiedWithScore,
         MonsterSpawned,
-        ScenarioName
+        ScenarioName,
+        VersionNumber,
+        ComboEndValue,
+        ComboEndReason
     }
     public class GameplayDataCaptureSystem : Singleton<GameplayDataCaptureSystem>
     {
-        static Uri BrowseUri = new Uri("https://toweroffense.azurewebsites.net/Account/Login");
-        static Uri DataUri = new Uri("https://toweroffense.azurewebsites.net/odata");
+        static Uri BrowseUri = new Uri("https://csci4950.azurewebsites.net/Account/Login");
+        static Uri DataUri = new Uri("https://csci4950.azurewebsites.net/odata");
         GameService.Container serviceContainer;
         private String Cookies = "";
         private bool LoggedIn = false;
         private int CurrentSessionID = -1;
         private GameService.GameSession CurrentSession;
         private bool sending = false;
+        private string Version;
 
         public int SessionID { get { return CurrentSessionID; } }
 
@@ -81,7 +87,7 @@ namespace GameService
             loginWindow.Size = new System.Drawing.Size(300, 850);
             loginWindow.FormBorderStyle = FormBorderStyle.FixedToolWindow;
             loginWindow.StartPosition = FormStartPosition.CenterScreen;
-            loginWindow.Text = "Tower Offense";
+            loginWindow.Text = "CSCI 4950 Project";
             loginWindow.ControlBox = false;
             loginWindow.FormClosing += loginWindow_FormClosing;
 
@@ -135,8 +141,10 @@ namespace GameService
         /// <summary>
         /// Inits the Data Context and readies for logging
         /// </summary>
-        public void InitContext()
+        public void InitContext(String Version)
         {
+            this.Version = Version;
+
             serviceContainer = new GameService.Container(DataUri);
             serviceContainer.SaveChangesDefaultOptions = SaveChangesOptions.Batch;
             serviceContainer.MergeOption = System.Data.Services.Client.MergeOption.PreserveChanges;
@@ -187,6 +195,9 @@ namespace GameService
                 if (operationResponse.StatusCode != 201)
                     return false;
             }
+
+            LogEvent(CaptureEventType.VersionNumber, Version);
+
             return true;
         }
 
@@ -210,7 +221,11 @@ namespace GameService
 
                 gs = serviceContainer.GameSession.Where(gamesession => gamesession.SessionID == gs.SessionID).FirstOrDefault();
 
+#if DEBUG
                 MessageBox.Show("Session ID: " + gs.SessionID + "\n\nAccuracy: " + (gs.HitRate * 100) + "%\nPlayerScore: " + gs.SessionScore, "Round Results");
+#else
+                MessageBox.Show("Continue to next round", "Round Finished");
+#endif
 
                 return gs;
             }
