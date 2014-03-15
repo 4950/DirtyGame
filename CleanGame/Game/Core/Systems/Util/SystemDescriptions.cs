@@ -21,7 +21,7 @@ namespace CleanGame.Game.Core.Systems.Util
             new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(PhysicsComponent) }), 1);
 
         public static SystemParams AnimationSystem =
-            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(SpriteComponent), typeof(AnimationComponent) }), 999);
+            new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(SpriteComponent), typeof(AnimationComponent) }), 1);
 
         public static SystemParams PlayerControlSystem =
             new SystemParams(Aspect.CreateAspectFor(new List<Type> { typeof(PlayerComponent), typeof (SpatialComponent), typeof(DirectionComponent)}), 1);

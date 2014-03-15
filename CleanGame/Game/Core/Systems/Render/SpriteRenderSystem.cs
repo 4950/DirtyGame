@@ -55,8 +55,7 @@ namespace CleanGame.Game.Systems
                 {
                    
                     AnimationComponent animation = e.GetComponent<AnimationComponent>();
-                    if (sprite.SpriteSheet.Offset[animation.CurrentAnimation] != new Vector2(0, 0) && size == 
-                        new Vector2(sprite.SpriteSheet.Animation[animation.CurrentAnimation][animation.CurrentFrame].Width,
+                    if (size == new Vector2(sprite.SpriteSheet.Animation[animation.CurrentAnimation][animation.CurrentFrame].Width,
                             sprite.SpriteSheet.Animation[animation.CurrentAnimation][animation.CurrentFrame].Height))
                     {
                         pos += sprite.SpriteSheet.Offset[animation.CurrentAnimation];

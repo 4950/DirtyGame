@@ -125,16 +125,18 @@ namespace CleanGame.Game.Systems
             {
                 //World.RemoveEntity(e);
                 AnimationComponent animation = e.GetComponent<AnimationComponent>();
-                //if (animation.CurrentAnimation.Contains("BigSlash"))
-                //{
-                //    e.RemoveComponent(animation);
-                //    AnimationComponent newAnimation = new AnimationComponent();
-                //    newAnimation.CurrentAnimation = "Idle" + e.GetComponent<DirectionComponent>().Heading;
-                //    e.AddComponent(newAnimation);
-                //    e.Refresh();
-                //}
+                if (animation.CurrentAnimation.Contains("BigSlash"))
+                {
+                    SpriteComponent sprite = e.GetComponent<SpriteComponent>();
+                    if(e.GetComponent<MovementComponent>().Velocity == new Vector2 (0,0))
+                        animation.CurrentAnimation = "Idle" + e.GetComponent<DirectionComponent>().Heading;
+                    else
+                        animation.CurrentAnimation = "Walk" + e.GetComponent<DirectionComponent>().Heading;
+                    
+                    sprite.SrcRect = sprite.SpriteSheet.Animation[animation.CurrentAnimation][animation.CurrentFrame];
+                }
                 //else
-                    e.RemoveComponent(animation);
+                //    e.RemoveComponent(animation);
                 
                                 
             }
