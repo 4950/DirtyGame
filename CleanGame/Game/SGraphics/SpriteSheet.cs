@@ -22,7 +22,6 @@ namespace CleanGame.Game.SGraphics
         private Dictionary<string, Vector2> sOffsets = new Dictionary<string, Vector2>();
         //Stores the information if the animation is finite
         private Dictionary<string, bool> sFinite = new Dictionary<string, bool>();
-        private Dictionary<string, int> sFramesToSkip = new Dictionary<string, int>();
         private Dictionary<string, float> sTimes = new Dictionary<string, float>();
         #endregion
 
@@ -39,17 +38,7 @@ namespace CleanGame.Game.SGraphics
             }
         }
 
-        public Dictionary<string,int> FramesToSkip
-        {
-            get
-            {
-                return sFramesToSkip;
-            }
-            set
-            {
-                sFramesToSkip = value;
-            }
-        }
+        
 
         public Dictionary<string, float> Time
         {
@@ -218,10 +207,13 @@ namespace CleanGame.Game.SGraphics
             //Stores the rectangles for the individual frames of an animation
             Rectangle[] tempRectangles = new Rectangle[numFrames];
             //Looping through all the frames of the animation
+            
             for (int i = 0; i < numFrames; i++)
             {
-                tempRectangles[i] = new Rectangle((i + xStartFrame + framesToSkip) * frameWidth, yPosition, frameWidth, frameHeight);  
+                tempRectangles[i] = new Rectangle((i + xStartFrame) * frameWidth, yPosition, frameWidth, frameHeight);  
             }
+            
+
             //Saving the animation to the animation Dictionary
             sAnimations.Add(animationName, tempRectangles);
             //Saving the animation's offset to the offset Dictionary

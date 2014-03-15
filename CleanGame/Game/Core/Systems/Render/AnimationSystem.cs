@@ -92,6 +92,7 @@ namespace CleanGame.Game.Systems
                                 {
                                     entitiesToDelete.Add(e);
                                 }
+                                
                                 //Removing the entity's AnimationComponent when the finite animation is finished
                                 else
                                 {
@@ -123,7 +124,19 @@ namespace CleanGame.Game.Systems
             foreach (Entity e in entitiesToRemoveAnimationComponent)
             {
                 //World.RemoveEntity(e);
-                e.RemoveComponent(e.GetComponent<AnimationComponent>());
+                AnimationComponent animation = e.GetComponent<AnimationComponent>();
+                //if (animation.CurrentAnimation.Contains("BigSlash"))
+                //{
+                //    e.RemoveComponent(animation);
+                //    AnimationComponent newAnimation = new AnimationComponent();
+                //    newAnimation.CurrentAnimation = "Idle" + e.GetComponent<DirectionComponent>().Heading;
+                //    e.AddComponent(newAnimation);
+                //    e.Refresh();
+                //}
+                //else
+                    e.RemoveComponent(animation);
+                
+                                
             }
 
             foreach (Entity e in entitiesToDelete)
