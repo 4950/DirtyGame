@@ -274,9 +274,9 @@
                     xStartFrame="0"
                     xOffset="0"
                     yOffset="0"
-                    numberOfFrames="7"
-                    width="256"
-                    height="192"
+                    numberOfFrames="6"
+                    width="64"
+                    height="64"
                     finite="true"
                     time=".3"
 					framestoskip = "2">

@@ -45,7 +45,10 @@ namespace CleanGame.Game.SGraphics
             {
                 return sFramesToSkip;
             }
-            
+            set
+            {
+                sFramesToSkip = value;
+            }
         }
 
         public Dictionary<string, float> Time
@@ -141,8 +144,10 @@ namespace CleanGame.Game.SGraphics
                         finite = Convert.ToBoolean(animationReader.GetAttribute("finite"));
                         if (animationReader.GetAttribute("time") != null)
                             time = float.Parse(animationReader.GetAttribute("time"));
+                        if (animationReader.GetAttribute("framestoskip") != null)
+                            framesToSkip = int.Parse(animationReader.GetAttribute("framestoskip"));
                         //Adding the animation to the dictionaries
-                        AddAnimationDefault(numberOfFrames, yPosition, xStartFrame, animationName, width, height, new Vector2(xOffset, yOffset), finite, time);
+                        AddAnimationDefault(numberOfFrames, yPosition, xStartFrame, animationName, width, height, new Vector2(xOffset, yOffset), finite, time,framesToSkip);
 
                         break;
 
@@ -159,8 +164,7 @@ namespace CleanGame.Game.SGraphics
                         finite = Convert.ToBoolean(animationReader.GetAttribute("finite"));
                         if (animationReader.GetAttribute("time") != null)
                             time = float.Parse(animationReader.GetAttribute("time"));
-                        if (animationReader.GetAttribute("framestoskip") != null)
-                            framesToSkip = int.Parse(animationReader.GetAttribute("framestoskip"));
+                        
 
                         
 
@@ -196,7 +200,7 @@ namespace CleanGame.Game.SGraphics
                         //Saving if the animation is finite
                         sFinite.Add(animationName, finite);
                         sTimes.Add(animationName, time);
-                        sFramesToSkip.Add(animationName, framesToSkip);
+                        
 
                         break;
                 }
@@ -209,14 +213,14 @@ namespace CleanGame.Game.SGraphics
 
         #region Methods
         //Adding a specified animation to the sprite component, default
-        private void AddAnimationDefault(int numFrames, int yPosition, int xStartFrame, string animationName, int frameWidth, int frameHeight, Vector2 frameOffset, bool finite, float time)
+        private void AddAnimationDefault(int numFrames, int yPosition, int xStartFrame, string animationName, int frameWidth, int frameHeight, Vector2 frameOffset, bool finite, float time, int framesToSkip)
         {
             //Stores the rectangles for the individual frames of an animation
             Rectangle[] tempRectangles = new Rectangle[numFrames];
             //Looping through all the frames of the animation
             for (int i = 0; i < numFrames; i++)
             {
-                tempRectangles[i] = new Rectangle((i + xStartFrame) * frameWidth, yPosition, frameWidth, frameHeight);  
+                tempRectangles[i] = new Rectangle((i + xStartFrame + framesToSkip) * frameWidth, yPosition, frameWidth, frameHeight);  
             }
             //Saving the animation to the animation Dictionary
             sAnimations.Add(animationName, tempRectangles);
@@ -225,6 +229,7 @@ namespace CleanGame.Game.SGraphics
             //Saving if the animation is finite
             sFinite.Add(animationName, finite);
             sTimes.Add(animationName, time);
+            
         }
 
         #endregion
