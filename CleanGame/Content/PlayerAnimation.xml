@@ -278,7 +278,8 @@
                     width="256"
                     height="192"
                     finite="true"
-                    time=".3">
+                    time=".3"
+					framestoskip = "2">
   </animationDefault>
   <animationDefault name="BigSlashLeft"
                     yPosition="1568"

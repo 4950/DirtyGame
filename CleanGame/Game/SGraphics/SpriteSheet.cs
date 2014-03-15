@@ -22,6 +22,7 @@ namespace CleanGame.Game.SGraphics
         private Dictionary<string, Vector2> sOffsets = new Dictionary<string, Vector2>();
         //Stores the information if the animation is finite
         private Dictionary<string, bool> sFinite = new Dictionary<string, bool>();
+        private Dictionary<string, int> sFramesToSkip = new Dictionary<string, int>();
         private Dictionary<string, float> sTimes = new Dictionary<string, float>();
         #endregion
 
@@ -37,6 +38,16 @@ namespace CleanGame.Game.SGraphics
                 sAnimations = value;
             }
         }
+
+        public Dictionary<string,int> FramesToSkip
+        {
+            get
+            {
+                return sFramesToSkip;
+            }
+            
+        }
+
         public Dictionary<string, float> Time
         {
             get
@@ -103,6 +114,7 @@ namespace CleanGame.Game.SGraphics
                 int height;
                 int frameCount = 0;
                 float time = 1;
+                int framesToSkip = 0;
                 bool finite;
 
                 //Switching between the type of animation XML definitions
@@ -147,6 +159,10 @@ namespace CleanGame.Game.SGraphics
                         finite = Convert.ToBoolean(animationReader.GetAttribute("finite"));
                         if (animationReader.GetAttribute("time") != null)
                             time = float.Parse(animationReader.GetAttribute("time"));
+                        if (animationReader.GetAttribute("framestoskip") != null)
+                            framesToSkip = int.Parse(animationReader.GetAttribute("framestoskip"));
+
+                        
 
                         //Temporary Rectangle array
                         Rectangle[] tempRectangles = new Rectangle[numberOfFrames];
@@ -180,6 +196,7 @@ namespace CleanGame.Game.SGraphics
                         //Saving if the animation is finite
                         sFinite.Add(animationName, finite);
                         sTimes.Add(animationName, time);
+                        sFramesToSkip.Add(animationName, framesToSkip);
 
                         break;
                 }

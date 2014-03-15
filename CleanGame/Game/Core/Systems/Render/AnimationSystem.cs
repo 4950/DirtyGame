@@ -74,14 +74,28 @@ namespace CleanGame.Game.Systems
                             //Checking to make sure we are not going over the number of frames
                             if (animation.CurrentFrame < (sprite.SpriteSheet.Animation[animation.CurrentAnimation].Length - 1))
                             {
-                                animation.CurrentFrame++;
+                                if (sprite.SpriteSheet.FramesToSkip[animation.CurrentAnimation] > 0)
+                                {
+                                    animation.CurrentFrame += sprite.SpriteSheet.FramesToSkip[animation.CurrentAnimation];
+                                }
+
+                                else
+                                    animation.CurrentFrame++;
                             }
                         }
                         else if (animation.StartedFiniteAnimation && !animation.FinishedFiniteAnimation)
                         {
+                            
+
                             if (animation.CurrentFrame < (sprite.SpriteSheet.Animation[animation.CurrentAnimation].Length - 1))
                             {
-                                animation.CurrentFrame++;
+                                if (sprite.SpriteSheet.FramesToSkip[animation.CurrentAnimation] > 0)
+                                {
+                                    animation.CurrentFrame += sprite.SpriteSheet.FramesToSkip[animation.CurrentAnimation];
+                                }
+
+                                else
+                                    animation.CurrentFrame++;
                             }
                             else
                             {
@@ -106,7 +120,13 @@ namespace CleanGame.Game.Systems
                         //Checking to make sure we are not going over the number of frames
                         if (animation.CurrentFrame < (sprite.SpriteSheet.Animation[animation.CurrentAnimation].Length - 1))
                         {
-                            animation.CurrentFrame++;
+                            if (sprite.SpriteSheet.FramesToSkip[animation.CurrentAnimation] > 0)
+                            {
+                                animation.CurrentFrame += sprite.SpriteSheet.FramesToSkip[animation.CurrentAnimation];
+                            }
+
+                            else
+                                animation.CurrentFrame++;
                         }
                         //Starting back at frame 0
                         else
