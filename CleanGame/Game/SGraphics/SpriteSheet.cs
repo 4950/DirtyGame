@@ -106,7 +106,6 @@ namespace CleanGame.Game.SGraphics
                 int height;
                 int frameCount = 0;
                 float time = 1;
-                int framesToSkip = 0;
                 bool finite;
 
                 //Switching between the type of animation XML definitions
@@ -133,10 +132,9 @@ namespace CleanGame.Game.SGraphics
                         finite = Convert.ToBoolean(animationReader.GetAttribute("finite"));
                         if (animationReader.GetAttribute("time") != null)
                             time = float.Parse(animationReader.GetAttribute("time"));
-                        if (animationReader.GetAttribute("framestoskip") != null)
-                            framesToSkip = int.Parse(animationReader.GetAttribute("framestoskip"));
+                        
                         //Adding the animation to the dictionaries
-                        AddAnimationDefault(numberOfFrames, yPosition, xStartFrame, animationName, width, height, new Vector2(xOffset, yOffset), finite, time,framesToSkip);
+                        AddAnimationDefault(numberOfFrames, yPosition, xStartFrame, animationName, width, height, new Vector2(xOffset, yOffset), finite, time);
 
                         break;
 
@@ -202,7 +200,7 @@ namespace CleanGame.Game.SGraphics
 
         #region Methods
         //Adding a specified animation to the sprite component, default
-        private void AddAnimationDefault(int numFrames, int yPosition, int xStartFrame, string animationName, int frameWidth, int frameHeight, Vector2 frameOffset, bool finite, float time, int framesToSkip)
+        private void AddAnimationDefault(int numFrames, int yPosition, int xStartFrame, string animationName, int frameWidth, int frameHeight, Vector2 frameOffset, bool finite, float time)
         {
             //Stores the rectangles for the individual frames of an animation
             Rectangle[] tempRectangles = new Rectangle[numFrames];
