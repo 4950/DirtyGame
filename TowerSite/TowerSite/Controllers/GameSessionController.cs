@@ -217,7 +217,8 @@ SET @KillRate = 0;
 SET @HealthRemaining = 0;*/
 
 DECLARE @PlayerScore FLOAT;
-SET @PlayerScore = (dbo.InlineMaxF(3 * (1 - @HitRate), .01) + 2 * @DamageDealt + 2 * @KillRate + 4 * @HealthRemaining) / (3 * (1 - .25) + 2 * 1 + 2 * 1 + 4 * 0);
+/*SET @PlayerScore = (dbo.InlineMaxF(3 * (1 - @HitRate), .01) + 2 * @DamageDealt + 2 * @KillRate + 3 * @HealthRemaining) / (3 * (1 - .25) + 2 * 1 + 2 * 1 + 4 * 0);*/
+SET @PlayerScore = (2 * @DamageDealt + 2 * @KillRate + 3 * @HealthRemaining) / (2 * 1 + 2 * 1 + 3 * 0);
 
 /*PRINT 'Hit Rate: ' + CAST(@HitRate AS VARCHAR)
 PRINT 'Kill Rate: ' + CAST(@KillRate AS VARCHAR)
