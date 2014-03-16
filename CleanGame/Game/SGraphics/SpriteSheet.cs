@@ -37,6 +37,9 @@ namespace CleanGame.Game.SGraphics
                 sAnimations = value;
             }
         }
+
+        
+
         public Dictionary<string, float> Time
         {
             get
@@ -129,6 +132,7 @@ namespace CleanGame.Game.SGraphics
                         finite = Convert.ToBoolean(animationReader.GetAttribute("finite"));
                         if (animationReader.GetAttribute("time") != null)
                             time = float.Parse(animationReader.GetAttribute("time"));
+                        
                         //Adding the animation to the dictionaries
                         AddAnimationDefault(numberOfFrames, yPosition, xStartFrame, animationName, width, height, new Vector2(xOffset, yOffset), finite, time);
 
@@ -147,6 +151,9 @@ namespace CleanGame.Game.SGraphics
                         finite = Convert.ToBoolean(animationReader.GetAttribute("finite"));
                         if (animationReader.GetAttribute("time") != null)
                             time = float.Parse(animationReader.GetAttribute("time"));
+                        
+
+                        
 
                         //Temporary Rectangle array
                         Rectangle[] tempRectangles = new Rectangle[numberOfFrames];
@@ -180,6 +187,7 @@ namespace CleanGame.Game.SGraphics
                         //Saving if the animation is finite
                         sFinite.Add(animationName, finite);
                         sTimes.Add(animationName, time);
+                        
 
                         break;
                 }
@@ -197,10 +205,13 @@ namespace CleanGame.Game.SGraphics
             //Stores the rectangles for the individual frames of an animation
             Rectangle[] tempRectangles = new Rectangle[numFrames];
             //Looping through all the frames of the animation
+            
             for (int i = 0; i < numFrames; i++)
             {
                 tempRectangles[i] = new Rectangle((i + xStartFrame) * frameWidth, yPosition, frameWidth, frameHeight);  
             }
+            
+
             //Saving the animation to the animation Dictionary
             sAnimations.Add(animationName, tempRectangles);
             //Saving the animation's offset to the offset Dictionary
@@ -208,6 +219,7 @@ namespace CleanGame.Game.SGraphics
             //Saving if the animation is finite
             sFinite.Add(animationName, finite);
             sTimes.Add(animationName, time);
+            
         }
 
         #endregion

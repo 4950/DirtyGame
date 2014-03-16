@@ -33,7 +33,7 @@ namespace CleanGame.Game.Core.Systems
         {
             this.game = game;
         }
-        public override void OnEntityAdded(Entity e) //Tracks landmines to be deleted at end of each round
+        public override void OnEntityAdded(Entity e) 
         {
             e.GetComponent<TimeComponent>().timeDrawn = totalTime;
         }
