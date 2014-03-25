@@ -267,7 +267,7 @@ namespace CleanGame.Game.Core
             DirectionComponent direction = new DirectionComponent();
             direction.Heading = "Down";
 
-            sprite.setSpritesheet("MonkHeroBowSword", "Content\\PlayerAnimation.xml", resourceMgr);
+            sprite.setSpritesheet("playerSheet", "Content\\PlayerAnimation.xml", resourceMgr);
             //sprite.SpriteSheet = spriteSheet;// new SpriteSheet(resourceMgr.GetResource<Texture2D>("playerSheet"), "Content\\PlayerAnimation.xml");
             //sprite.SrcRect = sprite.SpriteSheet.Animation["Idle" + direction.Heading][0];
             spatial.Height = (int)(sprite.SrcRect.Height * sprite.Scale / 1.5);
