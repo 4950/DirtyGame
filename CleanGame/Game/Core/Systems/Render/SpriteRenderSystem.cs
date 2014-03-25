@@ -50,12 +50,29 @@ namespace CleanGame.Game.Systems
                 Vector2 pos = spatial.Position - size * sprite.AnchorPoint;
 
                 // create RenderInstance
-                RenderInstance instance = new RenderInstance();
-                if(sprite.SpriteSheet != null)
-                    instance.DrawCall = new BatchDrawSprite(sprite.SpriteSheet.SpriteSheetTexture, pos, sprite.SrcRect, Color.White, spatial.Rotation + sprite.Angle, sprite.Scale, sprite.origin * size);//new BatchDrawSprite(sprite.SpriteSheet.SpriteSheetTexture, spatial.Position, sprite.SrcRect, Color.White);
-                else if(sprite.Sprite != null)
-                    instance.DrawCall = new BatchDrawSprite(sprite.Sprite, pos, sprite.SrcRect, Color.White, spatial.Rotation + sprite.Angle, sprite.Scale, sprite.origin * size);
-                instance.SortKey.SetRenderLayer(sprite.RenderLayer);
+               
+                if (e.HasComponent<AnimationComponent>())
+                {
+                   
+                    AnimationComponent animation = e.GetComponent<AnimationComponent>();
+                    if (size == new Vector2(sprite.SpriteSheet.Animation[animation.CurrentAnimation][animation.CurrentFrame].Width,
+                            sprite.SpriteSheet.Animation[animation.CurrentAnimation][animation.CurrentFrame].Height))
+                    {
+                        pos += sprite.SpriteSheet.Offset[animation.CurrentAnimation];
+                    }
+                    
+                    
+                }
+
+
+               RenderInstance instance = new RenderInstance();     
+               if (sprite.SpriteSheet != null)
+                        instance.DrawCall = new BatchDrawSprite(sprite.SpriteSheet.SpriteSheetTexture, pos, sprite.SrcRect, Color.White, spatial.Rotation + sprite.Angle, sprite.Scale, sprite.origin * size);//new BatchDrawSprite(sprite.SpriteSheet.SpriteSheetTexture, spatial.Position, sprite.SrcRect, Color.White);
+               else if (sprite.Sprite != null)
+                        instance.DrawCall = new BatchDrawSprite(sprite.Sprite, pos, sprite.SrcRect, Color.White, spatial.Rotation + sprite.Angle, sprite.Scale, sprite.origin * size);
+                    instance.SortKey.SetRenderLayer(sprite.RenderLayer);
+
+               
 
                 renderGroup.AddInstance(instance);
             }

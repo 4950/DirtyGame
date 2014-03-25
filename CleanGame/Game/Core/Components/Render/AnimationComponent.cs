@@ -39,10 +39,7 @@ namespace CleanGame.Game.Core.Components
             }
             set
             {
-                if (!currentAnimation.Equals(value))
-                {
-                    currentFrame = 0;
-                }
+                currentFrame = 0;
                 currentAnimation = value;
             }
         }

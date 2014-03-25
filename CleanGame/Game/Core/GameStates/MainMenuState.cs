@@ -88,12 +88,14 @@ namespace CleanGame.Game.Core.GameStates
                 title.TextPosition = TextPosition.Center;
                 p.AddElement(title);
 
+#if DEBUG
                 full = new CheckBox();
                 full.Position = new System.Drawing.Point(20, 40);
                 full.Size = new System.Drawing.Point(100, 20);
                 full.Text = "Fullscreen";
                 full.IsChecked = Settings.Instance.Global.Fullscreen;
                 p.AddElement(full);
+#endif
 
                 cap = new CheckBox();
                 cap.Position = new System.Drawing.Point(20, 60);

@@ -421,7 +421,7 @@ namespace CleanGame.Game.Core.Systems
 
                         roundover = false;
 
-                        if (ScenarioPtr == 36)
+                        if (ScenarioPtr == 22)
                         {
 
                             game.GameWon = false;
