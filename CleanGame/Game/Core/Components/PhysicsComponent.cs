@@ -29,6 +29,7 @@ namespace CleanGame.Game.Core.Components
         /// </summary>
         public Vector2 Origin { get; set; }
         public bool movePlayer { get; set; }
+        public bool collidingWithPlayer { get; set; }
         #endregion
 
         #region Functions
