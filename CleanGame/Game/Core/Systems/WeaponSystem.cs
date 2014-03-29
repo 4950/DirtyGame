@@ -90,6 +90,8 @@ namespace CleanGame.Game.Core.Systems
 
             t = Target.HasComponent<PlayerComponent>() ? CaptureEventType.PlayerDamageTaken : CaptureEventType.MonsterDamageTaken;
             GameplayDataCaptureSystem.Instance.LogEvent(t, Damage.ToString());
+            if (t == CaptureEventType.MonsterDamageTaken)
+                GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MonsterType, Target.GetComponent<PropertyComponent<String>>("MonsterType").value);
             t = Target.HasComponent<PlayerComponent>() ? CaptureEventType.PlayerHitByWeapon : CaptureEventType.MonsterHitByWeapon;
             GameplayDataCaptureSystem.Instance.LogEvent(t, wc.WeaponName);
         }

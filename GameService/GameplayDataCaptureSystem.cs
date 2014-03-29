@@ -33,6 +33,7 @@ namespace GameService
         PlayerWeaponFired,
         MonsterWeaponFired,
         MonsterDamageTaken,
+        MonsterType,
         PlayerDamageTaken,
         PlayerWeaponFirstHit,
         PlayerHitByWeapon,
