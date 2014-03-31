@@ -187,11 +187,13 @@ namespace CleanGame.Game.Core.GameStates
         void s2_Click(object sender)
         {
             //save settings
+#if DEBUG
             if (game.graphics.IsFullScreen != (bool)full.IsChecked)
             {
                 game.graphics.ToggleFullScreen();
                 Settings.Instance.Global.Fullscreen = game.graphics.IsFullScreen;
             }
+#endif
             Settings.Instance.Global.DefaultUser.CaptureMouse = (bool)cap.IsChecked;
 
             back(sender);
