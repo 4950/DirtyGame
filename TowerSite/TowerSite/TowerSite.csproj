@@ -196,6 +196,8 @@
     <Compile Include="Models\GameEventModel.cs" />
     <Compile Include="Models\GameSession.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\PlayerELO.cs" />
+    <Compile Include="Models\ScenarioELO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

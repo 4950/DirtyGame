@@ -146,7 +146,6 @@ namespace TowerSite.Controllers
 
         private async Task RunScoreCalculations(GameSession gs)
         {
-            Trace.WriteLine("Starting query");
             try
             {
                 var res = await db.Database.ExecuteSqlCommandAsync(@"
@@ -231,13 +230,132 @@ SELECT * FROM GameSessions WHERE SessionID = @Session;
             ", gs.SessionID);
 
                 await db.Entry(gs).ReloadAsync();
-                Trace.WriteLine(gs.SessionScore.ToString());
+
+                Trace.WriteLine("test");
+                res = await db.Database.ExecuteSqlCommandAsync(@"
+DECLARE @SessionID INT;
+DECLARE @UserID NVARCHAR(MAX);
+DECLARE @PlayerScore FLOAT;
+
+SET @SessionID = @p0;
+
+SELECT  @UserID = UserID, @PlayerScore = SessionScore FROM GameSessions WHERE SessionID = @SessionID;
+
+/*Check if round ended properly*/
+SELECT * FROM GameEventModels WHERE (SessionId = @SessionID AND Type = 'RoundEnded');
+IF( @@ROWCOUNT <> 1 )
+	RETURN;
+
+DECLARE @ScenarioID NVARCHAR(MAX);
+/*Get Scenario*/
+SELECT @ScenarioID = Data FROM GameEventModels WHERE (SessionId = @SessionID AND Type = 'ScenarioName');
+
+DECLARE @PlayerELO INT;
+DECLARE @PlayerELOLinear INT;
+/*Check if player ELO exists*/
+SELECT @PlayerELO = ELO, @PlayerELOLinear = LinearELO FROM PlayerELOes WHERE UserID = @UserID;
+IF( @@ROWCOUNT <> 1 )/* No ELO, set to default */
+BEGIN
+	INSERT INTO PlayerELOes (ELO, LinearELO, UserID) VALUES (800, 800, @UserID);
+	SET @PlayerELO = 800;
+	SET @PlayerELOLinear = 800;
+END
+
+DECLARE @ScenarioELO INT;
+DECLARE @ScenarioELOLinear INT;
+/*Check if player ELO exists*/
+SELECT @ScenarioELO = ELO, @ScenarioELOLinear = LinearELO FROM ScenarioELOes WHERE ScenarioID = @ScenarioID;
+IF( @@ROWCOUNT <> 1 )/* No ELO, set to default */
+BEGIN
+	INSERT INTO ScenarioELOes (ELO, LinearELO, ScenarioID) VALUES (800, 800, @ScenarioID);
+	SET @ScenarioELO = 800;
+	SET @ScenarioELOLinear = 800;
+END
+
+/*Calculate regular ELO*/
+DECLARE @EPlayer FLOAT;
+DECLARE @EScen FLOAT;
+
+SET @EPlayer = 1 / (1 + POWER(10.0, (@ScenarioELO - @PlayerELO) / 400));
+SET @EScen = 1 / (1 + POWER(10.0, (@PlayerELO - @ScenarioELO) / 400));
+
+DECLARE @SPlayer FLOAT;
+DECLARE @SScen FLOAT;
+
+SELECT * FROM GameEventModels WHERE (SessionId = @SessionID AND Type = 'PlayerDied');
+IF( @@ROWCOUNT <> 1 )
+BEGIN
+	SET @SPlayer = 1;
+	SET @SScen = 0;
+END
+ELSE
+BEGIN
+	SET @SPlayer = 0;
+	SET @SScen = 1;
+END
+
+DECLARE @PlayerK INT;
+DECLARE @ScenK INT;
+
+IF ( @PlayerELO < 2200)
+	SET @PlayerK = 30;
+ELSE IF ( @PlayerELO < 2400)
+	SET @PlayerK = 20;
+ELSE
+	SET @PlayerK = 10;
+
+IF ( @ScenarioELO < 2200)
+	SET @ScenK = 30;
+ELSE IF ( @ScenarioELO < 2400)
+	SET @ScenK = 20;
+ELSE
+	SET @ScenK = 10;
+
+SET @PlayerELO = @PlayerELO + @PlayerK * (@SPlayer - @EPlayer);
+SET @ScenarioELO = @ScenarioELO + @ScenK * (@SScen - @EScen);
+
+/*Calculate linear ELO*/
+SET @EPlayer = 1 / (1 + POWER(10.0, (@ScenarioELOLinear - @PlayerELOLinear) / 400));
+SET @EScen = 1 / (1 + POWER(10.0, (@PlayerELOLinear - @ScenarioELOLinear) / 400));
+
+
+/*Calculate expected*/
+IF( @SPlayer = 1 )
+	SET @SPlayer = (@PlayerScore / 1.76) * (1 - @EPlayer) + @EPlayer;
+ELSE
+	SET @SPlayer = (@PlayerScore / 1.76) * (1 - @EPlayer);
+
+SET @SScen = 1 - @SPlayer;
+
+/*Set K Values */
+IF ( @PlayerELOLinear < 2200)
+	SET @PlayerK = 30;
+ELSE IF ( @PlayerELOLinear < 2400)
+	SET @PlayerK = 20;
+ELSE
+	SET @PlayerK = 10;
+
+IF ( @ScenarioELOLinear < 2200)
+	SET @ScenK = 30;
+ELSE IF ( @ScenarioELOLinear < 2400)
+	SET @ScenK = 20;
+ELSE
+	SET @ScenK = 10;
+
+SET @PlayerELOLinear = @PlayerELOLinear + @PlayerK * (@SPlayer - @EPlayer);
+SET @ScenarioELOLinear = @ScenarioELOLinear + @ScenK * (@SScen - @EScen);
+
+/*Write Back new ELOs*/
+UPDATE PlayerELOes SET ELO = @PlayerELO, LinearELO = @PlayerELOLinear WHERE UserID = @UserID;
+UPDATE ScenarioELOes SET ELO = @ScenarioELO, LinearELO = @ScenarioELOLinear WHERE ScenarioID = @ScenarioID;
+                ", gs.SessionID);
+
+                Trace.WriteLine(res.ToString());
             }
             catch (Exception e)
             {
                 Trace.WriteLine(e.Message);
             }
-            Trace.WriteLine("Ended query");
         }
 
         // DELETE odata/GameSession(5)

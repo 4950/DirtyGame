@@ -17,5 +17,9 @@ namespace TowerSite.Models
         public System.Data.Entity.DbSet<TowerSite.Models.GameEventModel> GameEventModels { get; set; }
 
         public System.Data.Entity.DbSet<TowerSite.Models.GameSession> GameSessions { get; set; }
+
+        public System.Data.Entity.DbSet<TowerSite.Models.PlayerELO> PlayerELO { get; set; }
+
+        public System.Data.Entity.DbSet<TowerSite.Models.ScenarioELO> ScenarioELO { get; set; }
     }
 }
