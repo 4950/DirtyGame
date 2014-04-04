@@ -60,6 +60,8 @@ namespace GameService
         private GameService.GameSession CurrentSession;
         private bool sending = false;
         private string Version;
+
+        public GameService.GameSession PreviousSession = null;
         public object IsSendingAsync = new object();
 
         public int SessionID { get { return CurrentSessionID; } }
@@ -232,11 +234,11 @@ namespace GameService
                 serviceContainer.SaveChanges();
 
                 gs = serviceContainer.GameSession.Where(gamesession => gamesession.SessionID == gs.SessionID).FirstOrDefault();
-
+                PreviousSession = gs;
 #if DEBUG
                 //MessageBox.Show("Session ID: " + gs.SessionID + "\n\nAccuracy: " + (gs.HitRate * 100) + "%\nPlayerScore: " + gs.SessionScore, "Round Results");
 #else
-                MessageBox.Show("Continue to next round", "Round Finished");
+                //MessageBox.Show("Continue to next round", "Round Finished");
 #endif
 
                 return gs;

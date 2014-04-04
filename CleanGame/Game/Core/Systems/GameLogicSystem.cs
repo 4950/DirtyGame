@@ -27,6 +27,7 @@ namespace CleanGame.Game.Core.Systems
     enum GameLogicState
     {
         EndingRound,
+        RoundResults,
         PreRound,
         ActiveRound
     };
@@ -34,6 +35,15 @@ namespace CleanGame.Game.Core.Systems
     {
         private const float damagePnlMaxTime = .5f;
         private const byte damagePnlMaxAlpha = 128;
+
+        //Round Result Window
+        private Window RoundWindow;
+        private Panel RWPanel;
+        private Label RWWinLbl;
+        private Label RWHealthLbl;
+        private Label RWKillsLbl;
+        private Label RWAccuracyLbl;
+        private Button RWContinueBtn;
 
         private List<ProgressBar> mPBs;
         private Panel pbDisplay;
@@ -51,8 +61,8 @@ namespace CleanGame.Game.Core.Systems
         private float roundStartTime;
         private bool cheatEndRound = false;
         private int PlayerHits;
+        private int PlayerHitsMax;
         private float playerHitTime;
-        private bool roundover = false;
         private bool tutorialMode;
         private List<Label> textFloaters = new List<Label>();
         private int ScenarioPtr = 15;
@@ -92,9 +102,6 @@ namespace CleanGame.Game.Core.Systems
             spawners.Clear();
             //game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += monstersdefeated;
             monstersdefeated = 0;
-
-            //restore player health
-            game.player.GetComponent<StatsComponent>().CurrentHealth = game.player.GetComponent<StatsComponent>().MaxHealth;
         }
         public void AddTextFloater(string val)
         {
@@ -116,82 +123,20 @@ namespace CleanGame.Game.Core.Systems
         {
             ActionLabelBack.Visibility = Visibility.Hidden;
             resetRound();
+            currentState = GameLogicState.ActiveRound;
             tutorialMode = true;
             game.player.GetComponent<PhysicsComponent>().movePlayer = true;
             game.player.GetComponent<SpatialComponent>().Position = new Vector2(200, 200);
             game.player.Refresh();
             GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.ScenarioName, "Tutorial");
         }
-        /// <summary>
-        /// Starts a round using the old round system
-        /// </summary>
-        public void SetupNextRound()
-        {
-            resetRound();
 
-            int CurrentLevel = game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value;
-
-            int numRanged = 2 + 2 * CurrentLevel;
-            int numMelee = 2 + 2 * CurrentLevel;
-
-            switch (CurrentLevel)
-            {
-
-                case 1:
-                    numRanged = 0;
-
-                    break;
-                case 2:
-                    numRanged /= 2;
-                    numMelee /= 2;
-                    break;
-            }
-
-            Entity e = game.entityFactory.CreateSpawner(600, 600, new Rectangle(0, 0, 46, 46), "LandmineDropper", "LandmineWeapon", numMelee + 1, new TimeSpan(0, 0, 0, 0, 500));
-            e.Refresh();
-            spawners.Add(e);
-
-            e = game.entityFactory.CreateSpawner(300, 100, new Rectangle(0, 0, 46, 46), "MeleeMonster", "Monstersword", numMelee / 2, new TimeSpan(0, 0, 0, 0, 500));
-            e.Refresh();
-            spawners.Add(e);
-
-
-            e = game.entityFactory.CreateSpawner(100, 300, new Rectangle(0, 0, 46, 46), "RangedMonster", "Monsterbow", numRanged / 2, new TimeSpan(0, 0, 0, 0, 500));
-            e.Refresh();
-            spawners.Add(e);
-
-            e = game.entityFactory.CreateSpawner(300, 640, new Rectangle(0, 0, 46, 46), "MeleeMonster", "Monstersword", numMelee / 2, new TimeSpan(0, 0, 0, 0, 500));
-            e.Refresh();
-            spawners.Add(e);
-            e = game.entityFactory.CreateSpawner(300, 640, new Rectangle(0, 0, 46, 46), "Flametower", "FlametowerWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
-            e.Refresh();
-            spawners.Add(e);
-
-            e = game.entityFactory.CreateSpawner(300, 200, new Rectangle(0, 0, 46, 46), "SuicideBomber", "BomberWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
-            e.Refresh();
-            spawners.Add(e);
-            e = game.entityFactory.CreateSpawner(300, 200, new Rectangle(0, 0, 46, 46), "SnipMonster", "SnipWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
-
-            e.Refresh();
-            spawners.Add(e);
-            e = game.entityFactory.CreateSpawner(300, 200, new Rectangle(0, 0, 46, 46), "Grenadier", "GrenadeLauncher", 1, new TimeSpan(0, 0, 0, 0, 500));
-            e.Refresh();
-            spawners.Add(e);
-
-            e = game.entityFactory.CreateSpawner(300, 200, new Rectangle(0, 0, 46, 46), "WallHugger", "WallHuggerWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
-            e.Refresh();
-            spawners.Add(e);
-
-            //show buy phase before starting
-            //if (CurrentLevel > 1)
-            //    BuyPhase();
-
-            roundTime = 60;
-        }
         public void PlayerDealtDamage()
         {
             playerHitTime = 4;
             PlayerHits++;
+            if (PlayerHits > PlayerHitsMax)
+                PlayerHitsMax = PlayerHits;
             HitLabel.Visibility = Visibility.Visible;
             HitLabel.Text = PlayerHits + " hits";
         }
@@ -386,10 +331,6 @@ namespace CleanGame.Game.Core.Systems
             return playScenario;
         }
 
-        public void scenarioForPlayerScore(string mapName, float playerScore)
-        {
-            //WORK IN PROGRESS
-        }
 
         public override void OnEntityRemoved(Entity e)
         {
@@ -403,7 +344,7 @@ namespace CleanGame.Game.Core.Systems
                     //if (roundTime > 0)
                     //{
 
-                    if (!roundover)
+                    if (currentState == GameLogicState.ActiveRound)
                     {
 
                         monstersdefeated++;
@@ -427,12 +368,11 @@ namespace CleanGame.Game.Core.Systems
                         GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundScore, game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value.ToString());
                         GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundHealth, game.player.GetComponent<StatsComponent>().CurrentHealth.ToString());
 
-                        roundover = false;
 
                         if (ScenarioPtr == 22)
                         {
 
-                            game.GameWon = false;
+                            
 
                             Event gamestate = new Event();
                             gamestate.name = "GameStateGameOver";
@@ -469,6 +409,7 @@ namespace CleanGame.Game.Core.Systems
 
             //next game round
             //AdvanceLevel();
+            PlayerHitsMax = 0;
             game.ClearField = true;
             //start next round in 5
             roundStartTime = 5f;
@@ -476,15 +417,56 @@ namespace CleanGame.Game.Core.Systems
             ActionLabel.Position = new System.Drawing.Point(-ActionLabel.Size.X / 2, ActionLabel.Position.Y);
             ActionLabelBack.Visibility = CoreUI.Visibility.Visible;
         }
+        private void ShowRoundResults()
+        {
+            currentState = GameLogicState.RoundResults;
+            roundStartTime = 5;
+
+            if (game.player.GetComponent<StatsComponent>().CurrentHealth > 0)
+            {
+                RWWinLbl.Text = "Victory!";
+                RWWinLbl.Foreground = new MonoGameColor(Color.Green);
+            }
+            else
+            {
+                RWWinLbl.Text = "Defeat";
+                RWWinLbl.Foreground = new MonoGameColor(Color.Red);
+            }
+
+            RWHealthLbl.Text = string.Format("Health Remaining: {0}%", (int)Math.Round(game.player.GetComponent<StatsComponent>().CurrentHealth / game.player.GetComponent<StatsComponent>().MaxHealth * 100));
+            RWAccuracyLbl.Text = string.Format("Largest Combo: {0} hits", PlayerHitsMax);
+            RWKillsLbl.Text = string.Format("Monsters Killed: {0}%", (int)Math.Round((1 - GameplayDataCaptureSystem.Instance.PreviousSession.KillRate) * 100));
+
+            RoundWindow.Show();
+        }
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
         {
+            if (currentState == GameLogicState.RoundResults)
+            {
+                RWContinueBtn.Text = string.Format("Continue...({0})", (int)Math.Ceiling(roundStartTime));
+                roundStartTime -= dt;
+                if (roundStartTime <= 0)
+                {
+                    roundStartTime = 0;
+
+                    RoundWindow.Hide();
+                    StartPreRound();
+                }
+            }
             if (currentState == GameLogicState.EndingRound)
             {
                 if (Monitor.TryEnter(GameplayDataCaptureSystem.Instance.IsSendingAsync, 25))
                 {
                     Monitor.Exit(GameplayDataCaptureSystem.Instance.IsSendingAsync);
                     ActionLabelBack.Visibility = Visibility.Hidden;
-                    StartPreRound();
+                    if (GameplayDataCaptureSystem.Instance.PreviousSession != null)
+                    {
+                        ShowRoundResults();
+                    }
+                    else
+                    {
+                        StartPreRound();
+                    }
                 }
             }
             else if (currentState == GameLogicState.PreRound)
@@ -513,18 +495,16 @@ namespace CleanGame.Game.Core.Systems
                         roundStartTime = 0;
 
                         ActionLabelBack.Visibility = Visibility.Hidden;
-                        //if (game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value == 0)
-                        //{
+
                         //Setting the movePlayer flag in the physics component of the player
                         game.player.GetComponent<PhysicsComponent>().movePlayer = true;
-                        //TODO need to have the map name here
+
+                        //restore player health
+                        game.player.GetComponent<StatsComponent>().CurrentHealth = game.player.GetComponent<StatsComponent>().MaxHealth;
 
                         setupScenario(randomScenario(game.mapName));
                         game.player.Refresh();
                         currentState = GameLogicState.ActiveRound;
-                        //}
-                        //else
-                        //    AdvanceLevel();
 
                     }
                 }
@@ -595,9 +575,7 @@ namespace CleanGame.Game.Core.Systems
                             {
 
                                 GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerDied, "");
-                                roundover = true;
-                                game.GameWon = false;
-                                //resetRound();
+
                                 for (int j = 0; j < entities.Count(); j++)
                                 {
                                     Entity entity = entities.ElementAt(j);
@@ -685,9 +663,67 @@ namespace CleanGame.Game.Core.Systems
             HitLabel.Visibility = CoreUI.Visibility.Hidden;
             game.UIEngine.Children.AddElement(HitLabel);
 
+            RoundWindow = new Window();
+            RoundWindow.Style = Window.WindowStyle.None;
+            RoundWindow.Size = new System.Drawing.Point(300, 300);
+            RoundWindow.Position = new System.Drawing.Point(game.currrentDisplayMode.Width / 2 - 150, game.currrentDisplayMode.Height / 2 - 150);
+            RoundWindow.Background = new MonoGameColor(trans);
+
+            RWPanel = new Panel();
+            RoundWindow.Content = RWPanel;
+
+            RWWinLbl = new Label();
+            RWWinLbl.Size = new System.Drawing.Point(300, 50);
+            RWWinLbl.Position = new System.Drawing.Point(0, 0);
+            RWWinLbl.TextPosition = TextPosition.Center;
+            RWWinLbl.mFontInt = new MonoGameFont(game.resourceManager.GetResource<SpriteFont>("Round"));
+            RWPanel.AddElement(RWWinLbl);
+
+            RWHealthLbl = new Label();
+            RWHealthLbl.Size = new System.Drawing.Point(300, 50);
+            RWHealthLbl.Position = new System.Drawing.Point(0, 75);
+            RWHealthLbl.TextPosition = TextPosition.Center;
+            RWHealthLbl.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.White);
+            RWHealthLbl.mFontInt = new MonoGameFont(game.resourceManager.GetResource<SpriteFont>("Message"));
+            RWPanel.AddElement(RWHealthLbl);
+
+            RWKillsLbl = new Label();
+            RWKillsLbl.Size = new System.Drawing.Point(300, 50);
+            RWKillsLbl.Position = new System.Drawing.Point(0, 125);
+            RWKillsLbl.TextPosition = TextPosition.Center;
+            RWKillsLbl.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.White);
+            RWKillsLbl.mFontInt = new MonoGameFont(game.resourceManager.GetResource<SpriteFont>("Message"));
+            RWPanel.AddElement(RWKillsLbl);
+
+            RWAccuracyLbl = new Label();
+            RWAccuracyLbl.Size = new System.Drawing.Point(300, 50);
+            RWAccuracyLbl.Position = new System.Drawing.Point(0, 175);
+            RWAccuracyLbl.TextPosition = TextPosition.Center;
+            RWAccuracyLbl.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.White);
+            RWAccuracyLbl.mFontInt = new MonoGameFont(game.resourceManager.GetResource<SpriteFont>("Message"));
+            RWPanel.AddElement(RWAccuracyLbl);
+
+            RWContinueBtn = new Button();
+            RWContinueBtn.Size = new System.Drawing.Point(200, 30);
+            RWContinueBtn.Position = new System.Drawing.Point(50, 260);
+            RWContinueBtn.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.White);
+            RWContinueBtn.mFontInt = new MonoGameFont(game.resourceManager.GetResource<SpriteFont>("Message"));
+            RWContinueBtn.Text = "Continue";
+            RWContinueBtn.Click += RWContinueBtn_Click;
+            RWPanel.AddElement(RWContinueBtn);
+
 #if DEBUG
             game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.OemTilde, CheatEndRound, null);
 #endif
+        }
+
+        void RWContinueBtn_Click(object sender)
+        {
+            if (currentState == GameLogicState.RoundResults)
+            {
+                RoundWindow.Hide();
+                StartPreRound();
+            }
         }
 
         private void CheatEndRound(Microsoft.Xna.Framework.Input.Keys key)
