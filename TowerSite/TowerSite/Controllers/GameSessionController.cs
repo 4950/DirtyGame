@@ -346,8 +346,8 @@ SET @PlayerELOLinear = @PlayerELOLinear + @PlayerK * (@SPlayer - @EPlayer);
 SET @ScenarioELOLinear = @ScenarioELOLinear + @ScenK * (@SScen - @EScen);
 
 /*Write Back new ELOs*/
-UPDATE PlayerELOes SET ELO = @PlayerELO, LinearELO = @PlayerELOLinear WHERE UserID = @UserID;
-UPDATE ScenarioELOes SET ELO = @ScenarioELO, LinearELO = @ScenarioELOLinear WHERE ScenarioID = @ScenarioID;
+UPDATE PlayerELOes SET ELO = ROUND(@PlayerELO, 0), LinearELO = ROUND(@PlayerELOLinear, 0) WHERE UserID = @UserID;
+UPDATE ScenarioELOes SET ELO = ROUND(@ScenarioELO, 0), LinearELO = ROUND(@ScenarioELOLinear, 0) WHERE ScenarioID = @ScenarioID;
                 ", gs.SessionID);
 
                 Trace.WriteLine(res.ToString());
