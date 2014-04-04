@@ -151,13 +151,14 @@ namespace GameService
             this.Version = Version;
 
             serviceContainer = new GameService.Container(DataUri);
+            serviceContainer.Format.UseJson();
             serviceContainer.SaveChangesDefaultOptions = SaveChangesOptions.Batch;
             serviceContainer.MergeOption = System.Data.Services.Client.MergeOption.PreserveChanges;
 
             serviceContainer.ReceivingResponse += (s, e) =>
             {
                 String ContentType = e.ResponseMessage.GetHeader("Content-Type");
-                if (ContentType != null && !(ContentType.Contains("application/atom+xml") || ContentType.Contains("multipart/mixed")))
+                if (ContentType != null && !(ContentType.Contains("application/atom+xml") || ContentType.Contains("application/json") || ContentType.Contains("multipart/mixed")))
                 {
                     LoggedIn = false;
                 }

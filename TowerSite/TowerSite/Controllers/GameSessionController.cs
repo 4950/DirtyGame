@@ -239,7 +239,7 @@ DECLARE @PlayerScore FLOAT;
 
 SET @SessionID = @p0;
 
-SELECT  @UserID = UserID, @PlayerScore = SessionScore FROM GameSessions WHERE SessionID = @SessionID;
+SELECT @UserID = UserID, @PlayerScore = SessionScore FROM GameSessions WHERE SessionID = @SessionID;
 
 /*Check if round ended properly*/
 SELECT * FROM GameEventModels WHERE (SessionId = @SessionID AND Type = 'RoundEnded');
@@ -250,8 +250,8 @@ DECLARE @ScenarioID NVARCHAR(MAX);
 /*Get Scenario*/
 SELECT @ScenarioID = Data FROM GameEventModels WHERE (SessionId = @SessionID AND Type = 'ScenarioName');
 
-DECLARE @PlayerELO INT;
-DECLARE @PlayerELOLinear INT;
+DECLARE @PlayerELO FLOAT;
+DECLARE @PlayerELOLinear FLOAT;
 /*Check if player ELO exists*/
 SELECT @PlayerELO = ELO, @PlayerELOLinear = LinearELO FROM PlayerELOes WHERE UserID = @UserID;
 IF( @@ROWCOUNT <> 1 )/* No ELO, set to default */
@@ -261,8 +261,8 @@ BEGIN
 	SET @PlayerELOLinear = 800;
 END
 
-DECLARE @ScenarioELO INT;
-DECLARE @ScenarioELOLinear INT;
+DECLARE @ScenarioELO FLOAT;
+DECLARE @ScenarioELOLinear FLOAT;
 /*Check if player ELO exists*/
 SELECT @ScenarioELO = ELO, @ScenarioELOLinear = LinearELO FROM ScenarioELOes WHERE ScenarioID = @ScenarioID;
 IF( @@ROWCOUNT <> 1 )/* No ELO, set to default */
@@ -276,8 +276,8 @@ END
 DECLARE @EPlayer FLOAT;
 DECLARE @EScen FLOAT;
 
-SET @EPlayer = 1 / (1 + POWER(10.0, (@ScenarioELO - @PlayerELO) / 400));
-SET @EScen = 1 / (1 + POWER(10.0, (@PlayerELO - @ScenarioELO) / 400));
+SET @EPlayer = 1.0 / (1.0 + POWER(10.0, (@ScenarioELO - @PlayerELO) / 400.0));
+SET @EScen = 1.0 / (1.0 + POWER(10.0, (@PlayerELO - @ScenarioELO) / 400.0));
 
 DECLARE @SPlayer FLOAT;
 DECLARE @SScen FLOAT;
@@ -294,8 +294,8 @@ BEGIN
 	SET @SScen = 1;
 END
 
-DECLARE @PlayerK INT;
-DECLARE @ScenK INT;
+DECLARE @PlayerK FLOAT;
+DECLARE @ScenK FLOAT;
 
 IF ( @PlayerELO < 2200)
 	SET @PlayerK = 30;
@@ -315,15 +315,15 @@ SET @PlayerELO = @PlayerELO + @PlayerK * (@SPlayer - @EPlayer);
 SET @ScenarioELO = @ScenarioELO + @ScenK * (@SScen - @EScen);
 
 /*Calculate linear ELO*/
-SET @EPlayer = 1 / (1 + POWER(10.0, (@ScenarioELOLinear - @PlayerELOLinear) / 400));
-SET @EScen = 1 / (1 + POWER(10.0, (@PlayerELOLinear - @ScenarioELOLinear) / 400));
+SET @EPlayer = 1.0 / (1.0 + POWER(10.0, (@ScenarioELOLinear - @PlayerELOLinear) / 400.0));
+SET @EScen = 1.0 / (1.0 + POWER(10.0, (@PlayerELOLinear - @ScenarioELOLinear) / 400.0));
 
 
 /*Calculate expected*/
 IF( @SPlayer = 1 )
-	SET @SPlayer = (@PlayerScore / 1.76) * (1 - @EPlayer) + @EPlayer;
+	SET @SPlayer = (@PlayerScore / 1.76) * (1.0 - @EPlayer) + @EPlayer;
 ELSE
-	SET @SPlayer = (@PlayerScore / 1.76) * (1 - @EPlayer);
+	SET @SPlayer = (@PlayerScore / 1.76) * (1.0 - @EPlayer);
 
 SET @SScen = 1 - @SPlayer;
 
