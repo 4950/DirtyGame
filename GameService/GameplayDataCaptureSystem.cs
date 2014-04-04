@@ -60,6 +60,7 @@ namespace GameService
         private GameService.GameSession CurrentSession;
         private bool sending = false;
         private string Version;
+        public object IsSendingAsync = new object();
 
         public int SessionID { get { return CurrentSessionID; } }
 
@@ -175,30 +176,39 @@ namespace GameService
 
             ShowBrowser();
         }
+        public void NewSessionAsync()
+        {
+            Thread t = new Thread(new ThreadStart(() => NewSession()));
+            t.IsBackground = true;
+            t.Start();
+        }
         /// <summary>
         /// Starts a new capture session
         /// </summary>
         public bool NewSession()
         {
-            if (!LoggedIn)//Attempt to log in
-                Login();
-            if (!LoggedIn)//Failed to log in
-                return false;
-            if (CurrentSession != null)
-                EndSession();
-
-            GameService.GameSession gs = new GameService.GameSession();
-            serviceContainer.AddToGameSession(gs);
-            var serviceResponse = serviceContainer.SaveChanges();
-            CurrentSessionID = gs.SessionID;
-            CurrentSession = gs;
-            foreach (var operationResponse in serviceResponse)
+            lock (IsSendingAsync)
             {
-                if (operationResponse.StatusCode != 201)
+                if (!LoggedIn)//Attempt to log in
+                    Login();
+                if (!LoggedIn)//Failed to log in
                     return false;
-            }
+                if (CurrentSession != null)
+                    EndSession();
 
-            LogEvent(CaptureEventType.VersionNumber, Version);
+                GameService.GameSession gs = new GameService.GameSession();
+                serviceContainer.AddToGameSession(gs);
+                var serviceResponse = serviceContainer.SaveChanges();
+                CurrentSessionID = gs.SessionID;
+                CurrentSession = gs;
+                foreach (var operationResponse in serviceResponse)
+                {
+                    if (operationResponse.StatusCode != 201)
+                        return false;
+                }
+
+                LogEvent(CaptureEventType.VersionNumber, Version);
+            }
 
             return true;
         }
@@ -224,7 +234,7 @@ namespace GameService
                 gs = serviceContainer.GameSession.Where(gamesession => gamesession.SessionID == gs.SessionID).FirstOrDefault();
 
 #if DEBUG
-                MessageBox.Show("Session ID: " + gs.SessionID + "\n\nAccuracy: " + (gs.HitRate * 100) + "%\nPlayerScore: " + gs.SessionScore, "Round Results");
+                //MessageBox.Show("Session ID: " + gs.SessionID + "\n\nAccuracy: " + (gs.HitRate * 100) + "%\nPlayerScore: " + gs.SessionScore, "Round Results");
 #else
                 MessageBox.Show("Continue to next round", "Round Finished");
 #endif
@@ -245,34 +255,14 @@ namespace GameService
             if (!LoggedIn)//Failed to log in
                 return false;
 
-            Form f = new Form();
-            f.Size = new System.Drawing.Size(100, 50);
-            f.FormBorderStyle = FormBorderStyle.None;
-            f.StartPosition = FormStartPosition.CenterScreen;
-            f.TopMost = true;
-
-            Label l = new Label();
-            l.Dock = DockStyle.Fill;
-            l.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            l.Text = "Sending data...";
-            l.ForeColor = System.Drawing.Color.Red;
-            f.Controls.Add(l);
-
-            f.Show();
-            f.Activate();
-
-            Thread.Sleep(100);
-
             var serviceResponse = serviceContainer.SaveChanges();
             foreach (var operationResponse in serviceResponse)
             {
                 if (operationResponse.StatusCode != 201)
                 {
-                    f.Hide();
                     return false;
                 }
             }
-            f.Hide();
 
             return true;
         }

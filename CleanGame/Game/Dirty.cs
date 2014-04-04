@@ -348,7 +348,7 @@ namespace CleanGame
         public void LoadScenario(string mapName)
         {
             //Setting up the scenario for the map
-            gLogicSystem.StartPreRound();
+            gLogicSystem.StartNewRound();
             //Scenario playingScenario = gLogicSystem.randomScenario(mapName); //This will change to gLogicSystem.scenarioForPlayerScore(string mapName, float playerScore)
             //gLogicSystem.setupScenario(playingScenario);
             //player.Refresh();
