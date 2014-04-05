@@ -51,7 +51,7 @@ namespace GameService
     }
     public class GameplayDataCaptureSystem : Singleton<GameplayDataCaptureSystem>
     {
-        static Uri BrowseUri = new Uri("https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://csci4950.azurewebsites.net/Account/Login");
+        static Uri BrowseUri = new Uri("https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://csci4950.azurewebsites.net/Account/LogOffGame");
         static Uri DataUri = new Uri("https://csci4950.azurewebsites.net/odata");
         GameService.Container serviceContainer;
         private String Cookies = "";
