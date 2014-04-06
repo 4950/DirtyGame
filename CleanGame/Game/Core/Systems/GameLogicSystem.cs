@@ -19,14 +19,31 @@ using CleanGame.Game.Core.GameStates;
 using CoreUI;
 using Microsoft.Xna.Framework.Graphics;
 using GameService;
+using System.Threading;
 
 
 namespace CleanGame.Game.Core.Systems
 {
+    enum GameLogicState
+    {
+        EndingRound,
+        RoundResults,
+        PreRound,
+        ActiveRound
+    };
     public class GameLogicSystem : EntitySystem
     {
         private const float damagePnlMaxTime = .5f;
         private const byte damagePnlMaxAlpha = 128;
+
+        //Round Result Window
+        private Window RoundWindow;
+        private Panel RWPanel;
+        private Label RWWinLbl;
+        private Label RWHealthLbl;
+        private Label RWKillsLbl;
+        private Label RWAccuracyLbl;
+        private Button RWContinueBtn;
 
         private List<ProgressBar> mPBs;
         private Panel pbDisplay;
@@ -44,12 +61,13 @@ namespace CleanGame.Game.Core.Systems
         private float roundStartTime;
         private bool cheatEndRound = false;
         private int PlayerHits;
+        private int PlayerHitsMax;
         private float playerHitTime;
-        private bool roundover = false;
         private bool tutorialMode;
         private List<Label> textFloaters = new List<Label>();
         private int ScenarioPtr = 15;
 
+        private GameLogicState currentState;
         private List<Entity> spawners = new List<Entity>();
 
         //Dictionary that contains a set of scenario objects
@@ -84,9 +102,6 @@ namespace CleanGame.Game.Core.Systems
             spawners.Clear();
             //game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameKills").value += monstersdefeated;
             monstersdefeated = 0;
-
-            //restore player health
-            game.player.GetComponent<StatsComponent>().CurrentHealth = game.player.GetComponent<StatsComponent>().MaxHealth;
         }
         public void AddTextFloater(string val)
         {
@@ -108,82 +123,20 @@ namespace CleanGame.Game.Core.Systems
         {
             ActionLabelBack.Visibility = Visibility.Hidden;
             resetRound();
+            currentState = GameLogicState.ActiveRound;
             tutorialMode = true;
             game.player.GetComponent<PhysicsComponent>().movePlayer = true;
             game.player.GetComponent<SpatialComponent>().Position = new Vector2(200, 200);
             game.player.Refresh();
             GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.ScenarioName, "Tutorial");
         }
-        /// <summary>
-        /// Starts a round using the old round system
-        /// </summary>
-        public void SetupNextRound()
-        {
-            resetRound();
 
-            int CurrentLevel = game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value;
-
-            int numRanged = 2 + 2 * CurrentLevel;
-            int numMelee = 2 + 2 * CurrentLevel;
-
-            switch (CurrentLevel)
-            {
-
-                case 1:
-                    numRanged = 0;
-
-                    break;
-                case 2:
-                    numRanged /= 2;
-                    numMelee /= 2;
-                    break;
-            }
-
-            Entity e = game.entityFactory.CreateSpawner(600, 600, new Rectangle(0, 0, 46, 46), "LandmineDropper", "LandmineWeapon", numMelee + 1, new TimeSpan(0, 0, 0, 0, 500));
-            e.Refresh();
-            spawners.Add(e);
-
-            e = game.entityFactory.CreateSpawner(300, 100, new Rectangle(0, 0, 46, 46), "MeleeMonster", "Monstersword", numMelee / 2, new TimeSpan(0, 0, 0, 0, 500));
-            e.Refresh();
-            spawners.Add(e);
-
-
-            e = game.entityFactory.CreateSpawner(100, 300, new Rectangle(0, 0, 46, 46), "RangedMonster", "Monsterbow", numRanged / 2, new TimeSpan(0, 0, 0, 0, 500));
-            e.Refresh();
-            spawners.Add(e);
-
-            e = game.entityFactory.CreateSpawner(300, 640, new Rectangle(0, 0, 46, 46), "MeleeMonster", "Monstersword", numMelee / 2, new TimeSpan(0, 0, 0, 0, 500));
-            e.Refresh();
-            spawners.Add(e);
-            e = game.entityFactory.CreateSpawner(300, 640, new Rectangle(0, 0, 46, 46), "Flametower", "FlametowerWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
-            e.Refresh();
-            spawners.Add(e);
-
-            e = game.entityFactory.CreateSpawner(300, 200, new Rectangle(0, 0, 46, 46), "SuicideBomber", "BomberWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
-            e.Refresh();
-            spawners.Add(e);
-            e = game.entityFactory.CreateSpawner(300, 200, new Rectangle(0, 0, 46, 46), "SnipMonster", "SnipWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
-
-            e.Refresh();
-            spawners.Add(e);
-            e = game.entityFactory.CreateSpawner(300, 200, new Rectangle(0, 0, 46, 46), "Grenadier", "GrenadeLauncher", 1, new TimeSpan(0, 0, 0, 0, 500));
-            e.Refresh();
-            spawners.Add(e);
-
-            e = game.entityFactory.CreateSpawner(300, 200, new Rectangle(0, 0, 46, 46), "WallHugger", "WallHuggerWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
-            e.Refresh();
-            spawners.Add(e);
-
-            //show buy phase before starting
-            //if (CurrentLevel > 1)
-            //    BuyPhase();
-
-            roundTime = 60;
-        }
         public void PlayerDealtDamage()
         {
             playerHitTime = 4;
             PlayerHits++;
+            if (PlayerHits > PlayerHitsMax)
+                PlayerHitsMax = PlayerHits;
             HitLabel.Visibility = Visibility.Visible;
             HitLabel.Text = PlayerHits + " hits";
         }
@@ -378,10 +331,6 @@ namespace CleanGame.Game.Core.Systems
             return playScenario;
         }
 
-        public void scenarioForPlayerScore(string mapName, float playerScore)
-        {
-            //WORK IN PROGRESS
-        }
 
         public override void OnEntityRemoved(Entity e)
         {
@@ -395,7 +344,7 @@ namespace CleanGame.Game.Core.Systems
                     //if (roundTime > 0)
                     //{
 
-                    if (!roundover)
+                    if (currentState == GameLogicState.ActiveRound)
                     {
 
                         monstersdefeated++;
@@ -419,12 +368,11 @@ namespace CleanGame.Game.Core.Systems
                         GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundScore, game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameScore").value.ToString());
                         GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundHealth, game.player.GetComponent<StatsComponent>().CurrentHealth.ToString());
 
-                        roundover = false;
 
                         if (ScenarioPtr == 22)
                         {
 
-                            game.GameWon = false;
+                            
 
                             Event gamestate = new Event();
                             gamestate.name = "GameStateGameOver";
@@ -432,25 +380,36 @@ namespace CleanGame.Game.Core.Systems
 
                         }
 
-                        StartPreRound();
+                        StartNewRound();
                     }
                 }
             }
 
         }
         /// <summary>
+        /// Ends a round, sends data to server, then starts a new round. Data send is async
+        /// </summary>
+        public void StartNewRound()
+        {
+            currentState = GameLogicState.EndingRound;
+            resetRound();
+            GameplayDataCaptureSystem.Instance.NewSessionAsync();
+            ActionLabel.Text = "Contacting Server...";
+            ActionLabel.Position = new System.Drawing.Point(0, game.currrentDisplayMode.Height / 2 - 50);
+            ActionLabelBack.Visibility = Visibility.Visible;
+        }
+        /// <summary>
         /// Shows the round label and sets up a timer to the next round
         /// </summary>
         public void StartPreRound()
         {
-            resetRound();
-
+            currentState = GameLogicState.PreRound;
             //Log
-            GameplayDataCaptureSystem.Instance.NewSession();
             GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.MapSelected, game.mapName);
 
             //next game round
             //AdvanceLevel();
+            PlayerHitsMax = 0;
             game.ClearField = true;
             //start next round in 5
             roundStartTime = 5f;
@@ -458,174 +417,208 @@ namespace CleanGame.Game.Core.Systems
             ActionLabel.Position = new System.Drawing.Point(-ActionLabel.Size.X / 2, ActionLabel.Position.Y);
             ActionLabelBack.Visibility = CoreUI.Visibility.Visible;
         }
-        public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
+        private void ShowRoundResults()
         {
-            for (int i = 0; i < textFloaters.Count; i++)
+            currentState = GameLogicState.RoundResults;
+            roundStartTime = 10;
+
+            if (game.player.GetComponent<StatsComponent>().CurrentHealth > 0)
             {
-                Label floater = textFloaters[i];
-                System.Drawing.Point pos = floater.Position;
-                pos.X += (int)(dt * 150);
-                pos.Y -= (int)(dt * 150);
-                floater.Position = pos;
-
-                if (pos.Y <= 0)
-                {
-                    textFloaters.Remove(floater);
-                    game.UIEngine.Children.RemoveElement(floater);
-                    i--;
-                }
-            }
-            if (damagePnlTime > 0)
-            {
-                (DamagePanel.Background as MonoGameColor).color.A = (byte)(damagePnlMaxAlpha * (damagePnlTime / damagePnlMaxTime));
-                damagePnlTime -= dt;
-                if (damagePnlTime <= 0)
-                {
-                    damagePnlTime = 0;
-                    DamagePanel.Visibility = Visibility.Hidden;
-                }
-            }
-            if (playerHitTime > 0)
-            {
-                playerHitTime -= dt;
-                if (playerHitTime <= 0)
-                {
-                    ResetHitCounter(true);
-                }
-            }
-            if (roundStartTime > 0 && !tutorialMode)
-            {
-                roundStartTime -= dt;
-
-                if (roundStartTime > 4.5)
-                {
-                    float mult = ((5 - roundStartTime) * 2);
-                    ActionLabel.Position = new System.Drawing.Point((int)(-ActionLabel.Size.X / 2 + ActionLabel.Size.X / 2 * mult), ActionLabel.Position.Y);
-                }
-                else if (Math.Floor(roundStartTime) == 1 && Math.Round(roundStartTime) == 1)
-                {
-                    ActionLabel.Text = "Go!";
-                    ActionLabel.Position = new System.Drawing.Point(-ActionLabel.Size.X, ActionLabel.Position.Y);
-                }
-                else if (roundStartTime < 1 && roundStartTime > .5f)
-                {
-                    float mult = ((1 - roundStartTime) * 2);
-                    ActionLabel.Position = new System.Drawing.Point((int)(-ActionLabel.Size.X / 2 + ActionLabel.Size.X / 2 * mult), ActionLabel.Position.Y);
-                }
-                else if (roundStartTime <= 0)
-                {
-                    roundStartTime = 0;
-
-                    ActionLabelBack.Visibility = Visibility.Hidden;
-                    //if (game.gameEntity.entity.GetComponent<PropertyComponent<int>>("GameRound").value == 0)
-                    //{
-                    //Setting the movePlayer flag in the physics component of the player
-                    game.player.GetComponent<PhysicsComponent>().movePlayer = true;
-                    //TODO need to have the map name here
-
-                    setupScenario(randomScenario(game.mapName));
-                    game.player.Refresh();
-                    //}
-                    //else
-                    //    AdvanceLevel();
-
-                }
-            }
-            //if (roundTime > 0)
-            //{
-            //    roundTime -= dt;
-            //    if (roundLblTime == 0)//if done showing round number, show time
-            //        roundLabel.Text = "Time Remaining: " + (int)roundTime + "s";
-
-            //    if (roundTime <= 0)//if time over, end round
-            //    {
-            //        roundTime = 0;
-            //        for (int i = 0; i < entities.Count(); i++)
-            //        {
-            //            Entity e = entities.ElementAt(i);
-            //            if (e.HasComponent<MonsterComponent>())
-            //            {
-            //                World.DestroyEntity(e);
-            //                i--;
-            //            }
-            //        }
-            //    }
-            //}
-
-            if (cheatEndRound)
-            {
-                cheatEndRound = false;
-                resetRound();
-                for (int i = 0; i < entities.Count(); i++)
-                {
-                    Entity e = entities.ElementAt(i);
-                    if (e.HasComponent<MonsterComponent>())
-                    {
-                        World.DestroyEntity(e);
-                        i--;
-                    }
-                }
-
+                RWWinLbl.Text = "Victory!";
+                RWWinLbl.Foreground = new MonoGameColor(Color.Green);
             }
             else
             {
-                for (int i = 0; i < entities.Count(); i++)
+                RWWinLbl.Text = "Defeat";
+                RWWinLbl.Foreground = new MonoGameColor(Color.Red);
+            }
+
+            RWHealthLbl.Text = string.Format("Health Remaining: {0}%", (int)Math.Round(game.player.GetComponent<StatsComponent>().CurrentHealth / game.player.GetComponent<StatsComponent>().MaxHealth * 100));
+            RWAccuracyLbl.Text = string.Format("Largest Combo: {0} hits", PlayerHitsMax);
+            RWKillsLbl.Text = string.Format("Monsters Killed: {0}%", (int)Math.Round((1 - GameplayDataCaptureSystem.Instance.PreviousSession.KillRate) * 100));
+
+            RoundWindow.Show();
+        }
+        public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
+        {
+            if (currentState == GameLogicState.RoundResults)
+            {
+                RWContinueBtn.Text = string.Format("Continue...({0})", (int)Math.Ceiling(roundStartTime));
+                roundStartTime -= dt;
+                if (roundStartTime <= 0)
                 {
-                    Entity e = entities.ElementAt(i);
+                    roundStartTime = 0;
 
-                    StatsComponent hc = e.GetComponent<StatsComponent>();
-
-                    if (hc.CurrentHealth <= 0)//dead
+                    RoundWindow.Hide();
+                    StartPreRound();
+                }
+            }
+            if (currentState == GameLogicState.EndingRound)
+            {
+                if (Monitor.TryEnter(GameplayDataCaptureSystem.Instance.IsSendingAsync, 25))
+                {
+                    Monitor.Exit(GameplayDataCaptureSystem.Instance.IsSendingAsync);
+                    ActionLabelBack.Visibility = Visibility.Hidden;
+                    if (GameplayDataCaptureSystem.Instance.PreviousSession != null)
                     {
-                        if (e.HasComponent<PlayerComponent>())//player died
+                        ShowRoundResults();
+                    }
+                    else
+                    {
+                        StartPreRound();
+                    }
+                }
+            }
+            else if (currentState == GameLogicState.PreRound)
+            {
+                if (roundStartTime > 0 && !tutorialMode)
+                {
+                    roundStartTime -= dt;
+
+                    if (roundStartTime > 4.5)
+                    {
+                        float mult = ((5 - roundStartTime) * 2);
+                        ActionLabel.Position = new System.Drawing.Point((int)(-ActionLabel.Size.X / 2 + ActionLabel.Size.X / 2 * mult), ActionLabel.Position.Y);
+                    }
+                    else if (Math.Floor(roundStartTime) == 1 && Math.Round(roundStartTime) == 1)
+                    {
+                        ActionLabel.Text = "Go!";
+                        ActionLabel.Position = new System.Drawing.Point(-ActionLabel.Size.X, ActionLabel.Position.Y);
+                    }
+                    else if (roundStartTime < 1 && roundStartTime > .5f)
+                    {
+                        float mult = ((1 - roundStartTime) * 2);
+                        ActionLabel.Position = new System.Drawing.Point((int)(-ActionLabel.Size.X / 2 + ActionLabel.Size.X / 2 * mult), ActionLabel.Position.Y);
+                    }
+                    else if (roundStartTime <= 0)
+                    {
+                        roundStartTime = 0;
+
+                        ActionLabelBack.Visibility = Visibility.Hidden;
+
+                        //Setting the movePlayer flag in the physics component of the player
+                        game.player.GetComponent<PhysicsComponent>().movePlayer = true;
+
+                        //restore player health
+                        game.player.GetComponent<StatsComponent>().CurrentHealth = game.player.GetComponent<StatsComponent>().MaxHealth;
+
+                        setupScenario(randomScenario(game.mapName));
+                        game.player.Refresh();
+                        currentState = GameLogicState.ActiveRound;
+
+                    }
+                }
+            }
+            else if (currentState == GameLogicState.ActiveRound)
+            {
+                for (int i = 0; i < textFloaters.Count; i++)
+                {
+                    Label floater = textFloaters[i];
+                    System.Drawing.Point pos = floater.Position;
+                    pos.X += (int)(dt * 150);
+                    pos.Y -= (int)(dt * 150);
+                    floater.Position = pos;
+
+                    if (pos.Y <= 0)
+                    {
+                        textFloaters.Remove(floater);
+                        game.UIEngine.Children.RemoveElement(floater);
+                        i--;
+                    }
+                }
+                if (damagePnlTime > 0)
+                {
+                    (DamagePanel.Background as MonoGameColor).color.A = (byte)(damagePnlMaxAlpha * (damagePnlTime / damagePnlMaxTime));
+                    damagePnlTime -= dt;
+                    if (damagePnlTime <= 0)
+                    {
+                        damagePnlTime = 0;
+                        DamagePanel.Visibility = Visibility.Hidden;
+                    }
+                }
+                if (playerHitTime > 0)
+                {
+                    playerHitTime -= dt;
+                    if (playerHitTime <= 0)
+                    {
+                        ResetHitCounter(true);
+                    }
+                }
+
+
+                if (cheatEndRound)
+                {
+                    cheatEndRound = false;
+                    resetRound();
+                    for (int i = 0; i < entities.Count(); i++)
+                    {
+                        Entity e = entities.ElementAt(i);
+                        if (e.HasComponent<MonsterComponent>())
                         {
-
-                            GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerDied, "");
-                            roundover = true;
-                            game.GameWon = false;
-                            //resetRound();
-                            for (int j = 0; j < entities.Count(); j++)
-                            {
-                                Entity entity = entities.ElementAt(j);
-                                if (entity.HasComponent<MonsterComponent>())
-                                {
-                                    World.DestroyEntity(entity);
-                                    j--;
-                                }
-                            }
-
-
-
-                        }
-                        else
-                        {
-
                             World.DestroyEntity(e);
                             i--;
                         }
                     }
-                    else//update PBs
+
+                }
+                else
+                {
+                    for (int i = 0; i < entities.Count(); i++)
                     {
-                        SpatialComponent sc = e.GetComponent<SpatialComponent>();
+                        Entity e = entities.ElementAt(i);
 
-                        ProgressBar pb = mPBs[i];
-                        pb.Maximum = hc.MaxHealth;
-                        pb.Value = (int)hc.CurrentHealth;
+                        StatsComponent hc = e.GetComponent<StatsComponent>();
 
-                        Vector2 pos = sc.Position + new Vector2(sc.Width / 2 - pb.Size.X / 2, -20);
-                        pos = Vector2.Transform(pos, renderer.ActiveCamera.Transform);
-                        if (pos.X >= 0 && pos.Y >= 0 && pos.X <= renderer.ActiveCamera.size.X && pos.Y <= renderer.ActiveCamera.size.Y)
+                        if (hc.CurrentHealth <= 0)//dead
                         {
-                            pb.Visibility = Visibility.Visible;
-                            pb.Position = new System.Drawing.Point((int)pos.X, (int)pos.Y);
+                            if (e.HasComponent<PlayerComponent>())//player died
+                            {
+
+                                GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerDied, "");
+
+                                for (int j = 0; j < entities.Count(); j++)
+                                {
+                                    Entity entity = entities.ElementAt(j);
+                                    if (entity.HasComponent<MonsterComponent>())
+                                    {
+                                        World.DestroyEntity(entity);
+                                        j--;
+                                    }
+                                }
+
+
+
+                            }
+                            else
+                            {
+
+                                World.DestroyEntity(e);
+                                i--;
+                            }
                         }
-                        else
+                        else//update PBs
                         {
-                            pb.Visibility = Visibility.Hidden;
+                            SpatialComponent sc = e.GetComponent<SpatialComponent>();
+
+                            ProgressBar pb = mPBs[i];
+                            pb.Maximum = hc.MaxHealth;
+                            pb.Value = (int)hc.CurrentHealth;
+
+                            Vector2 pos = sc.Position + new Vector2(sc.Width / 2 - pb.Size.X / 2, -20);
+                            pos = Vector2.Transform(pos, renderer.ActiveCamera.Transform);
+                            if (pos.X >= 0 && pos.Y >= 0 && pos.X <= renderer.ActiveCamera.size.X && pos.Y <= renderer.ActiveCamera.size.Y)
+                            {
+                                pb.Visibility = Visibility.Visible;
+                                pb.Position = new System.Drawing.Point((int)pos.X, (int)pos.Y);
+                            }
+                            else
+                            {
+                                pb.Visibility = Visibility.Hidden;
+                            }
+
                         }
 
                     }
-
                 }
             }
         }
@@ -670,9 +663,67 @@ namespace CleanGame.Game.Core.Systems
             HitLabel.Visibility = CoreUI.Visibility.Hidden;
             game.UIEngine.Children.AddElement(HitLabel);
 
+            RoundWindow = new Window();
+            RoundWindow.Style = Window.WindowStyle.None;
+            RoundWindow.Size = new System.Drawing.Point(300, 300);
+            RoundWindow.Position = new System.Drawing.Point(game.currrentDisplayMode.Width / 2 - 150, game.currrentDisplayMode.Height / 2 - 150);
+            RoundWindow.Background = new MonoGameColor(trans);
+
+            RWPanel = new Panel();
+            RoundWindow.Content = RWPanel;
+
+            RWWinLbl = new Label();
+            RWWinLbl.Size = new System.Drawing.Point(300, 50);
+            RWWinLbl.Position = new System.Drawing.Point(0, 0);
+            RWWinLbl.TextPosition = TextPosition.Center;
+            RWWinLbl.mFontInt = new MonoGameFont(game.resourceManager.GetResource<SpriteFont>("Round"));
+            RWPanel.AddElement(RWWinLbl);
+
+            RWHealthLbl = new Label();
+            RWHealthLbl.Size = new System.Drawing.Point(300, 50);
+            RWHealthLbl.Position = new System.Drawing.Point(0, 75);
+            RWHealthLbl.TextPosition = TextPosition.Center;
+            RWHealthLbl.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.White);
+            RWHealthLbl.mFontInt = new MonoGameFont(game.resourceManager.GetResource<SpriteFont>("Message"));
+            RWPanel.AddElement(RWHealthLbl);
+
+            RWKillsLbl = new Label();
+            RWKillsLbl.Size = new System.Drawing.Point(300, 50);
+            RWKillsLbl.Position = new System.Drawing.Point(0, 125);
+            RWKillsLbl.TextPosition = TextPosition.Center;
+            RWKillsLbl.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.White);
+            RWKillsLbl.mFontInt = new MonoGameFont(game.resourceManager.GetResource<SpriteFont>("Message"));
+            RWPanel.AddElement(RWKillsLbl);
+
+            RWAccuracyLbl = new Label();
+            RWAccuracyLbl.Size = new System.Drawing.Point(300, 50);
+            RWAccuracyLbl.Position = new System.Drawing.Point(0, 175);
+            RWAccuracyLbl.TextPosition = TextPosition.Center;
+            RWAccuracyLbl.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.White);
+            RWAccuracyLbl.mFontInt = new MonoGameFont(game.resourceManager.GetResource<SpriteFont>("Message"));
+            RWPanel.AddElement(RWAccuracyLbl);
+
+            RWContinueBtn = new Button();
+            RWContinueBtn.Size = new System.Drawing.Point(200, 30);
+            RWContinueBtn.Position = new System.Drawing.Point(50, 260);
+            RWContinueBtn.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.White);
+            RWContinueBtn.mFontInt = new MonoGameFont(game.resourceManager.GetResource<SpriteFont>("Message"));
+            RWContinueBtn.Text = "Continue";
+            RWContinueBtn.Click += RWContinueBtn_Click;
+            RWPanel.AddElement(RWContinueBtn);
+
 #if DEBUG
             game.baseContext.RegisterHandler(Microsoft.Xna.Framework.Input.Keys.OemTilde, CheatEndRound, null);
 #endif
+        }
+
+        void RWContinueBtn_Click(object sender)
+        {
+            if (currentState == GameLogicState.RoundResults)
+            {
+                RoundWindow.Hide();
+                StartPreRound();
+            }
         }
 
         private void CheatEndRound(Microsoft.Xna.Framework.Input.Keys key)

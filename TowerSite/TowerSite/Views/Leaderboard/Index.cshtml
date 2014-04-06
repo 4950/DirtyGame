@@ -1,0 +1,44 @@
+﻿@model IEnumerable<TowerSite.Models.Leaderboard>
+
+@{
+    ViewBag.Title = "Leaderboard";
+}
+
+<h2>Leaderboard</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Rank
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ELO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LinearELO)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rank)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ELO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LinearELO)
+            </td>
+        </tr>
+    }
+
+</table>

@@ -53,6 +53,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
     </Reference>
@@ -188,14 +190,39 @@
     <Compile Include="Controllers\GameEventController.cs" />
     <Compile Include="Controllers\GameSessionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LeaderboardController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201404060834271_InitialMigrations.cs" />
+    <Compile Include="Migrations\201404060834271_InitialMigrations.Designer.cs">
+      <DependentUpon>201404060834271_InitialMigrations.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\GameEventModel.cs" />
     <Compile Include="Models\GameSession.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Leaderboard.cs">
+      <DependentUpon>LeaderboardModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LeaderboardModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LeaderboardModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LeaderboardModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LeaderboardModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LeaderboardModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LeaderboardModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PlayerELO.cs" />
+    <Compile Include="Models\ScenarioELO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -208,6 +235,23 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="Models\LeaderboardModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>LeaderboardModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\LeaderboardModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LeaderboardModel.edmx</DependentUpon>
+      <LastGenOutput>LeaderboardModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\LeaderboardModel.edmx.diagram">
+      <DependentUpon>LeaderboardModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\LeaderboardModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>LeaderboardModel.edmx</DependentUpon>
+      <LastGenOutput>LeaderboardModel.cs</LastGenOutput>
+    </Content>
     <None Include="Properties\PublishProfiles\csci4950.pubxml" />
     <None Include="Properties\PublishProfiles\TowerOffense.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -250,6 +294,11 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Download\Index.cshtml" />
+    <Content Include="Views\Leaderboard\Create.cshtml" />
+    <Content Include="Views\Leaderboard\Delete.cshtml" />
+    <Content Include="Views\Leaderboard\Details.cshtml" />
+    <Content Include="Views\Leaderboard\Edit.cshtml" />
+    <Content Include="Views\Leaderboard\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -260,6 +309,14 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201404060834271_InitialMigrations.resx">
+      <DependentUpon>201404060834271_InitialMigrations.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

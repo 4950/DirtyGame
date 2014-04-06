@@ -294,6 +294,15 @@ namespace TowerSite.Controllers
         }
 
         //
+        // POST: /Account/LogOffGame
+        [AllowAnonymous]
+        public ActionResult LogOffGame()
+        {
+            AuthenticationManager.SignOut();
+            return RedirectToAction("Login", "Account");
+        }
+
+        //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
