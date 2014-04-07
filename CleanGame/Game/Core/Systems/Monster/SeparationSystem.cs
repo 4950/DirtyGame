@@ -31,6 +31,10 @@ namespace CleanGame.Game.Core.Systems.Movement
 
             TimeSpan t = new TimeSpan(0, 0, 0, 0, 500);
 
+            Vector2 positionDif = new Vector2();
+
+            Random rand = new Random();
+
             foreach (Entity e in entities)
             {
                 SpatialComponent mySpatial = e.GetComponent<SpatialComponent>();
@@ -40,20 +44,22 @@ namespace CleanGame.Game.Core.Systems.Movement
                     {
                         continue;
                     }
-                    SpatialComponent otherMonster = e2.GetComponent<SpatialComponent>();
-                    if (Vector2.Distance(mySpatial.Center, otherMonster.Center) < 50)
-                    {
 
-                        e.GetComponent<MovementComponent>().Velocity += 0.5f * Vector2.Normalize(mySpatial.Center - otherMonster.Center);
-                        e.GetComponent<MovementComponent>().Velocity = Vector2.Min(e.GetComponent<MovementComponent>().Velocity, new Vector2(1, 1));
-                        e.GetComponent<MovementComponent>().Velocity = Vector2.Max(e.GetComponent<MovementComponent>().Velocity, new Vector2(-1, -1));
+                    SpatialComponent otherMonster = e2.GetComponent<SpatialComponent>();
+                    if (Vector2.Distance(mySpatial.Position, otherMonster.Position) <= 32)
+                    {
+                        positionDif += (mySpatial.Position - otherMonster.Position);
                     }
                 }
 
-                
+                // since these guys aren't birds, we dont want true flocking. So, add a bit of random to throw it off a bit.
+                // actually I think it looks better with true flocking. But I'll leave this here just in case.
+                e.GetComponent<MovementComponent>().Velocity += dt * (positionDif); //+ new Vector2(rand.Next(-20, 20), rand.Next(-20, 20)));
 
-                //Can check for different types of entities down here!
             }
+
+
+
         }
 
         public SeparationSystem()
