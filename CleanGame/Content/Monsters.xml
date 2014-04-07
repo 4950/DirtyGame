@@ -63,7 +63,7 @@
       <Name>WeaponComponent</Name>
       <WeaponName>BomberWeapon</WeaponName>
       <Portrait>bow</Portrait>
-      <BaseDamage>31</BaseDamage>
+      <BaseDamage>30</BaseDamage>
       <Range>64</Range>
       <Type>Melee</Type>
       <ProjectileSprite>BombExplosion2</ProjectileSprite>
