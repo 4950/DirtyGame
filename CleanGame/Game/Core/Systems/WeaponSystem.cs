@@ -81,6 +81,16 @@ namespace CleanGame.Game.Core.Systems
 
             Damage = (int)Math.Floor(wc.BaseDamage * (os.Damage / 100.0f));
 
+            if (Target == wc.Owner)
+            {
+                if (Target.HasComponent<PropertyComponent<String>>())
+                {
+                    if (Target.GetComponent<PropertyComponent<String>>("MonsterType").value == "SuicideBomber")
+                    {
+                        Damage = ts.BaseHealth;
+                    }
+                }
+            }
             hc.CurrentHealth -= Damage;
             if (hc.CurrentHealth < 0)
             {
