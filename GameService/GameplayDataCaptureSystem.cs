@@ -49,8 +49,22 @@ namespace GameService
         ComboEndValue,
         ComboEndReason
     }
+    public class SessionEventArgs : EventArgs
+    {
+        public bool RequestsSucceeded;
+        public GameService.GameSession PreviousSession;
+    }
+    public class RetryEventArgs : EventArgs
+    {
+        public int Attempt;
+    }
     public class GameplayDataCaptureSystem : Singleton<GameplayDataCaptureSystem>
     {
+        public delegate void NewSessionResultEventHandler(object sender, SessionEventArgs e);
+        public delegate void DataRetryEventHandler(object sender, RetryEventArgs e);
+        public event NewSessionResultEventHandler NewSessionResultEvent;
+        public event DataRetryEventHandler DataRetryEvent;
+
         static Uri BrowseUri = new Uri("https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://csci4950.azurewebsites.net/Account/LogOffGame");
         static Uri DataUri = new Uri("https://csci4950.azurewebsites.net/odata");
         GameService.Container serviceContainer;
@@ -61,8 +75,7 @@ namespace GameService
         private bool sending = false;
         private string Version;
 
-        public GameService.GameSession PreviousSession = null;
-        public object IsSendingAsync = new object();
+        private object IsSendingAsync = new object();
 
         public int SessionID { get { return CurrentSessionID; } }
 
@@ -113,7 +126,7 @@ namespace GameService
             browse.Navigating += browse_Navigating;
             loginWindow.Controls.Add(browse);
 
-            
+
 
             loginWindow.ShowDialog();
         }
@@ -186,44 +199,84 @@ namespace GameService
             t.Start();
         }
         /// <summary>
-        /// Starts a new capture session
+        /// Ends previous session if there are any, and starts a new capture session. Saves to server
         /// </summary>
         public bool NewSession()
         {
             lock (IsSendingAsync)
             {
-                if (!LoggedIn)//Attempt to log in
-                    Login();
-                if (!LoggedIn)//Failed to log in
-                    return false;
-                if (CurrentSession != null)
-                    EndSession();
 
+                //create new session
                 GameService.GameSession gs = new GameService.GameSession();
                 serviceContainer.AddToGameSession(gs);
-                var serviceResponse = serviceContainer.SaveChanges();
+
+                //set session vars
+                SessionEventArgs s = new SessionEventArgs();
+                s.PreviousSession = CurrentSession;
+
+
+                //log version number
+                LogEvent(CaptureEventType.VersionNumber, Version);
+
+                bool res = SaveChanges();
+
                 CurrentSessionID = gs.SessionID;
                 CurrentSession = gs;
-                foreach (var operationResponse in serviceResponse)
-                {
-                    if (operationResponse.StatusCode != 201)
-                        return false;
-                }
 
-                LogEvent(CaptureEventType.VersionNumber, Version);
+                //fire event
+                s.RequestsSucceeded = res;
+                NewSessionResultEvent(this, s);
+
+                return res;
             }
-
-            return true;
         }
-
         /// <summary>
-        /// Ends the current session and returns session data
+        /// Attempts to save changes to server
+        /// </summary>
+        /// <returns>Success</returns>
+        private bool SaveChanges()
+        {
+            if (!LoggedIn)//Attempt to log in
+                Login();
+            if (!LoggedIn)//Failed to log in
+                return false;
+
+            bool sent = false;
+            for (int i = 0; i < 4; i++)
+            {
+                if(i > 0)
+                {
+                    RetryEventArgs e = new RetryEventArgs();
+                    e.Attempt = i;
+                    DataRetryEvent(this, e);
+                }
+                try
+                {
+                    var serviceResponse = serviceContainer.SaveChanges();
+                    foreach (var operationResponse in serviceResponse)
+                    {
+                        if (operationResponse.StatusCode != 201)
+                        {
+                            throw new Exception("Bad response from server");
+                        }
+                    }
+                    sent = true;
+                    break;
+                }
+                catch (Exception)
+                {
+                    Thread.Sleep((int)Math.Pow(2, i + 1) * 100);
+                    continue;
+                }
+            }
+            return sent;
+        }
+        /// <summary>
+        /// Ends the current session and saves to server
         /// </summary>
         /// <returns></returns>
-        public GameService.GameSession EndSession()
+        public bool EndSession()
         {
-            FlushData();
-
             if (CurrentSession != null)
             {
                 var gs = CurrentSession;
@@ -232,43 +285,23 @@ namespace GameService
 
                 gs.Completed = true;
                 serviceContainer.UpdateObject(gs);
-                serviceContainer.SaveChanges();
+
+                bool res = SaveChanges();
 
                 gs = serviceContainer.GameSession.Where(gamesession => gamesession.SessionID == gs.SessionID).FirstOrDefault();
-                PreviousSession = gs;
+                //PreviousSession = gs;
 #if DEBUG
                 //MessageBox.Show("Session ID: " + gs.SessionID + "\n\nAccuracy: " + (gs.HitRate * 100) + "%\nPlayerScore: " + gs.SessionScore, "Round Results");
 #else
                 //MessageBox.Show("Continue to next round", "Round Finished");
 #endif
 
-                return gs;
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Wrties all pending data to server. Shows a window
-        /// </summary>
-        /// <returns>True on success</returns>
-        public bool FlushData()
-        {
-            if (!LoggedIn)//Attempt to log in
-                Login();
-            if (!LoggedIn)//Failed to log in
-                return false;
-
-            var serviceResponse = serviceContainer.SaveChanges();
-            foreach (var operationResponse in serviceResponse)
-            {
-                if (operationResponse.StatusCode != 201)
-                {
-                    return false;
-                }
+                return res;
             }
 
             return true;
         }
+
         /// <summary>
         /// Logs an event to the current session
         /// </summary>
@@ -296,22 +329,6 @@ namespace GameService
             //    serviceContainer.BeginSaveChanges(UpdateCallback, null);
             //}
             return true;
-        }
-        private void UpdateCallback(IAsyncResult result)
-        {
-            try
-            {
-                serviceContainer.EndSaveChanges(result);
-            }
-            catch (Exception e)
-            {
-                //if (LoggedIn)//If not logged in, we know what the error is
-                //    throw e;
-            }
-            finally
-            {
-                sending = false;
-            }
         }
     }
 }

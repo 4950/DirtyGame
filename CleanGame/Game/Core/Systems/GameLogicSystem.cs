@@ -372,7 +372,7 @@ namespace CleanGame.Game.Core.Systems
                         if (ScenarioPtr == 22)
                         {
 
-                            
+
 
                             Event gamestate = new Event();
                             gamestate.name = "GameStateGameOver";
@@ -393,10 +393,46 @@ namespace CleanGame.Game.Core.Systems
         {
             currentState = GameLogicState.EndingRound;
             resetRound();
+
+            //start new session and wait for result
+            GameplayDataCaptureSystem.Instance.NewSessionResultEvent += Instance_NewSessionResultEvent;
+            GameplayDataCaptureSystem.Instance.DataRetryEvent += Instance_DataRetryEvent;
             GameplayDataCaptureSystem.Instance.NewSessionAsync();
+
             ActionLabel.Text = "Contacting Server...";
             ActionLabel.Position = new System.Drawing.Point(0, game.currrentDisplayMode.Height / 2 - 50);
             ActionLabelBack.Visibility = Visibility.Visible;
+        }
+
+        void Instance_DataRetryEvent(object sender, RetryEventArgs e)
+        {
+            ActionLabel.Text = "Retry Attempt " + e.Attempt + "...";
+        }
+
+        void Instance_NewSessionResultEvent(object sender, SessionEventArgs e)
+        {
+            GameplayDataCaptureSystem.Instance.NewSessionResultEvent -= Instance_NewSessionResultEvent;
+            GameplayDataCaptureSystem.Instance.DataRetryEvent -= Instance_DataRetryEvent;
+
+            
+            if (currentState == GameLogicState.EndingRound)
+            {
+                ActionLabelBack.Visibility = Visibility.Hidden;
+                if (!e.RequestsSucceeded)
+                    MessageBox.Show("Failed to contact server. Please\ncheck your internet settings.", "Error").DialogResult += GameLogicSystem_DialogResult;
+                else if (e.PreviousSession != null)
+                {
+                    ShowRoundResults(e.PreviousSession);
+                }
+                else
+                {
+                    StartPreRound();
+                }
+            }
+        }
+        void GameLogicSystem_DialogResult(object sender, MessageBox.MessageBoxResultButtons ResultButton)
+        {
+            StartPreRound();
         }
         /// <summary>
         /// Shows the round label and sets up a timer to the next round
@@ -417,7 +453,7 @@ namespace CleanGame.Game.Core.Systems
             ActionLabel.Position = new System.Drawing.Point(-ActionLabel.Size.X / 2, ActionLabel.Position.Y);
             ActionLabelBack.Visibility = CoreUI.Visibility.Visible;
         }
-        private void ShowRoundResults()
+        private void ShowRoundResults(GameService.GameService.GameSession PrevSession)
         {
             currentState = GameLogicState.RoundResults;
             roundStartTime = 10;
@@ -435,7 +471,7 @@ namespace CleanGame.Game.Core.Systems
 
             RWHealthLbl.Text = string.Format("Health Remaining: {0}%", (int)Math.Round(game.player.GetComponent<StatsComponent>().CurrentHealth / game.player.GetComponent<StatsComponent>().MaxHealth * 100));
             RWAccuracyLbl.Text = string.Format("Largest Combo: {0} hits", PlayerHitsMax);
-            RWKillsLbl.Text = string.Format("Monsters Killed: {0}%", (int)Math.Round((1 - GameplayDataCaptureSystem.Instance.PreviousSession.KillRate) * 100));
+            RWKillsLbl.Text = string.Format("Monsters Killed: {0}%", (int)Math.Round((1 - PrevSession.KillRate) * 100));
 
             RoundWindow.Show();
         }
@@ -451,22 +487,6 @@ namespace CleanGame.Game.Core.Systems
 
                     RoundWindow.Hide();
                     StartPreRound();
-                }
-            }
-            if (currentState == GameLogicState.EndingRound)
-            {
-                if (Monitor.TryEnter(GameplayDataCaptureSystem.Instance.IsSendingAsync, 25))
-                {
-                    Monitor.Exit(GameplayDataCaptureSystem.Instance.IsSendingAsync);
-                    ActionLabelBack.Visibility = Visibility.Hidden;
-                    if (GameplayDataCaptureSystem.Instance.PreviousSession != null)
-                    {
-                        ShowRoundResults();
-                    }
-                    else
-                    {
-                        StartPreRound();
-                    }
                 }
             }
             else if (currentState == GameLogicState.PreRound)
