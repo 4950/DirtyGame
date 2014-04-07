@@ -369,9 +369,9 @@
       <BaseMoveSpeed>80</BaseMoveSpeed>
       <BaseDamage>100</BaseDamage>
       <RangedImmune>false</RangedImmune>
-      <BaseHealth>31</BaseHealth>
+      <BaseHealth>60</BaseHealth>
       <HealthScale>1</HealthScale>
-      <CurrentHealth>31</CurrentHealth>
+      <CurrentHealth>60</CurrentHealth>
     </Component>
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="MovementComponent">
       <Name>MovementComponent</Name>
