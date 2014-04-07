@@ -41,10 +41,10 @@ namespace CleanGame.Game.Core.Systems.Movement
                         continue;
                     }
                     SpatialComponent otherMonster = e2.GetComponent<SpatialComponent>();
-                    if (Vector2.Distance(mySpatial.Position, otherMonster.Position) < 50)
+                    if (Vector2.Distance(mySpatial.Center, otherMonster.Center) < 50)
                     {
 
-                        e.GetComponent<MovementComponent>().Velocity += -0.125f * Vector2.Normalize(otherMonster.Position - mySpatial.Position);
+                        e.GetComponent<MovementComponent>().Velocity += 0.5f * Vector2.Normalize(mySpatial.Center - otherMonster.Center);
                         e.GetComponent<MovementComponent>().Velocity = Vector2.Min(e.GetComponent<MovementComponent>().Velocity, new Vector2(1, 1));
                         e.GetComponent<MovementComponent>().Velocity = Vector2.Max(e.GetComponent<MovementComponent>().Velocity, new Vector2(-1, -1));
                     }
