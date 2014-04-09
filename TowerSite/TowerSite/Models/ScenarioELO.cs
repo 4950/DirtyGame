@@ -11,5 +11,6 @@ namespace TowerSite.Models
         public String ScenarioID { get; set; }
         public int ELO { get; set; }
         public int LinearELO { get; set; }
+        public int GamesPlayed { get; set; }
     }
 }
