@@ -262,7 +262,7 @@ namespace GameService
 
                 //fire event
                 s.RequestsSucceeded = res;
-                NewSessionResultEvent(this, s);
+                if(NewSessionResultEvent != null) NewSessionResultEvent(this, s);
 
                 return res;
             }
@@ -285,7 +285,7 @@ namespace GameService
                 {
                     RetryEventArgs e = new RetryEventArgs();
                     e.Attempt = i;
-                    DataRetryEvent(this, e);
+                    if(DataRetryEvent != null) DataRetryEvent(this, e);
                 }
                 try
                 {
