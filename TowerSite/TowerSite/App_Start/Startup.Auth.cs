@@ -28,9 +28,9 @@ namespace TowerSite
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            app.UseFacebookAuthentication(
+            /*app.UseFacebookAuthentication(
                appId: "1477994155753953",
-               appSecret: "419f073d09f29ce95f8ed192b8b27967");
+               appSecret: "419f073d09f29ce95f8ed192b8b27967");*/
 
             app.UseGoogleAuthentication();
         }

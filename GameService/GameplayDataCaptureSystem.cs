@@ -154,6 +154,12 @@ namespace GameService
                 LoggedIn = true;
                 f.Hide();
             }
+            if (e.Url.ToString().ToLower().Contains("google") || e.Url.ToString().ToLower().Contains("external"))
+            {
+                f.Size = new System.Drawing.Size(500, 900);
+            }
+            else
+                f.Size = new System.Drawing.Size(300, 850);
         }
 
         /// <summary>
@@ -199,12 +205,44 @@ namespace GameService
             t.Start();
         }
         /// <summary>
+        /// Ends the current session and saves to server
+        /// </summary>
+        /// <returns></returns>
+        public bool EndSession()
+        {
+            if (CurrentSession != null)
+            {
+                lock (IsSendingAsync)
+                {
+
+                    var gs = CurrentSession;
+                    CurrentSession = null;
+                    CurrentSessionID = -1;
+
+                    gs.Completed = true;
+                    serviceContainer.UpdateObject(gs);
+
+                    bool res = SaveChanges();
+
+                    return res;
+                }
+
+            }
+            return true;
+        }
+        /// <summary>
         /// Ends previous session if there are any, and starts a new capture session. Saves to server
         /// </summary>
         public bool NewSession()
         {
             lock (IsSendingAsync)
             {
+                //end old session
+                if (CurrentSession != null)
+                {
+                    CurrentSession.Completed = true;
+                    serviceContainer.UpdateObject(CurrentSession);
+                }
 
                 //create new session
                 GameService.GameSession gs = new GameService.GameSession();
@@ -214,14 +252,13 @@ namespace GameService
                 SessionEventArgs s = new SessionEventArgs();
                 s.PreviousSession = CurrentSession;
 
-
-                //log version number
-                LogEvent(CaptureEventType.VersionNumber, Version);
-
                 bool res = SaveChanges();
 
                 CurrentSessionID = gs.SessionID;
                 CurrentSession = gs;
+
+                //log version number
+                LogEvent(CaptureEventType.VersionNumber, Version);
 
                 //fire event
                 s.RequestsSucceeded = res;
@@ -244,7 +281,7 @@ namespace GameService
             bool sent = false;
             for (int i = 0; i < 4; i++)
             {
-                if(i > 0)
+                if (i > 0)
                 {
                     RetryEventArgs e = new RetryEventArgs();
                     e.Attempt = i;
@@ -271,36 +308,7 @@ namespace GameService
             }
             return sent;
         }
-        /// <summary>
-        /// Ends the current session and saves to server
-        /// </summary>
-        /// <returns></returns>
-        public bool EndSession()
-        {
-            if (CurrentSession != null)
-            {
-                var gs = CurrentSession;
-                CurrentSession = null;
-                CurrentSessionID = -1;
 
-                gs.Completed = true;
-                serviceContainer.UpdateObject(gs);
-
-                bool res = SaveChanges();
-
-                gs = serviceContainer.GameSession.Where(gamesession => gamesession.SessionID == gs.SessionID).FirstOrDefault();
-                //PreviousSession = gs;
-#if DEBUG
-                //MessageBox.Show("Session ID: " + gs.SessionID + "\n\nAccuracy: " + (gs.HitRate * 100) + "%\nPlayerScore: " + gs.SessionScore, "Round Results");
-#else
-                //MessageBox.Show("Continue to next round", "Round Finished");
-#endif
-
-                return res;
-            }
-
-            return true;
-        }
 
         /// <summary>
         /// Logs an event to the current session

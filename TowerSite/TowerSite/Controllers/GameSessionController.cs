@@ -138,7 +138,6 @@ namespace TowerSite.Controllers
             {
                 await RunScoreCalculations(gamesession);
                 await db.Entry(gamesession).ReloadAsync();
-                gamesession.HitRate = .5f;
             }
 
             return Updated(gamesession);
