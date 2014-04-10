@@ -49,8 +49,22 @@ namespace GameService
         ComboEndValue,
         ComboEndReason
     }
+    public class SessionEventArgs : EventArgs
+    {
+        public bool RequestsSucceeded;
+        public GameService.GameSession PreviousSession;
+    }
+    public class RetryEventArgs : EventArgs
+    {
+        public int Attempt;
+    }
     public class GameplayDataCaptureSystem : Singleton<GameplayDataCaptureSystem>
     {
+        public delegate void NewSessionResultEventHandler(object sender, SessionEventArgs e);
+        public delegate void DataRetryEventHandler(object sender, RetryEventArgs e);
+        public event NewSessionResultEventHandler NewSessionResultEvent;
+        public event DataRetryEventHandler DataRetryEvent;
+
         static Uri BrowseUri = new Uri("https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://csci4950.azurewebsites.net/Account/LogOffGame");
         static Uri DataUri = new Uri("https://csci4950.azurewebsites.net/odata");
         GameService.Container serviceContainer;
@@ -61,8 +75,7 @@ namespace GameService
         private bool sending = false;
         private string Version;
 
-        public GameService.GameSession PreviousSession = null;
-        public object IsSendingAsync = new object();
+        private object IsSendingAsync = new object();
 
         public int SessionID { get { return CurrentSessionID; } }
 
@@ -113,7 +126,7 @@ namespace GameService
             browse.Navigating += browse_Navigating;
             loginWindow.Controls.Add(browse);
 
-            
+
 
             loginWindow.ShowDialog();
         }
@@ -141,6 +154,12 @@ namespace GameService
                 LoggedIn = true;
                 f.Hide();
             }
+            if (e.Url.ToString().ToLower().Contains("google") || e.Url.ToString().ToLower().Contains("external"))
+            {
+                f.Size = new System.Drawing.Size(500, 900);
+            }
+            else
+                f.Size = new System.Drawing.Size(300, 850);
         }
 
         /// <summary>
@@ -186,89 +205,111 @@ namespace GameService
             t.Start();
         }
         /// <summary>
-        /// Starts a new capture session
+        /// Ends the current session and saves to server
+        /// </summary>
+        /// <returns></returns>
+        public bool EndSession()
+        {
+            if (CurrentSession != null)
+            {
+                lock (IsSendingAsync)
+                {
+
+                    var gs = CurrentSession;
+                    CurrentSession = null;
+                    CurrentSessionID = -1;
+
+                    gs.Completed = true;
+                    serviceContainer.UpdateObject(gs);
+
+                    bool res = SaveChanges();
+
+                    return res;
+                }
+
+            }
+            return true;
+        }
+        /// <summary>
+        /// Ends previous session if there are any, and starts a new capture session. Saves to server
         /// </summary>
         public bool NewSession()
         {
             lock (IsSendingAsync)
             {
-                if (!LoggedIn)//Attempt to log in
-                    Login();
-                if (!LoggedIn)//Failed to log in
-                    return false;
+                //end old session
                 if (CurrentSession != null)
-                    EndSession();
-
-                GameService.GameSession gs = new GameService.GameSession();
-                serviceContainer.AddToGameSession(gs);
-                var serviceResponse = serviceContainer.SaveChanges();
-                CurrentSessionID = gs.SessionID;
-                CurrentSession = gs;
-                foreach (var operationResponse in serviceResponse)
                 {
-                    if (operationResponse.StatusCode != 201)
-                        return false;
+                    CurrentSession.Completed = true;
+                    serviceContainer.UpdateObject(CurrentSession);
                 }
 
+                //create new session
+                GameService.GameSession gs = new GameService.GameSession();
+                serviceContainer.AddToGameSession(gs);
+
+                //set session vars
+                SessionEventArgs s = new SessionEventArgs();
+                s.PreviousSession = CurrentSession;
+
+                bool res = SaveChanges();
+
+                CurrentSessionID = gs.SessionID;
+                CurrentSession = gs;
+
+                //log version number
                 LogEvent(CaptureEventType.VersionNumber, Version);
+
+                //fire event
+                s.RequestsSucceeded = res;
+                if(NewSessionResultEvent != null) NewSessionResultEvent(this, s);
+
+                return res;
             }
-
-            return true;
         }
-
         /// <summary>
-        /// Ends the current session and returns session data
+        /// Attempts to save changes to server
         /// </summary>
-        /// <returns></returns>
-        public GameService.GameSession EndSession()
-        {
-            FlushData();
-
-            if (CurrentSession != null)
-            {
-                var gs = CurrentSession;
-                CurrentSession = null;
-                CurrentSessionID = -1;
-
-                gs.Completed = true;
-                serviceContainer.UpdateObject(gs);
-                serviceContainer.SaveChanges();
-
-                gs = serviceContainer.GameSession.Where(gamesession => gamesession.SessionID == gs.SessionID).FirstOrDefault();
-                PreviousSession = gs;
-#if DEBUG
-                //MessageBox.Show("Session ID: " + gs.SessionID + "\n\nAccuracy: " + (gs.HitRate * 100) + "%\nPlayerScore: " + gs.SessionScore, "Round Results");
-#else
-                //MessageBox.Show("Continue to next round", "Round Finished");
-#endif
-
-                return gs;
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Wrties all pending data to server. Shows a window
-        /// </summary>
-        /// <returns>True on success</returns>
-        public bool FlushData()
+        /// <returns>Success</returns>
+        private bool SaveChanges()
         {
             if (!LoggedIn)//Attempt to log in
                 Login();
             if (!LoggedIn)//Failed to log in
                 return false;
 
-            var serviceResponse = serviceContainer.SaveChanges();
-            foreach (var operationResponse in serviceResponse)
+            bool sent = false;
+            for (int i = 0; i < 4; i++)
             {
-                if (operationResponse.StatusCode != 201)
+                if (i > 0)
                 {
-                    return false;
+                    RetryEventArgs e = new RetryEventArgs();
+                    e.Attempt = i;
+                    if(DataRetryEvent != null) DataRetryEvent(this, e);
+                }
+                try
+                {
+                    var serviceResponse = serviceContainer.SaveChanges();
+                    foreach (var operationResponse in serviceResponse)
+                    {
+                        if (operationResponse.StatusCode != 201)
+                        {
+                            throw new Exception("Bad response from server");
+                        }
+                    }
+                    sent = true;
+                    break;
+                }
+                catch (Exception)
+                {
+                    Thread.Sleep((int)Math.Pow(2, i + 1) * 100);
+                    continue;
                 }
             }
-
-            return true;
+            return sent;
         }
+
+
         /// <summary>
         /// Logs an event to the current session
         /// </summary>
@@ -296,22 +337,6 @@ namespace GameService
             //    serviceContainer.BeginSaveChanges(UpdateCallback, null);
             //}
             return true;
-        }
-        private void UpdateCallback(IAsyncResult result)
-        {
-            try
-            {
-                serviceContainer.EndSaveChanges(result);
-            }
-            catch (Exception e)
-            {
-                //if (LoggedIn)//If not logged in, we know what the error is
-                //    throw e;
-            }
-            finally
-            {
-                sending = false;
-            }
         }
     }
 }

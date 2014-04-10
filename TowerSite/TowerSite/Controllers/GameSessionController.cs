@@ -138,7 +138,6 @@ namespace TowerSite.Controllers
             {
                 await RunScoreCalculations(gamesession);
                 await db.Entry(gamesession).ReloadAsync();
-                gamesession.HitRate = .5f;
             }
 
             return Updated(gamesession);
@@ -250,10 +249,11 @@ DECLARE @ScenarioID NVARCHAR(MAX);
 /*Get Scenario*/
 SELECT @ScenarioID = Data FROM GameEventModels WHERE (SessionId = @SessionID AND Type = 'ScenarioName');
 
+DECLARE @PlayerGamesPlayed INT;
 DECLARE @PlayerELO FLOAT;
 DECLARE @PlayerELOLinear FLOAT;
 /*Check if player ELO exists*/
-SELECT @PlayerELO = ELO, @PlayerELOLinear = LinearELO FROM PlayerELOes WHERE UserID = @UserID;
+SELECT @PlayerELO = ELO, @PlayerELOLinear = LinearELO, @PlayerGamesPlayed = GamesPlayed FROM PlayerELOes WHERE UserID = @UserID;
 IF( @@ROWCOUNT <> 1 )/* No ELO, set to default */
 BEGIN
 	INSERT INTO PlayerELOes (ELO, LinearELO, UserID) VALUES (800, 800, @UserID);
@@ -261,10 +261,11 @@ BEGIN
 	SET @PlayerELOLinear = 800;
 END
 
+DECLARE @ScenarioGamesPlayed INT;
 DECLARE @ScenarioELO FLOAT;
 DECLARE @ScenarioELOLinear FLOAT;
 /*Check if player ELO exists*/
-SELECT @ScenarioELO = ELO, @ScenarioELOLinear = LinearELO FROM ScenarioELOes WHERE ScenarioID = @ScenarioID;
+SELECT @ScenarioELO = ELO, @ScenarioELOLinear = LinearELO, @ScenarioGamesPlayed = GamesPlayed FROM ScenarioELOes WHERE ScenarioID = @ScenarioID;
 IF( @@ROWCOUNT <> 1 )/* No ELO, set to default */
 BEGIN
 	INSERT INTO ScenarioELOes (ELO, LinearELO, ScenarioID) VALUES (800, 800, @ScenarioID);
@@ -297,14 +298,18 @@ END
 DECLARE @PlayerK FLOAT;
 DECLARE @ScenK FLOAT;
 
-IF ( @PlayerELO < 2200)
+IF( @PlayerGamesPlayed < 30 )
+    SET @PlayerK = 25;
+ELSE IF ( @PlayerELO < 2200)
 	SET @PlayerK = 30;
 ELSE IF ( @PlayerELO < 2400)
 	SET @PlayerK = 20;
 ELSE
 	SET @PlayerK = 10;
 
-IF ( @ScenarioELO < 2200)
+IF( @ScenarioGamesPlayed < 30)
+    SET @PlayerK = 25;
+ELSE IF ( @ScenarioELO < 2200)
 	SET @ScenK = 30;
 ELSE IF ( @ScenarioELO < 2400)
 	SET @ScenK = 20;
@@ -328,14 +333,18 @@ ELSE
 SET @SScen = 1 - @SPlayer;
 
 /*Set K Values */
-IF ( @PlayerELOLinear < 2200)
+IF( @PlayerGamesPlayed < 30 )
+    SET @PlayerK = 25;
+ELSE IF ( @PlayerELOLinear < 2200)
 	SET @PlayerK = 30;
 ELSE IF ( @PlayerELOLinear < 2400)
 	SET @PlayerK = 20;
 ELSE
 	SET @PlayerK = 10;
 
-IF ( @ScenarioELOLinear < 2200)
+IF( @ScenarioGamesPlayed < 30)
+    SET @PlayerK = 25;
+ELSE IF ( @ScenarioELOLinear < 2200)
 	SET @ScenK = 30;
 ELSE IF ( @ScenarioELOLinear < 2400)
 	SET @ScenK = 20;
@@ -346,8 +355,8 @@ SET @PlayerELOLinear = @PlayerELOLinear + @PlayerK * (@SPlayer - @EPlayer);
 SET @ScenarioELOLinear = @ScenarioELOLinear + @ScenK * (@SScen - @EScen);
 
 /*Write Back new ELOs*/
-UPDATE PlayerELOes SET ELO = ROUND(@PlayerELO, 0), LinearELO = ROUND(@PlayerELOLinear, 0) WHERE UserID = @UserID;
-UPDATE ScenarioELOes SET ELO = ROUND(@ScenarioELO, 0), LinearELO = ROUND(@ScenarioELOLinear, 0) WHERE ScenarioID = @ScenarioID;
+UPDATE PlayerELOes SET ELO = ROUND(@PlayerELO, 0), LinearELO = ROUND(@PlayerELOLinear, 0), GamesPlayed = @PlayerGamesPlayed + 1 WHERE UserID = @UserID;
+UPDATE ScenarioELOes SET ELO = ROUND(@ScenarioELO, 0), LinearELO = ROUND(@ScenarioELOLinear, 0), GamesPlayed = @ScenarioGamesPlayed + 1 WHERE ScenarioID = @ScenarioID;
                 ", gs.SessionID);
 
                 Trace.WriteLine(res.ToString());

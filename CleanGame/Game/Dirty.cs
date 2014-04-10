@@ -120,7 +120,7 @@ namespace CleanGame
         public void ResetToMainMenu()
         {
             //clear old stuff
-            GameplayDataCaptureSystem.Instance.FlushData();
+            GameplayDataCaptureSystem.Instance.EndSession();
             world.RemoveAllSystems();
             world.EntityMgr.RemoveAllEntities();
             baseContext.RemoveAllHandlers();
@@ -402,7 +402,7 @@ namespace CleanGame
 
         protected override void UnloadContent()
         {
-            GameplayDataCaptureSystem.Instance.FlushData();
+            GameplayDataCaptureSystem.Instance.EndSession();
             Settings.Instance.SaveSettings();
         }
         public bool GameWon
