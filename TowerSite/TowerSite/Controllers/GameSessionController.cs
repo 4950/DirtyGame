@@ -30,6 +30,31 @@ namespace TowerSite.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        [HttpPost]
+        public async Task<IHttpActionResult> Scenario(ODataActionParameters parameters)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            string userID = User.Identity.GetUserId();
+            if (userID == null)
+                return BadRequest("Not logged in");
+
+            var query = db.Database.SqlQuery<ScenarioELO>(@"
+DECLARE @UserID NVARCHAR(MAX);
+SET @UserID = @p0;
+
+DECLARE @PlayerELO INT;
+SELECT @PlayerELO = ELO FROM PlayerELOes WHERE UserID = @UserID;
+
+SELECT TOP 1 * FROM ScenarioELOes WHERE DATALENGTH(ScenarioXML) > 0  ORDER BY ABS( ELO - @PlayerELO )
+", userID);
+            var res = await query.FirstOrDefaultAsync();
+
+            return Ok(res.ScenarioXML);
+        }
+
         // GET odata/GameSession
         [Queryable]
         public IQueryable<GameSession> GetGameSession()
@@ -308,7 +333,7 @@ ELSE
 	SET @PlayerK = 10;
 
 IF( @ScenarioGamesPlayed < 30)
-    SET @PlayerK = 25;
+    SET @ScenK = 25;
 ELSE IF ( @ScenarioELO < 2200)
 	SET @ScenK = 30;
 ELSE IF ( @ScenarioELO < 2400)
@@ -343,7 +368,7 @@ ELSE
 	SET @PlayerK = 10;
 
 IF( @ScenarioGamesPlayed < 30)
-    SET @PlayerK = 25;
+    SET @ScenK = 25;
 ELSE IF ( @ScenarioELOLinear < 2200)
 	SET @ScenK = 30;
 ELSE IF ( @ScenarioELOLinear < 2400)
@@ -355,8 +380,8 @@ SET @PlayerELOLinear = @PlayerELOLinear + @PlayerK * (@SPlayer - @EPlayer);
 SET @ScenarioELOLinear = @ScenarioELOLinear + @ScenK * (@SScen - @EScen);
 
 /*Write Back new ELOs*/
-UPDATE PlayerELOes SET ELO = ROUND(@PlayerELO, 0), LinearELO = ROUND(@PlayerELOLinear, 0), GamesPlayed = @PlayerGamesPlayed + 1 WHERE UserID = @UserID;
-UPDATE ScenarioELOes SET ELO = ROUND(@ScenarioELO, 0), LinearELO = ROUND(@ScenarioELOLinear, 0), GamesPlayed = @ScenarioGamesPlayed + 1 WHERE ScenarioID = @ScenarioID;
+UPDATE PlayerELOes SET ELO = ROUND(@PlayerELO, 0), LinearELO = ROUND(@PlayerELOLinear, 0), GamesPlayed = (@PlayerGamesPlayed + 1) WHERE UserID = @UserID;
+UPDATE ScenarioELOes SET ELO = ROUND(@ScenarioELO, 0), LinearELO = ROUND(@ScenarioELOLinear, 0), GamesPlayed = (@ScenarioGamesPlayed + 1) WHERE ScenarioID = @ScenarioID;
                 ", gs.SessionID);
 
                 Trace.WriteLine(res.ToString());
