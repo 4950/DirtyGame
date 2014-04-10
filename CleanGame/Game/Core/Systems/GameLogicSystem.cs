@@ -65,7 +65,7 @@ namespace CleanGame.Game.Core.Systems
         private float playerHitTime;
         private bool tutorialMode;
         private List<Label> textFloaters = new List<Label>();
-        private int ScenarioPtr = 15;
+        private int ScenarioPtr = 0;
 
         private GameLogicState currentState;
         private List<Entity> spawners = new List<Entity>();
@@ -324,7 +324,7 @@ namespace CleanGame.Game.Core.Systems
             //    }
             //}
 
-            playScenario = scenarios[15 + ((ScenarioPtr - 15) % 7)];
+            playScenario = scenarios[ScenarioPtr];
             ScenarioPtr++;
 
 
@@ -369,7 +369,7 @@ namespace CleanGame.Game.Core.Systems
                         GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.RoundHealth, game.player.GetComponent<StatsComponent>().CurrentHealth.ToString());
 
 
-                        if (ScenarioPtr == 22)
+                        if (ScenarioPtr == 27)
                         {
 
 

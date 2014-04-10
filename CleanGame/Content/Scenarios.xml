@@ -74,1582 +74,3306 @@
       x=400, y=1008
   -->
 
-  <!--Monsters: Melee-6
-                Suicide-0
-                Flame-0
-                Grenadier-0
-                Ranged-3
-                Snip-0
-                WallHug-0
-                Landmine-0 -->
-  <scenario name="Cave_scenario_VeryEasy"
-            difficultyScore="0.50"
-            map="Cave.tmx"
-            playerX="100"
-            playerY="100">
-    <spawner xPosition="500"
-             yPosition="150"
-             monsterType="MeleeMonster"
-             monsterWeapon="Monstersword"
-             numberOfMonsters="6"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="800"
-             yPosition="450"
-             monsterType="SuicideBomber"
-             monsterWeapon="BomberWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="875"
-             yPosition="750"
-             monsterType="Flametower"
-             monsterWeapon="FlametowerWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="500"
-             yPosition="650"
-             monsterType="Grenadier"
-             monsterWeapon="GrenadeLauncher"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="200"
-             yPosition="500"
-             monsterType="RangedMonster"
-             monsterWeapon="Monsterbow"
-             numberOfMonsters="3"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="800"
-             yPosition="450"
-             monsterType="SnipMonster"
-             monsterWeapon="SnipWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="500"
-             yPosition="650"
-             monsterType="WallHugger"
-             monsterWeapon="WallHuggerWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="500"
-             yPosition="150"
-             monsterType="LandmineDropper"
-             monsterWeapon="LandmineWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-  </scenario>
 
-  <!--Monsters: Melee-6
-                Suicide-0
-                Flame-0
-                Grenadier-0
-                Ranged-3
-                Snip-0
-                WallHug-0
-                Landmine-2 -->
-  <scenario name="Cave_scenario_Easy"
-            difficultyScore="0.50"
-            map="Cave.tmx"
-            playerX="500"
-            playerY="400">
-    <spawner xPosition="500"
-             yPosition="150"
-             monsterType="MeleeMonster"
-             monsterWeapon="Monstersword"
-             numberOfMonsters="6"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="800"
-             yPosition="450"
-             monsterType="SuicideBomber"
-             monsterWeapon="BomberWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="875"
-             yPosition="750"
-             monsterType="Flametower"
-             monsterWeapon="FlametowerWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="500"
-             yPosition="650"
-             monsterType="Grenadier"
-             monsterWeapon="GrenadeLauncher"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="200"
-             yPosition="500"
-             monsterType="RangedMonster"
-             monsterWeapon="Monsterbow"
-             numberOfMonsters="3"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="800"
-             yPosition="450"
-             monsterType="SnipMonster"
-             monsterWeapon="SnipWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="500"
-             yPosition="650"
-             monsterType="WallHugger"
-             monsterWeapon="WallHuggerWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="500"
-             yPosition="150"
-             monsterType="LandmineDropper"
-             monsterWeapon="LandmineWeapon"
-             numberOfMonsters="2"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
+  <scenario name="Arena_scenario_M1_R0_S0"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
     </spawner>
   </scenario>
-
-  <!--Monsters: Melee-6
-                Suicide-0
-                Flame-1
-                Grenadier-1
-                Ranged-3
-                Snip-0
-                WallHug-1
-                Landmine-2 -->
-  <scenario name="Cave_scenario_Medium"
-            difficultyScore="0.50"
-            map="Cave.tmx"
-            playerX="300"
-            playerY="900">
-    <spawner xPosition="500"
-             yPosition="150"
-             monsterType="MeleeMonster"
-             monsterWeapon="Monstersword"
-             numberOfMonsters="6"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="800"
-             yPosition="450"
-             monsterType="SuicideBomber"
-             monsterWeapon="BomberWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-   </spawner>
-    <spawner xPosition="875"
-             yPosition="750"
-             monsterType="Flametower"
-             monsterWeapon="FlametowerWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="500"
-             yPosition="650"
-             monsterType="Grenadier"
-             monsterWeapon="GrenadeLauncher"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="200"
-             yPosition="500"
-             monsterType="RangedMonster"
-             monsterWeapon="Monsterbow"
-             numberOfMonsters="3"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="800"
-             yPosition="450"
-             monsterType="SnipMonster"
-             monsterWeapon="SnipWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="500"
-             yPosition="650"
-             monsterType="WallHugger"
-             monsterWeapon="WallHuggerWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="500"
-             yPosition="150"
-             monsterType="LandmineDropper"
-             monsterWeapon="LandmineWeapon"
-             numberOfMonsters="2"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
+  <scenario name="Arena_scenario_M0_R1_S0"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
     </spawner>
   </scenario>
-
-  <!--Monsters: Melee-6
-                Suicide-2
-                Flame-1
-                Grenadier-2
-                Ranged-3
-                Snip-1
-                WallHug-1
-                Landmine-2 -->
-  <scenario name="Cave_scenario_Hard"
-            difficultyScore="0.50"
-            map="Cave.tmx"
-            playerX="700"
-            playerY="800">
-    <spawner xPosition="500"
-             yPosition="150"
-             monsterType="MeleeMonster"
-             monsterWeapon="Monstersword"
-             numberOfMonsters="6"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="800"
-             yPosition="450"
-             monsterType="SuicideBomber"
-             monsterWeapon="BomberWeapon"
-             numberOfMonsters="2"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="875"
-             yPosition="750"
-             monsterType="Flametower"
-             monsterWeapon="FlametowerWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="500"
-             yPosition="650"
-             monsterType="Grenadier"
-             monsterWeapon="GrenadeLauncher"
-             numberOfMonsters="2"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="200"
-             yPosition="500"
-             monsterType="RangedMonster"
-             monsterWeapon="Monsterbow"
-             numberOfMonsters="3"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="800"
-             yPosition="450"
-             monsterType="SnipMonster"
-             monsterWeapon="SnipWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="500"
-             yPosition="650"
-             monsterType="WallHugger"
-             monsterWeapon="WallHuggerWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="500"
-             yPosition="150"
-             monsterType="LandmineDropper"
-             monsterWeapon="LandmineWeapon"
-             numberOfMonsters="2"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
+  <scenario name="Arena_scenario_M0_R0_S1"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
     </spawner>
   </scenario>
-
-  <!--Monsters: Melee-8
-                Suicide-2
-                Flame-1
-                Grenadier-4
-                Ranged-6
-                Snip-2
-                WallHug-2
-                Landmine-4 -->
-  <scenario name="Cave_scenario_VeryHard"
-            difficultyScore="0.50"
-            map="Cave.tmx"
-            playerX="800"
-            playerY="100">
-    <spawner xPosition="500"
-             yPosition="150"
-             monsterType="MeleeMonster"
-             monsterWeapon="Monstersword"
-             numberOfMonsters="8"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="800"
-             yPosition="450"
-             monsterType="SuicideBomber"
-             monsterWeapon="BomberWeapon"
-             numberOfMonsters="2"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="875"
-             yPosition="750"
-             monsterType="Flametower"
-             monsterWeapon="FlametowerWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="500"
-             yPosition="650"
-             monsterType="Grenadier"
-             monsterWeapon="GrenadeLauncher"
-             numberOfMonsters="4"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="200"
-             yPosition="500"
-             monsterType="RangedMonster"
-             monsterWeapon="Monsterbow"
-             numberOfMonsters="6"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="800"
-             yPosition="450"
-             monsterType="SnipMonster"
-             monsterWeapon="SnipWeapon"
-             numberOfMonsters="2"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="500"
-             yPosition="650"
-             monsterType="WallHugger"
-             monsterWeapon="WallHuggerWeapon"
-             numberOfMonsters="2"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="500"
-             yPosition="150"
-             monsterType="LandmineDropper"
-             monsterWeapon="LandmineWeapon"
-             numberOfMonsters="4"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-  </scenario>
-  
-  <!--Monsters: Melee-6
-                Suicide-0
-                Flame-0
-                Grenadier-0
-                Ranged-3
-                Snip-0
-                WallHug-0
-                Landmine-0 -->
-  <scenario name="Forest_scenario_VeryEasy"
-            difficultyScore="0.50"
-            map="Forest.tmx"
-            playerX="208"
-            playerY="1424">
-    <spawner xPosition="432"
-             yPosition="1104"
-             monsterType="MeleeMonster"
-             monsterWeapon="Monstersword"
-             numberOfMonsters="6"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="240"
-             yPosition="816"
-             monsterType="SuicideBomber"
-             monsterWeapon="BomberWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
+  <scenario name="Arena_scenario_M1_R1_S1"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
     </spawner>
     <spawner xPosition="176"
-             yPosition="304"
-             monsterType="Flametower"
-             monsterWeapon="FlametowerWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="397"
-             yPosition="176"
-             monsterType="Grenadier"
-             monsterWeapon="GrenadeLauncher"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="976"
-             yPosition="176"
-             monsterType="RangedMonster"
-             monsterWeapon="Monsterbow"
-             numberOfMonsters="3"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="1296"
-             yPosition="176"
-             monsterType="SnipMonster"
-             monsterWeapon="SnipWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="1261"
-             yPosition="688"
-             monsterType="WallHugger"
-             monsterWeapon="WallHuggerWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="912"
-             yPosition="848"
-             monsterType="LandmineDropper"
-             monsterWeapon="LandmineWeapon"
-             numberOfMonsters="0"
-             timeSpanDays="0"
-             timeSpanHours="0"
-             timeSpanMinutes="0"
-             timeSpanSeconds="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-  </scenario>
-
-  <!--Monsters: Melee-6
-                Suicide-0
-                Flame-1
-                Grenadier-0
-                Ranged-3
-                Snip-0
-                WallHug-0
-                Landmine-2 -->
-  <scenario name="Forest_scenario_Easy"
-            difficultyScore="0.50"
-            map="Forest.tmx"
-            playerX="176"
-            playerY="528">
-    <spawner xPosition="432"
-             yPosition="1104"
-             monsterType="MeleeMonster"
-             monsterWeapon="Monstersword"
-             numberOfMonsters="6"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="240"
-             yPosition="816"
-             monsterType="SuicideBomber"
-             monsterWeapon="BomberWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
     </spawner>
     <spawner xPosition="176"
-             yPosition="304"
-             monsterType="Flametower"
-             monsterWeapon="FlametowerWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="397"
-             yPosition="176"
-             monsterType="Grenadier"
-             monsterWeapon="GrenadeLauncher"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="976"
-             yPosition="176"
-             monsterType="RangedMonster"
-             monsterWeapon="Monsterbow"
-             numberOfMonsters="3"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="1296"
-             yPosition="176"
-             monsterType="SnipMonster"
-             monsterWeapon="SnipWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="1261"
-             yPosition="688"
-             monsterType="WallHugger"
-             monsterWeapon="WallHuggerWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="912"
-             yPosition="848"
-             monsterType="LandmineDropper"
-             monsterWeapon="LandmineWeapon"
-             numberOfMonsters="2"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
     </spawner>
   </scenario>
-
-  <!--Monsters: Melee-8
-                Suicide-0
-                Flame-1
-                Grenadier-0
-                Ranged-5
-                Snip-1
-                WallHug-1
-                Landmine-2 -->
-  <scenario name="Forest_scenario_Medium"
-            difficultyScore="0.50"
-            map="Forest.tmx"
-            playerX="688"
-            playerY="240">
-    <spawner xPosition="432"
-             yPosition="1104"
-             monsterType="MeleeMonster"
-             monsterWeapon="Monstersword"
-             numberOfMonsters="8"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
+  <scenario name="Arena_scenario_M2_R2_S2"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
     </spawner>
-    <spawner xPosition="240"
-             yPosition="816"
-             monsterType="SuicideBomber"
-             monsterWeapon="BomberWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+  </scenario>
+  <scenario name="Arena_scenario_M3_R3_S3"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
     </spawner>
     <spawner xPosition="176"
-             yPosition="304"
-             monsterType="Flametower"
-             monsterWeapon="FlametowerWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
     </spawner>
-    <spawner xPosition="397"
-             yPosition="176"
-             monsterType="Grenadier"
-             monsterWeapon="GrenadeLauncher"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="976"
-             yPosition="176"
-             monsterType="RangedMonster"
-             monsterWeapon="Monsterbow"
-             numberOfMonsters="5"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="1296"
-             yPosition="176"
-             monsterType="SnipMonster"
-             monsterWeapon="SnipWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="1261"
-             yPosition="688"
-             monsterType="WallHugger"
-             monsterWeapon="WallHuggerWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="912"
-             yPosition="848"
-             monsterType="LandmineDropper"
-             monsterWeapon="LandmineWeapon"
-             numberOfMonsters="2"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-  </scenario>
-
-  <!--Monsters: Melee-8
-                Suicide-2
-                Flame-1
-                Grenadier-2
-                Ranged-5
-                Snip-1
-                WallHug-1
-                Landmine-2 -->
-  <scenario name="Forest_scenario_Hard"
-            difficultyScore="0.50"
-            map="Forest.tmx"
-            playerX="1424"
-            playerY="432">
-    <spawner xPosition="432"
-             yPosition="1104"
-             monsterType="MeleeMonster"
-             monsterWeapon="Monstersword"
-             numberOfMonsters="8"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="240"
-             yPosition="816"
-             monsterType="SuicideBomber"
-             monsterWeapon="BomberWeapon"
-             numberOfMonsters="2"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
     </spawner>
     <spawner xPosition="176"
-             yPosition="304"
-             monsterType="Flametower"
-             monsterWeapon="FlametowerWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
     </spawner>
-    <spawner xPosition="397"
-             yPosition="176"
-             monsterType="Grenadier"
-             monsterWeapon="GrenadeLauncher"
-             numberOfMonsters="2"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="976"
-             yPosition="176"
-             monsterType="RangedMonster"
-             monsterWeapon="Monsterbow"
-             numberOfMonsters="5"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="1296"
-             yPosition="176"
-             monsterType="SnipMonster"
-             monsterWeapon="SnipWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="1261"
-             yPosition="688"
-             monsterType="WallHugger"
-             monsterWeapon="WallHuggerWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="912"
-             yPosition="848"
-             monsterType="LandmineDropper"
-             monsterWeapon="LandmineWeapon"
-             numberOfMonsters="2"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-  </scenario>
-
-  <!--Monsters: Melee-10
-                Suicide-2
-                Flame-1
-                Grenadier-3
-                Ranged-7
-                Snip-2
-                WallHug-1
-                Landmine-3 -->
-  <scenario name="Forest_scenario_VeryHard"
-            difficultyScore="0.50"
-            map="Forest.tmx"
-            playerX="720"
-            playerY="752">
-    <spawner xPosition="432"
-             yPosition="1104"
-             monsterType="MeleeMonster"
-             monsterWeapon="Monstersword"
-             numberOfMonsters="10"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="240"
-             yPosition="816"
-             monsterType="SuicideBomber"
-             monsterWeapon="BomberWeapon"
-             numberOfMonsters="2"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
     </spawner>
     <spawner xPosition="176"
-             yPosition="304"
-             monsterType="Flametower"
-             monsterWeapon="FlametowerWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
     </spawner>
-    <spawner xPosition="397"
-             yPosition="176"
-             monsterType="Grenadier"
-             monsterWeapon="GrenadeLauncher"
-             numberOfMonsters="3"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
     </spawner>
-    <spawner xPosition="976"
-             yPosition="176"
-             monsterType="RangedMonster"
-             monsterWeapon="Monsterbow"
-             numberOfMonsters="7"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
     </spawner>
-    <spawner xPosition="1296"
-             yPosition="176"
-             monsterType="SnipMonster"
-             monsterWeapon="SnipWeapon"
-             numberOfMonsters="2"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
+  </scenario>
+  <scenario name="Arena_scenario_M4_R4_S4"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
     </spawner>
-    <spawner xPosition="1261"
-             yPosition="688"
-             monsterType="WallHugger"
-             monsterWeapon="WallHuggerWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
     </spawner>
-    <spawner xPosition="912"
-             yPosition="848"
-             monsterType="LandmineDropper"
-             monsterWeapon="LandmineWeapon"
-             numberOfMonsters="3"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+  </scenario>
+  <scenario name="Arena_scenario_M5_R5_S5"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+  </scenario>
+  <scenario name="Arena_scenario_M6_R6_S6"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+  </scenario>
+  <scenario name="Arena_scenario_M7_R7_S7"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+  </scenario>
+  <scenario name="Arena_scenario_M8_R8_S8"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+  </scenario>
+  <scenario name="Arena_scenario_M9_R9_S9"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+  </scenario>
+  <scenario name="Arena_scenario_M10_R10_S10"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+  </scenario>
+  <scenario name="Arena_scenario_M2_R1_S1"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+  </scenario>
+  <scenario name="Arena_scenario_M4_R2_S2"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+  </scenario>
+  <scenario name="Arena_scenario_M6_R3_S3"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+  </scenario>
+  <scenario name="Arena_scenario_M8_R4_S4"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+  </scenario>
+  <scenario name="Arena_scenario_M10_R5_S5"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+  </scenario>
+  <scenario name="Arena_scenario_M1_R2_S1"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+  </scenario>
+  <scenario name="Arena_scenario_M2_R4_S2"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+  </scenario>
+  <scenario name="Arena_scenario_M3_R6_S3"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+  </scenario>
+  <scenario name="Arena_scenario_M4_R8_S4"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+  </scenario>
+  <scenario name="Arena_scenario_M5_R10_S5"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+  </scenario>
+  <scenario name="Arena_scenario_M1_R1_S2"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+  </scenario>
+  <scenario name="Arena_scenario_M2_R2_S4"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+  </scenario>
+  <scenario name="Arena_scenario_M3_R3_S6"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+  </scenario>
+  <scenario name="Arena_scenario_M4_R4_S8"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+  </scenario>
+  <scenario name="Arena_scenario_M5_R5_S10"
+      difficultyScore="0.50"
+      map="Arena.tmx"
+      playerX="652"
+      playerY="784">
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="MeleeMonster"
+        monsterWeapon="Monstersword"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="RangedMonster"
+        monsterWeapon="Monsterbow"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="336"
+        yPosition="240"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="176"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
+    </spawner>
+    <spawner xPosition="1112"
+        yPosition="1040"
+        monsterType="SuicideBomber"
+        monsterWeapon="BomberWeapon"
+        numberOfMonsters="1"
+        timeSpanMilliseconds="1000"
+        healthUpModifier="0"
+        damageUpModifier="0">
     </spawner>
   </scenario>
 
-  <!--Monsters: Melee-4
-                Suicide-0
-                Flame-0
-                Grenadier-0
-                Ranged-2
-                Snip-0
-                WallHug-0
-                Landmine-0 -->
-  <scenario name="Arena_scenario_VeryEasy"
-            difficultyScore="0.50"
-            map="Arena.tmx"
-            playerX="496"
-            playerY="496">
-    <spawner xPosition="624"
-             yPosition="1072"
-             monsterType="MeleeMonster"
-             monsterWeapon="Monstersword"
-             numberOfMonsters="4"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="848"
-             yPosition="1008"
-             monsterType="SuicideBomber"
-             monsterWeapon="BomberWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="1072"
-             yPosition="1040"
-             monsterType="Flametower"
-             monsterWeapon="FlametowerWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="1040"
-             yPosition="816"
-             monsterType="Grenadier"
-             monsterWeapon="GrenadeLauncher"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="1072"
-             yPosition="624"
-             monsterType="RangedMonster"
-             monsterWeapon="Monsterbow"
-             numberOfMonsters="2"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="976"
-             yPosition="432"
-             monsterType="SnipMonster"
-             monsterWeapon="SnipWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="752"
-             yPosition="336"
-             monsterType="WallHugger"
-             monsterWeapon="WallHuggerWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="496"
-             yPosition="304"
-             monsterType="LandmineDropper"
-             monsterWeapon="LandmineWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-  </scenario>
-
-  <!--Monsters: Melee-4
-                Suicide-0
-                Flame-1
-                Grenadier-0
-                Ranged-2
-                Snip-0
-                WallHug-1
-                Landmine-0 -->
-  <scenario name="Arena_scenario_Easy"
-            difficultyScore="0.50"
-            map="Arena.tmx"
-            playerX="784"
-            playerY="496">
-    <spawner xPosition="624"
-             yPosition="1072"
-             monsterType="MeleeMonster"
-             monsterWeapon="Monstersword"
-             numberOfMonsters="4"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="848"
-             yPosition="1008"
-             monsterType="SuicideBomber"
-             monsterWeapon="BomberWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="1072"
-             yPosition="1040"
-             monsterType="Flametower"
-             monsterWeapon="FlametowerWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="1040"
-             yPosition="816"
-             monsterType="Grenadier"
-             monsterWeapon="GrenadeLauncher"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="1072"
-             yPosition="624"
-             monsterType="RangedMonster"
-             monsterWeapon="Monsterbow"
-             numberOfMonsters="2"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="976"
-             yPosition="432"
-             monsterType="SnipMonster"
-             monsterWeapon="SnipWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="752"
-             yPosition="336"
-             monsterType="WallHugger"
-             monsterWeapon="WallHuggerWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="496"
-             yPosition="304"
-             monsterType="LandmineDropper"
-             monsterWeapon="LandmineWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-  </scenario>
-
-  <!--Monsters: Melee-4
-                Suicide-1
-                Flame-1
-                Grenadier-2
-                Ranged-2
-                Snip-0
-                WallHug-1
-                Landmine-0 -->
-  <scenario name="Arena_scenario_Medium"
-            difficultyScore="0.50"
-            map="Arena.tmx"
-            playerX="784"
-            playerY="784">
-    <spawner xPosition="624"
-             yPosition="1072"
-             monsterType="MeleeMonster"
-             monsterWeapon="Monstersword"
-             numberOfMonsters="4"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="848"
-             yPosition="1008"
-             monsterType="SuicideBomber"
-             monsterWeapon="BomberWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="1072"
-             yPosition="1040"
-             monsterType="Flametower"
-             monsterWeapon="FlametowerWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="1040"
-             yPosition="816"
-             monsterType="Grenadier"
-             monsterWeapon="GrenadeLauncher"
-             numberOfMonsters="2"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="1072"
-             yPosition="624"
-             monsterType="RangedMonster"
-             monsterWeapon="Monsterbow"
-             numberOfMonsters="2"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="976"
-             yPosition="432"
-             monsterType="SnipMonster"
-             monsterWeapon="SnipWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="752"
-             yPosition="336"
-             monsterType="WallHugger"
-             monsterWeapon="WallHuggerWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="496"
-             yPosition="304"
-             monsterType="LandmineDropper"
-             monsterWeapon="LandmineWeapon"
-             numberOfMonsters="0"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-  </scenario>
-
-  <!--Monsters: Melee-4
-                Suicide-1
-                Flame-1
-                Grenadier-2
-                Ranged-2
-                Snip-1
-                WallHug-1
-                Landmine-2 -->
-  <scenario name="Arena_scenario_Hard"
-            difficultyScore="0.50"
-            map="Arena.tmx"
-            playerX="496"
-            playerY="784">
-    <spawner xPosition="624"
-             yPosition="1072"
-             monsterType="MeleeMonster"
-             monsterWeapon="Monstersword"
-             numberOfMonsters="4"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="848"
-             yPosition="1008"
-             monsterType="SuicideBomber"
-             monsterWeapon="BomberWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="1072"
-             yPosition="1040"
-             monsterType="Flametower"
-             monsterWeapon="FlametowerWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="1040"
-             yPosition="816"
-             monsterType="Grenadier"
-             monsterWeapon="GrenadeLauncher"
-             numberOfMonsters="2"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="1072"
-             yPosition="624"
-             monsterType="RangedMonster"
-             monsterWeapon="Monsterbow"
-             numberOfMonsters="2"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="976"
-             yPosition="432"
-             monsterType="SnipMonster"
-             monsterWeapon="SnipWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="752"
-             yPosition="336"
-             monsterType="WallHugger"
-             monsterWeapon="WallHuggerWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="496"
-             yPosition="304"
-             monsterType="LandmineDropper"
-             monsterWeapon="LandmineWeapon"
-             numberOfMonsters="2"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-  </scenario>
-
-  <!--Monsters: Melee-6
-                Suicide-2
-                Flame-1
-                Grenadier-3
-                Ranged-4
-                Snip-2
-                WallHug-1
-                Landmine-4 -->
-  <scenario name="Arena_scenario_VeryHard"
-            difficultyScore="0.50"
-            map="Arena.tmx"
-            playerX="496"
-            playerY="784">
-    <spawner xPosition="624"
-             yPosition="1072"
-             monsterType="MeleeMonster"
-             monsterWeapon="Monstersword"
-             numberOfMonsters="6"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="848"
-             yPosition="1008"
-             monsterType="SuicideBomber"
-             monsterWeapon="BomberWeapon"
-             numberOfMonsters="2"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="1072"
-             yPosition="1040"
-             monsterType="Flametower"
-             monsterWeapon="FlametowerWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="1040"
-             yPosition="816"
-             monsterType="Grenadier"
-             monsterWeapon="GrenadeLauncher"
-             numberOfMonsters="3"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="1072"
-             yPosition="624"
-             monsterType="RangedMonster"
-             monsterWeapon="Monsterbow"
-             numberOfMonsters="4"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="976"
-             yPosition="432"
-             monsterType="SnipMonster"
-             monsterWeapon="SnipWeapon"
-             numberOfMonsters="2"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="752"
-             yPosition="336"
-             monsterType="WallHugger"
-             monsterWeapon="WallHuggerWeapon"
-             numberOfMonsters="1"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-    <spawner xPosition="496"
-             yPosition="304"
-             monsterType="LandmineDropper"
-             monsterWeapon="LandmineWeapon"
-             numberOfMonsters="4"
-             timeSpanMilliseconds="1000"
-             healthUpModifier="1"
-             damageUpModifier="1">
-    </spawner>
-  </scenario>
-
-    
-<!--________________________Initial testing scenarios__________________________________-->
-    
-    <!-- player x=652, y=784 -->
-    
-    <!-- 1: upper-left, 2: lower-left, 3: lower-right -->
-    <!-- 1: x=336, y=240 -->
-    <!-- 2: x=176, y=1040 -->
-    <!-- 3: x=1112, y=1040 -->
-    <!-- 1 2 3 3 1 2 3-->
-
-    <!--Monsters: Melee-6
-                  Ranged-4
-                  Suicide-2 -->
-    <scenario name="Arena_scenario_M6_R4_S2"
-              difficultyScore="0.50"
-              map="Arena.tmx"
-              playerX="652"
-              playerY="784">
-        <spawner xPosition="336"
-                 yPosition="240"
-                 monsterType="MeleeMonster"
-                 monsterWeapon="Monstersword"
-                 numberOfMonsters="6"
-                 timeSpanMilliseconds="1000"
-                 healthUpModifier="1"
-                 damageUpModifier="1">
-        </spawner>
-        <spawner xPosition="336"
-                 yPosition="240"
-                 monsterType="RangedMonster"
-                 monsterWeapon="Monsterbow"
-                 numberOfMonsters="4"
-                 timeSpanMilliseconds="1000"
-                 healthUpModifier="1"
-                 damageUpModifier="1">
-        </spawner>
-        <spawner xPosition="336"
-                 yPosition="240"
-                 monsterType="SuicideBomber"
-                 monsterWeapon="BomberWeapon"
-                 numberOfMonsters="2"
-                 timeSpanMilliseconds="1000"
-                 healthUpModifier="1"
-                 damageUpModifier="1">
-        </spawner>
-    </scenario>
-
-    <!--Monsters: Melee-6
-                  Ranged-2
-                  Suicide-4 -->
-    <scenario name="Arena_scenario_M6_R2_S4"
-              difficultyScore="0.50"
-              map="Arena.tmx"
-              playerX="652"
-              playerY="784">
-        <spawner xPosition="176"
-                 yPosition="1040"
-                 monsterType="MeleeMonster"
-                 monsterWeapon="Monstersword"
-                 numberOfMonsters="6"
-                 timeSpanMilliseconds="1000"
-                 healthUpModifier="1"
-                 damageUpModifier="1">
-        </spawner>
-        <spawner xPosition="176"
-                 yPosition="1040"
-                 monsterType="RangedMonster"
-                 monsterWeapon="Monsterbow"
-                 numberOfMonsters="2"
-                 timeSpanMilliseconds="1000"
-                 healthUpModifier="1"
-                 damageUpModifier="1">
-        </spawner>
-        <spawner xPosition="176"
-                 yPosition="1040"
-                 monsterType="SuicideBomber"
-                 monsterWeapon="BomberWeapon"
-                 numberOfMonsters="4"
-                 timeSpanMilliseconds="1000"
-                 healthUpModifier="1"
-                 damageUpModifier="1">
-        </spawner>
-    </scenario>
-    
-    <!--Monsters: Melee-4
-                  Ranged-6
-                  Suicide-2 -->
-    <scenario name="Arena_scenario_M4_R6_S2"
-              difficultyScore="0.50"
-              map="Arena.tmx"
-              playerX="652"
-              playerY="784">
-        <spawner xPosition="1112"
-                 yPosition="1040"
-                 monsterType="MeleeMonster"
-                 monsterWeapon="Monstersword"
-                 numberOfMonsters="4"
-                 timeSpanMilliseconds="1000"
-                 healthUpModifier="1"
-                 damageUpModifier="1">
-        </spawner>
-        <spawner xPosition="1112"
-                 yPosition="1040"
-                 monsterType="RangedMonster"
-                 monsterWeapon="Monsterbow"
-                 numberOfMonsters="6"
-                 timeSpanMilliseconds="1000"
-                 healthUpModifier="1"
-                 damageUpModifier="1">
-        </spawner>
-        <spawner xPosition="1112"
-                 yPosition="1040"
-                 monsterType="SuicideBomber"
-                 monsterWeapon="BomberWeapon"
-                 numberOfMonsters="2"
-                 timeSpanMilliseconds="1000"
-                 healthUpModifier="1"
-                 damageUpModifier="1">
-        </spawner>
-    </scenario>
-    
-    <!--Monsters: Melee-2
-                  Ranged-6
-                  Suicide-4 -->
-    <scenario name="Arena_scenario_M2_R6_S4"
-              difficultyScore="0.50"
-              map="Arena.tmx"
-              playerX="652"
-              playerY="784">
-        <spawner xPosition="1112"
-                 yPosition="1040"
-                 monsterType="MeleeMonster"
-                 monsterWeapon="Monstersword"
-                 numberOfMonsters="2"
-                 timeSpanMilliseconds="1000"
-                 healthUpModifier="1"
-                 damageUpModifier="1">
-        </spawner>
-        <spawner xPosition="1112"
-                 yPosition="1040"
-                 monsterType="RangedMonster"
-                 monsterWeapon="Monsterbow"
-                 numberOfMonsters="6"
-                 timeSpanMilliseconds="1000"
-                 healthUpModifier="1"
-                 damageUpModifier="1">
-        </spawner>
-        <spawner xPosition="1112"
-                 yPosition="1040"
-                 monsterType="SuicideBomber"
-                 monsterWeapon="BomberWeapon"
-                 numberOfMonsters="4"
-                 timeSpanMilliseconds="1000"
-                 healthUpModifier="1"
-                 damageUpModifier="1">
-        </spawner>
-    </scenario>
-    
-    <!--Monsters: Melee-4
-                  Ranged-2
-                  Suicide-6 -->
-    <scenario name="Arena_scenario_M4_R2_S6"
-              difficultyScore="0.50"
-              map="Arena.tmx"
-              playerX="652"
-              playerY="784">
-        <spawner xPosition="336"
-                 yPosition="240"
-                 monsterType="MeleeMonster"
-                 monsterWeapon="Monstersword"
-                 numberOfMonsters="4"
-                 timeSpanMilliseconds="1000"
-                 healthUpModifier="1"
-                 damageUpModifier="1">
-        </spawner>
-        <spawner xPosition="336"
-                 yPosition="240"
-                 monsterType="RangedMonster"
-                 monsterWeapon="Monsterbow"
-                 numberOfMonsters="2"
-                 timeSpanMilliseconds="1000"
-                 healthUpModifier="1"
-                 damageUpModifier="1">
-        </spawner>
-        <spawner xPosition="336"
-                 yPosition="240"
-                 monsterType="SuicideBomber"
-                 monsterWeapon="BomberWeapon"
-                 numberOfMonsters="6"
-                 timeSpanMilliseconds="1000"
-                 healthUpModifier="1"
-                 damageUpModifier="1">
-        </spawner>
-    </scenario>
-    
-    <!--Monsters: Melee-2
-                  Ranged-4
-                  Suicide-6 -->
-    <scenario name="Arena_scenario_M2_R4_S6"
-              difficultyScore="0.50"
-              map="Arena.tmx"
-              playerX="652"
-              playerY="784">
-        <spawner xPosition="176"
-                 yPosition="1040"
-                 monsterType="MeleeMonster"
-                 monsterWeapon="Monstersword"
-                 numberOfMonsters="2"
-                 timeSpanMilliseconds="1000"
-                 healthUpModifier="1"
-                 damageUpModifier="1">
-        </spawner>
-        <spawner xPosition="176"
-                 yPosition="1040"
-                 monsterType="RangedMonster"
-                 monsterWeapon="Monsterbow"
-                 numberOfMonsters="4"
-                 timeSpanMilliseconds="1000"
-                 healthUpModifier="1"
-                 damageUpModifier="1">
-        </spawner>
-        <spawner xPosition="176"
-                 yPosition="1040"
-                 monsterType="SuicideBomber"
-                 monsterWeapon="BomberWeapon"
-                 numberOfMonsters="6"
-                 timeSpanMilliseconds="1000"
-                 healthUpModifier="1"
-                 damageUpModifier="1">
-        </spawner>
-    </scenario>
-
-    <!--Monsters: Melee-4
-                  Ranged-4
-                  Suicide-4 -->
-    <scenario name="Arena_scenario_M4_R4_S4"
-              difficultyScore="0.50"
-              map="Arena.tmx"
-              playerX="652"
-              playerY="784">
-        <spawner xPosition="1112"
-                 yPosition="1040"
-                 monsterType="MeleeMonster"
-                 monsterWeapon="Monstersword"
-                 numberOfMonsters="4"
-                 timeSpanMilliseconds="1000"
-                 healthUpModifier="1"
-                 damageUpModifier="1">
-        </spawner>
-        <spawner xPosition="1112"
-                 yPosition="1040"
-                 monsterType="RangedMonster"
-                 monsterWeapon="Monsterbow"
-                 numberOfMonsters="4"
-                 timeSpanMilliseconds="1000"
-                 healthUpModifier="1"
-                 damageUpModifier="1">
-        </spawner>
-        <spawner xPosition="1112"
-                 yPosition="1040"
-                 monsterType="SuicideBomber"
-                 monsterWeapon="BomberWeapon"
-                 numberOfMonsters="4"
-                 timeSpanMilliseconds="1000"
-                 healthUpModifier="1"
-                 damageUpModifier="1">
-        </spawner>
-    </scenario>
 </root>
