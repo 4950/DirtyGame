@@ -284,6 +284,7 @@ BEGIN
 	INSERT INTO PlayerELOes (ELO, LinearELO, UserID) VALUES (800, 800, @UserID);
 	SET @PlayerELO = 800;
 	SET @PlayerELOLinear = 800;
+	SET @PlayerGamesPlayed = 0;
 END
 
 DECLARE @ScenarioGamesPlayed INT;
@@ -296,6 +297,7 @@ BEGIN
 	INSERT INTO ScenarioELOes (ELO, LinearELO, ScenarioID) VALUES (800, 800, @ScenarioID);
 	SET @ScenarioELO = 800;
 	SET @ScenarioELOLinear = 800;
+	SET @ScenarioGamesPlayed = 0;
 END
 
 /*Calculate regular ELO*/
