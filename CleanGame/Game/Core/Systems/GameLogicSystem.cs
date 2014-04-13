@@ -68,6 +68,8 @@ namespace CleanGame.Game.Core.Systems
         private int ScenarioPtr = 0;
 
         private GameLogicState currentState;
+        private Scenario currentScenario;
+        private GameService.GameService.GameSession PreviousSession;
         private List<Entity> spawners = new List<Entity>();
 
         //Dictionary that contains a set of scenario objects
@@ -165,20 +167,8 @@ namespace CleanGame.Game.Core.Systems
             PlayerHits = 0;
             HitLabel.Visibility = Visibility.Hidden;
         }
-
-
-        /// <summary>
-        /// Decoding the XML code for the scenarios.
-        /// </summary>
-        /// <param name="xmlFile"></param>
-        public void decodeScenariosXML(string xmlFile)
+        private void decodeScenarios(XmlReader scenarioReader, bool setCurrentScenario)
         {
-            //Setting up the XML reader
-            XmlReaderSettings xmlSettings = new XmlReaderSettings();
-            xmlSettings.IgnoreWhitespace = true;
-            xmlSettings.IgnoreComments = true;
-            XmlReader scenarioReader = XmlReader.Create(xmlFile, xmlSettings);
-
             //Reads to the start of the XML file
             scenarioReader.ReadToFollowing("root");
             //scenarioReader.ReadStartElement();
@@ -225,6 +215,18 @@ namespace CleanGame.Game.Core.Systems
                 List<Spawner> spawners = new List<Spawner>();
 
                 scenarioName = scenarioReader.GetAttribute("name");
+
+                foreach (Scenario s in scenarios.Values)
+                {
+                    if (s.Name == scenarioName)
+                    {
+                        if (setCurrentScenario)
+                            currentScenario = s;
+                        goto SKIP;
+                    }
+                }
+
+
                 difficultyScore = (float)Convert.ToDouble(scenarioReader.GetAttribute("difficultyScore"));
                 mapName = scenarioReader.GetAttribute("map");
                 playerSpawnPoint = new Vector2((float)Convert.ToDouble(scenarioReader.GetAttribute("playerX")),
@@ -258,10 +260,41 @@ namespace CleanGame.Game.Core.Systems
                 } while (scenarioReader.ReadToNextSibling("spawner"));
 
                 //scenarios.Add(scenarioName, new Scenario(scenarioName, difficultyScore, mapName, spawners, playerSpawnPoint));
-                scenarios.Add(scenarioCount, new Scenario(scenarioName, difficultyScore, mapName, spawners, playerSpawnPoint));
+                Scenario sc = new Scenario(scenarioName, difficultyScore, mapName, spawners, playerSpawnPoint);
+                if (setCurrentScenario)
+                    currentScenario = sc;
+                scenarios.Add(scenarioCount, sc);
                 scenarioCount++;
-                //spawnerCount = 0;
+            //spawnerCount = 0;
+
+            SKIP: ;
             }
+        }
+        private void decodeServerScenario(string XML)
+        {
+            currentScenario = null;
+
+            //Setting up the XML reader
+            XmlReaderSettings xmlSettings = new XmlReaderSettings();
+            xmlSettings.IgnoreWhitespace = true;
+            xmlSettings.IgnoreComments = true;
+            XmlReader scenarioReader = XmlReader.Create(new System.IO.StringReader(XML), xmlSettings);
+
+            decodeScenarios(scenarioReader, true);
+        }
+        /// <summary>
+        /// Decoding the XML code for the scenarios.
+        /// </summary>
+        /// <param name="xmlFile"></param>
+        public void decodeScenariosXML(string xmlFile)
+        {
+            //Setting up the XML reader
+            XmlReaderSettings xmlSettings = new XmlReaderSettings();
+            xmlSettings.IgnoreWhitespace = true;
+            xmlSettings.IgnoreComments = true;
+            XmlReader scenarioReader = XmlReader.Create(xmlFile, xmlSettings);
+
+            decodeScenarios(scenarioReader, false);
         }
 
         /// <summary>
@@ -397,11 +430,32 @@ namespace CleanGame.Game.Core.Systems
             //start new session and wait for result
             GameplayDataCaptureSystem.Instance.NewSessionResultEvent += Instance_NewSessionResultEvent;
             GameplayDataCaptureSystem.Instance.DataRetryEvent += Instance_DataRetryEvent;
+            GameplayDataCaptureSystem.Instance.ScenarioXMLEvent += Instance_ScenarioXMLEvent;
             GameplayDataCaptureSystem.Instance.NewSessionAsync();
 
             ActionLabel.Text = "Contacting Server...";
             ActionLabel.Position = new System.Drawing.Point(0, game.currrentDisplayMode.Height / 2 - 50);
             ActionLabelBack.Visibility = Visibility.Visible;
+        }
+
+        void Instance_ScenarioXMLEvent(string XML)
+        {
+            if (XML == null || XML == "")
+            {
+                MessageBox.Show("Failed to retrieve scenario from server.\nPlease check your internet settings.", "Error");
+            }
+            else
+                decodeServerScenario(XML);
+
+
+            if (PreviousSession != null)
+            {
+                ShowRoundResults(PreviousSession);
+            }
+            else
+            {
+                StartPreRound();
+            }
         }
 
         void Instance_DataRetryEvent(object sender, RetryEventArgs e)
@@ -414,25 +468,15 @@ namespace CleanGame.Game.Core.Systems
             GameplayDataCaptureSystem.Instance.NewSessionResultEvent -= Instance_NewSessionResultEvent;
             GameplayDataCaptureSystem.Instance.DataRetryEvent -= Instance_DataRetryEvent;
 
-            
+
             if (currentState == GameLogicState.EndingRound)
             {
                 ActionLabelBack.Visibility = Visibility.Hidden;
                 if (!e.RequestsSucceeded)
-                    MessageBox.Show("Failed to contact server. Please\ncheck your internet settings.", "Error").DialogResult += GameLogicSystem_DialogResult;
-                else if (e.PreviousSession != null)
-                {
-                    ShowRoundResults(e.PreviousSession);
-                }
-                else
-                {
-                    StartPreRound();
-                }
+                    MessageBox.Show("Failed to contact server. Please\ncheck your internet settings.", "Error");
+                PreviousSession = e.PreviousSession;
+                GameplayDataCaptureSystem.Instance.GetScenarioAsync();
             }
-        }
-        void GameLogicSystem_DialogResult(object sender, MessageBox.MessageBoxResultButtons ResultButton)
-        {
-            StartPreRound();
         }
         /// <summary>
         /// Shows the round label and sets up a timer to the next round
@@ -522,7 +566,10 @@ namespace CleanGame.Game.Core.Systems
                         //restore player health
                         game.player.GetComponent<StatsComponent>().CurrentHealth = game.player.GetComponent<StatsComponent>().MaxHealth;
 
-                        setupScenario(randomScenario(game.mapName));
+                        if (currentScenario == null)
+                            setupScenario(randomScenario(game.mapName));
+                        else
+                            setupScenario(currentScenario);
                         game.player.Refresh();
                         currentState = GameLogicState.ActiveRound;
 

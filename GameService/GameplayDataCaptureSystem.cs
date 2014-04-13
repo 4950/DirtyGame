@@ -62,8 +62,10 @@ namespace GameService
     {
         public delegate void NewSessionResultEventHandler(object sender, SessionEventArgs e);
         public delegate void DataRetryEventHandler(object sender, RetryEventArgs e);
+        public delegate void ScenarioXMLEventHandler(string XML);
         public event NewSessionResultEventHandler NewSessionResultEvent;
         public event DataRetryEventHandler DataRetryEvent;
+        public event ScenarioXMLEventHandler ScenarioXMLEvent;
 
         static Uri BrowseUri = new Uri("https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://csci4950.azurewebsites.net/Account/LogOffGame");
         static Uri DataUri = new Uri("https://csci4950.azurewebsites.net/odata");
@@ -233,7 +235,7 @@ namespace GameService
         /// <summary>
         /// Ends previous session if there are any, and starts a new capture session. Saves to server
         /// </summary>
-        public bool NewSession()
+        private bool NewSession()
         {
             lock (IsSendingAsync)
             {
@@ -262,16 +264,37 @@ namespace GameService
 
                 //fire event
                 s.RequestsSucceeded = res;
-                if(NewSessionResultEvent != null) NewSessionResultEvent(this, s);
+                if (NewSessionResultEvent != null) NewSessionResultEvent(this, s);
 
                 return res;
             }
         }
+        public void GetScenarioAsync()
+        {
+            Thread t = new Thread(new ThreadStart(() =>
+            {
+                lock (IsSendingAsync)
+                {
+                    NetworkRetry(() =>
+                        {
+                            Uri actionUri = new Uri(DataUri, "odata/GameSession/Scenario");
+                            var ret = serviceContainer.Execute<string>(actionUri, "POST", true, null);
+                            string scenario = ret.First();
+                            if (ScenarioXMLEvent != null)
+                                ScenarioXMLEvent(scenario);
+                            return true;
+                        });
+                }
+            }));
+            t.IsBackground = true;
+            t.Start();
+        }
         /// <summary>
-        /// Attempts to save changes to server
+        /// Attempts the specified network operation with exponential retries. Catches exceptions as failure
         /// </summary>
-        /// <returns>Success</returns>
-        private bool SaveChanges()
+        /// <param name="networkOperation">Network operation to attempt</param>
+        /// <returns></returns>
+        private bool NetworkRetry(Func<bool> networkOperation)
         {
             if (!LoggedIn)//Attempt to log in
                 Login();
@@ -285,19 +308,11 @@ namespace GameService
                 {
                     RetryEventArgs e = new RetryEventArgs();
                     e.Attempt = i;
-                    if(DataRetryEvent != null) DataRetryEvent(this, e);
+                    if (DataRetryEvent != null) DataRetryEvent(this, e);
                 }
                 try
                 {
-                    var serviceResponse = serviceContainer.SaveChanges();
-                    foreach (var operationResponse in serviceResponse)
-                    {
-                        if (operationResponse.StatusCode != 201)
-                        {
-                            throw new Exception("Bad response from server");
-                        }
-                    }
-                    sent = true;
+                    sent = networkOperation();
                     break;
                 }
                 catch (Exception)
@@ -307,6 +322,25 @@ namespace GameService
                 }
             }
             return sent;
+        }
+        /// <summary>
+        /// Attempts to save changes to server
+        /// </summary>
+        /// <returns>Success</returns>
+        private bool SaveChanges()
+        {
+            return NetworkRetry(() =>
+            {
+                var serviceResponse = serviceContainer.SaveChanges();
+                foreach (var operationResponse in serviceResponse)
+                {
+                    if (operationResponse.StatusCode != 201)
+                    {
+                        throw new Exception("Bad response from server");
+                    }
+                }
+                return true;
+            });
         }
 
 
