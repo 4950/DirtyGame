@@ -259,7 +259,7 @@ namespace CleanGame.Game.Core
             StatsComponent s = new StatsComponent();
             s.BaseDamage = 100;
             s.BaseMoveSpeed = 100;
-            s.BaseHealth = 10000;
+            s.BaseHealth = 100;
             s.HealthScale = 1;
             s.CurrentHealth = s.MaxHealth;
 
