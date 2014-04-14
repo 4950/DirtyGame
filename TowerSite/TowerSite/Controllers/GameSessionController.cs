@@ -30,6 +30,13 @@ namespace TowerSite.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        private async Task<int> DbTrace(String msg)
+        {
+            String pr = "INSERT INTO dbo.DbTracing (Out) VALUES ('" +msg+"');";
+            return await db.Database.ExecuteSqlCommandAsync(@pr);
+            
+        }
+
         [HttpPost]
         public async Task<IHttpActionResult> Scenario(ODataActionParameters parameters)
         {
@@ -258,15 +265,68 @@ SELECT * FROM GameSessions WHERE SessionID = @Session;
                 Trace.WriteLine("test");
 
                 //Begin new code
-                String UserID;
-                float PlayerScore;
-                Task t;
+                int i = 0;
+                if (1==i)
+                {
+                    res = await db.Database.ExecuteSqlCommandAsync(@"INSERT INTO dbo.DbTracing (Out) VALUES ('new code hit');");
+                    String UserID = "";
+                    float PlayerScore = 0.0f;
+                    Task t;
 
-                DbRawSqlQuery<String> set = db.Database.SqlQuery<String>(@"SELECT UserID, SessionScore FROM GameSessions WHERE SessionID = @p0;", gs.SessionID);
-                List<String> results = set.ToList();
-                res = await db.Database.ExecuteSqlCommandAsync(@"INSERT INTO Print (Text) VALUES (@p0);", results.ToString());
+                    //DbRawSqlQuery<String> set = db.Database.SqlQuery<String>(@"SELECT UserID, SessionScore FROM GameSessions WHERE SessionID = @p0; INSERT INTO dbo.DbTracing (Out) VALUES (' select success');", gs.SessionID);
+                    IQueryable<GameSession> GameSessionSet = db.GameSessions.Where(sessionid => sessionid.SessionID == gs.SessionID);
 
+                    foreach (GameSession g in GameSessionSet)
+                    {
+                        UserID = g.UserID;
+                        PlayerScore = g.SessionScore;
+                        String pr = "INSERT INTO dbo.DbTracing (Out) VALUES ('" + UserID + " " + PlayerScore + "');";
+                        await db.Database.ExecuteSqlCommandAsync(pr);
+                    }
+                    //Check round ended:
+                    IQueryable<GameEventModel> GameEventSet = db.GameEventModels.Where(sessionid => sessionid.SessionId == gs.SessionID).Where(type => type.Type == "RoundEnded");
 
+                    if (GameEventSet.Count() == 0)
+                    {
+                        await DbTrace("Round not ended");
+                        return;
+                    }
+
+                    //get scenario name
+                    String ScenarioID = "";
+                    GameEventSet = db.GameEventModels.Where(sessionid => sessionid.SessionId == gs.SessionID).Where(type => type.Type == "ScenarioName");
+                    foreach (GameEventModel g in GameEventSet)
+                    {
+                        ScenarioID = g.Data;
+                    }
+
+                    //PlayerELO stuff
+                    int PlayerGamesPlayed;
+                    int PlayerELO, PlayerELOLinear;
+                    IQueryable<PlayerELO> PlayerELOSet = db.PlayerELO.Where(userid => userid.UserID == UserID);
+                    if (PlayerELOSet.Count() == 0)
+                    {
+                        //Initialize PlayerELO
+                        await db.Database.ExecuteSqlCommandAsync(@"INSERT INTO dbo.PlayerELOes (UserID, ELO, LinearELO, GamesPlayed) VALUES (" + UserID + "800, 800, 0);");
+                        PlayerGamesPlayed = 0;
+                        PlayerELO = 800;
+                        PlayerELOLinear = 800;
+
+                    }
+
+                    int ScenarioGamesPlayed;
+                    int ScenarioELO, ScenarioELOLinear;
+                    IQueryable<ScenarioELO> ScenarioELOSet = db.ScenarioELO.Where(scenarioid => scenarioid.ScenarioID == ScenarioID);
+                    if (ScenarioELOSet.Count() == 0)
+                    {
+                        //Initialize ScenarioELO
+                        await db.Database.ExecuteSqlCommandAsync(@"INSERT INTO dbo.ScenarioELOes (ScenarioID, ELO, LinearELO, GamesPlayed) VALUES (" + UserID + "800, 800, 0);");
+                        ScenarioGamesPlayed = 0;
+                        ScenarioELO = 800;
+                        ScenarioELOLinear = 800;
+
+                    }
+                }
                 //end new code
                 res = await db.Database.ExecuteSqlCommandAsync(@"
 DECLARE @SessionID INT;
