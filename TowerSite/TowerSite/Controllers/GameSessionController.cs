@@ -256,6 +256,18 @@ SELECT * FROM GameSessions WHERE SessionID = @Session;
                 await db.Entry(gs).ReloadAsync();
 
                 Trace.WriteLine("test");
+
+                //Begin new code
+                String UserID;
+                float PlayerScore;
+                Task t;
+
+                DbRawSqlQuery<String> set = db.Database.SqlQuery<String>(@"SELECT UserID, SessionScore FROM GameSessions WHERE SessionID = @p0;", gs.SessionID);
+                List<String> results = set.ToList();
+                res = await db.Database.ExecuteSqlCommandAsync(@"INSERT INTO Print (Text) VALUES (@p0);", results.ToString());
+
+
+                //end new code
                 res = await db.Database.ExecuteSqlCommandAsync(@"
 DECLARE @SessionID INT;
 DECLARE @UserID NVARCHAR(MAX);
