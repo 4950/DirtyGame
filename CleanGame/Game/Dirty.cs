@@ -166,7 +166,7 @@ namespace CleanGame
             //init UI
             UIDraw = new MonoGameDrawEngine(GraphicsDevice, Content);
             UIEngine = new CoreUIEngine(UIDraw, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
-            SpriteFont defaultFont = resourceManager.GetResource<SpriteFont>("default");
+            SpriteFont defaultFont = resourceManager.GetResource<SpriteFont>("MedievalSharp");
             UIDraw.setDefaultFont(defaultFont);
         }
         private void AddComponentTypes()
