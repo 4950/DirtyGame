@@ -46,7 +46,6 @@ namespace CleanGame.Game.Core.Systems.Movement
                     }
 
                     SpatialComponent otherMonster = e2.GetComponent<SpatialComponent>();
-
                     if (Vector2.Distance(mySpatial.Position, otherMonster.Position) <= 32)
                     {
                         positionDif += (mySpatial.Position - otherMonster.Position);

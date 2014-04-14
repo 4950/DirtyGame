@@ -11,5 +11,6 @@ namespace EntityFramework
 {
     public class MonsterComponent : UnitComponent
     {
+        public string PlayerWeapon;
     }
 }

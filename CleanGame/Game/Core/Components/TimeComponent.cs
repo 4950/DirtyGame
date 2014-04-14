@@ -14,5 +14,6 @@ namespace EntityFramework
         public float timeWander;
         public float timeofLock;
         public float timeDrawn;
+        public TimeSpan timeOfWeaponCheck;
     }
 }
