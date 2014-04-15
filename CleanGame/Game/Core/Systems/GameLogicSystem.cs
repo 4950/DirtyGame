@@ -263,7 +263,7 @@ namespace CleanGame.Game.Core.Systems
                 Scenario sc = new Scenario(scenarioName, difficultyScore, mapName, spawners, playerSpawnPoint);
                 if (setCurrentScenario)
                     currentScenario = sc;
-                scenarios.Add(scenarioCount, sc);
+                scenarios.Add(scenarios.Count, sc);
                 scenarioCount++;
             //spawnerCount = 0;
 
@@ -440,6 +440,7 @@ namespace CleanGame.Game.Core.Systems
 
         void Instance_ScenarioXMLEvent(string XML)
         {
+            GameplayDataCaptureSystem.Instance.ScenarioXMLEvent -= Instance_ScenarioXMLEvent;
             if (XML == null || XML == "")
             {
                 MessageBox.Show("Failed to retrieve scenario from server.\nPlease check your internet settings.", "Error");
