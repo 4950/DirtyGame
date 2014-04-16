@@ -285,6 +285,46 @@ namespace CleanGame.Game.Core.Systems.Monster
                         mc.WanderTheta = theta;
                     }
                 }
+                if (wc.WeaponName == "GrenadeLauncher")
+                {
+                    TimeComponent mTime = m.GetComponent<TimeComponent>();
+                    vel = seekPlayer(entities, m, 0, 150, false);//if player is close, run
+
+                    if (mTime.timeOfWeaponCheck <= totalTime)
+                    {
+                        //Set what the monster thinks the player's weapon is for AI purpooses
+                        m.GetComponent<MonsterComponent>().PlayerWeapon = player.GetComponent<InventoryComponent>().CurrentWeapon.GetComponent<WeaponComponent>().WeaponName;
+
+                        //Set the next time the monster should check the player's weapon (randomized)
+                        m.GetComponent<TimeComponent>().timeOfWeaponCheck = mTime.timeOfWeaponCheck + new TimeSpan(0, 0, 0, 0, 1000 + r.Next(4) * 1000);
+                    }
+                    if (vel[0] == vel[1] && vel[0] == 0)
+                    {
+
+                        // If Player Weapon is Sword
+                        if (m.GetComponent<MonsterComponent>().PlayerWeapon == "Basic Sword")
+                        {
+
+                            //  Move to half range
+                            vel = seekPlayer(entities, m, (int)wc.Range / 2, 600, true);
+                        }
+                        else // If Player Weapon is Bow
+                        {
+                            //  Move to full range
+                            vel = seekPlayer(entities, m, (int)wc.Range, 600, true);
+                        }
+
+
+                        //seekPlayer(entities, m, (int)wc.Range - 50, 600, true);//if player is not within weapon range but in sight range, chase
+                    }
+
+                    if (vel[0] == vel[1] && vel[0] == 0)//player not in sight or in range, wander
+                    {
+                        float theta = mc.WanderTheta;
+                        vel = Wander(s.Position, mc.Velocity, ref theta);
+                        mc.WanderTheta = theta;
+                    }
+                }
                 else if (wc.Type == WeaponComponent.WeaponType.Melee)
                 {
                     vel = seekPlayer(entities, m, (int)wc.Range, 600, true);//if player is not within weapon range but in sight range, chase
