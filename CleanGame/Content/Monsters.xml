@@ -260,7 +260,6 @@
       <Name>StatsComponent</Name>
       <BaseMoveSpeed>60</BaseMoveSpeed>
       <BaseDamage>5</BaseDamage>
-      <RangedImmune>false</RangedImmune>
       <BaseHealth>240</BaseHealth>
       <HealthScale>1</HealthScale>
       <CurrentHealth>240</CurrentHealth>
@@ -368,7 +367,6 @@
       <Name>StatsComponent</Name>
       <BaseMoveSpeed>80</BaseMoveSpeed>
       <BaseDamage>100</BaseDamage>
-      <RangedImmune>false</RangedImmune>
       <BaseHealth>60</BaseHealth>
       <HealthScale>1</HealthScale>
       <CurrentHealth>60</CurrentHealth>
@@ -475,7 +473,6 @@
       <Name>StatsComponent</Name>
       <BaseMoveSpeed>13</BaseMoveSpeed>
       <BaseDamage>100</BaseDamage>
-      <RangedImmune>false</RangedImmune>
       <BaseHealth>120</BaseHealth>
       <HealthScale>1</HealthScale>
       <CurrentHealth>120</CurrentHealth>
@@ -582,7 +579,6 @@
       <Name>StatsComponent</Name>
       <BaseMoveSpeed>30</BaseMoveSpeed>
       <BaseDamage>100</BaseDamage>
-      <RangedImmune>false</RangedImmune>
       <BaseHealth>120</BaseHealth>
       <HealthScale>1</HealthScale>
       <CurrentHealth>120</CurrentHealth>
@@ -689,7 +685,6 @@
       <Name>StatsComponent</Name>
       <BaseMoveSpeed>80</BaseMoveSpeed>
       <BaseDamage>100</BaseDamage>
-      <RangedImmune>false</RangedImmune>
       <BaseHealth>100</BaseHealth>
       <HealthScale>1</HealthScale>
       <CurrentHealth>100</CurrentHealth>
@@ -797,8 +792,8 @@
       <Name>StatsComponent</Name>
       <BaseMoveSpeed>0</BaseMoveSpeed>
       <BaseDamage>100</BaseDamage>
-      <RangedImmune>true</RangedImmune>
       <ImmuneTo>
+        <List>Basic Sword</List>
         <List>Sniper</List>
         <List>Doomsbow</List>
         <List>Scattershot</List>
@@ -912,7 +907,6 @@
 			<Name>StatsComponent</Name>
 			<BaseMoveSpeed>100</BaseMoveSpeed>
 			<BaseDamage>100</BaseDamage>
-			<RangedImmune>false</RangedImmune>
 			<BaseHealth>120</BaseHealth>
 		    <HealthScale>1</HealthScale>
  		    <CurrentHealth>120</CurrentHealth>
@@ -1020,7 +1014,6 @@
       <Name>StatsComponent</Name>
       <BaseMoveSpeed>80</BaseMoveSpeed>
       <BaseDamage>100</BaseDamage>
-      <RangedImmune>true</RangedImmune>
       <ImmuneTo>
         <List>Sniper</List>
         <List>Doomsbow</List>
