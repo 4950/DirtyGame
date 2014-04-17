@@ -336,7 +336,8 @@ namespace CleanGame.Game.Core
 
                 //sc.SpriteSheet = resourceMgr.GetResource<SpriteSheet>(spritesheet);
                 sc.Scale = .5f;
-                sc.origin = new Vector2(.5f, 2);
+                //sc.AnchorPoint = new Vector2(1, 1);
+                sc.origin = new Vector2(.5f, 2.5f);
                 //sc.AnchorPoint = new Vector2(0, 1);
                 sc.Angle = 1.571f;
             }
