@@ -23,7 +23,7 @@ namespace TowerSite.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Contact CSCI 4950";
 
             return View();
         }
