@@ -63,8 +63,7 @@ namespace CleanGame.Game.Core.Systems
             if (hc == null || os == null || ts == null)
                 return;
 
-            if (ts.RangedImmune)
-            {
+            if (ts.ImmuneTo != null)
                 foreach (string weapon in ts.ImmuneTo)
                 {
                     if (weapon == wc.WeaponName)
@@ -72,8 +71,7 @@ namespace CleanGame.Game.Core.Systems
                         return;
                     }
                 }
-                
-            }
+
             if (wc.Owner == game.player)
                 game.gLogicSystem.PlayerDealtDamage();
             else if (Target == game.player)
@@ -111,20 +109,20 @@ namespace CleanGame.Game.Core.Systems
             if (Target == null)
                 return;
 
-            
+
             StatsComponent hc = Target.GetComponent<StatsComponent>();
-            CaptureEventType t; 
+            CaptureEventType t;
 
 
             if (hc == null)
                 return;
 
-            
-            
-            if (Target == game.player)
-               game.gLogicSystem.PlayerTookDamage();
 
-            
+
+            if (Target == game.player)
+                game.gLogicSystem.PlayerTookDamage();
+
+
 
             hc.CurrentHealth -= Damage;
             if (hc.CurrentHealth < 0)
@@ -135,7 +133,7 @@ namespace CleanGame.Game.Core.Systems
 
             t = Target.HasComponent<PlayerComponent>() ? CaptureEventType.PlayerDamageTaken : CaptureEventType.MonsterDamageTaken;
             GameplayDataCaptureSystem.Instance.LogEvent(t, Damage.ToString());
-            
+
         }
 
         public void FireWeapon(Entity Weapon, Entity Owner, Vector2 Target)
@@ -206,11 +204,11 @@ namespace CleanGame.Game.Core.Systems
                     else if (wc.WeaponName == "GrenadeLauncher")
                     {
                         double dist = getDistance(spatial.Center.X, spatial.Center.Y, Target.X, Target.Y);
-                        Entity grenade = game.entityFactory.CreateGrenade(Owner, spatial.Center, dir, wc.ProjectileSprite, (float) dist, wc.ProjectileSpeed, 2.0f, new Vector2(128, 128), Weapon);
+                        Entity grenade = game.entityFactory.CreateGrenade(Owner, spatial.Center, dir, wc.ProjectileSprite, (float)dist, wc.ProjectileSpeed, 2.0f, new Vector2(128, 128), Weapon);
                         grenade.Refresh();
-					}
-					
-                    else if(wc.WeaponName == "SnipWeapon")
+                    }
+
+                    else if (wc.WeaponName == "SnipWeapon")
                     {
                         SetShootAnimation(Owner, "Shoot");
                         Entity proj = game.entityFactory.CreateSnipProjectile(Owner, spatial.Center, dir, wc.ProjectileSprite, wc.Range, wc.ProjectileSpeed, Weapon);
@@ -234,18 +232,18 @@ namespace CleanGame.Game.Core.Systems
                         SetShootAnimation(Owner, "BigSlash");
                         meleeEntity = game.entityFactory.CreateMeleeEntity(Owner, Weapon);
                         meleeEntity.Refresh();
-                        
+
                     }
                     else
                     {
                         //SetShootAnimation(Owner, "Attack");
                         //meleeEntity = game.entityFactory.CreateMeleeEntity(Owner, Weapon);
-                        
+
                     }
 
                     //meleeEntity.Refresh();
                 }
-       
+
             }
         }
 
@@ -290,41 +288,41 @@ namespace CleanGame.Game.Core.Systems
             DirectionComponent direction = m.GetComponent<DirectionComponent>();
             string directionHeading;
             directionHeading = direction.Heading;
-            double[] dir = new double[2]; 
+            double[] dir = new double[2];
 
             double angle = Math.Atan2(floatDir.Y, floatDir.X); // This is opposite y angle.
             dir[0] = Math.Cos(angle);
             dir[1] = Math.Sin(angle);
 
-                if (Math.Abs(dir[0]) > Math.Abs(dir[1]))
+            if (Math.Abs(dir[0]) > Math.Abs(dir[1]))
+            {
+                if (dir[0] > 0)
                 {
-                    if (dir[0] > 0)
-                    {
-                        directionHeading = "Right";
+                    directionHeading = "Right";
 
-                    }
-                    else if (dir[0] < 0)
-                    {
-                        directionHeading = "Left";
-
-                    }
                 }
-
-                else
+                else if (dir[0] < 0)
                 {
-                    if (dir[1] > 0)
-                    {
-                        directionHeading = "Down";
+                    directionHeading = "Left";
 
-                    }
-                    else if (dir[1] < 0)
-                    {
-                        directionHeading = "Up";
-
-                    }
                 }
+            }
 
-                return directionHeading;
+            else
+            {
+                if (dir[1] > 0)
+                {
+                    directionHeading = "Down";
+
+                }
+                else if (dir[1] < 0)
+                {
+                    directionHeading = "Up";
+
+                }
+            }
+
+            return directionHeading;
         }
 
         private double getDistance(double x, double y, double ox, double oy)

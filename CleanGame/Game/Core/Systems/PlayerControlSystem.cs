@@ -38,10 +38,6 @@ namespace CleanGame.Game.Core.Systems
         private MoveDirection currentDirection = MoveDirection.Idle;
         private bool directionChanged;
 
-        // tile based collision, because I HATE the physics system doing this.
-        private bool[,] collMap;
-        private int mapWidth;
-        private int mapHeight;
 
         public PlayerControlSystem(EntityFactory ef, Renderer renderer, Dirty game)
             : base(SystemDescriptions.PlayerControlSystem.Aspect, SystemDescriptions.PlayerControlSystem.Priority)
@@ -216,7 +212,6 @@ namespace CleanGame.Game.Core.Systems
 
         public override void ProcessEntities(IEnumerable<Entity> entities, float dt)
         {
-            collMap = renderer.ActiveMap.getPassabilityMap();
 
             foreach (Entity e in entities)
             {

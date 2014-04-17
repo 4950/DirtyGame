@@ -20,7 +20,7 @@ namespace CleanGame.Game.Core.Systems.Monster
         public float totaltime;
         private Physics physics;
         public Renderer renderer;
-        
+
 
         //Current goal: Make monsters of different types rush towards each other.
         // If no monster of another type is nearby... wander.
@@ -201,7 +201,7 @@ namespace CleanGame.Game.Core.Systems.Monster
 
         //Make monsters of different types rush towards each other.
         // If no monster of another type is nearby... wander.
-        public Vector2 calculateMoveVector(IEnumerable<Entity> entities, Entity m, float dt)
+        public Vector2 calculateMoveVector(IEnumerable<Entity> entities, Entity m, float dt, TimeSpan totalTime)
         {
             MovementComponent mc = m.GetComponent<MovementComponent>();
             SpatialComponent s = m.GetComponent<SpatialComponent>();
@@ -211,6 +211,9 @@ namespace CleanGame.Game.Core.Systems.Monster
             bool[,] collMap = renderer.ActiveMap.getPassabilityMap();
             int mapWidth = renderer.ActiveMap.getPixelWidth() / 32;
             int mapHeight = renderer.ActiveMap.getPixelHeight() / 32;
+            Entity player = game.player;
+
+
 
             if (type == "Flametower")
             {
@@ -244,9 +247,77 @@ namespace CleanGame.Game.Core.Systems.Monster
                 }
                 if (wc.Type == WeaponComponent.WeaponType.Ranged)
                 {
-                    vel = seekPlayer(entities, m, 0, 200, false);//if player is close, run
+                    TimeComponent mTime = m.GetComponent<TimeComponent>();
+                    vel = seekPlayer(entities, m, 0, 150, false);//if player is close, run
+
+                    if (mTime.timeOfWeaponCheck <= totalTime)
+                    {
+                        //Set what the monster thinks the player's weapon is for AI purpooses
+                        m.GetComponent<MonsterComponent>().PlayerWeapon = player.GetComponent<InventoryComponent>().CurrentWeapon.GetComponent<WeaponComponent>().WeaponName;
+
+                        //Set the next time the monster should check the player's weapon (randomized)
+                        m.GetComponent<TimeComponent>().timeOfWeaponCheck = mTime.timeOfWeaponCheck + new TimeSpan(0, 0, 0, 0, 1000 + r.Next(4) * 1000);
+                    }
                     if (vel[0] == vel[1] && vel[0] == 0)
-                        seekPlayer(entities, m, (int)wc.Range - 50, 600, true);//if player is not within weapon range but in sight range, chase
+                    {
+
+                        // If Player Weapon is Sword
+                        if (m.GetComponent<MonsterComponent>().PlayerWeapon == "Basic Sword")
+                        {
+
+                            //  Move to half range
+                            vel = seekPlayer(entities, m, (int)wc.Range / 2, 600, true);
+                        }
+                        else // If Player Weapon is Bow
+                        {
+                            //  Move to full range
+                            vel = seekPlayer(entities, m, (int)wc.Range, 600, true);
+                        }
+
+
+                        //seekPlayer(entities, m, (int)wc.Range - 50, 600, true);//if player is not within weapon range but in sight range, chase
+                    }
+
+                    if (vel[0] == vel[1] && vel[0] == 0)//player not in sight or in range, wander
+                    {
+                        float theta = mc.WanderTheta;
+                        vel = Wander(s.Position, mc.Velocity, ref theta);
+                        mc.WanderTheta = theta;
+                    }
+                }
+                if (wc.WeaponName == "GrenadeLauncher")
+                {
+                    TimeComponent mTime = m.GetComponent<TimeComponent>();
+                    vel = seekPlayer(entities, m, 0, 150, false);//if player is close, run
+
+                    if (mTime.timeOfWeaponCheck <= totalTime)
+                    {
+                        //Set what the monster thinks the player's weapon is for AI purpooses
+                        m.GetComponent<MonsterComponent>().PlayerWeapon = player.GetComponent<InventoryComponent>().CurrentWeapon.GetComponent<WeaponComponent>().WeaponName;
+
+                        //Set the next time the monster should check the player's weapon (randomized)
+                        m.GetComponent<TimeComponent>().timeOfWeaponCheck = mTime.timeOfWeaponCheck + new TimeSpan(0, 0, 0, 0, 1000 + r.Next(4) * 1000);
+                    }
+                    if (vel[0] == vel[1] && vel[0] == 0)
+                    {
+
+                        // If Player Weapon is Sword
+                        if (m.GetComponent<MonsterComponent>().PlayerWeapon == "Basic Sword")
+                        {
+
+                            //  Move to half range
+                            vel = seekPlayer(entities, m, (int)wc.Range / 2, 600, true);
+                        }
+                        else // If Player Weapon is Bow
+                        {
+                            //  Move to full range
+                            vel = seekPlayer(entities, m, (int)wc.Range, 600, true);
+                        }
+
+
+                        //seekPlayer(entities, m, (int)wc.Range - 50, 600, true);//if player is not within weapon range but in sight range, chase
+                    }
+
                     if (vel[0] == vel[1] && vel[0] == 0)//player not in sight or in range, wander
                     {
                         float theta = mc.WanderTheta;
@@ -278,7 +349,8 @@ namespace CleanGame.Game.Core.Systems.Monster
 
             }
 
-            setDirection(vel, m);
+            if (type != "Flametower")
+                setDirection(vel, m);
 
             return new Vector2((float)vel[0], (float)vel[1]) * 5 * (m.GetComponent<StatsComponent>().MoveSpeed / 100.0f);
         }
@@ -293,11 +365,11 @@ namespace CleanGame.Game.Core.Systems.Monster
                 if (e.HasComponent<PlayerComponent>())
                 {
 
-                    int otherX = (int)e.GetComponent<SpatialComponent>().Position.X;
-                    int otherY = (int)e.GetComponent<SpatialComponent>().Position.Y;
+                    int otherX = (int)e.GetComponent<SpatialComponent>().Center.X;
+                    int otherY = (int)e.GetComponent<SpatialComponent>().Center.Y;
                     //bool inSight = !WallCheck(physics.RayCast(new Vector2(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y), new Vector2(otherX, otherY)));
-                    if (getDistance(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, otherX, otherY) < maxrange &&
-                        getDistance(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, otherX, otherY) > minrange)
+                    if (getDistance(m.GetComponent<SpatialComponent>().Center.X, m.GetComponent<SpatialComponent>().Center.Y, otherX, otherY) < maxrange &&
+                        getDistance(m.GetComponent<SpatialComponent>().Center.X, m.GetComponent<SpatialComponent>().Center.Y, otherX, otherY) > minrange)
                     {
                         double[] chaseVector;
 
@@ -329,7 +401,7 @@ namespace CleanGame.Game.Core.Systems.Monster
                                 }
                             }
 
-                            chaseVector = getChaseVector(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, otherX, otherY);
+                            chaseVector = getChaseVector(m.GetComponent<SpatialComponent>().Center.X, m.GetComponent<SpatialComponent>().Center.Y, otherX, otherY);
                             //if (m.GetComponent<MovementComponent>().prevHorizontal != 0)
                             //{
                             //    m.GetComponent<MovementComponent>().prevVelocity = new Vector2(0, 0);
@@ -367,18 +439,50 @@ namespace CleanGame.Game.Core.Systems.Monster
                             {
 
                             }
-                        
+
                         }
                         else
                         {
                             //chaseVector = flee(otherX, otherY, m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y);
-                            chaseVector = getChaseVector(otherX, otherY, m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y);
+                            //chaseVector = getChaseVector(otherX, otherY, m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y);
+                            chaseVector = fleeToNearest(m.GetComponent<SpatialComponent>().Position.X, m.GetComponent<SpatialComponent>().Position.Y, entities);
                         }
                         return chaseVector;
                     }
                 }
             }
             return new double[2];
+        }
+
+        private double[] fleeToNearest(float monsterX, float monsterY, IEnumerable<Entity> entities)
+        {
+            float allyX;
+            float allyY;
+            float goalX = 0;
+            float goalY = 0;
+            double distanceToAlly;
+            double minDistance = double.MaxValue;
+            double[] moveVector = new double[2];
+            foreach (Entity ally in entities)
+            {
+                allyX = ally.GetComponent<SpatialComponent>().Position.X;
+                allyY = ally.GetComponent<SpatialComponent>().Position.Y;
+
+                if (allyX == monsterX && allyY == monsterY || (ally.GetComponent<PlayerComponent>() != null))
+                {
+                    continue;
+                }
+
+                distanceToAlly = getManhattanDistance(monsterX, monsterY, allyX, allyY);
+                if (distanceToAlly < minDistance)
+                {
+                    minDistance = distanceToAlly;
+                    goalX = allyX;
+                    goalY = allyY;
+                }
+            }
+            moveVector = getChaseVector(monsterX, monsterY, goalX, goalY);
+            return moveVector;
         }
 
         private double[] flee(int playerX, int playerY, float monsterX, float monsterY)
@@ -1033,7 +1137,7 @@ namespace CleanGame.Game.Core.Systems.Monster
             m.GetComponent<MovementComponent>().prevVertical = velocity.Y;
             return velocity;
         }
-        
+
         private bool WallCheck(List<Entity> list)
         {
             if (list.Count != 0)
@@ -1091,13 +1195,13 @@ namespace CleanGame.Game.Core.Systems.Monster
             {
                 LinkedList<Node> neighbors = new LinkedList<Node>();
                 Map.Map map = renderer.ActiveMap;
-                bool [,] collMap = map.getPassabilityMap();
+                bool[,] collMap = map.getPassabilityMap();
 
-                for (int i = -1; i<=1; i++)
+                for (int i = -1; i <= 1; i++)
                 {
                     for (int j = -1; j <= 1; j++)
                     {
-                        if(i== 0 && j==0)
+                        if (i == 0 && j == 0)
                         {
 
                         }
@@ -1106,7 +1210,7 @@ namespace CleanGame.Game.Core.Systems.Monster
                             if (!collMap[this.xPos + i, this.yPos + j])
                             {
                                 neighbors.AddLast(new Node(this.xPos + i, this.yPos + j, this, renderer));
-                                
+
                             }
                         }
                     }
@@ -1117,7 +1221,7 @@ namespace CleanGame.Game.Core.Systems.Monster
 
             public override bool Equals(object obj)
             {
-                Node n = (Node) obj;
+                Node n = (Node)obj;
                 if (n.xPos != this.xPos || n.yPos != this.yPos)
                 {
                     return false;

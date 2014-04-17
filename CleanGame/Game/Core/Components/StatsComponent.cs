@@ -19,7 +19,6 @@ namespace CleanGame.Game.Core.Components
         public float HealthScale { get; set; }
 
         //Other stats
-        public bool RangedImmune { get; set; }
         public float CurrentHealth;
         [XmlArray]
         [XmlArrayItem(ElementName="List")]

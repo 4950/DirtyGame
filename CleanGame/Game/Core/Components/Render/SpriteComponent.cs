@@ -102,6 +102,10 @@ namespace CleanGame.Game.Core.Components.Render
             {
                 return spriteSheet;
             }
+            set
+            {
+                spriteSheet = value;
+            }
         }
         #endregion
     }
