@@ -7,8 +7,8 @@
              yOffset="0"
 			 time="1"
              numberOfFrames="4" 
-             width="75" 
-             height="300"
+             width="125" 
+             height="500"
              finite="false">
   </animationDefault>
 </root>
