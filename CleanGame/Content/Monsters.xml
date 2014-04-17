@@ -198,12 +198,12 @@
       <WeaponName>GrenadeLauncher</WeaponName>
       <Portrait>bow</Portrait>
       <BaseDamage>20</BaseDamage>
-      <Range>250</Range>
+      <Range>300</Range>
       <Type>Ranged</Type>
       <ProjectileSprite>grenade</ProjectileSprite>
       <SpriteXml>Content\BombExplosion.xml</SpriteXml>
       <ProjectileSpeed>7</ProjectileSpeed>
-      <Cooldown>7</Cooldown>
+      <Cooldown>2</Cooldown>
       <LastFire>0</LastFire>
       <Price>100</Price>
       <AmmoPrice>0</AmmoPrice>
@@ -235,11 +235,11 @@
       <Name>WeaponComponent</Name>
       <WeaponName>WallHuggerWeapon</WeaponName>
       <Portrait>bow</Portrait>
-      <BaseDamage>10</BaseDamage>
-      <Range>300</Range>
+      <BaseDamage>7</BaseDamage>
+      <Range>1500</Range>
       <Type>Ranged</Type>
-      <ProjectileSprite>arrow</ProjectileSprite>
-      <ProjectileSpeed>5</ProjectileSpeed>
+      <ProjectileSprite>arrowwallhug</ProjectileSprite>
+      <ProjectileSpeed>10</ProjectileSpeed>
       <Cooldown>2</Cooldown>
       <LastFire>0</LastFire>
       <Price>100</Price>
