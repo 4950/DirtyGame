@@ -171,7 +171,8 @@ namespace CleanGame.Game.Core.Systems
         private void decodeScenarios(XmlReader scenarioReader, bool setCurrentScenario)
         {
             //Reads to the start of the XML file
-            scenarioReader.ReadToFollowing("root");
+            scenarioReader.ReadToFollowing("base");
+            scenarioReader.ReadToDescendant("root");
             //scenarioReader.ReadStartElement();
 
             //TESTING
@@ -288,10 +289,11 @@ namespace CleanGame.Game.Core.Systems
             XmlReaderSettings xmlSettings = new XmlReaderSettings();
             xmlSettings.IgnoreWhitespace = true;
             xmlSettings.IgnoreComments = true;
-            XmlReader scenarioReader = XmlReader.Create(new System.IO.StringReader(XML), xmlSettings);
+            XmlReader eloReader = XmlReader.Create(new System.IO.StringReader(XML), xmlSettings);
 
-            scenarioReader.ReadToFollowing("ELO");
-            return scenarioReader.ReadContentAsInt();
+            eloReader.ReadToFollowing("base");
+            eloReader.ReadToDescendant("elo");
+            return Convert.ToInt32(eloReader.GetAttribute("value"));
         }
 
         /// <summary>
@@ -460,7 +462,7 @@ namespace CleanGame.Game.Core.Systems
             else
             {
                 decodeServerScenario(XML);
-                //ELO = getELOFromXML(XML);
+                ELO = getELOFromXML(XML);
             }
 
             if (PreviousSession != null)

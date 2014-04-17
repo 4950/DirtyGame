@@ -61,10 +61,16 @@ SELECT ELO FROM PlayerELOes WHERE UserID = @UserID;
 ", userID);
             var elo = await query.FirstOrDefaultAsync();
 
-            Trace.WriteLine("XML: \n" + res.ScenarioXML + "\n<ELO>"+elo.ELO+"</ELO>");
+          //  Trace.WriteLine("XML: \n" + "<base>" + res.ScenarioXML
+            //     + "<elo value=\"" + elo.ELO + "\"></elo></base>");
 
-            return Ok(res.ScenarioXML
-                // + "\n<ELO>"+elo.ELO+"</ELO>"
+            //Rip apart the XML here because hatred and bile
+            string xml = res.ScenarioXML;
+            xml = xml.Insert( xml.IndexOf(">") + 1, "<base>");
+            xml += "<elo value=\"" + elo.ELO + "\"></elo></base>";
+            Trace.WriteLine(xml);
+
+            return Ok(xml
                 );
         }
 

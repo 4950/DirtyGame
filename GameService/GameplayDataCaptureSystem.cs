@@ -315,8 +315,10 @@ namespace GameService
                     sent = networkOperation();
                     break;
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine(e.StackTrace);
                     Thread.Sleep((int)Math.Pow(2, i + 1) * 100);
                     continue;
                 }
