@@ -853,7 +853,7 @@
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="SpriteComponent">
       <Name>SpriteComponent</Name>
       <RenderLayer>INVALIDE</RenderLayer>
-      <spriteName>Flametower</spriteName>
+      <spriteName>FlametowerShield</spriteName>
       <xmlName>Content\Flametower.xml</xmlName>
       <SrcRect>
         <X>0</X>
