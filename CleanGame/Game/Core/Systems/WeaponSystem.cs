@@ -206,7 +206,7 @@ namespace CleanGame.Game.Core.Systems
                     else if (wc.WeaponName == "GrenadeLauncher")
                     {
                         double dist = getDistance(spatial.Center.X, spatial.Center.Y, Target.X, Target.Y);
-                        Entity grenade = game.entityFactory.CreateGrenade(Owner, spatial.Center, dir, wc.ProjectileSprite, (float) dist, wc.ProjectileSpeed, 2.0f, new Vector2(128, 128), Weapon);
+                        Entity grenade = game.entityFactory.CreateGrenade(Owner, spatial.Center, dir, wc.ProjectileSprite, (float) dist, wc.ProjectileSpeed, 0.9f, new Vector2(128, 128), Weapon);
                         grenade.Refresh();
 					}
 					

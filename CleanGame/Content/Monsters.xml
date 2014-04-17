@@ -100,7 +100,7 @@
   <Entity name="BasicSword">
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="WeaponComponent">
       <Name>WeaponComponent</Name>
-      <WeaponName>Basic Sword</WeaponName>
+      <WeaponName>Longsword</WeaponName>
       <Portrait>sword</Portrait>
       <BaseDamage>80</BaseDamage>
       <Range>64</Range>
@@ -235,11 +235,11 @@
       <Name>WeaponComponent</Name>
       <WeaponName>WallHuggerWeapon</WeaponName>
       <Portrait>bow</Portrait>
-      <BaseDamage>7</BaseDamage>
+      <BaseDamage>5</BaseDamage>
       <Range>1500</Range>
       <Type>Ranged</Type>
       <ProjectileSprite>arrowwallhug</ProjectileSprite>
-      <ProjectileSpeed>10</ProjectileSpeed>
+      <ProjectileSpeed>8</ProjectileSpeed>
       <Cooldown>2</Cooldown>
       <LastFire>0</LastFire>
       <Price>100</Price>
@@ -803,9 +803,9 @@
         <List>Doomsbow</List>
         <List>Scattershot</List>
       </ImmuneTo>
-      <BaseHealth>100</BaseHealth>
+      <BaseHealth>160</BaseHealth>
       <HealthScale>1</HealthScale>
-      <CurrentHealth>100</CurrentHealth>
+      <CurrentHealth>160</CurrentHealth>
     </Component>
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="MovementComponent">
       <Name>MovementComponent</Name>
