@@ -252,6 +252,8 @@
       <DependentUpon>LeaderboardModel.edmx</DependentUpon>
       <LastGenOutput>LeaderboardModel.cs</LastGenOutput>
     </Content>
+    <None Include="Properties\PublishProfiles\csci4950 - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\csci4950 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\csci4950.pubxml" />
     <None Include="Properties\PublishProfiles\TowerOffense.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
