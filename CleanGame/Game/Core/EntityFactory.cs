@@ -330,7 +330,7 @@ namespace CleanGame.Game.Core
             if (Weapon.GetComponent<WeaponComponent>().WeaponName == "FlametowerWeapon")
             {
                 spatial.Position = origin;
-                spatial.Rotation = -1.571f;
+                spatial.Rotation = -2f;
 
                 pc.Origin = new Vector2(0, 0);
 
