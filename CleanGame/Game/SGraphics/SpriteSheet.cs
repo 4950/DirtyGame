@@ -54,6 +54,10 @@ namespace CleanGame.Game.SGraphics
             {
                 return spriteSheetTexture;
             }
+            set
+            {
+                spriteSheetTexture = value;
+            }
         }
         public Dictionary<string, Vector2> Offset
         {
