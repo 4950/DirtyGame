@@ -313,7 +313,7 @@ namespace CleanGame
             graphics.ApplyChanges();
 
             IsMouseVisible = true;
-            Window.Title = "CSCI 4950 Project";
+            Window.Title = "Tower Offense";
         }
         public void StartTutorial()
         {
