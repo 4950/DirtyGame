@@ -107,7 +107,7 @@ namespace GameService
             loginWindow.Size = new System.Drawing.Size(300, 850);
             loginWindow.FormBorderStyle = FormBorderStyle.FixedToolWindow;
             loginWindow.StartPosition = FormStartPosition.CenterScreen;
-            loginWindow.Text = "CSCI 4950 Project";
+            loginWindow.Text = "Tower Offense";
             loginWindow.ControlBox = false;
             loginWindow.FormClosing += loginWindow_FormClosing;
 
@@ -258,6 +258,8 @@ namespace GameService
 
                 CurrentSessionID = gs.SessionID;
                 CurrentSession = gs;
+                if (s.PreviousSession != null)
+                    s.PreviousSession = serviceContainer.GameSession.Where(gamesession => gamesession.SessionID == s.PreviousSession.SessionID).FirstOrDefault();
 
                 //log version number
                 LogEvent(CaptureEventType.VersionNumber, Version);

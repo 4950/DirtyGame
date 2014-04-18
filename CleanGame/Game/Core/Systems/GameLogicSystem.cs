@@ -523,7 +523,7 @@ namespace CleanGame.Game.Core.Systems
 
             RWHealthLbl.Text = string.Format("Health Remaining: {0}%", (int)Math.Round(game.player.GetComponent<StatsComponent>().CurrentHealth / game.player.GetComponent<StatsComponent>().MaxHealth * 100));
             RWAccuracyLbl.Text = string.Format("Largest Combo: {0} hits", PlayerHitsMax);
-            RWKillsLbl.Text = string.Format("Monsters Killed: {0}%", (int)Math.Round((1 - PrevSession.KillRate) * 100));
+            RWKillsLbl.Text = string.Format("Monsters Killed: {0}%", (int)Math.Round((PrevSession.KillRate) * 100));
 
             RoundWindow.Show();
         }
@@ -654,6 +654,7 @@ namespace CleanGame.Game.Core.Systems
                             {
 
                                 GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerDied, "");
+                                currentState = GameLogicState.EndingRound;
 
                                 for (int j = 0; j < entities.Count(); j++)
                                 {
@@ -709,8 +710,12 @@ namespace CleanGame.Game.Core.Systems
                                 s.ImmuneTo.Remove("Basic Sword");
                                 SpriteComponent sc = e.GetComponent<SpriteComponent>();
                                 sc.spriteName = sc.spriteName.Replace("Shield", "");
-                                sc.SpriteSheet.spriteName = sc.spriteName;
-                                sc.SpriteSheet.SpriteSheetTexture = game.resourceManager.GetResource<Texture2D>(sc.spriteName);
+                                sc.SpriteSheet = game.resourceManager.GetResource<SpriteSheet>(sc.spriteName);
+                                if (sc.SpriteSheet == null)
+                                {
+                                    sc.SpriteSheet = new SpriteSheet(game.resourceManager.GetResource<Texture2D>(sc.spriteName), sc.spriteName, sc.xmlName);
+                                    game.resourceManager.AddResource<SpriteSheet>(sc.SpriteSheet, sc.spriteName);
+                                }
                             }
                         }
                     }
