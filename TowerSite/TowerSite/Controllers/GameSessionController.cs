@@ -37,41 +37,55 @@ namespace TowerSite.Controllers
             {
                 return BadRequest();
             }
-            string userID = User.Identity.GetUserId();
-            if (userID == null)
-                return BadRequest("Not logged in");
 
-            var query = db.Database.SqlQuery<ScenarioELO>(@"
+            String xml = "";
+            try
+            {
+                string userID = User.Identity.GetUserId();
+                if (userID == null)
+                    return BadRequest("Not logged in");
+
+                var query = db.Database.SqlQuery<ScenarioELO>(@"
 DECLARE @UserID NVARCHAR(MAX);
 SET @UserID = @p0;
 
-DECLARE @PlayerELO INT;
+DECLARE @GamesPlayed INT;
+SELECT @GamesPlayed = GamesPlayed FROM PlayerELOes WHERE UserID = @UserID;
+SET @GamesPlayed = (@GamesPlayed % 75) + 34;
+
+SELECT * FROM ScenarioELOes WHERE ID = @GamesPlayed;
+
+/*DECLARE @PlayerELO INT;
 SELECT @PlayerELO = ELO FROM PlayerELOes WHERE UserID = @UserID;
 
-SELECT TOP 1 * FROM ScenarioELOes WHERE DATALENGTH(ScenarioXML) > 0  ORDER BY ABS( ELO - @PlayerELO )
+SELECT TOP 1 * FROM ScenarioELOes WHERE DATALENGTH(ScenarioXML) > 0  ORDER BY ABS( ELO - @PlayerELO )*/
 ", userID);
-            var res = await query.FirstOrDefaultAsync();
+                var res = await query.FirstOrDefaultAsync();
 
-            var eloQuery = db.Database.SqlQuery<PlayerELO>(@"
+                var eloQuery = db.Database.SqlQuery<PlayerELO>(@"
 DECLARE @UserID NVARCHAR(MAX);
 SET @UserID = @p0;
 
 DECLARE @PlayerELO INT;
-SELECT ELO FROM PlayerELOes WHERE UserID = @UserID;
+SELECT * FROM PlayerELOes WHERE UserID = @UserID;
 ", userID);
-            var elo = await query.FirstOrDefaultAsync();
+                var elo = await eloQuery.FirstOrDefaultAsync();
 
-          //  Trace.WriteLine("XML: \n" + "<base>" + res.ScenarioXML
-            //     + "<elo value=\"" + elo.ELO + "\"></elo></base>");
+                //  Trace.WriteLine("XML: \n" + "<base>" + res.ScenarioXML
+                //     + "<elo value=\"" + elo.ELO + "\"></elo></base>");
 
-            //Rip apart the XML here because hatred and bile
-            string xml = res.ScenarioXML;
-            xml = xml.Insert( xml.IndexOf(">") + 1, "<base>");
-            xml += "<elo value=\"" + elo.ELO + "\"></elo></base>";
-            Trace.WriteLine(xml);
+                //Rip apart the XML here because hatred and bile
+                xml = res.ScenarioXML;
+                xml = xml.Insert(xml.IndexOf(">") + 1, "<base>");
+                xml += "<elo value=\"" + elo.ELO + "\"></elo></base>";
+                //Trace.WriteLine(xml);
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.Message);
+            }
 
-            return Ok(xml
-                );
+            return Ok(xml);
         }
 
         // GET odata/GameSession
@@ -148,7 +162,6 @@ SELECT ELO FROM PlayerELOes WHERE UserID = @UserID;
         [AcceptVerbs("PATCH", "MERGE")]
         public async Task<IHttpActionResult> Patch([FromODataUri] int key, Delta<GameSession> patch)
         {
-            Trace.WriteLine("Patch");
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -200,12 +213,23 @@ DECLARE @RoundHealth FLOAT;
 DECLARE @HealthRemaining FLOAT;
 DECLARE @WepFired INT;
 
+/*Check if round ended properly*/
+SELECT * FROM GameEventModels WHERE (SessionId = @Session AND Type = 'RoundEnded');
+IF( @@ROWCOUNT <> 1 )
+	RETURN;
+
 /*Hit Rate*/
 SET @WepFired = (SELECT COUNT(*) FROM GameEventModels WHERE (SessionId = @Session AND Type = 'MonsterWeaponFired'));
 IF @WepFired = 0 SET @HitRate = 0;
 ELSE SET @HitRate = CAST((SELECT COUNT(*) FROM GameEventModels WHERE (SessionId = @Session AND Type = 'PlayerDamageTaken')) AS FLOAT) / @WepFired;
 
-SET @KillRate = CAST((SELECT COUNT(*) FROM GameEventModels WHERE (SessionId = @Session AND Type = 'MonsterKilled')) AS FLOAT) / CAST((SELECT COUNT(*) FROM GameEventModels WHERE (SessionId = @Session AND Type = 'MonsterSpawned')) AS FLOAT);
+DECLARE @Spawned FLOAT;
+SET @Spawned = (SELECT COUNT(*) FROM GameEventModels WHERE (SessionId = @Session AND Type = 'MonsterSpawned'));
+IF @Spawned > 0
+    SET @KillRate = CAST((SELECT COUNT(*) FROM GameEventModels WHERE (SessionId = @Session AND Type = 'MonsterKilled')) AS FLOAT) / @Spawned;
+ELSE
+    SET @KillRate = 0;
+
 SELECT @RoundHealth = Data FROM GameEventModels WHERE (SessionId = @Session AND Type = 'RoundHealth')
 SET @HealthRemaining = @RoundHealth / 100
 
@@ -274,7 +298,6 @@ SELECT * FROM GameSessions WHERE SessionID = @Session;
 
                 await db.Entry(gs).ReloadAsync();
 
-                Trace.WriteLine("test");
                 res = await db.Database.ExecuteSqlCommandAsync(@"
 DECLARE @SessionID INT;
 DECLARE @UserID NVARCHAR(MAX);
@@ -405,7 +428,6 @@ UPDATE PlayerELOes SET ELO = ROUND(@PlayerELO, 0), LinearELO = ROUND(@PlayerELOL
 UPDATE ScenarioELOes SET ELO = ROUND(@ScenarioELO, 0), LinearELO = ROUND(@ScenarioELOLinear, 0), GamesPlayed = (@ScenarioGamesPlayed + 1) WHERE ScenarioID = @ScenarioID;
                 ", gs.SessionID);
 
-                Trace.WriteLine(res.ToString());
             }
             catch (Exception e)
             {
