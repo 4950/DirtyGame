@@ -239,7 +239,7 @@
       <Range>1500</Range>
       <Type>Ranged</Type>
       <ProjectileSprite>arrowwallhug</ProjectileSprite>
-      <ProjectileSpeed>8</ProjectileSpeed>
+      <ProjectileSpeed>7</ProjectileSpeed>
       <Cooldown>2</Cooldown>
       <LastFire>0</LastFire>
       <Price>100</Price>

@@ -344,6 +344,7 @@
       <Processor>FontTextureProcessor</Processor>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
     <Compile Include="FlametowerShield.png">
       <Name>FlametowerShield</Name>
       <Importer>TextureImporter</Importer>
