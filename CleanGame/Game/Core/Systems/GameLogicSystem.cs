@@ -709,8 +709,12 @@ namespace CleanGame.Game.Core.Systems
                                 s.ImmuneTo.Remove("Basic Sword");
                                 SpriteComponent sc = e.GetComponent<SpriteComponent>();
                                 sc.spriteName = sc.spriteName.Replace("Shield", "");
-                                sc.SpriteSheet.spriteName = sc.spriteName;
-                                sc.SpriteSheet.SpriteSheetTexture = game.resourceManager.GetResource<Texture2D>(sc.spriteName);
+                                sc.SpriteSheet = game.resourceManager.GetResource<SpriteSheet>(sc.spriteName);
+                                if (sc.SpriteSheet == null)
+                                {
+                                    sc.SpriteSheet = new SpriteSheet(game.resourceManager.GetResource<Texture2D>(sc.spriteName), sc.spriteName, sc.xmlName);
+                                    game.resourceManager.AddResource<SpriteSheet>(sc.SpriteSheet, sc.spriteName);
+                                }
                             }
                         }
                     }
