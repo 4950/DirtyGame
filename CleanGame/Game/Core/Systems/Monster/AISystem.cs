@@ -20,7 +20,7 @@ namespace CleanGame.Game.Core.Systems.Monster
         public float totaltime;
         private Physics physics;
         public Renderer renderer;
-        
+
 
         //Current goal: Make monsters of different types rush towards each other.
         // If no monster of another type is nearby... wander.
@@ -213,7 +213,7 @@ namespace CleanGame.Game.Core.Systems.Monster
             int mapHeight = renderer.ActiveMap.getPixelHeight() / 32;
             Entity player = game.player;
 
-            
+
 
             if (type == "Flametower")
             {
@@ -256,11 +256,11 @@ namespace CleanGame.Game.Core.Systems.Monster
                         m.GetComponent<MonsterComponent>().PlayerWeapon = player.GetComponent<InventoryComponent>().CurrentWeapon.GetComponent<WeaponComponent>().WeaponName;
 
                         //Set the next time the monster should check the player's weapon (randomized)
-                        m.GetComponent<TimeComponent>().timeOfWeaponCheck = mTime.timeOfWeaponCheck + new TimeSpan(0, 0, 0, 0, 1000 + r.Next(4)*1000);
+                        m.GetComponent<TimeComponent>().timeOfWeaponCheck = mTime.timeOfWeaponCheck + new TimeSpan(0, 0, 0, 0, 1000 + r.Next(4) * 1000);
                     }
                     if (vel[0] == vel[1] && vel[0] == 0)
                     {
-                            
+
                         // If Player Weapon is Sword
                         if (m.GetComponent<MonsterComponent>().PlayerWeapon == "Basic Sword")
                         {
@@ -349,7 +349,8 @@ namespace CleanGame.Game.Core.Systems.Monster
 
             }
 
-            setDirection(vel, m);
+            if (type != "Flametower")
+                setDirection(vel, m);
 
             return new Vector2((float)vel[0], (float)vel[1]) * 5 * (m.GetComponent<StatsComponent>().MoveSpeed / 100.0f);
         }
@@ -438,7 +439,7 @@ namespace CleanGame.Game.Core.Systems.Monster
                             {
 
                             }
-                        
+
                         }
                         else
                         {
@@ -1136,7 +1137,7 @@ namespace CleanGame.Game.Core.Systems.Monster
             m.GetComponent<MovementComponent>().prevVertical = velocity.Y;
             return velocity;
         }
-        
+
         private bool WallCheck(List<Entity> list)
         {
             if (list.Count != 0)
@@ -1194,13 +1195,13 @@ namespace CleanGame.Game.Core.Systems.Monster
             {
                 LinkedList<Node> neighbors = new LinkedList<Node>();
                 Map.Map map = renderer.ActiveMap;
-                bool [,] collMap = map.getPassabilityMap();
+                bool[,] collMap = map.getPassabilityMap();
 
-                for (int i = -1; i<=1; i++)
+                for (int i = -1; i <= 1; i++)
                 {
                     for (int j = -1; j <= 1; j++)
                     {
-                        if(i== 0 && j==0)
+                        if (i == 0 && j == 0)
                         {
 
                         }
@@ -1209,7 +1210,7 @@ namespace CleanGame.Game.Core.Systems.Monster
                             if (!collMap[this.xPos + i, this.yPos + j])
                             {
                                 neighbors.AddLast(new Node(this.xPos + i, this.yPos + j, this, renderer));
-                                
+
                             }
                         }
                     }
@@ -1220,7 +1221,7 @@ namespace CleanGame.Game.Core.Systems.Monster
 
             public override bool Equals(object obj)
             {
-                Node n = (Node) obj;
+                Node n = (Node)obj;
                 if (n.xPos != this.xPos || n.yPos != this.yPos)
                 {
                     return false;

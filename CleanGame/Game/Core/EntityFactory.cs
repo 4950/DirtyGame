@@ -330,13 +330,14 @@ namespace CleanGame.Game.Core
             if (Weapon.GetComponent<WeaponComponent>().WeaponName == "FlametowerWeapon")
             {
                 spatial.Position = origin;
-                spatial.Rotation = -1.571f;
+                spatial.Rotation = -2f;
 
                 pc.Origin = new Vector2(0, 0);
 
                 //sc.SpriteSheet = resourceMgr.GetResource<SpriteSheet>(spritesheet);
                 sc.Scale = .5f;
-                sc.origin = new Vector2(.5f, 2);
+                //sc.AnchorPoint = new Vector2(1, 1);
+                sc.origin = new Vector2(.5f, 2.5f);
                 //sc.AnchorPoint = new Vector2(0, 1);
                 sc.Angle = 1.571f;
             }

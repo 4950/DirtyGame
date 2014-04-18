@@ -361,7 +361,7 @@ namespace CleanGame.Game.Core.Systems
 
 								game.weaponSystem.DealDamage(proj.GetComponent<ProjectileComponent>().weapon, hit);
 								//hit.GetComponent<HealthComponent>().CurrentHealth -= proj.GetComponent<ProjectileComponent>().damage;
-								hitBody.Body.ApplyLinearImpulse(proj.GetComponent<ProjectileComponent>().direction * 1.5f);
+								hitBody.Body.ApplyLinearImpulse(proj.GetComponent<ProjectileComponent>().direction * 1f);
 								World.DestroyEntity(proj);
 							}
 							else if (hit.HasComponent<BorderComponent>())//hit map bounds, remove
@@ -397,7 +397,7 @@ namespace CleanGame.Game.Core.Systems
                                     dir = getDirection(melee.GetComponent<SpatialComponent>().Center.X, melee.GetComponent<SpatialComponent>().Center.Y,
                                                                           hit.GetComponent<SpatialComponent>().Center.X, hit.GetComponent<SpatialComponent>().Center.Y);
                                     Vector2 direction = new Vector2((float)dir[0], (float)dir[1]);
-                                    hitBody.Body.ApplyLinearImpulse(direction * 6f);
+                                    hitBody.Body.ApplyLinearImpulse(direction * 11f);
                                     
 								}
 							}

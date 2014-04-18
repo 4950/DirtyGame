@@ -34,11 +34,11 @@ namespace CleanGame.Game.Core.Systems
         MeleeMonster,
         RangedMonster,
         SuicideBomber,
-        End,
         Genadier,
-        Sniper,
         Wallhugger,
         Tower,
+        End,
+        Sniper,
         Landmine,
     };
     class TutorialSystem : EntitySystem
@@ -154,7 +154,7 @@ namespace CleanGame.Game.Core.Systems
                     e.Refresh();
                     break;
                 case TutorialState.Tower:
-                    tutorialLbl.Text = "The Flametower can only be destroyed by\nsword or spear";
+                    tutorialLbl.Text = "The Flametower can only be destroyed by\nsword and must be killed last";
                     e = game.entityFactory.CreateSpawner(500, 200, new Rectangle(0, 0, 46, 46), "Flametower", "FlametowerWeapon", 1, new TimeSpan(0, 0, 0, 0, 500));
                     e.Refresh();
                     break;

@@ -170,106 +170,113 @@ namespace CleanGame.Game.Core.Systems
         }
         private void decodeScenarios(XmlReader scenarioReader, bool setCurrentScenario)
         {
-            //Reads to the start of the XML file
-            scenarioReader.ReadToFollowing("base");
-            scenarioReader.ReadToDescendant("root");
-            //scenarioReader.ReadStartElement();
-
-            //TESTING
-            //int scenarioCount = 0;
-            //int spawnerCount = 0;
-
-            //Parse the XML for the Scenarios
-            int scenarioCount = 0;
-            while (scenarioReader.ReadToFollowing("scenario"))
+            try
             {
+                //Reads to the start of the XML file
+                scenarioReader.ReadToFollowing("base");
+                scenarioReader.ReadToDescendant("root");
+                //scenarioReader.ReadStartElement();
 
-                //scenarioCount++;
+                //TESTING
+                //int scenarioCount = 0;
+                //int spawnerCount = 0;
 
-                //MAP VARIABLES
-                //Temporary Variables
-                //Scenario name
-                string scenarioName;
-                //Difficulty Score
-                float difficultyScore;
-                //Map name
-                string mapName;
-                //Player Spawn Point
-                Vector2 playerSpawnPoint;
-
-                //SPAWNER VARIABLES
-                //Monster Spawner Location
-                int xPosition;
-                int yPosition;
-                //Monster Type
-                string monsterType;
-                //Monster Weapon
-                string monsterWeapon;
-                //Number of Monsters
-                int numberOfMonsters;
-                //TimeSpan for Monsters to Spawn
-                TimeSpan timePerSpawn;
-                //Modifier for health of the spawner
-                float healthUpModifier;
-                //Value of damageUp modifier
-                float damageUpModifier;
-                //List of Spawners
-                List<Spawner> spawners = new List<Spawner>();
-
-                scenarioName = scenarioReader.GetAttribute("name");
-
-                foreach (Scenario s in scenarios.Values)
+                //Parse the XML for the Scenarios
+                int scenarioCount = 0;
+                while (scenarioReader.ReadToFollowing("scenario"))
                 {
-                    if (s.Name == scenarioName)
+
+                    //scenarioCount++;
+
+                    //MAP VARIABLES
+                    //Temporary Variables
+                    //Scenario name
+                    string scenarioName;
+                    //Difficulty Score
+                    float difficultyScore;
+                    //Map name
+                    string mapName;
+                    //Player Spawn Point
+                    Vector2 playerSpawnPoint;
+
+                    //SPAWNER VARIABLES
+                    //Monster Spawner Location
+                    int xPosition;
+                    int yPosition;
+                    //Monster Type
+                    string monsterType;
+                    //Monster Weapon
+                    string monsterWeapon;
+                    //Number of Monsters
+                    int numberOfMonsters;
+                    //TimeSpan for Monsters to Spawn
+                    TimeSpan timePerSpawn;
+                    //Modifier for health of the spawner
+                    float healthUpModifier;
+                    //Value of damageUp modifier
+                    float damageUpModifier;
+                    //List of Spawners
+                    List<Spawner> spawners = new List<Spawner>();
+
+                    scenarioName = scenarioReader.GetAttribute("name");
+
+                    foreach (Scenario s in scenarios.Values)
                     {
-                        if (setCurrentScenario)
-                            currentScenario = s;
-                        goto SKIP;
+                        if (s.Name == scenarioName)
+                        {
+                            if (setCurrentScenario)
+                                currentScenario = s;
+                            goto SKIP;
+                        }
                     }
+
+
+                    difficultyScore = (float)Convert.ToDouble(scenarioReader.GetAttribute("difficultyScore"));
+                    mapName = scenarioReader.GetAttribute("map");
+                    playerSpawnPoint = new Vector2((float)Convert.ToDouble(scenarioReader.GetAttribute("playerX")),
+                                                   (float)Convert.ToDouble(scenarioReader.GetAttribute("playerY")));
+
+                    //Break out of the loop when done parsing the XML
+                    if (scenarioName == null || mapName == null)
+                    {
+                        break;
+                    }
+
+                    scenarioReader.ReadToDescendant("spawner");
+
+                    //Looping through the spawners for the scenario
+                    do
+                    {
+
+                        //spawnerCount++;
+
+                        xPosition = Convert.ToInt32(scenarioReader.GetAttribute("xPosition"));
+                        yPosition = Convert.ToInt32(scenarioReader.GetAttribute("yPosition"));
+                        monsterType = scenarioReader.GetAttribute("monsterType");
+                        monsterWeapon = scenarioReader.GetAttribute("monsterWeapon");
+                        numberOfMonsters = Convert.ToInt32(scenarioReader.GetAttribute("numberOfMonsters"));
+                        timePerSpawn = new TimeSpan(0, 0, 0, 0, Convert.ToInt32(scenarioReader.GetAttribute("timeSpanMilliseconds")));
+                        healthUpModifier = Convert.ToInt32(scenarioReader.GetAttribute("healthUpModifier"));
+                        damageUpModifier = Convert.ToInt32(scenarioReader.GetAttribute("damageUpModifier"));
+
+                        spawners.Add(new Spawner(xPosition, yPosition, monsterType, monsterWeapon,
+                                                 numberOfMonsters, timePerSpawn, healthUpModifier, damageUpModifier));
+                    } while (scenarioReader.ReadToNextSibling("spawner"));
+
+                    //scenarios.Add(scenarioName, new Scenario(scenarioName, difficultyScore, mapName, spawners, playerSpawnPoint));
+                    Scenario sc = new Scenario(scenarioName, difficultyScore, mapName, spawners, playerSpawnPoint);
+                    if (setCurrentScenario)
+                        currentScenario = sc;
+                    scenarios.Add(scenarios.Count, sc);
+                    scenarioCount++;
+                //spawnerCount = 0;
+
+                SKIP: ;
                 }
-
-
-                difficultyScore = (float)Convert.ToDouble(scenarioReader.GetAttribute("difficultyScore"));
-                mapName = scenarioReader.GetAttribute("map");
-                playerSpawnPoint = new Vector2((float)Convert.ToDouble(scenarioReader.GetAttribute("playerX")),
-                                               (float)Convert.ToDouble(scenarioReader.GetAttribute("playerY")));
-
-                //Break out of the loop when done parsing the XML
-                if (scenarioName == null || mapName == null)
-                {
-                    break;
-                }
-
-                scenarioReader.ReadToDescendant("spawner");
-
-                //Looping through the spawners for the scenario
-                do
-                {
-
-                    //spawnerCount++;
-
-                    xPosition = Convert.ToInt32(scenarioReader.GetAttribute("xPosition"));
-                    yPosition = Convert.ToInt32(scenarioReader.GetAttribute("yPosition"));
-                    monsterType = scenarioReader.GetAttribute("monsterType");
-                    monsterWeapon = scenarioReader.GetAttribute("monsterWeapon");
-                    numberOfMonsters = Convert.ToInt32(scenarioReader.GetAttribute("numberOfMonsters"));
-                    timePerSpawn = new TimeSpan(0, 0, 0, 0, Convert.ToInt32(scenarioReader.GetAttribute("timeSpanMilliseconds")));
-                    healthUpModifier = Convert.ToInt32(scenarioReader.GetAttribute("healthUpModifier"));
-                    damageUpModifier = Convert.ToInt32(scenarioReader.GetAttribute("damageUpModifier"));
-
-                    spawners.Add(new Spawner(xPosition, yPosition, monsterType, monsterWeapon,
-                                             numberOfMonsters, timePerSpawn, healthUpModifier, damageUpModifier));
-                } while (scenarioReader.ReadToNextSibling("spawner"));
-
-                //scenarios.Add(scenarioName, new Scenario(scenarioName, difficultyScore, mapName, spawners, playerSpawnPoint));
-                Scenario sc = new Scenario(scenarioName, difficultyScore, mapName, spawners, playerSpawnPoint);
-                if (setCurrentScenario)
-                    currentScenario = sc;
-                scenarios.Add(scenarios.Count, sc);
-                scenarioCount++;
-            //spawnerCount = 0;
-
-            SKIP: ;
+            }
+            catch (Exception e)
+            {
+                App.LogStack(e);
             }
         }
         private void decodeServerScenario(string XML)
@@ -454,6 +461,7 @@ namespace CleanGame.Game.Core.Systems
 
         void Instance_ScenarioXMLEvent(string XML)
         {
+            ActionLabelBack.Visibility = Visibility.Hidden;
             GameplayDataCaptureSystem.Instance.ScenarioXMLEvent -= Instance_ScenarioXMLEvent;
             if (XML == null || XML == "")
             {
@@ -488,7 +496,6 @@ namespace CleanGame.Game.Core.Systems
 
             if (currentState == GameLogicState.EndingRound)
             {
-                ActionLabelBack.Visibility = Visibility.Hidden;
                 if (!e.RequestsSucceeded)
                     MessageBox.Show("Failed to contact server. Please\ncheck your internet settings.", "Error");
                 PreviousSession = e.PreviousSession;
@@ -648,11 +655,15 @@ namespace CleanGame.Game.Core.Systems
                 }
                 else
                 {
+                    List<Entity> towers = new List<Entity>();
                     for (int i = 0; i < entities.Count(); i++)
                     {
                         Entity e = entities.ElementAt(i);
 
                         StatsComponent hc = e.GetComponent<StatsComponent>();
+                        PropertyComponent<String> mc = e.GetComponent<PropertyComponent<String>>("MonsterType");
+                        if (mc != null && mc.value == "Flametower")
+                            towers.Add(e);
 
                         if (hc.CurrentHealth <= 0)//dead
                         {
@@ -703,6 +714,22 @@ namespace CleanGame.Game.Core.Systems
 
                         }
 
+                    }
+
+                    if (towers.Count > 0 && towers.Count == entities.Count() - 1)//make towers vuln since monsters are dead
+                    {
+                        foreach (Entity e in towers)
+                        {
+                            StatsComponent s = e.GetComponent<StatsComponent>();
+                            if (s.ImmuneTo.Contains("Basic Sword"))
+                            {
+                                s.ImmuneTo.Remove("Basic Sword");
+                                SpriteComponent sc = e.GetComponent<SpriteComponent>();
+                                sc.spriteName = sc.spriteName.Replace("Shield", "");
+                                sc.SpriteSheet.spriteName = sc.spriteName;
+                                sc.SpriteSheet.SpriteSheetTexture = game.resourceManager.GetResource<Texture2D>(sc.spriteName);
+                            }
+                        }
                     }
                 }
             }
