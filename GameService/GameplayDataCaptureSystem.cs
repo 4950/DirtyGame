@@ -107,7 +107,7 @@ namespace GameService
             loginWindow.Size = new System.Drawing.Size(300, 850);
             loginWindow.FormBorderStyle = FormBorderStyle.FixedToolWindow;
             loginWindow.StartPosition = FormStartPosition.CenterScreen;
-            loginWindow.Text = "CSCI 4950 Project";
+            loginWindow.Text = "Tower Offense";
             loginWindow.ControlBox = false;
             loginWindow.FormClosing += loginWindow_FormClosing;
 
