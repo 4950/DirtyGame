@@ -100,7 +100,7 @@
   <Entity name="BasicSword">
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="WeaponComponent">
       <Name>WeaponComponent</Name>
-      <WeaponName>Basic Sword</WeaponName>
+      <WeaponName>Longsword</WeaponName>
       <Portrait>sword</Portrait>
       <BaseDamage>80</BaseDamage>
       <Range>64</Range>
@@ -197,13 +197,13 @@
       <Name>WeaponComponent</Name>
       <WeaponName>GrenadeLauncher</WeaponName>
       <Portrait>bow</Portrait>
-      <BaseDamage>18</BaseDamage>
+      <BaseDamage>20</BaseDamage>
       <Range>300</Range>
       <Type>Ranged</Type>
       <ProjectileSprite>grenade</ProjectileSprite>
       <SpriteXml>Content\BombExplosion.xml</SpriteXml>
       <ProjectileSpeed>7</ProjectileSpeed>
-      <Cooldown>4</Cooldown>
+      <Cooldown>2</Cooldown>
       <LastFire>0</LastFire>
       <Price>100</Price>
       <AmmoPrice>0</AmmoPrice>
@@ -235,12 +235,12 @@
       <Name>WeaponComponent</Name>
       <WeaponName>WallHuggerWeapon</WeaponName>
       <Portrait>bow</Portrait>
-      <BaseDamage>10</BaseDamage>
-      <Range>300</Range>
+      <BaseDamage>5</BaseDamage>
+      <Range>1500</Range>
       <Type>Ranged</Type>
-      <ProjectileSprite>arrow</ProjectileSprite>
-      <ProjectileSpeed>5</ProjectileSpeed>
-      <Cooldown>1.8</Cooldown>
+      <ProjectileSprite>arrowwallhug</ProjectileSprite>
+      <ProjectileSpeed>7</ProjectileSpeed>
+      <Cooldown>2</Cooldown>
       <LastFire>0</LastFire>
       <Price>100</Price>
       <AmmoPrice>0</AmmoPrice>
@@ -798,9 +798,9 @@
         <List>Doomsbow</List>
         <List>Scattershot</List>
       </ImmuneTo>
-      <BaseHealth>100</BaseHealth>
+      <BaseHealth>160</BaseHealth>
       <HealthScale>1</HealthScale>
-      <CurrentHealth>100</CurrentHealth>
+      <CurrentHealth>160</CurrentHealth>
     </Component>
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="MovementComponent">
       <Name>MovementComponent</Name>

@@ -66,6 +66,7 @@ namespace CleanGame.Game.Core.Systems
         private bool tutorialMode;
         private List<Label> textFloaters = new List<Label>();
         private int ScenarioPtr = 0;
+        private int ELO = 0;
 
         private GameLogicState currentState;
         private Scenario currentScenario;
@@ -172,7 +173,8 @@ namespace CleanGame.Game.Core.Systems
             try
             {
                 //Reads to the start of the XML file
-                scenarioReader.ReadToFollowing("root");
+                scenarioReader.ReadToFollowing("base");
+                scenarioReader.ReadToDescendant("root");
                 //scenarioReader.ReadStartElement();
 
                 //TESTING
@@ -289,6 +291,18 @@ namespace CleanGame.Game.Core.Systems
 
             decodeScenarios(scenarioReader, true);
         }
+        private int getELOFromXML(string XML)
+        {
+            XmlReaderSettings xmlSettings = new XmlReaderSettings();
+            xmlSettings.IgnoreWhitespace = true;
+            xmlSettings.IgnoreComments = true;
+            XmlReader eloReader = XmlReader.Create(new System.IO.StringReader(XML), xmlSettings);
+
+            eloReader.ReadToFollowing("base");
+            eloReader.ReadToDescendant("elo");
+            return Convert.ToInt32(eloReader.GetAttribute("value"));
+        }
+
         /// <summary>
         /// Decoding the XML code for the scenarios.
         /// </summary>
@@ -454,8 +468,10 @@ namespace CleanGame.Game.Core.Systems
                 MessageBox.Show("Failed to retrieve scenario from server.\nPlease check your internet settings.", "Error");
             }
             else
+            {
                 decodeServerScenario(XML);
-
+                ELO = getELOFromXML(XML);
+            }
 
             if (PreviousSession != null)
             {
@@ -501,7 +517,8 @@ namespace CleanGame.Game.Core.Systems
             game.ClearField = true;
             //start next round in 5
             roundStartTime = 5f;
-            ActionLabel.Text = "Get Ready";
+            ActionLabel.Text = "Get Ready (ELO: "+ELO+")";
+            //ActionLabel.Text = "Get Ready!";
             ActionLabel.Position = new System.Drawing.Point(-ActionLabel.Size.X / 2, ActionLabel.Position.Y);
             ActionLabelBack.Visibility = CoreUI.Visibility.Visible;
         }

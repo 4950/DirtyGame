@@ -52,7 +52,26 @@ SELECT TOP 1 * FROM ScenarioELOes WHERE DATALENGTH(ScenarioXML) > 0  ORDER BY AB
 ", userID);
             var res = await query.FirstOrDefaultAsync();
 
-            return Ok(res.ScenarioXML);
+            var eloQuery = db.Database.SqlQuery<PlayerELO>(@"
+DECLARE @UserID NVARCHAR(MAX);
+SET @UserID = @p0;
+
+DECLARE @PlayerELO INT;
+SELECT ELO FROM PlayerELOes WHERE UserID = @UserID;
+", userID);
+            var elo = await query.FirstOrDefaultAsync();
+
+          //  Trace.WriteLine("XML: \n" + "<base>" + res.ScenarioXML
+            //     + "<elo value=\"" + elo.ELO + "\"></elo></base>");
+
+            //Rip apart the XML here because hatred and bile
+            string xml = res.ScenarioXML;
+            xml = xml.Insert( xml.IndexOf(">") + 1, "<base>");
+            xml += "<elo value=\"" + elo.ELO + "\"></elo></base>";
+            Trace.WriteLine(xml);
+
+            return Ok(xml
+                );
         }
 
         // GET odata/GameSession

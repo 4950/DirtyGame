@@ -323,6 +323,28 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="arrowwallhug.png">
+      <Name>arrowwallhug</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MedievalSharp.spritefont">
+      <Name>MedievalSharp</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <SubType>Designer</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MedSharp.png">
+      <Name>MedSharp</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>FontTextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="FlametowerShield.png">
       <Name>FlametowerShield</Name>
       <Importer>TextureImporter</Importer>
