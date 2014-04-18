@@ -523,7 +523,7 @@ namespace CleanGame.Game.Core.Systems
 
             RWHealthLbl.Text = string.Format("Health Remaining: {0}%", (int)Math.Round(game.player.GetComponent<StatsComponent>().CurrentHealth / game.player.GetComponent<StatsComponent>().MaxHealth * 100));
             RWAccuracyLbl.Text = string.Format("Largest Combo: {0} hits", PlayerHitsMax);
-            RWKillsLbl.Text = string.Format("Monsters Killed: {0}%", (int)Math.Round((1 - PrevSession.KillRate) * 100));
+            RWKillsLbl.Text = string.Format("Monsters Killed: {0}%", (int)Math.Round((PrevSession.KillRate) * 100));
 
             RoundWindow.Show();
         }
@@ -654,6 +654,7 @@ namespace CleanGame.Game.Core.Systems
                             {
 
                                 GameplayDataCaptureSystem.Instance.LogEvent(CaptureEventType.PlayerDied, "");
+                                currentState = GameLogicState.EndingRound;
 
                                 for (int j = 0; j < entities.Count(); j++)
                                 {

@@ -258,6 +258,8 @@ namespace GameService
 
                 CurrentSessionID = gs.SessionID;
                 CurrentSession = gs;
+                if (s.PreviousSession != null)
+                    s.PreviousSession = serviceContainer.GameSession.Where(gamesession => gamesession.SessionID == s.PreviousSession.SessionID).FirstOrDefault();
 
                 //log version number
                 LogEvent(CaptureEventType.VersionNumber, Version);
