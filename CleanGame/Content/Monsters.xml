@@ -197,13 +197,13 @@
       <Name>WeaponComponent</Name>
       <WeaponName>GrenadeLauncher</WeaponName>
       <Portrait>bow</Portrait>
-      <BaseDamage>20</BaseDamage>
-      <Range>250</Range>
+      <BaseDamage>18</BaseDamage>
+      <Range>300</Range>
       <Type>Ranged</Type>
       <ProjectileSprite>grenade</ProjectileSprite>
       <SpriteXml>Content\BombExplosion.xml</SpriteXml>
       <ProjectileSpeed>7</ProjectileSpeed>
-      <Cooldown>7</Cooldown>
+      <Cooldown>4</Cooldown>
       <LastFire>0</LastFire>
       <Price>100</Price>
       <AmmoPrice>0</AmmoPrice>
@@ -240,7 +240,7 @@
       <Type>Ranged</Type>
       <ProjectileSprite>arrow</ProjectileSprite>
       <ProjectileSpeed>5</ProjectileSpeed>
-      <Cooldown>2</Cooldown>
+      <Cooldown>1.8</Cooldown>
       <LastFire>0</LastFire>
       <Price>100</Price>
       <AmmoPrice>0</AmmoPrice>
@@ -1019,9 +1019,9 @@
         <List>Doomsbow</List>
         <List>Scattershot</List>
       </ImmuneTo>
-      <BaseHealth>25</BaseHealth>
+      <BaseHealth>70</BaseHealth>
       <HealthScale>1</HealthScale>
-      <CurrentHealth>25</CurrentHealth>
+      <CurrentHealth>70</CurrentHealth>
     </Component>
     <Component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xsi:type="MovementComponent">
       <Name>MovementComponent</Name>
