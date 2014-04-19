@@ -254,7 +254,7 @@ BEGIN
     
     SET @TotalHealth = @TotalHealth + CASE @Monster 
         WHEN 'MeleeMonster' THEN 240
-        WHEN 'SuicideBomber' THEN 1
+        WHEN 'SuicideBomber' THEN 60
         WHEN 'LandmineDropper' THEN 120
         WHEN 'RangedMonster' THEN 120
         WHEN 'Grenadier' THEN 100
@@ -402,9 +402,9 @@ SET @EScen = 1.0 / (1.0 + POWER(10.0, (@PlayerELOLinear - @ScenarioELOLinear) / 
 
 /*Calculate expected*/
 IF( @SPlayer = 1 )
-	SET @SPlayer = (@PlayerScore / 1.76) * (1.0 - @EPlayer) + @EPlayer;
+	SET @SPlayer = (@PlayerScore / 1.75) * (1.0 - @EPlayer) + @EPlayer;
 ELSE
-	SET @SPlayer = (@PlayerScore / 1.76) * (1.0 - @EPlayer);
+	SET @SPlayer = (@PlayerScore / 1.75) * (1.0 - @EPlayer);
 
 SET @SScen = 1 - @SPlayer;
 
