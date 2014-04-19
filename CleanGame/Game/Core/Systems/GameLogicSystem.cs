@@ -378,7 +378,7 @@ namespace CleanGame.Game.Core.Systems
             //    }
             //}
 
-            playScenario = scenarios[ScenarioPtr];
+            playScenario = scenarios[ScenarioPtr % scenarios.Count];
             ScenarioPtr++;
 
 
