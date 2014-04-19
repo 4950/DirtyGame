@@ -51,6 +51,13 @@ SET @UserID = @p0;
 
 DECLARE @GamesPlayed INT;
 SELECT @GamesPlayed = GamesPlayed FROM PlayerELOes WHERE UserID = @UserID;
+
+IF( @@ROWCOUNT <> 1 )/* No Player, add to table*/
+BEGIN
+	INSERT INTO PlayerELOes (ELO, LinearELO, UserID) VALUES (800, 800, @UserID);
+    SET @GamesPlayed = 0;
+END
+
 SET @GamesPlayed = (@GamesPlayed % 75) + 34;
 
 SELECT * FROM ScenarioELOes WHERE ID = @GamesPlayed;
