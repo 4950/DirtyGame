@@ -61,7 +61,7 @@ namespace EntityFramework
             }
         }
 
-        public object Clone()
+        public virtual object Clone()
         {
             return MemberwiseClone();
         }
