@@ -17,6 +17,7 @@ namespace CleanGame.Game.Core.GameStates
         private Window settingsWindow;
         private CheckBox full;
         private CheckBox cap;
+        private Label versionLbl;
         private bool isMapWindowShown = false;
         //string[] maps = { "Cave", "Forest", "Arena" };
         string[] maps = { "Arena" };
@@ -68,6 +69,12 @@ namespace CleanGame.Game.Core.GameStates
                 b4.Text = "Exit";
                 b4.Click += endGame;
                 p.AddElement(b4);
+
+                versionLbl = new Label();
+                versionLbl.Position = new System.Drawing.Point(10, 375);
+                versionLbl.Size = new System.Drawing.Point(100, 25);
+                versionLbl.Text = App.PublishVersion;
+                p.AddElement(versionLbl);
             }
             if (settingsWindow == null)
             {
