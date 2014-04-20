@@ -9,6 +9,8 @@ using System.Web;
 using System.Web.Mvc;
 using TowerSite.Models;
 using System.Diagnostics;
+using PagedList;
+using PagedList.Mvc;
 
 namespace TowerSite.Controllers
 {
@@ -27,18 +29,27 @@ namespace TowerSite.Controllers
 
         // GET: /Leaderboard/
         [AllowAnonymous]
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string searchString, int? page)
         {
             List<Leaderboard> list = null;
             try
             {
-                list = await db.Leaderboards.ToListAsync();
+                if (searchString != null && searchString != "")
+                {
+                    page = 1;
+                    list = await db.Leaderboards.Where(s => s.UserName.ToUpper().Contains(searchString.ToUpper())).ToListAsync();
+                }
+                else
+                    list = await db.Leaderboards.ToListAsync();
             }
             catch (Exception e)
             {
                 Trace.WriteLine(e.ToString());
             }
-            return View(list);
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(list.ToPagedList(pageNumber, pageSize));
         }
 
         //// GET: /Leaderboard/Details/5
