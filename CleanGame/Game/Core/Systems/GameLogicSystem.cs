@@ -552,7 +552,7 @@ namespace CleanGame.Game.Core.Systems
             game.ClearField = true;
             //start next round in 5
             roundStartTime = 5f;
-            ActionLabel.Text = "Get Ready (ELO: "+ELO+")";
+            ActionLabel.Text = "Get Ready!";
             //ActionLabel.Text = "Get Ready!";
             ActionLabel.Position = new System.Drawing.Point(-ActionLabel.Size.X / 2, ActionLabel.Position.Y);
             ActionLabelBack.Visibility = CoreUI.Visibility.Visible;
