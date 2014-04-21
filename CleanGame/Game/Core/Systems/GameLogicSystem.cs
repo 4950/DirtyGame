@@ -59,6 +59,7 @@ namespace CleanGame.Game.Core.Systems
         private float damagePnlTime;
         private float roundTime;
         private float roundStartTime;
+        private float saveChangesTime;
         private bool cheatEndRound = false;
         private int PlayerHits;
         private int PlayerHitsMax;
@@ -603,6 +604,16 @@ namespace CleanGame.Game.Core.Systems
             }
             else if (currentState == GameLogicState.ActiveRound)
             {
+                if (saveChangesTime >= 0)
+                {
+                    saveChangesTime -= dt;
+                    if (saveChangesTime <= 0)
+                    {
+                        saveChangesTime = 5;
+                        GameplayDataCaptureSystem.Instance.SaveChangesAsync();
+                    }
+                }
+
                 for (int i = 0; i < textFloaters.Count; i++)
                 {
                     Label floater = textFloaters[i];

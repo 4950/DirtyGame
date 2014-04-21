@@ -200,6 +200,19 @@ namespace GameService
 
             ShowBrowser();
         }
+        public void SaveChangesAsync()
+        {
+            Thread t = new Thread(new ThreadStart(() =>
+            {
+                lock (IsSendingAsync)
+                {
+                    SaveChanges();
+                }
+            }));
+            t.Priority = ThreadPriority.BelowNormal;
+            t.IsBackground = true;
+            t.Start();
+        }
         public void NewSessionAsync()
         {
             Thread t = new Thread(new ThreadStart(() => NewSession()));
