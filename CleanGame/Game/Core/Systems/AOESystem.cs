@@ -28,7 +28,7 @@ namespace CleanGame.Game.Core.Systems
             foreach (Entity e in entities.ToList())
             {
                 AOEComponent ac = e.GetComponent<AOEComponent>();
-                if (ac.Ticks > 0)
+                if (ac.Ticks > 0 && ac.Owner.entity != null)
                 {
                     ac.Timer += dt;
                     if (ac.Timer >= ac.TickInterval)
