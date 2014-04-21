@@ -63,9 +63,11 @@ namespace GameService
         public delegate void NewSessionResultEventHandler(object sender, SessionEventArgs e);
         public delegate void DataRetryEventHandler(object sender, RetryEventArgs e);
         public delegate void ScenarioXMLEventHandler(string XML);
+        public delegate void ELORankEventHandler(string ELORank);
         public event NewSessionResultEventHandler NewSessionResultEvent;
         public event DataRetryEventHandler DataRetryEvent;
         public event ScenarioXMLEventHandler ScenarioXMLEvent;
+        public event ELORankEventHandler ELORankEvent;
 
         static Uri BrowseUri = new Uri("https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=https://csci4950.azurewebsites.net/Account/LogOffGame");
         static Uri DataUri = new Uri("https://csci4950.azurewebsites.net/odata");
@@ -304,6 +306,28 @@ namespace GameService
             t.IsBackground = true;
             t.Start();
         }
+
+        public void GetELORankAsync()
+        {
+            Thread t = new Thread(new ThreadStart(() =>
+            {
+                lock (IsSendingAsync)
+                {
+                    NetworkRetry(() =>
+                    {
+                        Uri actionUri = new Uri(DataUri, "odata/GameSession/ELORank");
+                        var ret = serviceContainer.Execute<string>(actionUri, "POST", true, null);
+                        string ELORank = ret.First();
+                        if (ELORankEvent != null)
+                            ELORankEvent(ELORank);
+                        return true;
+                    });
+                }
+            }));
+            t.IsBackground = true;
+            t.Start();
+        }
+
         /// <summary>
         /// Attempts the specified network operation with exponential retries. Catches exceptions as failure
         /// </summary>

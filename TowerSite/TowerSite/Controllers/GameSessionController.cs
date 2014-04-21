@@ -76,7 +76,18 @@ SET @UserID = @p0;
 DECLARE @PlayerELO INT;
 SELECT * FROM PlayerELOes WHERE UserID = @UserID;
 ", userID);
+               /* var rankQuery = db.Database.SqlQuery<PlayerRank>(@"
+DECLARE @UserID NVARCHAR(MAX);
+SET @UserID = @p0;
+
+SELECT Ranking FROM
+(SELECT RANK() OVER (ORDER BY ELO DESC) AS Ranking, UserID
+    FROM PlayerELOes WHERE gamesPlayed<>0) AS Temp WHERE UserID = @UserID;
+", userID);*/
+
                 var elo = await eloQuery.FirstOrDefaultAsync();
+
+                //var rank = await rankQuery.FirstOrDefaultAsync();
 
                 //  Trace.WriteLine("XML: \n" + "<base>" + res.ScenarioXML
                 //     + "<elo value=\"" + elo.ELO + "\"></elo></base>");
@@ -84,7 +95,9 @@ SELECT * FROM PlayerELOes WHERE UserID = @UserID;
                 //Rip apart the XML here because hatred and bile
                 xml = res.ScenarioXML;
                 xml = xml.Insert(xml.IndexOf(">") + 1, "<base>");
-                xml += "<elo value=\"" + elo.ELO + "\"></elo></base>";
+                xml += "<elo value=\"" + elo.ELO +
+                    //"\" rank=\""+ rank.Ranking +
+                    "\"></elo></base>";
                 //Trace.WriteLine(xml);
             }
             catch (Exception e)
@@ -94,6 +107,61 @@ SELECT * FROM PlayerELOes WHERE UserID = @UserID;
 
             return Ok(xml);
         }
+
+        [HttpPost]
+        public async Task<IHttpActionResult> ELORank(ODataActionParameters parameters)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            String ELORank = "";
+            Trace.WriteLine("ELORank Called!");
+            try
+            {
+                string userID = User.Identity.GetUserId();
+                if (userID == null)
+                    return BadRequest("Not logged in");
+
+                var eloQuery = db.Database.SqlQuery<PlayerELO>(@"
+DECLARE @UserID NVARCHAR(MAX);
+SET @UserID = @p0;
+
+DECLARE @PlayerELO INT;
+SELECT * FROM PlayerELOes WHERE UserID = @UserID;
+", userID);
+                var rankQuery = db.Database.SqlQuery<PlayerRank>(@"
+DECLARE @UserID NVARCHAR(MAX);
+SET @UserID = @p0;
+
+SELECT Ranking FROM
+(SELECT RANK() OVER (ORDER BY ELO DESC) AS Ranking, UserID
+    FROM PlayerELOes WHERE gamesPlayed<>0) AS Temp WHERE UserID = @UserID;
+", userID);
+
+                var elo = await eloQuery.FirstOrDefaultAsync();
+
+                var rank = await rankQuery.FirstOrDefaultAsync();
+
+                if (rank.Ranking <= 0)
+                {
+                    rank.Ranking = -1;
+                }
+
+                ELORank = "" + elo.ELO + ","+rank.Ranking;
+                Trace.WriteLine("ELORank: " + ELORank);
+
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.Message);
+            }
+
+            return Ok(ELORank);
+        }
+
+
 
         // GET odata/GameSession
         [Queryable]

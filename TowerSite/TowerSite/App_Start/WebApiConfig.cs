@@ -21,7 +21,12 @@ namespace TowerSite
             ActionConfiguration getScenario = builder.Entity<GameSession>().Collection.Action("Scenario");
             getScenario.Returns<string>();
 
+            //get that ELORank
+            ActionConfiguration getELORank = builder.Entity<GameSession>().Collection.Action("ELORank");
+            getELORank.Returns<string>();
+
             config.Routes.MapODataRoute("odata", "odata", builder.GetEdmModel(), new DefaultODataBatchHandler(GlobalConfiguration.DefaultServer));
+
         }
     }
 }

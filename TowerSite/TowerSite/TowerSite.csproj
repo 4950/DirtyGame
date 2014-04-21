@@ -206,6 +206,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\PlayerRank.cs" />
     <Compile Include="Models\GameEventModel.cs" />
     <Compile Include="Models\GameSession.cs" />
     <Compile Include="Models\IdentityModels.cs" />

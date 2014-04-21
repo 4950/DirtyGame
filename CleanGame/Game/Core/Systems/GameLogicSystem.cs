@@ -43,6 +43,8 @@ namespace CleanGame.Game.Core.Systems
         private Label RWHealthLbl;
         private Label RWKillsLbl;
         private Label RWAccuracyLbl;
+        private Label RWSkillLbl;
+        private Label RWRankLbl;
         private Button RWContinueBtn;
 
         private List<ProgressBar> mPBs;
@@ -67,7 +69,10 @@ namespace CleanGame.Game.Core.Systems
         private bool tutorialMode;
         private List<Label> textFloaters = new List<Label>();
         private int ScenarioPtr = 0;
+        private int oldELO = 0;
+        private int oldRank = -1;
         private int ELO = 0;
+        private int Rank = -1;
 
         private GameLogicState currentState;
         private Scenario currentScenario;
@@ -452,12 +457,39 @@ namespace CleanGame.Game.Core.Systems
             //start new session and wait for result
             GameplayDataCaptureSystem.Instance.NewSessionResultEvent += Instance_NewSessionResultEvent;
             GameplayDataCaptureSystem.Instance.DataRetryEvent += Instance_DataRetryEvent;
+            GameplayDataCaptureSystem.Instance.ELORankEvent += Instance_ELORankEvent;
             GameplayDataCaptureSystem.Instance.ScenarioXMLEvent += Instance_ScenarioXMLEvent;
             GameplayDataCaptureSystem.Instance.NewSessionAsync();
 
             ActionLabel.Text = "Contacting Server...";
             ActionLabel.Position = new System.Drawing.Point(0, game.currrentDisplayMode.Height / 2 - 50);
             ActionLabelBack.Visibility = Visibility.Visible;
+        }
+
+        void Instance_ELORankEvent(string ELORank)
+        {
+            GameplayDataCaptureSystem.Instance.ELORankEvent -= Instance_ELORankEvent;
+            if (ELORank == null || ELORank == "")
+            {
+                MessageBox.Show("Failed to retrieve rankings from server.\nPlease check your internet settings.", "Error");
+            }
+            else
+            {
+                oldELO = ELO;
+                oldRank = Rank;
+
+                ELO = int.Parse(ELORank.Substring(0, ELORank.IndexOf(",")));
+                Rank = int.Parse(ELORank.Substring(ELORank.IndexOf(",")+1));
+
+                if (oldELO <= 0 && ELO > 0)
+                {
+                    oldELO = ELO;
+                }
+                if (oldRank <= 0 && Rank > 0)
+                {
+                    oldRank = Rank;
+                }
+            }
         }
 
         void Instance_ScenarioXMLEvent(string XML)
@@ -471,7 +503,7 @@ namespace CleanGame.Game.Core.Systems
             else
             {
                 decodeServerScenario(XML);
-                ELO = getELOFromXML(XML);
+                
             }
 
             if (PreviousSession != null)
@@ -500,7 +532,9 @@ namespace CleanGame.Game.Core.Systems
                 if (!e.RequestsSucceeded)
                     MessageBox.Show("Failed to contact server. Please\ncheck your internet settings.", "Error");
                 PreviousSession = e.PreviousSession;
+                GameplayDataCaptureSystem.Instance.GetELORankAsync();
                 GameplayDataCaptureSystem.Instance.GetScenarioAsync();
+                
             }
         }
         /// <summary>
@@ -542,6 +576,8 @@ namespace CleanGame.Game.Core.Systems
             RWHealthLbl.Text = string.Format("Health Remaining: {0}%", (int)Math.Round(game.player.GetComponent<StatsComponent>().CurrentHealth / game.player.GetComponent<StatsComponent>().MaxHealth * 100));
             RWAccuracyLbl.Text = string.Format("Largest Combo: {0} hits", PlayerHitsMax);
             RWKillsLbl.Text = string.Format("Monsters Killed: {0}%", (int)Math.Round((PrevSession.KillRate) * 100));
+            RWSkillLbl.Text = string.Format("Skill: {0} ({1}{2})", ELO, (oldELO > ELO) ? "-" : "+", Math.Abs(ELO - oldELO));
+            RWRankLbl.Text = string.Format("Rank: {0} ({1}{2})", Rank, (oldRank < Rank) ? "-" : "+", Math.Abs(Rank - oldRank));
 
             RoundWindow.Show();
         }
@@ -795,7 +831,7 @@ namespace CleanGame.Game.Core.Systems
 
             RoundWindow = new Window();
             RoundWindow.Style = Window.WindowStyle.None;
-            RoundWindow.Size = new System.Drawing.Point(300, 300);
+            RoundWindow.Size = new System.Drawing.Point(300, 375);
             RoundWindow.Position = new System.Drawing.Point(game.currrentDisplayMode.Width / 2 - 150, game.currrentDisplayMode.Height / 2 - 150);
             RoundWindow.Background = new MonoGameColor(trans);
 
@@ -833,9 +869,25 @@ namespace CleanGame.Game.Core.Systems
             RWAccuracyLbl.mFontInt = new MonoGameFont(game.resourceManager.GetResource<SpriteFont>("Message"));
             RWPanel.AddElement(RWAccuracyLbl);
 
+            RWSkillLbl = new Label();
+            RWSkillLbl.Size = new System.Drawing.Point(300, 50);
+            RWSkillLbl.Position = new System.Drawing.Point(0, 225);
+            RWSkillLbl.TextPosition = TextPosition.Center;
+            RWSkillLbl.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.White);
+            RWSkillLbl.mFontInt = new MonoGameFont(game.resourceManager.GetResource<SpriteFont>("Message"));
+            RWPanel.AddElement(RWSkillLbl);
+
+            RWRankLbl = new Label();
+            RWRankLbl.Size = new System.Drawing.Point(300, 50);
+            RWRankLbl.Position = new System.Drawing.Point(0, 250);
+            RWRankLbl.TextPosition = TextPosition.Center;
+            RWRankLbl.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.White);
+            RWRankLbl.mFontInt = new MonoGameFont(game.resourceManager.GetResource<SpriteFont>("Message"));
+            RWPanel.AddElement(RWRankLbl);
+
             RWContinueBtn = new Button();
             RWContinueBtn.Size = new System.Drawing.Point(200, 30);
-            RWContinueBtn.Position = new System.Drawing.Point(50, 260);
+            RWContinueBtn.Position = new System.Drawing.Point(50, 325);
             RWContinueBtn.Foreground = new MonoGameColor(Microsoft.Xna.Framework.Color.White);
             RWContinueBtn.mFontInt = new MonoGameFont(game.resourceManager.GetResource<SpriteFont>("Message"));
             RWContinueBtn.Text = "Continue";
