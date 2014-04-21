@@ -16,7 +16,9 @@ namespace CleanGame.Game.Core.GameStates
         private Window selectMap;
         private Window settingsWindow;
         private CheckBox full;
-        private CheckBox cap;
+        private CheckBox captureMouseCbx;
+        private CheckBox disableBackgroundCbx;
+        private CheckBox disableSoundEffects;
         private Label versionLbl;
         private bool isMapWindowShown = false;
         //string[] maps = { "Cave", "Forest", "Arena" };
@@ -98,29 +100,43 @@ namespace CleanGame.Game.Core.GameStates
 #if DEBUG
                 full = new CheckBox();
                 full.Position = new System.Drawing.Point(20, 40);
-                full.Size = new System.Drawing.Point(100, 20);
+                full.Size = new System.Drawing.Point(250, 20);
                 full.Text = "Fullscreen";
                 full.IsChecked = Settings.Instance.Global.Fullscreen;
                 p.AddElement(full);
 #endif
 
-                cap = new CheckBox();
-                cap.Position = new System.Drawing.Point(20, 60);
-                cap.Size = new System.Drawing.Point(100, 20);
-                cap.Text = "Capture Mouse";
-                cap.IsChecked = Settings.Instance.Global.DefaultUser.CaptureMouse;
-                p.AddElement(cap);
+                captureMouseCbx = new CheckBox();
+                captureMouseCbx.Position = new System.Drawing.Point(20, 60);
+                captureMouseCbx.Size = new System.Drawing.Point(250, 20);
+                captureMouseCbx.Text = "Capture Mouse";
+                captureMouseCbx.IsChecked = Settings.Instance.Global.DefaultUser.CaptureMouse;
+                p.AddElement(captureMouseCbx);
+
+                disableBackgroundCbx = new CheckBox();
+                disableBackgroundCbx.Position = new System.Drawing.Point(20, 80);
+                disableBackgroundCbx.Size = new System.Drawing.Point(250, 20);
+                disableBackgroundCbx.Text = "Disable Background Music";
+                disableBackgroundCbx.IsChecked = Settings.Instance.Global.DefaultUser.DisableBackgroundMusic;
+                p.AddElement(disableBackgroundCbx);
+
+                disableSoundEffects = new CheckBox();
+                disableSoundEffects.Position = new System.Drawing.Point(20, 100);
+                disableSoundEffects.Size = new System.Drawing.Point(250, 20);
+                disableSoundEffects.Text = "Disable Sound Effects";
+                disableSoundEffects.IsChecked = Settings.Instance.Global.DefaultUser.DisableSoundEffects;
+                p.AddElement(disableSoundEffects);
 
                 CoreUI.Elements.Button s = new CoreUI.Elements.Button();
                 s.Position = new System.Drawing.Point(20, 120);
-                s.Size = new System.Drawing.Point(50, 25);
+                s.Size = new System.Drawing.Point(60, 25);
                 s.Text = "Cancel";
                 s.Click += back;
                 p.AddElement(s);
 
                 CoreUI.Elements.Button s2 = new CoreUI.Elements.Button();
                 s2.Position = new System.Drawing.Point(250, 120);
-                s2.Size = new System.Drawing.Point(50, 25);
+                s2.Size = new System.Drawing.Point(60, 25);
                 s2.Text = "Save";
                 s2.Click += s2_Click;
                 p.AddElement(s2);
@@ -201,7 +217,9 @@ namespace CleanGame.Game.Core.GameStates
                 Settings.Instance.Global.Fullscreen = game.graphics.IsFullScreen;
             }
 #endif
-            Settings.Instance.Global.DefaultUser.CaptureMouse = (bool)cap.IsChecked;
+            Settings.Instance.Global.DefaultUser.CaptureMouse = (bool)captureMouseCbx.IsChecked;
+            Settings.Instance.Global.DefaultUser.DisableBackgroundMusic = (bool)disableBackgroundCbx.IsChecked;
+            Settings.Instance.Global.DefaultUser.DisableSoundEffects = (bool)disableSoundEffects.IsChecked;
 
             back(sender);
         }

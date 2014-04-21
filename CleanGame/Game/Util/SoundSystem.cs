@@ -33,8 +33,11 @@ namespace CleanGame.Game.Util
             {
                 currentBackground = s;
                 player.Volume = 0;
-                player.Open(new Uri(App.Path + "Sound\\Music\\" + s));
-                player.Play();
+                if (!Settings.Instance.Global.DefaultUser.DisableBackgroundMusic)
+                {
+                    player.Open(new Uri(App.Path + "Sound\\Music\\" + s));
+                    player.Play();
+                }
             }
         }
 
@@ -45,10 +48,13 @@ namespace CleanGame.Game.Util
 
         public void PlayEffect(string effect)
         {
-            SoundEffect s = game.resourceManager.GetResource<SoundEffect>("Sound\\" + effect);
-            SoundEffectInstance i = s.CreateInstance();
-            i.Volume = .5f;
-            i.Play();
+            if (!Settings.Instance.Global.DefaultUser.DisableSoundEffects)
+            {
+                SoundEffect s = game.resourceManager.GetResource<SoundEffect>("Sound\\" + effect);
+                SoundEffectInstance i = s.CreateInstance();
+                i.Volume = .5f;
+                i.Play();
+            }
         }
         public void AddBackgroundMusic(string song)
         {
