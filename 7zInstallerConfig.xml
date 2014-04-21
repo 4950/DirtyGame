@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<Settings>
+  <General>
+    <ExtractMode>Temp</ExtractMode>
+    <HideProgress>False</HideProgress>
+    <ProgressDisableCancel>False</ProgressDisableCancel>
+    <SelfDelete>False</SelfDelete>
+    <CompressStub>True</CompressStub>
+    <XPStyles>False</XPStyles>
+    <HideTitleIcon>False</HideTitleIcon>
+    <PromptShowSFXIcon>False</PromptShowSFXIcon>
+    <Overwrite>All</Overwrite>
+    <MessageBegin Show="True">Start installation?</MessageBegin>
+    <MessageCancel Show="True">Are you sure you want to cancel?</MessageCancel>
+    <MessageFinish Show="False">Files were successfully extracted</MessageFinish>
+    <TitleText>Tower Offense Installer</TitleText>
+    <ExtractPathText>Select extraction path</ExtractPathText>
+    <ExtractCancelText>Abort</ExtractCancelText>
+    <ExtractDialogText />
+    <ExtractTitleText>Extracting</ExtractTitleText>
+    <ExtractShowIcon>False</ExtractShowIcon>
+    <ProgressPercent>-1</ProgressPercent>
+    <ProgressShowIcon>False</ProgressShowIcon>
+    <Icon>C:\Program Files (x86)\7-Zip SFX Maker\Resources\04.ico</Icon>
+  </General>
+  <Tasks>
+    <Item Enabled="True">RunProgram="\"msiexec\" /i %%T\\TowerOffense\\xnafx40_redist.msi /qn"</Item>
+    <Item Enabled="True">RunProgram="\"%%T\\TowerOffense\\setup.exe\""</Item>
+  </Tasks>
+  <VersionString>
+    <Item Name="Comments" Value="" Enabled="True" />
+    <Item Name="CompanyName" Value="CSCI 4950" Enabled="True" />
+    <Item Name="FileDescription" Value="Tower Offense Installer" Enabled="True" />
+    <Item Name="FileVersion" Value="1.0.0" Enabled="True" />
+    <Item Name="InternalName" Value="7zSfxNew" Enabled="False" />
+    <Item Name="LegalCopyright" Value="Copyright © 2014 CSCI 4950" Enabled="True" />
+    <Item Name="LegalTrademarks" Value="" Enabled="True" />
+    <Item Name="OriginalFilename" Value="7zSfxNew.exe" Enabled="False" />
+    <Item Name="PrivateBuild" Value="July 14, 2007" Enabled="False" />
+    <Item Name="ProductName" Value="7ZSfxNew" Enabled="False" />
+    <Item Name="ProductVersion" Value="1, 2, 0, 715" Enabled="False" />
+    <Item Name="SpecialBuild" Value="" Enabled="False" />
+  </VersionString>
+</Settings>

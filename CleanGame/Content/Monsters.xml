@@ -793,7 +793,7 @@
       <BaseMoveSpeed>0</BaseMoveSpeed>
       <BaseDamage>100</BaseDamage>
       <ImmuneTo>
-        <List>Basic Sword</List>
+        <List>Longsword</List>
         <List>Sniper</List>
         <List>Doomsbow</List>
         <List>Scattershot</List>

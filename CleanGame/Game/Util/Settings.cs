@@ -20,8 +20,56 @@ namespace CleanGame.Game.Util
         }
         public class UserSettings
         {
-            public String Name { get; set; }
-            public bool CaptureMouse { get; set; }
+            //defaults
+            private bool disableBackgroundMusic = false;
+            private bool captureMouse = true;
+            private bool disableSoundEffects = false;
+            private String name = "Test";
+
+            public String Name
+            {
+                get
+                {
+                    return name;
+                }
+                set
+                {
+                    name = value;
+                }
+            }
+            public bool CaptureMouse
+            {
+                get
+                {
+                    return captureMouse;
+                }
+                set
+                {
+                    captureMouse = value;
+                }
+            }
+            public bool DisableBackgroundMusic
+            {
+                get
+                {
+                    return disableBackgroundMusic;
+                }
+                set
+                {
+                    disableBackgroundMusic = value;
+                }
+            }
+            public bool DisableSoundEffects
+            {
+                get
+                {
+                    return disableSoundEffects;
+                }
+                set
+                {
+                    disableSoundEffects = value;
+                }
+            }
         }
 
         public GlobalSettings Global { get; set; }
@@ -32,8 +80,6 @@ namespace CleanGame.Game.Util
         private UserSettings CreateUser()
         {
             UserSettings u = new UserSettings();
-            u.Name = "Test";
-            u.CaptureMouse = true;
             return u;
         }
         private void CreateGlobal()

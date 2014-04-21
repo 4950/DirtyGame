@@ -45,7 +45,13 @@ namespace CleanGame.Game.Core.Components
                 return BaseDamage;
             }
         }
-        
+
+        public override object Clone()
+        {
+            StatsComponent clone = base.Clone() as StatsComponent;
+            clone.ImmuneTo = new List<string>(ImmuneTo);
+            return clone;
+        }
         
 
     }

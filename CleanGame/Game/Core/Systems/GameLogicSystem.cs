@@ -59,6 +59,7 @@ namespace CleanGame.Game.Core.Systems
         private float damagePnlTime;
         private float roundTime;
         private float roundStartTime;
+        private float saveChangesTime;
         private bool cheatEndRound = false;
         private int PlayerHits;
         private int PlayerHitsMax;
@@ -603,6 +604,16 @@ namespace CleanGame.Game.Core.Systems
             }
             else if (currentState == GameLogicState.ActiveRound)
             {
+                if (saveChangesTime >= 0)
+                {
+                    saveChangesTime -= dt;
+                    if (saveChangesTime <= 0)
+                    {
+                        saveChangesTime = 5;
+                        GameplayDataCaptureSystem.Instance.SaveChangesAsync();
+                    }
+                }
+
                 for (int i = 0; i < textFloaters.Count; i++)
                 {
                     Label floater = textFloaters[i];
@@ -661,9 +672,7 @@ namespace CleanGame.Game.Core.Systems
                         Entity e = entities.ElementAt(i);
 
                         StatsComponent hc = e.GetComponent<StatsComponent>();
-                        PropertyComponent<String> mc = e.GetComponent<PropertyComponent<String>>("MonsterType");
-                        if (mc != null && mc.value == "Flametower")
-                            towers.Add(e);
+                        
 
                         if (hc.CurrentHealth <= 0)//dead
                         {
@@ -713,6 +722,10 @@ namespace CleanGame.Game.Core.Systems
                                 pb.Visibility = Visibility.Hidden;
                             }
 
+                            //detect towers
+                            PropertyComponent<String> mc = e.GetComponent<PropertyComponent<String>>("MonsterType");
+                            if (mc != null && mc.value == "Flametower")
+                                towers.Add(e);
                         }
 
                     }
@@ -722,9 +735,9 @@ namespace CleanGame.Game.Core.Systems
                         foreach (Entity e in towers)
                         {
                             StatsComponent s = e.GetComponent<StatsComponent>();
-                            if (s.ImmuneTo.Contains("Basic Sword"))
+                            if (s.ImmuneTo.Contains("Longsword"))
                             {
-                                s.ImmuneTo.Remove("Basic Sword");
+                                s.ImmuneTo.Remove("Longsword");
                                 SpriteComponent sc = e.GetComponent<SpriteComponent>();
                                 sc.spriteName = sc.spriteName.Replace("Shield", "");
                                 sc.SpriteSheet = game.resourceManager.GetResource<SpriteSheet>(sc.spriteName);

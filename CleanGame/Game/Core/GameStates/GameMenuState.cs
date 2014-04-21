@@ -27,7 +27,7 @@ namespace CleanGame.Game.Core.GameStates
             {
                 menuWindow = new Window();
                 menuWindow.Size = new System.Drawing.Point(200, 160);
-                menuWindow.Position = new System.Drawing.Point(100, 100);
+                menuWindow.Position = new System.Drawing.Point(game.currrentDisplayMode.Width / 2 - menuWindow.Size.X / 2, game.currrentDisplayMode.Height / 2 - menuWindow.Size.Y / 2);
                 menuWindow.Style = Window.WindowStyle.None;
 
                 windowPnl = new Panel();
