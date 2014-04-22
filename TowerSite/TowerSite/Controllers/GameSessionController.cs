@@ -344,7 +344,7 @@ BEGIN
         WHEN 'Grenadier' THEN 100
         WHEN 'Flametower' THEN 160
         WHEN 'SnipMonster' THEN 120
-        WHEN 'WallHugger' THEN 25
+        WHEN 'WallHugger' THEN 70
         ELSE 0
     END;
 
@@ -459,7 +459,7 @@ DECLARE @PlayerK FLOAT;
 DECLARE @ScenK FLOAT;
 
 IF( @PlayerGamesPlayed < 30 )
-    SET @PlayerK = 50;
+    SET @PlayerK = 100 - ((50.0/30.0) * @PlayerGamesPlayed);
 ELSE IF ( @PlayerELO < 2200)
 	SET @PlayerK = 30;
 ELSE IF ( @PlayerELO < 2400)
@@ -494,22 +494,22 @@ SET @SScen = 1 - @SPlayer;
 
 /*Set K Values */
 IF( @PlayerGamesPlayed < 30 )
-    SET @PlayerK = 25;
+    SET @PlayerK = 100 - ((50.0/30.0) * @PlayerGamesPlayed);
 ELSE IF ( @PlayerELOLinear < 2200)
-	SET @PlayerK = 30;
+	SET @PlayerK = 40;
 ELSE IF ( @PlayerELOLinear < 2400)
-	SET @PlayerK = 20;
+	SET @PlayerK = 30;
 ELSE
-	SET @PlayerK = 10;
+	SET @PlayerK = 20;
 
 IF( @ScenarioGamesPlayed < 30)
-    SET @ScenK = 25;
+    SET @ScenK = 30;
 ELSE IF ( @ScenarioELOLinear < 2200)
-	SET @ScenK = 30;
+	SET @ScenK = 40;
 ELSE IF ( @ScenarioELOLinear < 2400)
-	SET @ScenK = 20;
+	SET @ScenK = 30;
 ELSE
-	SET @ScenK = 10;
+	SET @ScenK = 20;
 
 SET @PlayerELOLinear = @PlayerELOLinear + @PlayerK * (@SPlayer - @EPlayer);
 SET @ScenarioELOLinear = @ScenarioELOLinear + @ScenK * (@SScen - @EScen);
