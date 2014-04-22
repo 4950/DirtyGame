@@ -338,7 +338,7 @@ BEGIN
         WHEN 'LandmineDropper' THEN 120
         WHEN 'RangedMonster' THEN 120
         WHEN 'Grenadier' THEN 100
-        WHEN 'Flametower' THEN 100
+        WHEN 'Flametower' THEN 160
         WHEN 'SnipMonster' THEN 120
         WHEN 'WallHugger' THEN 25
         ELSE 0
