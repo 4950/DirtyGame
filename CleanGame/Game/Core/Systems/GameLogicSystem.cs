@@ -560,7 +560,7 @@ namespace CleanGame.Game.Core.Systems
         private void ShowRoundResults(GameService.GameService.GameSession PrevSession)
         {
             currentState = GameLogicState.RoundResults;
-            roundStartTime = 10;
+            roundStartTime = 10; 
 
             if (game.player.GetComponent<StatsComponent>().CurrentHealth > 0)
             {
