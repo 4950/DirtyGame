@@ -49,8 +49,10 @@ namespace TowerSite.Controllers
 DECLARE @UserID NVARCHAR(MAX);
 SET @UserID = @p0;
 
+
 DECLARE @GamesPlayed INT;
 SELECT @GamesPlayed = GamesPlayed FROM PlayerELOes WHERE UserID = @UserID;
+
 
 IF( @@ROWCOUNT <> 1 )/* No Player, add to table*/
 BEGIN
@@ -58,14 +60,16 @@ BEGIN
     SET @GamesPlayed = 0;
 END
 
+/*
 SET @GamesPlayed = (@GamesPlayed % 75) + 34;
 
 SELECT * FROM ScenarioELOes WHERE ID = @GamesPlayed;
+*/
 
-/*DECLARE @PlayerELO INT;
-SELECT @PlayerELO = ELO FROM PlayerELOes WHERE UserID = @UserID;
+DECLARE @PlayerELO INT;
+SELECT @PlayerELO = LinearELO FROM PlayerELOes WHERE UserID = @UserID;
 
-SELECT TOP 1 * FROM ScenarioELOes WHERE DATALENGTH(ScenarioXML) > 0  ORDER BY ABS( ELO - @PlayerELO )*/
+SELECT TOP 1 * FROM ScenarioELOes WHERE DATALENGTH(ScenarioXML) > 0  ORDER BY ABS( LinearELO - @PlayerELO )
 ", userID);
                 var res = await query.FirstOrDefaultAsync();
 
@@ -98,7 +102,7 @@ SELECT Ranking FROM
                 xml += "<elo value=\"" + elo.ELO +
                     //"\" rank=\""+ rank.Ranking +
                     "\"></elo></base>";
-                //Trace.WriteLine(xml);
+                Trace.WriteLine("Serving: "+res.ScenarioID+" LinearELO: "+res.LinearELO);
             }
             catch (Exception e)
             {
@@ -455,7 +459,7 @@ DECLARE @PlayerK FLOAT;
 DECLARE @ScenK FLOAT;
 
 IF( @PlayerGamesPlayed < 30 )
-    SET @PlayerK = 25;
+    SET @PlayerK = 50;
 ELSE IF ( @PlayerELO < 2200)
 	SET @PlayerK = 30;
 ELSE IF ( @PlayerELO < 2400)
@@ -464,7 +468,7 @@ ELSE
 	SET @PlayerK = 10;
 
 IF( @ScenarioGamesPlayed < 30)
-    SET @ScenK = 25;
+    SET @ScenK = 30;
 ELSE IF ( @ScenarioELO < 2200)
 	SET @ScenK = 30;
 ELSE IF ( @ScenarioELO < 2400)
