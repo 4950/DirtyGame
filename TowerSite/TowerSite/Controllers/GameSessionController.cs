@@ -142,7 +142,18 @@ SELECT Ranking FROM
 
                 var elo = await eloQuery.FirstOrDefaultAsync();
 
-                var rank = await rankQuery.FirstOrDefaultAsync();
+                PlayerRank rank = new PlayerRank();
+                try
+                {
+                    rank = await rankQuery.FirstOrDefaultAsync();
+                }
+                catch (Exception e)
+                {
+                    Trace.WriteLine("possibly new player?");
+                    Trace.WriteLine(e.Message);
+                    rank.Ranking = -1;
+                }
+
 
                 if (rank.Ranking <= 0)
                 {
@@ -156,6 +167,7 @@ SELECT Ranking FROM
             catch (Exception e)
             {
                 Trace.WriteLine(e.Message);
+                ELORank = "0,-1";
             }
 
             return Ok(ELORank);
