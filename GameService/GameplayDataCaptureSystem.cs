@@ -307,6 +307,19 @@ namespace GameService
             t.Start();
         }
 
+        public string GetLiveGameVersion()
+        {
+            string cur = "";
+            NetworkRetry(() =>
+            {
+                Uri actionUri = new Uri(DataUri, "odata/GameSession/CurrentVersion");
+                var ret = serviceContainer.Execute<string>(actionUri, "POST", true, null);
+                cur = ret.First();
+                return true;
+            });
+            return (cur != null) ? cur : "";
+        }
+
         public void GetELORankAsync()
         {
             Thread t = new Thread(new ThreadStart(() =>

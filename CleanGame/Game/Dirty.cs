@@ -267,6 +267,17 @@ namespace CleanGame
             GameplayDataCaptureSystem.Instance.Login();
             Settings.Instance.LoadSettings();
 
+            //Check version against server
+            if (App.PublishVersion != "Develop")
+            {
+                string liveVersion = GameplayDataCaptureSystem.Instance.GetLiveGameVersion();
+                if (liveVersion != "" && liveVersion != App.PublishVersion)
+                {
+                    System.Windows.Forms.MessageBox.Show("An update is available. Please visit https://toweroffense.azurewebsites.com to download.\nGame will now exit.\n\nCurrent Version: " + App.PublishVersion + "\nLatest Version: " + liveVersion, "Update Required");
+                    this.Exit();
+                }
+            }
+
             CreateInputContext();
 
             graphics = new GraphicsDeviceManager(this);
