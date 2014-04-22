@@ -140,7 +140,7 @@ DECLARE @UserID NVARCHAR(MAX);
 SET @UserID = @p0;
 
 SELECT Ranking FROM
-(SELECT RANK() OVER (ORDER BY ELO DESC) AS Ranking, UserID
+(SELECT RANK() OVER (ORDER BY LinearELO DESC) AS Ranking, UserID
     FROM PlayerELOes WHERE gamesPlayed<>0) AS Temp WHERE UserID = @UserID;
 ", userID);
 
@@ -164,7 +164,7 @@ SELECT Ranking FROM
                     rank.Ranking = -1;
                 }
 
-                ELORank = "" + elo.ELO + ","+rank.Ranking;
+                ELORank = "" + elo.LinearELO + ","+rank.Ranking;
                 Trace.WriteLine("ELORank: " + ELORank);
 
             }
