@@ -6,6 +6,7 @@ using CoreUI;
 using CoreUI.Elements;
 using Microsoft.Xna.Framework.Graphics;
 using CleanGame.Game.Util;
+using CoreUI.DrawEngines;
 
 namespace CleanGame.Game.Core.GameStates
 {
@@ -20,9 +21,11 @@ namespace CleanGame.Game.Core.GameStates
         private CheckBox disableBackgroundCbx;
         private CheckBox disableSoundEffects;
         private Label versionLbl;
+        private CoreUI.Visuals.ImageBrush background;
         private bool isMapWindowShown = false;
         //string[] maps = { "Cave", "Forest", "Arena" };
         string[] maps = { "Arena" };
+        private float fadeInTimer;
 
         public MainMenuState()
         {
@@ -33,15 +36,26 @@ namespace CleanGame.Game.Core.GameStates
         public void OnEnter(Dirty game)
         {
             this.game = game;
+
+            background = new CoreUI.Visuals.ImageBrush();
+            background.SizeMode = SizeMode.Fill;
+            Texture2D backTex = game.resourceManager.GetResource<Texture2D>("MainBG");
+            background.Texture = new CoreUI.DrawEngines.MonoGameTexture(backTex);
+            game.UIEngine.Children.BackgroundVisual = background;
+
+            fadeInTimer = 5;
+
             if (menu == null)
             {
                 menu = new CoreUI.Window();
                 menu.Style = Window.WindowStyle.None;
                 menu.Size = new System.Drawing.Point(300, 400);
-                menu.Position = new System.Drawing.Point(250, 50);
+                menu.Position = new System.Drawing.Point(250, 150);
+                menu.Background = new MonoGameColor(new Microsoft.Xna.Framework.Color(0, 0, 0, 0));
 
                 CoreUI.Panel p = new CoreUI.Panel();
                 p.SizeMode = SizeMode.Fill;
+                p.Background = new MonoGameColor(new Microsoft.Xna.Framework.Color(128, 128, 128, 128));
                 menu.Content = p;
 
                 CoreUI.Elements.Button b1 = new CoreUI.Elements.Button();
@@ -97,14 +111,12 @@ namespace CleanGame.Game.Core.GameStates
                 title.TextPosition = TextPosition.Center;
                 p.AddElement(title);
 
-#if DEBUG
                 full = new CheckBox();
                 full.Position = new System.Drawing.Point(20, 40);
                 full.Size = new System.Drawing.Point(250, 20);
                 full.Text = "Fullscreen";
                 full.IsChecked = Settings.Instance.Global.Fullscreen;
                 p.AddElement(full);
-#endif
 
                 captureMouseCbx = new CheckBox();
                 captureMouseCbx.Position = new System.Drawing.Point(20, 60);
@@ -210,13 +222,11 @@ namespace CleanGame.Game.Core.GameStates
         void s2_Click(object sender)
         {
             //save settings
-#if DEBUG
             if (game.graphics.IsFullScreen != (bool)full.IsChecked)
             {
                 game.graphics.ToggleFullScreen();
                 Settings.Instance.Global.Fullscreen = game.graphics.IsFullScreen;
             }
-#endif
             Settings.Instance.Global.DefaultUser.CaptureMouse = (bool)captureMouseCbx.IsChecked;
             Settings.Instance.Global.DefaultUser.DisableBackgroundMusic = (bool)disableBackgroundCbx.IsChecked;
             Settings.Instance.Global.DefaultUser.DisableSoundEffects = (bool)disableSoundEffects.IsChecked;
@@ -268,12 +278,26 @@ namespace CleanGame.Game.Core.GameStates
 
         public void OnExit()
         {
+            game.UIEngine.Children.BackgroundVisual = null;
             menu.Hide();
             selectMap.Hide();
         }
-
+        private void setOpacity(byte a)
+        {
+            (menu.Content.Background as MonoGameColor).color = new Microsoft.Xna.Framework.Color(a, a, a, a);
+            menu.Content.InvalidateVisual();
+        }
         public void Update(float dt)
         {
+            if (fadeInTimer > 0)
+            {
+                fadeInTimer -= dt;
+                setOpacity((byte)((5f - fadeInTimer) / 5f * 255));
+                if (fadeInTimer <= 0)
+                {
+                    fadeInTimer = 0;
+                }
+            }
         }
     }
 }

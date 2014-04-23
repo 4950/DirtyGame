@@ -31,6 +31,16 @@ namespace TowerSite.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         [HttpPost]
+        public string CurrentVersion(ODataActionParameters parameters)
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+
+            return "1.0.0.0";
+        }
+        [HttpPost]
         public async Task<IHttpActionResult> Scenario(ODataActionParameters parameters)
         {
             if (!ModelState.IsValid)

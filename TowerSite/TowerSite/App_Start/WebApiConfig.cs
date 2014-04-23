@@ -21,6 +21,10 @@ namespace TowerSite
             ActionConfiguration getScenario = builder.Entity<GameSession>().Collection.Action("Scenario");
             getScenario.Returns<string>();
 
+            //game version
+            ActionConfiguration getGameVersion = builder.Entity<GameSession>().Collection.Action("CurrentVersion");
+            getGameVersion.Returns<string>();
+
             //get that ELORank
             ActionConfiguration getELORank = builder.Entity<GameSession>().Collection.Action("ELORank");
             getELORank.Returns<string>();
