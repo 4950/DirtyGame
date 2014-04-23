@@ -527,6 +527,12 @@ SET @ScenarioELOLinear = @ScenarioELOLinear + @ScenK * (@SScen - @EScen);
 /*Write Back new ELOs*/
 UPDATE PlayerELOes SET ELO = ROUND(@PlayerELO, 0), LinearELO = ROUND(@PlayerELOLinear, 0), GamesPlayed = (@PlayerGamesPlayed + 1) WHERE UserID = @UserID;
 UPDATE ScenarioELOes SET ELO = ROUND(@ScenarioELO, 0), LinearELO = ROUND(@ScenarioELOLinear, 0), GamesPlayed = (@ScenarioGamesPlayed + 1) WHERE ScenarioID = @ScenarioID;
+
+/*write events logging ELO change*/
+INSERT INTO GameEventModels (SessionId, Timestamp, Type, Data) VALUES (@SessionID, GETDATE(), 'ELOChangeScenario:'+@ScenarioID, ROUND(@ScenarioELO, 0));
+INSERT INTO GameEventModels (SessionId, Timestamp, Type, Data) VALUES (@SessionID, GETDATE(), 'LinearELOChangeScenario:'+@ScenarioID, ROUND(@ScenarioELOLinear, 0));
+INSERT INTO GameEventModels (SessionId, Timestamp, Type, Data) VALUES (@SessionID, GETDATE(), 'ELOChangePlayer:'+@ScenarioID, ROUND(@PlayerELO, 0));
+INSERT INTO GameEventModels (SessionId, Timestamp, Type, Data) VALUES (@SessionID, GETDATE(), 'LinearELOChangePlayer:'+@ScenarioID, ROUND(@PlayerELOLinear, 0));
                 ", gs.SessionID);
 
             }
