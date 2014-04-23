@@ -59,8 +59,10 @@ namespace TowerSite.Controllers
 DECLARE @UserID NVARCHAR(MAX);
 SET @UserID = @p0;
 
+
 DECLARE @GamesPlayed INT;
 SELECT @GamesPlayed = GamesPlayed FROM PlayerELOes WHERE UserID = @UserID;
+
 
 IF( @@ROWCOUNT <> 1 )/* No Player, add to table*/
 BEGIN
@@ -68,14 +70,16 @@ BEGIN
     SET @GamesPlayed = 0;
 END
 
+/*
 SET @GamesPlayed = (@GamesPlayed % 75) + 34;
 
 SELECT * FROM ScenarioELOes WHERE ID = @GamesPlayed;
+*/
 
-/*DECLARE @PlayerELO INT;
-SELECT @PlayerELO = ELO FROM PlayerELOes WHERE UserID = @UserID;
+DECLARE @PlayerELO INT;
+SELECT @PlayerELO = LinearELO FROM PlayerELOes WHERE UserID = @UserID;
 
-SELECT TOP 1 * FROM ScenarioELOes WHERE DATALENGTH(ScenarioXML) > 0  ORDER BY ABS( ELO - @PlayerELO )*/
+SELECT TOP 1 * FROM ScenarioELOes WHERE DATALENGTH(ScenarioXML) > 0  ORDER BY ABS( LinearELO - @PlayerELO )
 ", userID);
                 var res = await query.FirstOrDefaultAsync();
 
@@ -108,7 +112,7 @@ SELECT Ranking FROM
                 xml += "<elo value=\"" + elo.ELO +
                     //"\" rank=\""+ rank.Ranking +
                     "\"></elo></base>";
-                //Trace.WriteLine(xml);
+                Trace.WriteLine("Serving: "+res.ScenarioID+" LinearELO: "+res.LinearELO);
             }
             catch (Exception e)
             {
@@ -146,7 +150,7 @@ DECLARE @UserID NVARCHAR(MAX);
 SET @UserID = @p0;
 
 SELECT Ranking FROM
-(SELECT RANK() OVER (ORDER BY ELO DESC) AS Ranking, UserID
+(SELECT RANK() OVER (ORDER BY LinearELO DESC) AS Ranking, UserID
     FROM PlayerELOes WHERE gamesPlayed<>0) AS Temp WHERE UserID = @UserID;
 ", userID);
 
@@ -170,7 +174,7 @@ SELECT Ranking FROM
                     rank.Ranking = -1;
                 }
 
-                ELORank = "" + elo.ELO + ","+rank.Ranking;
+                ELORank = "" + elo.LinearELO + ","+rank.Ranking;
                 Trace.WriteLine("ELORank: " + ELORank);
 
             }
@@ -350,7 +354,7 @@ BEGIN
         WHEN 'Grenadier' THEN 100
         WHEN 'Flametower' THEN 160
         WHEN 'SnipMonster' THEN 120
-        WHEN 'WallHugger' THEN 25
+        WHEN 'WallHugger' THEN 70
         ELSE 0
     END;
 
@@ -465,7 +469,7 @@ DECLARE @PlayerK FLOAT;
 DECLARE @ScenK FLOAT;
 
 IF( @PlayerGamesPlayed < 30 )
-    SET @PlayerK = 25;
+    SET @PlayerK = 100 - ((50.0/30.0) * @PlayerGamesPlayed);
 ELSE IF ( @PlayerELO < 2200)
 	SET @PlayerK = 30;
 ELSE IF ( @PlayerELO < 2400)
@@ -474,7 +478,7 @@ ELSE
 	SET @PlayerK = 10;
 
 IF( @ScenarioGamesPlayed < 30)
-    SET @ScenK = 25;
+    SET @ScenK = 30;
 ELSE IF ( @ScenarioELO < 2200)
 	SET @ScenK = 30;
 ELSE IF ( @ScenarioELO < 2400)
@@ -500,22 +504,22 @@ SET @SScen = 1 - @SPlayer;
 
 /*Set K Values */
 IF( @PlayerGamesPlayed < 30 )
-    SET @PlayerK = 25;
+    SET @PlayerK = 100 - ((50.0/30.0) * @PlayerGamesPlayed);
 ELSE IF ( @PlayerELOLinear < 2200)
-	SET @PlayerK = 30;
+	SET @PlayerK = 40;
 ELSE IF ( @PlayerELOLinear < 2400)
-	SET @PlayerK = 20;
+	SET @PlayerK = 30;
 ELSE
-	SET @PlayerK = 10;
+	SET @PlayerK = 20;
 
 IF( @ScenarioGamesPlayed < 30)
-    SET @ScenK = 25;
+    SET @ScenK = 30;
 ELSE IF ( @ScenarioELOLinear < 2200)
-	SET @ScenK = 30;
+	SET @ScenK = 40;
 ELSE IF ( @ScenarioELOLinear < 2400)
-	SET @ScenK = 20;
+	SET @ScenK = 30;
 ELSE
-	SET @ScenK = 10;
+	SET @ScenK = 20;
 
 SET @PlayerELOLinear = @PlayerELOLinear + @PlayerK * (@SPlayer - @EPlayer);
 SET @ScenarioELOLinear = @ScenarioELOLinear + @ScenK * (@SScen - @EScen);
