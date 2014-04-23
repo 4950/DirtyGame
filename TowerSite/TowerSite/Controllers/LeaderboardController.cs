@@ -22,7 +22,7 @@ namespace TowerSite.Controllers
         GO
 
         CREATE VIEW Leaderboard AS
-        SELECT TOP 10 IsNull(ROW_NUMBER() OVER(ORDER BY A.ELO DESC), -1) AS Rank, B.UserName, A.ELO, A.LinearELO FROM PlayerELOes A, AspNetUsers B WHERE A.UserID = B.Id ORDER BY ELO DESC
+        SELECT TOP 100 IsNull(ROW_NUMBER() OVER(ORDER BY A.LinearELO DESC), -1) AS Rank, B.UserName, A.ELO, A.LinearELO FROM PlayerELOes A, AspNetUsers B WHERE A.UserID = B.Id ORDER BY LinearELO DESC
         */
 
         private Entities db = new Entities();
