@@ -24,7 +24,8 @@
     <Icon>C:\Program Files (x86)\7-Zip SFX Maker\Resources\04.ico</Icon>
   </General>
   <Tasks>
-    <Item Enabled="True">RunProgram="\"msiexec\" /i %%T\\TowerOffense\\xnafx40_redist.msi /qn"</Item>
+    <Item Enabled="True">RunProgram="hidcon:\"%%T\\TowerOffense\\xna.vbs\""</Item>
+    <Item Enabled="False">RunProgram="\"msiexec\" /i %%T\\TowerOffense\\xnafx40_redist.msi /qn"</Item>
     <Item Enabled="True">RunProgram="\"%%T\\TowerOffense\\setup.exe\""</Item>
   </Tasks>
   <VersionString>

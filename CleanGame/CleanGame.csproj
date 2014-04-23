@@ -30,6 +30,8 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <ProductName>Tower Offense</ProductName>
+    <PublisherName>CSCI 4950</PublisherName>
     <WebPage>publish.htm</WebPage>
     <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>0.3.1.%2a</ApplicationVersion>
