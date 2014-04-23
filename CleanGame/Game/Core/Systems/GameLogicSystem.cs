@@ -532,7 +532,7 @@ namespace CleanGame.Game.Core.Systems
                 if (!e.RequestsSucceeded)
                     MessageBox.Show("Failed to contact server. Please\ncheck your internet settings.", "Error");
                 PreviousSession = e.PreviousSession;
-                GameplayDataCaptureSystem.Instance.GetELORankAsync();
+                //GameplayDataCaptureSystem.Instance.GetELORankAsync();
                 GameplayDataCaptureSystem.Instance.GetScenarioAsync();
                 
             }

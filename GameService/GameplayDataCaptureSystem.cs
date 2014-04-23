@@ -294,11 +294,20 @@ namespace GameService
                 {
                     NetworkRetry(() =>
                         {
-                            Uri actionUri = new Uri(DataUri, "odata/GameSession/Scenario");
+                            Uri actionUri = new Uri(DataUri, "odata/GameSession/ELORank");
                             var ret = serviceContainer.Execute<string>(actionUri, "POST", true, null);
+                            string ELORank = ret.First();
+                            if (ELORankEvent != null)
+                            {
+                                ELORankEvent(ELORank);
+                            }
+                            actionUri = new Uri(DataUri, "odata/GameSession/Scenario");
+                            ret = serviceContainer.Execute<string>(actionUri, "POST", true, null);
                             string scenario = ret.First();
                             if (ScenarioXMLEvent != null)
+                            {
                                 ScenarioXMLEvent(scenario);
+                            }
                             return true;
                         });
                 }
