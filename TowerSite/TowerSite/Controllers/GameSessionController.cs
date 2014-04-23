@@ -38,7 +38,7 @@ namespace TowerSite.Controllers
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
 
-            return "0.3.1.3";
+            return "1.0.0.0";
         }
         [HttpPost]
         public async Task<IHttpActionResult> Scenario(ODataActionParameters parameters)
