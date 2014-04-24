@@ -37,10 +37,10 @@ namespace TowerSite.Controllers
                 if (searchString != null && searchString != "")
                 {
                     page = 1;
-                    list = await db.Leaderboards.Where(s => s.UserName.ToUpper().Contains(searchString.ToUpper())).ToListAsync();
+                    list = await db.Leaderboards.AsNoTracking().Where(s => s.UserName.ToUpper().Contains(searchString.ToUpper())).ToListAsync();
                 }
                 else
-                    list = await db.Leaderboards.ToListAsync();
+                    list = await db.Leaderboards.AsNoTracking().ToListAsync();
             }
             catch (Exception e)
             {

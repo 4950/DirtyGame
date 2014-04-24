@@ -37,11 +37,11 @@ namespace TowerSite.Controllers
         {
             String UserID = User.Identity.GetUserId();
             int? sessionID = null;
-            IQueryable<GameSession> q = db.GameSessions.Where(gs => gs.UserID == UserID).OrderByDescending(gs => gs.SessionID);
+            IQueryable<GameSession> q = db.GameSessions.AsNoTracking().Where(gs => gs.UserID == UserID).OrderByDescending(gs => gs.SessionID);
             if (q.Count() > 0)
                 sessionID = q.First().SessionID;
             if (sessionID != null)
-                return db.GameEventModels.Where(ge => ge.SessionId == sessionID);
+                return db.GameEventModels.AsNoTracking().Where(ge => ge.SessionId == sessionID);
             return null;
         }
 
@@ -49,7 +49,7 @@ namespace TowerSite.Controllers
         [Queryable]
         public SingleResult<GameEventModel> GetGameEventModel([FromODataUri] int key)
         {
-            return SingleResult.Create(db.GameEventModels.Where(gameeventmodel => gameeventmodel.ID == key));
+            return SingleResult.Create(db.GameEventModels.AsNoTracking().Where(gameeventmodel => gameeventmodel.ID == key));
         }
 
         // PUT odata/GameEvent(5)
@@ -98,8 +98,6 @@ namespace TowerSite.Controllers
 
             db.GameEventModels.Add(gameeventmodel);
             await db.SaveChangesAsync();
-
-            db.Configuration.AutoDetectChangesEnabled = true;
 
             return Created(gameeventmodel);
         }

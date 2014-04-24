@@ -14,6 +14,7 @@ using System.Web.Http.OData.Routing;
 using TowerSite.Models;
 using Microsoft.AspNet.Identity;
 using System.Diagnostics;
+using System.Data.Entity.Core.Objects;
 
 namespace TowerSite.Controllers
 {
@@ -83,36 +84,10 @@ SELECT TOP 1 * FROM ScenarioELOes WHERE DATALENGTH(ScenarioXML) > 0  ORDER BY AB
 ", userID);
                 var res = await query.FirstOrDefaultAsync();
 
-                var eloQuery = db.Database.SqlQuery<PlayerELO>(@"
-DECLARE @UserID NVARCHAR(MAX);
-SET @UserID = @p0;
-
-DECLARE @PlayerELO INT;
-SELECT * FROM PlayerELOes WHERE UserID = @UserID;
-", userID);
-               /* var rankQuery = db.Database.SqlQuery<PlayerRank>(@"
-DECLARE @UserID NVARCHAR(MAX);
-SET @UserID = @p0;
-
-SELECT Ranking FROM
-(SELECT RANK() OVER (ORDER BY ELO DESC) AS Ranking, UserID
-    FROM PlayerELOes WHERE gamesPlayed<>0) AS Temp WHERE UserID = @UserID;
-", userID);*/
-
-                var elo = await eloQuery.FirstOrDefaultAsync();
-
-                //var rank = await rankQuery.FirstOrDefaultAsync();
-
-                //  Trace.WriteLine("XML: \n" + "<base>" + res.ScenarioXML
-                //     + "<elo value=\"" + elo.ELO + "\"></elo></base>");
-
                 //Rip apart the XML here because hatred and bile
                 xml = res.ScenarioXML;
                 xml = xml.Insert(xml.IndexOf(">") + 1, "<base>");
-                xml += "<elo value=\"" + elo.ELO +
-                    //"\" rank=\""+ rank.Ranking +
-                    "\"></elo></base>";
-                Trace.WriteLine("Serving: "+res.ScenarioID+" LinearELO: "+res.LinearELO);
+                xml += "</base>";
             }
             catch (Exception e)
             {
@@ -196,14 +171,14 @@ SELECT Ranking FROM
             String userID = User.Identity.GetUserId();
             if (userID == null)
                 return null;
-            return db.GameSessions.Where(gamesession => gamesession.UserID == userID).OrderBy(gamesession => gamesession.SessionID);
+            return db.GameSessions.AsNoTracking().Where(gamesession => gamesession.UserID == userID).OrderBy(gamesession => gamesession.SessionID);
         }
 
         // GET odata/GameSession(5)
         [Queryable]
         public SingleResult<GameSession> GetGameSession([FromODataUri] int key)
         {
-            return SingleResult.Create(db.GameSessions.Where(gamesession => gamesession.ID == key).OrderBy(gamesession => gamesession.SessionID));
+            return SingleResult.Create(db.GameSessions.AsNoTracking().Where(gamesession => gamesession.ID == key).OrderBy(gamesession => gamesession.SessionID));
         }
 
         // PUT odata/GameSession(5)
@@ -248,11 +223,12 @@ SELECT Ranking FROM
                 return BadRequest(ModelState);
             }
             gamesession.UserID = User.Identity.GetUserId();
-            IQueryable<GameSession> q = db.GameSessions.OrderByDescending(gs => gs.SessionID);
-            if (q.Count() > 0)
-                gamesession.SessionID = q.First().SessionID + 1;
+            int max = db.GameSessions.AsNoTracking().Max(gs => gs.SessionID);
+            if (max >= 0)
+                gamesession.SessionID = max + 1;
             else
                 gamesession.SessionID = 0;
+
             db.GameSessions.Add(gamesession);
             await db.SaveChangesAsync();
 

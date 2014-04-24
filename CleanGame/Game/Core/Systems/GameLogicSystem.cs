@@ -297,17 +297,17 @@ namespace CleanGame.Game.Core.Systems
 
             decodeScenarios(scenarioReader, true);
         }
-        private int getELOFromXML(string XML)
-        {
-            XmlReaderSettings xmlSettings = new XmlReaderSettings();
-            xmlSettings.IgnoreWhitespace = true;
-            xmlSettings.IgnoreComments = true;
-            XmlReader eloReader = XmlReader.Create(new System.IO.StringReader(XML), xmlSettings);
+        //private int getELOFromXML(string XML)
+        //{
+        //    XmlReaderSettings xmlSettings = new XmlReaderSettings();
+        //    xmlSettings.IgnoreWhitespace = true;
+        //    xmlSettings.IgnoreComments = true;
+        //    XmlReader eloReader = XmlReader.Create(new System.IO.StringReader(XML), xmlSettings);
 
-            eloReader.ReadToFollowing("base");
-            eloReader.ReadToDescendant("elo");
-            return Convert.ToInt32(eloReader.GetAttribute("value"));
-        }
+        //    eloReader.ReadToFollowing("base");
+        //    eloReader.ReadToDescendant("elo");
+        //    return Convert.ToInt32(eloReader.GetAttribute("value"));
+        //}
 
         /// <summary>
         /// Decoding the XML code for the scenarios.
