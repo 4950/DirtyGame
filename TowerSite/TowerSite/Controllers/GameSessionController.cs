@@ -149,7 +149,7 @@ SELECT Ranking FROM
                     rank.Ranking = -1;
                 }
 
-                ELORank = "" + elo.LinearELO + ","+rank.Ranking;
+                ELORank = "" + elo.LinearELO + "," + rank.Ranking;
                 Trace.WriteLine("ELORank: " + ELORank);
 
             }
@@ -239,6 +239,8 @@ SELECT Ranking FROM
         [AcceptVerbs("PATCH", "MERGE")]
         public async Task<IHttpActionResult> Patch([FromODataUri] int key, Delta<GameSession> patch)
         {
+            DateTime start = DateTime.Now;
+            DateTime pattime;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -270,18 +272,104 @@ SELECT Ranking FROM
 
             if (gamesession.Completed)
             {
+                pattime = DateTime.Now;
                 await RunScoreCalculations(gamesession);
                 await db.Entry(gamesession).ReloadAsync();
+                Trace.WriteLine("Patch time: " + (pattime - start).TotalMilliseconds.ToString() + "ms");
+                Trace.WriteLine("Total time: " + (DateTime.Now - start).TotalMilliseconds.ToString() + "ms");
             }
 
             return Updated(gamesession);
         }
 
+        private static Dictionary<string, int> MonsterHealths = new Dictionary<string, int>
+        {
+            {"MeleeMonster", 240},
+            {"SuicideBomber", 60},
+            {"LandmineDropper", 120},
+            {"RangedMonster", 120},
+            {"Grenadier", 100},
+            {"Flametower", 160},
+            {"SnipMonster", 120},
+            {"WallHugger", 70},
+        };
+
+        private void LinqPlayerScore(GameSession gs)
+        {
+            float HitRate;
+            float KillRate;
+            float RoundHealth;
+            float HealthRemaining;
+            float WepFired;
+            float SpawnCount;
+            float TotalMonsterHealth = 0;
+            float TotalDamage = 0;
+            float DamageDealt;
+            float PlayerScore;
+
+            //check if game ended properly
+            if (!db.GameEventModels.AsNoTracking().Where(ge => ge.SessionId == gs.SessionID && ge.Type == "RoundEnded").Any())
+                return;
+
+            //hit rate
+            WepFired = db.GameEventModels.AsNoTracking().Where(ge => ge.SessionId == gs.SessionID && ge.Type == "MonsterWeaponFired").Count();
+            if (WepFired == 0)
+                HitRate = 0;
+            else
+                HitRate = db.GameEventModels.AsNoTracking().Where(ge => ge.SessionId == gs.SessionID && ge.Type == "PlayerDamageTaken").Count() / WepFired;
+
+            //kill rate
+            var Spawned = db.GameEventModels.AsNoTracking().Where(ge => ge.SessionId == gs.SessionID && ge.Type == "MonsterSpawned").Select(l => l.Data);
+            SpawnCount = Spawned.Count();
+            if (SpawnCount == 0)
+                KillRate = 0;
+            else
+                KillRate = db.GameEventModels.AsNoTracking().Where(ge => ge.SessionId == gs.SessionID && ge.Type == "MonsterKilled").Count() / SpawnCount;
+
+            //health
+            RoundHealth = float.Parse(db.GameEventModels.AsNoTracking().Where(ge => ge.SessionId == gs.SessionID && ge.Type == "RoundHealth").FirstOrDefault().Data);
+            HealthRemaining = RoundHealth / 100f;
+
+            //monster healths
+            foreach (var Monster in Spawned)
+            {
+                TotalMonsterHealth += MonsterHealths[Monster];
+            }
+
+            //monster damage
+            var MonsterDamages = db.GameEventModels.AsNoTracking().Where(ge => ge.SessionId == gs.SessionID && ge.Type == "MonsterDamageTaken").Select(l => l.Data);
+            foreach (var Damage in MonsterDamages)
+            {
+                TotalDamage += float.Parse(Damage);
+            }
+            DamageDealt = TotalDamage / TotalMonsterHealth;
+
+            PlayerScore = (2 * DamageDealt + 2 * KillRate + 3 * HealthRemaining) / (float)(2 * 1 + 2 * 1 + 3 * 0);
+
+            gs.HitRate = HitRate;
+            gs.KillRate = KillRate;
+            gs.HealthRemaining = HealthRemaining;
+            gs.DamageDealt = DamageDealt;
+            gs.SessionScore = PlayerScore;
+
+            db.SaveChanges();
+        }
+
         private async Task RunScoreCalculations(GameSession gs)
         {
+            DateTime start = DateTime.Now;
+            DateTime scot;
             try
             {
-                var res = await db.Database.ExecuteSqlCommandAsync(@"
+                //special linq test for develop only
+                if (db.GameEventModels.AsNoTracking().Where(ge => ge.SessionId == gs.SessionID && ge.Type == "VersionNumber").FirstOrDefault().Data == "Develop")
+                {
+                    LinqPlayerScore(gs);
+                    Trace.WriteLine("LINQ SCORE time: " + (DateTime.Now - start).TotalMilliseconds.ToString() + "ms");
+                }
+                else
+                {
+                    var res = await db.Database.ExecuteSqlCommandAsync(@"
 DECLARE @Session INT;
 SET @Session = @p0;
 DECLARE @HitRate FLOAT;
@@ -291,7 +379,7 @@ DECLARE @HealthRemaining FLOAT;
 DECLARE @WepFired INT;
 
 /*Check if round ended properly*/
-IF( (SELECT * FROM GameEventModels WHERE (SessionId = @Session AND Type = 'RoundEnded')) <> 1 )
+IF( (SELECT COUNT(*) FROM GameEventModels WHERE (SessionId = @Session AND Type = 'RoundEnded')) <> 1 )
 	RETURN;
 
 /*Hit Rate*/
@@ -372,9 +460,11 @@ UPDATE GameSessions SET HitRate = @HitRate, KillRate = @KillRate, HealthRemainin
 SELECT * FROM GameSessions WHERE SessionID = @Session;
             ", gs.SessionID);
 
-                await db.Entry(gs).ReloadAsync();
+                    await db.Entry(gs).ReloadAsync();
 
-                res = await db.Database.ExecuteSqlCommandAsync(@"
+                    scot = DateTime.Now;
+
+                    res = await db.Database.ExecuteSqlCommandAsync(@"
 DECLARE @SessionID INT;
 DECLARE @UserID NVARCHAR(MAX);
 DECLARE @PlayerScore FLOAT;
@@ -509,6 +599,10 @@ INSERT INTO GameEventModels (SessionId, Timestamp, Type, Data) VALUES (@SessionI
 INSERT INTO GameEventModels (SessionId, Timestamp, Type, Data) VALUES (@SessionID, GETDATE(), 'ELOChangePlayer:'+@UserID, ROUND(@PlayerELO, 0));
 INSERT INTO GameEventModels (SessionId, Timestamp, Type, Data) VALUES (@SessionID, GETDATE(), 'LinearELOChangePlayer:'+@UserID, ROUND(@PlayerELOLinear, 0));
                 ", gs.SessionID);
+
+                    Trace.WriteLine("Score time: " + (scot - start).TotalMilliseconds.ToString() + "ms");
+                    Trace.WriteLine("ELO time: " + (DateTime.Now - scot).TotalMilliseconds.ToString() + "ms");
+                }
 
             }
             catch (Exception e)
