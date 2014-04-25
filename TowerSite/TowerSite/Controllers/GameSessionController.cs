@@ -291,8 +291,7 @@ DECLARE @HealthRemaining FLOAT;
 DECLARE @WepFired INT;
 
 /*Check if round ended properly*/
-SELECT * FROM GameEventModels WHERE (SessionId = @Session AND Type = 'RoundEnded');
-IF( @@ROWCOUNT <> 1 )
+IF( (SELECT * FROM GameEventModels WHERE (SessionId = @Session AND Type = 'RoundEnded')) <> 1 )
 	RETURN;
 
 /*Hit Rate*/
