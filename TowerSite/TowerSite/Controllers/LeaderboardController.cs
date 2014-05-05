@@ -22,7 +22,7 @@ namespace TowerSite.Controllers
         GO
 
         CREATE VIEW Leaderboard AS
-        SELECT TOP 100 IsNull(ROW_NUMBER() OVER(ORDER BY A.LinearELO DESC), -1) AS Rank, B.UserName, A.ELO, A.LinearELO FROM PlayerELOes A, AspNetUsers B WHERE A.UserID = B.Id ORDER BY LinearELO DESC
+        SELECT TOP 1000 IsNull(ROW_NUMBER() OVER(ORDER BY A.LinearELO DESC), -1) AS Rank, B.UserName, A.ELO, A.LinearELO FROM PlayerELOes A, AspNetUsers B WHERE A.UserID = B.Id AND A.GamesPlayed > 1 ORDER BY LinearELO DESC
         */
 
         private Entities db = new Entities();
@@ -37,10 +37,10 @@ namespace TowerSite.Controllers
                 if (searchString != null && searchString != "")
                 {
                     page = 1;
-                    list = await db.Leaderboards.Where(s => s.UserName.ToUpper().Contains(searchString.ToUpper())).ToListAsync();
+                    list = await db.Leaderboards.AsNoTracking().Where(s => s.UserName.ToUpper().Contains(searchString.ToUpper())).ToListAsync();
                 }
                 else
-                    list = await db.Leaderboards.ToListAsync();
+                    list = await db.Leaderboards.AsNoTracking().ToListAsync();
             }
             catch (Exception e)
             {
